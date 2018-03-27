@@ -5,7 +5,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-    let echarts = require('echarts');
+    // let echarts = require('echarts');
     export default {
         name: "appmain",
         data(){
@@ -95,7 +95,13 @@
         },
         methods:{
             Echarts(){
-                let myChart = echarts.init(document.getElementById('chart'));
+                // window.addEventListener('resize', () => {
+                //     this.drawLineDom.resize();
+                //     this.todayFlowDom.resize();
+                //     this.hitRateDom.resize();
+                //     this.drawLineDom = this.$echarts.init(document.getElementById('chart'));
+                // })
+                let myChart = this.$echarts.init(document.getElementById('chart'));
                 let option = {
                     tooltip : {
                         trigger: 'axis',
