@@ -13,7 +13,8 @@ module.exports = {
     },
     "postcss-pxtorem":{
       "rootValue": 192,//设计稿宽度除以10搭配手淘flexible布局
-      "propList": ["*"]
+      "propList": ["*"],
+      "minPixelValue": 2
     }
   }
 }
