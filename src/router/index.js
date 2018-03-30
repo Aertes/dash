@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/components/layout/layout'
-import Login from '@/components/login/login'
+import LoginIndex from '@/components/login/index'
+import Upload from '@/components/upload/upload'
 
 Vue.use(Router)
 
@@ -10,13 +11,18 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Login
+      component: LoginIndex
     },
-    // {
-    //   path: '/',
-    //   name: 'index',
-    //   component: Layout
-    // }
+    {
+      path: '/dashborad',
+      name: 'dashborad',
+      component: Layout
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: Upload
+    }
 
   ]
 })

@@ -3,11 +3,13 @@
 
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
-      <selection></selection>
-      <selection></selection>
-      <selection></selection>
+      <selection :selections="selectOptionsOne"></selection>
+      <selection class="styleone" :selections="selectOptionsTwo"></selection>
+      <selection class="styleone" :selections="selectOptionsThree"></selection>
       <div class="options-menu">
-        <div @click="showOperation"><svg-icon sign="icon-more"></svg-icon></div>
+        <div @click="showOperation">
+          <svg-icon sign="icon-more"></svg-icon>
+        </div>
         <div class="dashboard-operation box-shadow" v-show="isShow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
@@ -27,7 +29,7 @@
 
     <div class="clearfix dashboard-all-wrap">
       <time-line></time-line>
-      <dash-board></dash-board>
+      <dash-board ></dash-board>
     </div>
 
   </div>
@@ -41,7 +43,49 @@
     name: "appmain",
     data() {
       return {
-        isShow: false
+        isShow: false,
+        selectOptionsOne: [
+          {
+            label: 'WEWWQWE',
+            value: 0
+          },
+          {
+            label: 'DFSASDAS',
+            value: 1
+          },
+          {
+            label: 'XCXZVASD',
+            value: 2
+          }
+        ],
+        selectOptionsTwo: [
+          {
+            label: 'JKLJJKGH',
+            value: 0
+          },
+          {
+            label: 'ZXCVVBDF',
+            value: 1
+          },
+          {
+            label: 'TGBCEDFS',
+            value: 2
+          }
+        ],
+        selectOptionsThree: [
+          {
+            label: 'WXASDEWF',
+            value: 0
+          },
+          {
+            label: 'RFVDCXERT',
+            value: 1
+          },
+          {
+            label: 'CVFSDRES',
+            value: 2
+          }
+        ]
       }
     },
     methods: {
@@ -49,7 +93,7 @@
         this.isShow = !this.isShow
       }
     },
-    components:{
+    components: {
       DashBoard,
       TimeLine
     }
@@ -113,8 +157,11 @@
             right 20px
             width 44px
             height 15px
+      .dropdown-wrap
+        margin-right 80px
+        float left
       .styleone
-          width 380px
+        width 380px
     .dashboard-all-wrap
       margin-top 25px
 </style>

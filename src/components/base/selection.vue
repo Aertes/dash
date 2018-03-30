@@ -1,15 +1,13 @@
 <template>
-  <div class="dropdown-wrap" :class="className">
-    <div class="dropdown-show"  @click="toggleDrop">
-      <input type="text" value="WEEK" disabled/>
+  <a href="javascript:;" class="dropdown-wrap" @blur="toggleUp">
+    <div class="dropdown-show" @click="toggleDrop">
+      <input type="text" v-model="selections[nowIndex].label" disabled/>
       <svg-icon sign="icon-arrow-down" class="arrow-down"></svg-icon>
     </div>
     <ul class="dropdown-menu" v-show="isShow">
-      <li>WEEK</li>
-      <li>WEEK</li>
-      <li>WEEK</li>
+      <li v-for="(items,index) in selections" @click="chooseSelection(index)">{{items.label}}</li>
     </ul>
-  </div>
+  </a>
 </template>
 
 <script type="text/ecmascript-6">
@@ -17,36 +15,50 @@
     name: "selection",
     data() {
       return {
-        isShow: false
+        isShow: false,
+        nowIndex: 0
       }
     },
-    prop:{
-      className: {
-        type: String,
-        default: ''
+    props: {
+      selections: {
+        type: Array,
+        default: [{
+          label: 'test',
+          value: 0
+        }]
       }
     },
-    method: {
+    methods: {
       toggleDrop() {
         this.isShow = !this.isShow
+      },
+      toggleUp(e) {
+        this.isShow = false
+      },
+      chooseSelection(index) {
+        this.nowIndex = index
+        this.isShow = false
       }
-    },
+    }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import '../../assets/style/mixin'
+
   .dropdown-wrap
     position relative
-    float left
+    display block
     width 240px
-    margin-right 80px
+    height 35px
+    outline none
     .dropdown-show
       position relative
       width 100%
       height 35px
+      cursor pointer
       .arrow-down
-        position absolute
-        top 12px
+        e-pos(top:50%, y:-50%)
         right 10px
         font-size 13px
         color #A0A0A1
@@ -54,28 +66,29 @@
         width 100%
         height 100%
         padding-left 10px
-        appearance: none
+        appearance none
         border 1px solid #E2DFDE
         border-radius 5px
         color #A0A0A1
         font-size 16px
-        cursor pointer
         &:disabled
           background-color #fff
     .dropdown-menu
       position absolute
       top 37px
       width 100%
-      font-size 15px
+      font-size: 15px
       color #A0A0A1
       line-height 35px
       background-color #fff
       border 1px solid #E2DFDE
       border-radius 5px
+      overflow hidden
+      z-index 10
       li
         padding-left 10px
         border-bottom 1px solid #eaeaea
-        cursor pointer
+        cursor: pointer
         &:last-of-type
           border-bottom medium
         &:hover

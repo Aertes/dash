@@ -1,17 +1,30 @@
 <template>
   <ul class="side-bar-wrap box-shadow">
-    <li class="active">OVERVIEW</li>
-    <li>CAMPAIGN</li>
-    <li>COM.CN</li>
-    <li>CRM</li>
-    <li>RATING & REVIEW</li>
-    <li>EC REPORT</li>
+    <li v-for="(item,index) in sideList" :class="{active:selected==index}" @click="chooseDashboard(index)">{{item}}</li>
   </ul>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name: "sidebar"
+    name: "sidebar",
+    data() {
+      return {
+        selected:0,
+        sideList: [
+          'OVERVIEW',
+          'CAMPAIGN',
+          'COM.CN',
+          'CRM',
+          'RATING & REVIEW',
+          'EC REPORT',
+        ]
+      }
+    },
+    methods:{
+      chooseDashboard(index){
+        this.selected = index
+      }
+    }
   }
 </script>
 
@@ -36,4 +49,5 @@
       background url("../../assets/img/sidebarBg.png") no-repeat left bottom
       &.active
         background url("../../assets/img/sidebarBg_active.png") no-repeat center
+        transition: all .3s linear
 </style>

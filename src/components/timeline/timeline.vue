@@ -2,25 +2,25 @@
   <div class="timeline-wrap">
     <i class="line"></i>
     <div class="time-month">
-      <span>1</span>
-      <span>2</span>
-      <span>3</span>
-      <span>4</span>
-      <span class="acitve">5</span>
-      <span>6</span>
-      <span>7</span>
-      <span>8</span>
-      <span>9</span>
-      <span>10</span>
-      <span>11</span>
-      <span>12</span>
+      <span v-for="(item,index) in line" :class="{active:selected==index}" @click="chooseMonth(index)">{{ item }}</span>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name: "TimeLine"
+    name: "TimeLine",
+    data() {
+      return {
+        selected:0,
+        line: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      }
+    },
+    methods: {
+      chooseMonth(index) {
+        this.selected = index
+      }
+    }
   }
 </script>
 
@@ -30,7 +30,6 @@
     float right
     width 80px
     height 650px
-    overflow hidden
     .line
       display block
       width 2px
@@ -53,6 +52,7 @@
         font-size 16px
         border 1px solid #c9caca
         border-radius 50%
+
         color #c9caca
         background-color #F2F2F2
         text-align center
@@ -60,7 +60,7 @@
         for row in 1 2 3 4 5 6 7 8 9 10 11 12
           &:nth-child({row})
             top 55px * row
-      .acitve
+      .active
         width 60px
         height 60px
         line-height 57px
@@ -71,4 +71,5 @@
         margin-left -31px
         background url("../../assets/img/timeline_active.png") no-repeat center #F2F2F2
         background-size cover
+        transition: all .2s linear
 </style>
