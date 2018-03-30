@@ -213,11 +213,10 @@ export default {
     },
     // 删除
     deleteFile(id, index) {
-      this.oldFileList.splice(index, 1);
-      this.$http
+        this.$http
         .post(baseUrl + xhrUrls.DELFILE, id)
         .then(res => {
-          delete this.oldFileList[index];
+            this.oldFileList.splice(index, 1);
         })
         .catch(err => {
           console.log(err);
