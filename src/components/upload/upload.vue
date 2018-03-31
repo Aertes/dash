@@ -25,10 +25,10 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in oldFileList" >
-                <td>{{item.uploadDate}}</td>
+                <td>{{item.createDate | formatDates}}</td>
                 <td><div :title="item.fileName" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;cursor: pointer; width:1.04167rem">{{item.fileName}}</div></td>
-                <td><div><a title="Download" class="download" style="color: #2864b0;text-decoration: underline;cursor: pointer;">Download</a></div></td>
-                <td><div @click="deleteFile(item.id, index)" ><svg-icon sign="icon-trash"  class="icon-trash" style="cursor: pointer; color:#999999"></svg-icon></div></td>
+                <td><div><a :href='downloadFileId+"/"+item.id'  title="Download" class="download" style="color: #2864b0;text-decoration: underline;cursor: pointer;">Download</a></div></td>
+                <td><div  @click="deleteFile(item.id, index)" ><svg-icon sign="icon-trash"  class="icon-trash" style="cursor: pointer; color:#999999"></svg-icon></div></td>
             </tr>
           </tbody>
         </table>
@@ -47,7 +47,9 @@
 
 <script type="text/ecmascript-6">
 import "./webuploader.min";
-import { get } from "../../assets/config/http"
+import xhrUrls from '../../assets/config/xhrUrls'
+import { post } from "../../assets/config/http"
+import { formatDate } from '../../assets/js/formatDate.js'
 export default {
   name: "upload",
   data() {
@@ -56,6 +58,8 @@ export default {
       progress: 0,
       uploader: null,
 	  table: null,
+	  downloadFileId: BASE_URL+xhrUrls.HC_DOWNLOAD,
+	  fileDel: BASE_URL+xhrUrls.HC_DELETE,
       oldFileList: [
         {
           id: "1",
@@ -90,13 +94,19 @@ export default {
       ]
     };
   },
+  filters:{
+	  formatDates(time){	
+		  let data =  new Date(time);
+		  return formatDate(data, 'yyyy-MM-dd')
+	  }
+  },
   props:['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
   mounted() {
     // 进度条
     this.init();
 
     //历史记录
-	// this.dataTable();
+	this.dataTable();
 	
   },
   methods: {
@@ -175,29 +185,32 @@ export default {
         info: false,
         ordering: false,
         pagingType: "simple_numbers",
-        pageLength: 5,
+		pageLength: 5,
         drawCallback:()=>{
 			console.log(this.uploadLink+this.type)
-            // get(this.uploadLink+this.type).then((res)=>{
-            //     console.log(res)
-            // })
-        }
-
+            post(BASE_URL+xhrUrls.HC_SEARCH, {channel: "Com",start: 0,}).then((res)=>{
+				console.log(res.data.data.data)
+				this.oldFileList = res.data.data.data;
+            })
+		}
+		
       });
     },
     // 删除
     deleteFile(id, index) {
-        this.oldFileList.splice(index, 1);
-        // this.table.ajax.reload()
-    //   this.$http
-    //     .post(baseUrl + xhrUrls.DELFILE, id)
-    //     .then(res => {
-    //       this.oldFileList.splice(index, 1);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    },
+		post(BASE_URL+xhrUrls.HC_DELETE+'/'+id).then((res)=>{
+			this.oldFileList.splice(index, 1);
+			debugger;
+			this.dataTable()
+		})
+	},
+	downloadFile(id){
+		get(BASE_URL+xhrUrls.HC_DOWNLOAD, {id: id}).then((res)=>{
+			console.log(res.data.data.data)
+			this.oldFileList = res.data.data.data;
+		})
+	},
+
     closeLayerButton(){
       this.$emit('closeLayer')
 	  $('.upload-file-box').removeClass('none').next().addClass('none');

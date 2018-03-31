@@ -25,5 +25,8 @@ export default {
   // 上传历史记录
   HC_SEARCH: '/history/search',
   HC_DELETE: '/history/delete',
-  HC_DOWNLOAD: '/history/download'
+  HC_DOWNLOAD: '/history/download',
+
+  // 登出
+  LOGOUT: '/auto/logout'
 }

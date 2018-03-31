@@ -1,7 +1,8 @@
 <template>
   <div class="app-wrapper">
     <tables @closeLayer="layerHandle"></tables>
-    <upload :uploadLink="link"  :type="type" :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload"  @closeLayer="layerHandle"></upload>
+    <upload :uploadLink="link"  :type="type"   @closeLayer="layerHandle"></upload>
+    <!-- :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload" -->
     <nav-bar></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
@@ -23,9 +24,6 @@
       return{
         link:'',
         type:'',
-        tableSearch:'',
-        tableDel:'',
-        tableDownload:''
       }
     },
     components: {
@@ -44,10 +42,10 @@
       uploadHandle(obj){
         this.layerOpen(obj.id)
         this.link = obj.link,
-        this.type = obj.type,
-        this.tableSearch = obj.tableSearch,
-        this.tableDel = obj.tableDel,
-        this.tableDownload = obj.tableDownload
+        this.type = obj.type
+        // this.tableSearch = obj.tableSearch,
+        // this.tableDel = obj.tableDel,
+        // this.tableDownload = obj.tableDownload
       },
       layerHandle(){
         layer.close(layerId)

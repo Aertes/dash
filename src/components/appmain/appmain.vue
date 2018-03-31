@@ -7,8 +7,8 @@
       <selection :selections="selectOptionsTwo"></selection>
       <selection :selections="selectOptionsThree"></selection>
       <selection :selections="selectOptionsFour"></selection>
-      <div class="options-menu">
-        <div @click="showOperation">
+      <div v-if="all" class="options-menu">
+        <div  @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
         </div>
         <div class="dashboard-operation box-shadow" v-show="isShow">
@@ -20,11 +20,11 @@
             <router-link to="/">
               <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
               <span>Upload .COM.CN</span></router-link>-->
-            <a href="javascript:;" v-for="(item,index) in menuList" @click="openUpload(item.link, item.type, item.tableSearch, item.tableDel, item.tableDownload)">
-              <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
-              <span>{{item.name}}</span>
+            <a href="javascript:;" v-for="(item,index) in menuList"  @click="openUpload(item.link, item.type)">
+              <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
+              <span v-if="item.status" >{{item.name}}</span>
             </a>
-            <router-link to="/">
+            <router-link v-if="system" to="/">
               <svg-icon sign="icon-setting"></svg-icon>
               <span>system setting</span>
             </router-link>
@@ -44,13 +44,17 @@
 <script type="text/ecmascript-6">
   import DashBoard from '../dashboard/dashboard'
   import TimeLine from '../timeline/timeline'
+  import Upload from '../upload/upload.vue'
   import xhrUrls from '../../assets/config/xhrUrls'
-
+  import { getSessionItem } from "../../assets/config/storage.js"
   export default {
     name: "appmain",
     data() {
       return {
         isShow: false,
+        USERINFO:null,
+        system: false,
+        all: false,
         selectOptionsOne: [
           {
             label: 'WEWWQWE',
@@ -112,41 +116,34 @@
             name: 'CAMPAIGN',
             link: BASE_URL+xhrUrls.CMA_UPLOAD,
             type: 'Campaign',
-            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
-            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
-            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
+            // tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
+            // tableDel:  BASE_URL+xhrUrls.HC_DELETE,
+            // tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
+            status: false,
           },
           {
             name: 'COM.CN',
             link: BASE_URL+xhrUrls.COM_UPLOAD,
             type: 'Com',
-            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
-            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
-            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
+            status: false,
           },
           {
             name: 'CRM',
             link: BASE_URL+xhrUrls.CRM_UPLOAD,
             type: 'Crm',
-            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
-            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
-            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
+            status: false,
           },
           {
             name: 'RATING & REVIEW',
             link: BASE_URL+xhrUrls.RV_UPLOAD,
             type: 'ReviewRating',
-            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
-            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
-            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
+            status: false,
           },
           {
             name: 'EC REPORT',
             link: BASE_URL+xhrUrls.EC_UPLOAD,
             type: 'Ec',
-            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
-            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
-            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
+            status: false,
           }
         ]
       }
@@ -156,13 +153,46 @@
         this.isShow = !this.isShow
       },
       openUpload(link, type) {
-        this.$emit('showUpload',{id:'upLoadBox',link:link, type:type, tableSearch:tableSearch, tableDel:tableDel, tableDownload:tableDownload})
+        this.$emit('showUpload',{id:'upLoadBox',link:link, type:type})
         this.isShow = false
-      }
+      },
+
     },
     components: {
       DashBoard,
-      TimeLine
+      TimeLine,
+      Upload
+    },
+    mounted(){
+      const USERINFO = JSON.parse(getSessionItem('USERINFO'))
+      this.USERINFO = USERINFO;
+      let per =  USERINFO.permissions;
+      console.log(USERINFO)
+      per.forEach((v, i) => {
+        if(v == 'compaign:upload'){
+          this.menuList[0].status = true;
+        }
+        if(v == 'com:upload'){
+          this.menuList[1].status = true;
+        }
+        if(v == 'crm:upload'){
+          this.menuList[2].status = true;
+        }
+        if(v == 'rr:upload'){
+          this.menuList[3].status = true;
+        }
+        if(v == 'ec:upload'){
+          this.menuList[4].status = true;
+        }
+        if(v == 'sys:setup'){
+          this.system = true;
+        }
+        if(v.indexOf(':upload') != -1 && v.indexOf(':setup') != -1){
+          this.all = false;
+        }else{
+          this.all = true;
+        }
+      });
     }
   }
 </script>

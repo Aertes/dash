@@ -7,11 +7,11 @@ import Vuex from 'vuex'
 
 //字体模块
 import SvgIcon from '@/components/base/svgicon'
-Vue.component('SvgIcon',SvgIcon)
+Vue.component('SvgIcon', SvgIcon)
 
 //select模块
 import Selection from '@/components/base/selection'
-Vue.component('Selection',Selection)
+Vue.component('Selection', Selection)
 
 //svg字体配置(Js)
 import './assets/font/iconfont'
@@ -45,7 +45,7 @@ Vue.prototype.$echarts = Echarts
 
 //http异步
 import Axios from 'axios'
-Axios.defaults.withCredentials=true;
+Axios.defaults.withCredentials = true;
 Vue.prototype.$http = Axios
 
 //非父子组件通信中转站
@@ -59,6 +59,8 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

@@ -1,43 +1,43 @@
 {
-  "draw": "1",
-  "recordsFiltered": 51197,
-  "data": [
-    {
-      "clueId": "DealerCommOrder_67750188",
-      "provinceName": "黑龙江省",
-      "phone": "13351723877",
-      "name": "孙鹏"
-    },
-    {
-      "clueId": "DealerCommOrder_67750188",
-      "provinceName": "黑龙江省",
-      "phone": "13351723877",
-      "name": "孙鹏"
-    },
-    {
-      "clueId": "DealerCommOrder_67750188",
-      "provinceName": "黑龙江省",
-      "phone": "13351723877",
-      "name": "孙鹏"
-    },
-    {
-      "clueId": "DealerCommOrder_67750188",
-      "provinceName": "黑龙江省",
-      "phone": "13351723877",
-      "name": "孙鹏"
-    },
-    {
-      "clueId": "DealerCommOrder_67750188",
-      "provinceName": "黑龙江省",
-      "phone": "13351723877",
-      "name": "孙鹏"
-    },
-    {
-      "clueId": "DealerCommOrder_67750188",
-      "provinceName": "黑龙江省",
-      "phone": "13351723877",
-      "name": "孙鹏"
-    }
+  "checkCode": "",
+  "code": "administrator",
+  "createTime": 1459479858000,
+  "email": "136465606@qq.com",
+  "expireTime": null,
+  "id": "1",
+  "lang": "",
+  "name": "administrator",
+  "organization": {
+    "alias": "",
+    "children": [],
+    "code": "",
+    "createTime": null,
+    "id": "036d330f55f447acae9d7d78044e3add",
+    "isDelete": 0,
+    "level": 0,
+    "name": "Philips",
+    "parentId": "",
+    "parentIds": "",
+    "parentName": "",
+    "status": 1,
+    "updateTime": null,
+    "weight": 0
+  },
+  "password": "",
+  "permissions": [
+    "sys:setup"
   ],
-  "recordsTotal": 51197
+  "phone": "18621839420",
+  "roleList": [{
+    "id": "1",
+    "isDelete": 0,
+    "name": "Administrator",
+    "permissionList": [],
+    "status": 0,
+    "weight": 0
+  }],
+  "status": 1,
+  "updateTime": null,
+  "username": "admin",
+  "weight": 0
 }

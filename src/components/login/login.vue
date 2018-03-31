@@ -1,35 +1,42 @@
 <template>
-  
-  <div class="bg">
-    <div class="form-wrapper">
-      <h2>WELCOME!</h2>
-      <form class="submit box-shadow" action="" autocomplete="off">
-        <div class="input username">
-          <input type="text" @keyup.enter="submit" name='username' @change="onInput"
-                :class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME"
-                autocomplete="off">
-          <svg-icon sign="icon-user"></svg-icon>
-        </div>
-        <div class="input password">
-          <input type="password" @keyup.enter="submit" name='password' @change="onInput"
-                :class="[isPassActive? 'active' : '']" v-model="loginDate.password" placeholder="PASSWORD">
-          <svg-icon sign="icon-Cord"></svg-icon>
-        </div>
-        <div class="input code">
-          <input type="text" @keyup.enter="submit" name='code' maxlength="4" @change="onInput"
-                :class="[isCodeActive? 'active' : '']" v-model="loginDate.code" placeholder="VERIFICATION CODE">
-          <img class="code-img" :src="codeUrl" alt="">
-          <span @click="getCode">
-                      <svg-icon class="code" sign="icon-refresh"></svg-icon>
-                  </span>
-        </div>
-        <button type="button" @click="submit">LOGIN</button>
-      </form>
-
-    </div>
-  </div>
-
-  
+	<div class="bigbox">
+		<div class="nav-bar-wrap clearfix">
+			<div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="243" height="123"></div>
+			<h1>ONE CHINA DIGITAL PERFORMANCE</h1>
+		</div>
+		<div class="bg">
+			<div class="form-wrapper">
+			<h2>WELCOME!</h2>
+			<form class="submit box-shadow" action="" autocomplete="off">
+				<div class="input username">
+				<input type="text" @keyup.enter="submit" name='username' @change="onInput"
+						:class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME"
+						autocomplete="off">
+				<svg-icon sign="icon-user"></svg-icon>
+				</div>
+				<div class="input password">
+				<input type="password" @keyup.enter="submit" name='password' @change="onInput"
+						:class="[isPassActive? 'active' : '']" v-model="loginDate.password" placeholder="PASSWORD">
+				<svg-icon sign="icon-Cord"></svg-icon>
+				</div>
+				<div class="input code">
+				<input type="text" @keyup.enter="submit" name='code' maxlength="4" @change="onInput"
+						:class="[isCodeActive? 'active' : '']" v-model="loginDate.code" placeholder="VERIFICATION CODE">
+				<img class="code-img" :src="codeUrl" alt="">
+				<span @click="getCode">
+							<svg-icon class="code" sign="icon-refresh"></svg-icon>
+						</span>
+				</div>
+				<button type="button" @click="submit">LOGIN</button>
+			</form>
+			</div>
+		</div>
+		<div class="footer-wrapper">
+			<p>@2014-2016 PHILIPS ELETRONICS N.V ALL RIGHTS RESERVED 沪ICP 09062110号</p>
+			<p>公安备案号：沪公网安备31010602001824号</p>
+		</div>
+	</div>
+	
 </template>
 
 <script type="text/ecmascript-6">
@@ -82,12 +89,13 @@
           $(".mark").show();
           post(BASE_URL + xhrUrls.LOGIN, this.loginDate)
             .then(res => {
+              console.log(res)
               if (res.data.code == 200) {
                 setTimeout(() => {
                   $(".loading").hide();
                   $(".mark").hide();
-                  // this.$router.push({path: "/dashborad"});
-                  setSessionItem('USERINFO', JSON.stringify(res.data))
+                  this.$router.push({path: "/dashborad"});
+                  setSessionItem('USERINFO', JSON.stringify(res.data.data))
                 }, 1000);
               } else {
                 setTimeout(() => {
@@ -129,31 +137,88 @@
       }
     },
     mounted() {
-      this.getCode();
+	  this.getCode();
     }
   };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../assets/style/mixin.styl';
-	.bg{
-		background:url('../../assets/img/bg.jpg') no-repeat
-		background-size: cover;
-		margin 0
-	}
+.app-wrapper {
+	position: relative;
+	
+	height: 100%
+}
+
+.mark {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    display: none;
+  }
+.loading{
+  e-pos(top: 40%, y: -50%, left: 50%, x:-50%);
+  z-index : 10001;
+   display: none;
+}
+
+.nav-bar-wrap
+    margin: 0 39px;
+    // margin-bottom 19px
+    line-height 123px
+    .logo
+      float left
+      width 243px
+      height 123px
+      margin-left 20px
+      img
+        width 100%
+        height 100%
+    h1
+      float left
+      margin-left 60px
+      font-size 37px
+      color #a0a0a1
+      font-weight normal
+    .user-info
+      float right
+      color #2061AE
+      .before-login
+        font-size 33px
+      .after-login
+        position relative
+        cursor pointer
+        .user-name
+          margin-right 24px
+          font-size 33px
+          vertical-align top
+        .user-icon
+          font-size 29px
+        
+.bg{
+	background:url('../../assets/img/bg.jpg') no-repeat
+	background-size: cover;
+	margin 0
+}
   .form-wrapper {
-    width: 600px;
+    width: 550px;
     // height: 515px;
     // e-pos(top: 50%, y: -50%, left: 50%, x:-50%);
-    transform: scale(0.85);
-	padding-bottom: 7%;
+    // transform: scale(0.85);
+	  // padding-bottom: 7%;
     h2 {
       margin: 0 0 30px;
       text-align: center;
       font-size: 34px;
       color: #1f61ae;
       // font-weight: 400;
-	  padding-top 20px;
+	    padding-top 50px;
     }
 
     .submit {
@@ -230,5 +295,14 @@
       }
     }
   }
+.footer-wrapper 
+  padding 30px 0 50px
+  text-align center
+  color #ebeff6
+  background-color:#1f61ad
+  p
+    padding 5px 0
+    margin-bottom 0
+
 </style>
 

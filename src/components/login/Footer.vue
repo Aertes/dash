@@ -13,9 +13,8 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .footer-wrapper 
-  padding 30px 0 100px
+  padding 30px 0 50px
   text-align center
-  height 100px
   color #ebeff6
   background-color:#1f61ad
   p

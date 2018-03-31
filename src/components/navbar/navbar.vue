@@ -5,10 +5,10 @@
     <div class="user-info">
       <div class="after-login">
         <div @click="showOperation">
-          <span class="user-name">John Doe</span>
+          <span class="user-name" >{{userName}}</span>
           <svg-icon sign="icon-user" class="user-icon"></svg-icon>
         </div>
-        <div class="user-operation box-shadow" v-show="isShow">
+        <div v-if="USERINFO" class="user-operation box-shadow" v-show="isShow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
             <router-link to="/">
@@ -17,9 +17,9 @@
             <router-link to="/">
               <svg-icon sign="icon-setting"></svg-icon>
               <span>system setting</span></router-link>
-            <router-link to="/">
+            <a @click="outLogin">
               <svg-icon sign="icon-turn-off"></svg-icon>
-              <span>sign out</span></router-link>
+              <span>sign out</span></a>
           </div>
         </div>
       </div>
@@ -28,17 +28,42 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { getSessionItem } from "../../assets/config/storage.js"
+import { removeSessionItem } from "../../assets/config/storage.js"
+import { get } from "../../assets/config/http"
+import xhrUrls from '../../assets/config/xhrUrls'
   export default {
     name: "NavBar",
     data() {
       return {
-        isShow: false
+        isShow: false,
+        userName:'Login',
+        USERINFO: null,
       }
     },
     methods: {
       showOperation() {
         this.isShow = !this.isShow
-      }
+        if(!this.USERINFO){
+          this.$router.push({path: "/"});
+        }
+	  },
+	  outLogin(){
+		  get(BASE_URL+xhrUrls.LOGOUT).then((res) =>{
+			  	this.USERINFO = removeSessionItem('USERINFO')
+		  		this.$router.push({path: "/"});
+		  }).catch((err)=>{
+			  console.log(err);
+		  })
+
+	  }
+    },
+    mounted(){
+      const USERINFO = JSON.parse(getSessionItem('USERINFO'))
+      this.USERINFO = USERINFO
+      this.userName = USERINFO.name;
+      
+      
     }
   }
 </script>
