@@ -4,8 +4,9 @@
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
       <selection :selections="selectOptionsOne"></selection>
-      <selection class="styleone" :selections="selectOptionsTwo"></selection>
-      <selection class="styleone" :selections="selectOptionsThree"></selection>
+      <selection :selections="selectOptionsTwo"></selection>
+      <selection :selections="selectOptionsThree"></selection>
+      <selection :selections="selectOptionsFour"></selection>
       <div class="options-menu">
         <div @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
@@ -13,15 +14,20 @@
         <div class="dashboard-operation box-shadow" v-show="isShow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
-            <router-link to="/">
+            <!--<router-link to="javacs">
               <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
               <span>Upload .COM.COM.COM.COM</span></router-link>
             <router-link to="/">
               <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
-              <span>Upload .COM.CN</span></router-link>
+              <span>Upload .COM.CN</span></router-link>-->
+            <a href="javascript:;" v-for="(item,index) in menuList" @click="openUpload(item.link)">
+              <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
+              <span>{{item.name}}</span>
+            </a>
             <router-link to="/">
               <svg-icon sign="icon-setting"></svg-icon>
-              <span>system setting</span></router-link>
+              <span>system setting</span>
+            </router-link>
           </div>
         </div>
       </div>
@@ -29,7 +35,7 @@
 
     <div class="clearfix dashboard-all-wrap">
       <time-line></time-line>
-      <dash-board ></dash-board>
+      <dash-board></dash-board>
     </div>
 
   </div>
@@ -85,12 +91,52 @@
             label: 'CVFSDRES',
             value: 2
           }
+        ],
+        selectOptionsFour: [
+          {
+            label: '2018/12',
+            value: 0
+          },
+          {
+            label: '2018/11',
+            value: 1
+          },
+          {
+            label: '2018/10',
+            value: 2
+          }
+        ],
+        menuList: [
+          {
+            name: 'CAMPAIGN',
+            link: BASE_URL+'/campaign/upload'
+          },
+          {
+            name: 'COM.CN',
+            link: '2'
+          },
+          {
+            name: 'CRM',
+            link: '0'
+          },
+          {
+            name: 'RATING & REVIEW',
+            link: '3'
+          },
+          {
+            name: 'EC REPORT',
+            link: '4'
+          }
         ]
       }
     },
     methods: {
       showOperation() {
         this.isShow = !this.isShow
+      },
+      openUpload(link) {
+        this.$emit('showUpload',{id:'upLoadBox',link:link})
+        this.isShow = false
       }
     },
     components: {
@@ -136,9 +182,9 @@
           a
             display block
             padding 0 25px
-            &:nth-of-type(2)
-              border-top 1px solid #E8E9E9
-              border-bottom 1px solid #E8E9E9
+            border-bottom 1px solid #E8E9E9
+            &:last-of-type
+              border-bottom medium
             &:hover
               background-color #fff
           .icon

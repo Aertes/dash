@@ -2,7 +2,14 @@
   <div class="tables-wrap" id="tablesBox">
     <div class="tables-title">
       <span>CAMPAIGN OVERVIEW-2018-2</span>
-      <span @click="closeTable"><svg-icon sign="icon-closed"></svg-icon></span>
+      <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
+    </div>
+    <div class="clearfix select-wrap">
+      <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
+      <selection :selections="selectOptionsOne"></selection>
+      <selection :selections="selectOptionsTwo"></selection>
+      <selection :selections="selectOptionsThree"></selection>
+      <selection :selections="selectOptionsFour"></selection>
     </div>
     <div class="tables-container">
       <table id="tableBox" class="display" style="width:100%">
@@ -375,7 +382,7 @@
       });
     },
     methods:{
-      closeTable(){
+      closeLayerButton(){
         this.$emit('closeLayer')
       }
     }
@@ -392,6 +399,16 @@
     z-index: 99999
     overflow hidden
     display none
+    .select-wrap
+      padding-left 60px
+    .dropdown-wrap
+      margin-right 80px
+      float left
+    .options-icon-date
+      font-size 22px
+      color #A0A0A1
+      float left
+      margin 8px 18px 0 0
     .tables-title
       position relative
       padding-left 45px

@@ -110,6 +110,8 @@
     },
     mounted() {
       this.Echarts();
+      let myChart = this.$echarts.init(this.$refs.myEchart);
+      window.onresize = myChart.resize
     }
   };
 </script>

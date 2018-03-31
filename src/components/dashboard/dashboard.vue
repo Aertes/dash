@@ -61,11 +61,6 @@
     components: {
       Chart
     },
-    mounted() {
-      window.onresize = ()=>{
-
-      }
-    },
     methods: {
       scrollBarWheel(e) {
         let value = e.wheelDelta || -e.detail;
@@ -96,7 +91,7 @@
         }
       },
       openTables() {
-        this.$Hub.$emit('showTables')
+        this.$Hub.$emit('showTables','tablesBox')
       }
     }
   }

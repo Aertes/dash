@@ -3,20 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Echarts from 'echarts'
-import Axios from 'axios'
+import Vuex from 'vuex'
 
 //字体模块
 import SvgIcon from '@/components/base/svgicon'
+Vue.component('SvgIcon',SvgIcon)
+
 //select模块
 import Selection from '@/components/base/selection'
+Vue.component('Selection',Selection)
 
-//字体文件
+//svg字体配置(Js)
 import './assets/font/iconfont'
-//基础样式
+
+//网站基础样式
 import './assets/style/base.styl'
 
-//网站自适应
+//网站自适应JS库
 import 'amfe-flexible/index'
 
 //优化滚动条
@@ -31,25 +34,29 @@ import "./assets/style/tablepagination.css"
 import './assets/layer/theme/default/layer.css'
 import './assets/layer/layer'
 
-/*upload*/ 
+/*upload*/
 // import vueUploadWeb from 'vue-upload-web'
 
 
 // import './assets/js/upload/Uploader.swf'
 // import './assets/js/upload/webuploader.min'
 
+//图标
+import Echarts from 'echarts'
 Vue.prototype.$echarts = Echarts
-Vue.prototype.$http = Axios
-Axios.defaults.withCredentials=true;
-Vue.config.productionTip = false
 
-Vue.component('SvgIcon',SvgIcon)
-Vue.component('Selection',Selection)
+//http异步
+import Axios from 'axios'
+Axios.defaults.withCredentials=true;
+Vue.prototype.$http = Axios
 
 //非父子组件通信中转站
 let Hub = new Vue();
 Vue.prototype.$Hub = Hub
 
+Vue.use(Vuex)
+
+Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

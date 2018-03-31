@@ -1,14 +1,14 @@
 <template>
   <div class="app-wrapper">
     <tables @closeLayer="layerHandle"></tables>
+    <upload :uploadLink="link" @closeLayer="layerHandle"></upload>
     <nav-bar></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
-      <!-- <app-main></app-main> -->
-      <upload></upload>
+      <app-main @showUpload="uploadHandle"></app-main>
     </div>
   </div>
-  
+
 </template>
 
 <script>
@@ -19,15 +19,32 @@
   import Upload from '@/components/upload/upload'
   let layerId
   export default ({
+    data(){
+      return{
+        link:''
+      }
+    },
     components: {
       NavBar,
       SideBar,
-      // AppMain,
+      AppMain,
       Tables,
       Upload
     },
     mounted() {
-      this.$Hub.$on('showTables', () => {
+      this.$Hub.$on('showTables', (id) => {
+        this.layerOpen(id)
+      });
+    },
+    methods:{
+      uploadHandle(obj){
+        this.layerOpen(obj.id)
+        this.link = obj.link
+      },
+      layerHandle(){
+        layer.close(layerId)
+      },
+      layerOpen(id){
         layerId = layer.open({
           type: 1,
           title: false,
@@ -35,13 +52,8 @@
           shadeClose: true,
           area: 'auto auto',
           shade: [0.5, '#fff'],
-          content: $('#tablesBox')
+          content: $(`#${id}`)
         })
-      });
-    },
-    methods:{
-      layerHandle(){
-        layer.close(layerId)
       }
     }
   })

@@ -1,8 +1,8 @@
 <template>
-  <div class="tables-wrap">
+  <div class="tables-wrap" id="upLoadBox">
     <div class="tables-title">
       <span>CAMPAIGN RECORD</span>
-      <svg-icon sign="icon-closed"></svg-icon>
+      <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
     </div>
     <div class="upload-file-box" :class="[isFileNone? 'none': '']">
       <div class="upload-file">
@@ -47,10 +47,6 @@
 
 <script type="text/ecmascript-6">
 import "./webuploader.min";
-
-import { baseUrl } from "../../assets/config/API";
-import xhrUrls from "../../assets/config/xhrUrls";
-import index from "vue";
 
 export default {
   name: "upload",
@@ -139,6 +135,7 @@ export default {
       ]
     };
   },
+  props:['uploadLink'],
   mounted() {
     // 进度条
     this.init();
@@ -152,6 +149,7 @@ export default {
       this.isProgressNone = false;
       console.log(e.target.files);
       this.fileName = e.target.files[0].name;
+      this.uploader.option( 'server', this.uploadLink)
       this.uploader.addFiles(e.target.files[0]);
     },
     //进度条
@@ -160,7 +158,7 @@ export default {
         // swf文件路径
         //swf: "../../assets/js/uploads/Uploader.swf",
         // 文件接收服务端。
-        server: baseUrl + xhrUrls.CMAUPLOAD,
+        server: '',
         auto: true,
         accept: {
           title: "xls",
@@ -207,20 +205,30 @@ export default {
         info: false,
         ordering: false,
         pagingType: "simple_numbers",
-        pageLength:5,
+        pageLength: 5,
+        // drawCallback:()=>{
+        //     this.$http.get('../../../static/table.json').then((res)=>{
+        //         console.log(res)
+        //     })
+        // }
 
       });
     },
     // 删除
     deleteFile(id, index) {
-        this.$http
-        .post(baseUrl + xhrUrls.DELFILE, id)
-        .then(res => {
-            this.oldFileList.splice(index, 1);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        this.oldFileList.splice(index, 1);
+        // this.table.ajax.reload()
+    //   this.$http
+    //     .post(baseUrl + xhrUrls.DELFILE, id)
+    //     .then(res => {
+    //       this.oldFileList.splice(index, 1);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    },
+    closeLayerButton(){
+      this.$emit('closeLayer')
     }
   }
 };
@@ -242,7 +250,6 @@ table.dataTable.no-footer {
 }
 
 .tables-wrap {
-    e-pos(top: 50%, y: -50%, left: 50%, x: -50%);
     width: 720px;
     max-height: 90%;
     background-color: #fff;
@@ -250,11 +257,10 @@ table.dataTable.no-footer {
     z-index: 99999;
     overflow: hidden;
     min-height: 340px;
-
-    .none {
-        display: none;
+    display none
+    .none{
+      display: none
     }
-
     .tables-title {
         position: relative;
         padding-left: 45px;

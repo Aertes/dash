@@ -18,7 +18,7 @@
               <svg-icon sign="icon-setting"></svg-icon>
               <span>system setting</span></router-link>
             <router-link to="/">
-              <svg-icon sign="icon-closed"></svg-icon>
+              <svg-icon sign="icon-turn-off"></svg-icon>
               <span>sign out</span></router-link>
           </div>
         </div>

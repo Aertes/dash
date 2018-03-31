@@ -26,8 +26,13 @@
     "postcss-write-svg": "^3.0.1",
     "stylus": "^0.54.5",
     "vue": "^2.5.2",
+<<<<<<< .mine
     "vue-router": "^3.0.1",
     "vue-upload-web": "^1.0.2"
+=======
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+>>>>>>> .r43731
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
