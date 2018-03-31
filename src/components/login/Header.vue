@@ -31,7 +31,8 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .nav-bar-wrap
-    margin-bottom 19px
+    margin: 0 39px;
+    // margin-bottom 19px
     line-height 123px
     .logo
       float left

@@ -1,30 +1,35 @@
 <template>
-  <div class="form-wrapper">
-    <h2>WELCOME!</h2>
-    <form class="submit box-shadow" action="" autocomplete="off">
-      <div class="input username">
-        <input type="text" @keyup.enter="submit" name='username' @change="onInput"
-               :class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME"
-               autocomplete="off">
-        <svg-icon sign="icon-user"></svg-icon>
-      </div>
-      <div class="input password">
-        <input type="password" @keyup.enter="submit" name='password' @change="onInput"
-               :class="[isPassActive? 'active' : '']" v-model="loginDate.password" placeholder="PASSWORD">
-        <svg-icon sign="icon-Cord"></svg-icon>
-      </div>
-      <div class="input code">
-        <input type="text" @keyup.enter="submit" name='code' maxlength="4" @change="onInput"
-               :class="[isCodeActive? 'active' : '']" v-model="loginDate.code" placeholder="VERIFICATION CODE">
-        <img class="code-img" :src="codeUrl" alt="">
-        <span @click="getCode">
-                    <svg-icon class="code" sign="icon-refresh"></svg-icon>
-                </span>
-      </div>
-      <button type="button" @click="submit">LOGIN</button>
-    </form>
+  
+  <div class="bg">
+    <div class="form-wrapper">
+      <h2>WELCOME!</h2>
+      <form class="submit box-shadow" action="" autocomplete="off">
+        <div class="input username">
+          <input type="text" @keyup.enter="submit" name='username' @change="onInput"
+                :class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME"
+                autocomplete="off">
+          <svg-icon sign="icon-user"></svg-icon>
+        </div>
+        <div class="input password">
+          <input type="password" @keyup.enter="submit" name='password' @change="onInput"
+                :class="[isPassActive? 'active' : '']" v-model="loginDate.password" placeholder="PASSWORD">
+          <svg-icon sign="icon-Cord"></svg-icon>
+        </div>
+        <div class="input code">
+          <input type="text" @keyup.enter="submit" name='code' maxlength="4" @change="onInput"
+                :class="[isCodeActive? 'active' : '']" v-model="loginDate.code" placeholder="VERIFICATION CODE">
+          <img class="code-img" :src="codeUrl" alt="">
+          <span @click="getCode">
+                      <svg-icon class="code" sign="icon-refresh"></svg-icon>
+                  </span>
+        </div>
+        <button type="button" @click="submit">LOGIN</button>
+      </form>
 
+    </div>
   </div>
+
+  
 </template>
 
 <script type="text/ecmascript-6">
@@ -54,7 +59,7 @@
     computed: {},
     methods: {
       getCode() {
-        this.codeUrl = BASE_URL + xhrUrls.code + "?" + new Date().getTime();
+        this.codeUrl = BASE_URL + xhrUrls.CODE + "?" + new Date().getTime();
       },
       submit() {
         if (this.loginDate.username == "" & this.loginDate.password == "" & this.loginDate.code == "") {
@@ -74,7 +79,7 @@
         if (this.loginDate.username != "" & this.loginDate.password != "" & this.loginDate.code != "") {
           $(".loading").show();
           $(".mark").show();
-          post(BASE_URL + xhrUrls.login, this.loginDate)
+          post(BASE_URL + xhrUrls.LOGIN, this.loginDate)
             .then(res => {
               if (res.data.code == 200) {
                 setTimeout(() => {
@@ -87,7 +92,7 @@
                 setTimeout(() => {
                   $(".loading").hide();
                   $(".mark").hide();
-                  this.codeUrl = BASE_URL + xhrUrls.code + "?" + new Date().getTime();
+                  this.codeUrl = BASE_URL + xhrUrls.CODE + "?" + new Date().getTime();
                   switch (res.data.code) {
                     case 201:
                       this.isCodeActive = true;
@@ -130,19 +135,24 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../assets/style/mixin.styl';
-
+	.bg{
+		background:url('../../assets/img/bg.jpg') no-repeat
+		background-size: cover;
+		margin 0
+	}
   .form-wrapper {
     width: 600px;
-    height: 515px;
+    // height: 515px;
     // e-pos(top: 50%, y: -50%, left: 50%, x:-50%);
     transform: scale(0.85);
-
+	padding-bottom: 7%;
     h2 {
-      margin: 80px 0 30px;
+      margin: 0 0 30px;
       text-align: center;
       font-size: 34px;
-      color: #a0a0a1;
+      color: #1f61ae;
       // font-weight: 400;
+	  padding-top 20px;
     }
 
     .submit {
@@ -194,7 +204,7 @@
           height: 55px;
           border: 1px solid #6c6b6b;
           border-radius: 10px;
-          padding: 5px 15px 0;
+          padding: 3px 15px 0;
           font-size: 24px;
           outline: none;
         }

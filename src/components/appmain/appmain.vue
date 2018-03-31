@@ -44,6 +44,7 @@
 <script type="text/ecmascript-6">
   import DashBoard from '../dashboard/dashboard'
   import TimeLine from '../timeline/timeline'
+  import xhrUrls from '../../assets/config/xhrUrls'
 
   export default {
     name: "appmain",
@@ -109,23 +110,23 @@
         menuList: [
           {
             name: 'CAMPAIGN',
-            link: BASE_URL+'/campaign/upload'
+            link: BASE_URL+xhrUrls.CMA_UPLOAD
           },
           {
             name: 'COM.CN',
-            link: '2'
+            link: BASE_URL+xhrUrls.COM_UPLOAD
           },
           {
             name: 'CRM',
-            link: '0'
+            link: BASE_URL+xhrUrls.CRM_UPLOAD
           },
           {
             name: 'RATING & REVIEW',
-            link: '3'
+            link: BASE_URL+xhrUrls.RV_UPLOAD
           },
           {
             name: 'EC REPORT',
-            link: '4'
+            link: BASE_URL+xhrUrls.EC_UPLOAD
           }
         ]
       }

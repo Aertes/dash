@@ -175,6 +175,7 @@ export default {
         this.isFileNone = true;
         this.isProgressNone = false;
         var percent = Math.round(percentage * 100);
+        this.progress = percent
         $("#num").html("" + percent + " %");
         $("#progressBar").css("width", "" + percent + "%");
       });
@@ -183,6 +184,7 @@ export default {
       this.uploader.on("uploadSuccess", function(file) {
         $("#num").html("100%");
         $("#progressBar").css("width", "100%");
+        this.progress = 100;
         $("#text").html("UPLOAD SUCCESS!");
         setTimeout(() => {
           this.isFileNone = false;
@@ -193,7 +195,10 @@ export default {
       this.uploader.on("uploadError", function(file) {
         this.isFileNone = true;
         this.isProgressNone = false;
-        alert("上传出错");
+        this.progress = 0;
+        $("#num").html("0%");
+        $("#progressBar").css("width", "0%");
+        $("#text").html("UPLOAD ERROR!");
       });
       this.uploader.on("fileQueued", function(params) {});
     },
@@ -229,6 +234,8 @@ export default {
     },
     closeLayerButton(){
       this.$emit('closeLayer')
+      this.isFileNone= false,
+      this.isProgressNone= true
     }
   }
 };

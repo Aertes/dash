@@ -39,7 +39,7 @@ export default {
 @import '../../assets/style/mixin.styl';
 .app-wrapper {
   position: relative;
-  margin: 0 39px;
+  
   height: 100%;
 }
 .mark {
