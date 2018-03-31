@@ -4,13 +4,13 @@
       <span>CAMPAIGN RECORD</span>
       <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
     </div>
-    <div class="upload-file-box" :class="[isFileNone? 'none': '']">
+    <div class="upload-file-box">
       <div class="upload-file">
         <a href="javascript:;">
           选取文件
           <input type="file" id="picker" name="file" @change="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         </a>
-        <span>{{ fileName }}</span>
+        <span id="fileName">未选择文件</span>
       </div>
       <div class="tables-container">
         <h3>History</h3>
@@ -34,11 +34,11 @@
         </table>
       </div>
     </div>
-    <div class="progress-ba" :class="[isProgressNone? 'none': '']">
+    <div class="progress-ba none">
       <p id="text" class="text">DAtA UPLOADING, PLEASE WAIT...</p>
       <div class="progress">
-        <span id="num" class="progressbarNum">{{progress}}%</span>
-        <span id="progressBar" class="percentage" :style="{width: progress+'%'}" role="progressbar" aria-valuemin="0"
+        <span id="num" class="progressbarNum">0%</span>
+        <span id="progressBar" class="percentage" style="width: 0%" role="progressbar" aria-valuemin="0"
               aria-valuemax="100"></span>
       </div>
     </div>
@@ -47,18 +47,15 @@
 
 <script type="text/ecmascript-6">
 import "./webuploader.min";
-
+import { get } from "../../assets/config/http"
 export default {
   name: "upload",
   data() {
     return {
-      isFileNone: false,
-      isProgressNone: true,
       files: "",
       progress: 0,
-      fileName: "未选择文件",
       uploader: null,
-      table: null,
+	  table: null,
       oldFileList: [
         {
           id: "1",
@@ -90,70 +87,28 @@ export default {
           fileName: "Cakadgasdad",
           downloadUrl: ""
         },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        }
       ]
     };
   },
-  props:['uploadLink'],
+  props:['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
   mounted() {
     // 进度条
     this.init();
 
     //历史记录
-    this.dataTable();
+	// this.dataTable();
+	
   },
   methods: {
     upload(e) {
-      this.isFileNone = true;
-      this.isProgressNone = false;
-      console.log(e.target.files);
-      this.fileName = e.target.files[0].name;
+      $('.upload-file-box').addClass('none').next().removeClass('none');
+	  $('#fileName').html(e.target.files[0].name)
       this.uploader.option( 'server', this.uploadLink)
       this.uploader.addFiles(e.target.files[0]);
     },
     //进度条
     init() {
+		let that = this;
       this.uploader = WebUploader.create({
         // swf文件路径
         //swf: "../../assets/js/uploads/Uploader.swf",
@@ -181,24 +136,34 @@ export default {
       });
 
       // 上传成功
-      this.uploader.on("uploadSuccess", function(file) {
-        $("#num").html("100%");
-        $("#progressBar").css("width", "100%");
-        this.progress = 100;
-        $("#text").html("UPLOAD SUCCESS!");
-        setTimeout(() => {
-          this.isFileNone = false;
-          this.isProgressNone = true;
-        }, 1000);
+      this.uploader.on("uploadSuccess", function(file, res) {
+		if(res.code == 200){
+			$("#num").html("100%");
+			$("#progressBar").css("width", "100%");
+			$("#text").html("UPLOAD SUCCESS!");
+			setTimeout(() => {
+				$('#fileName').html("未选择文件")
+				$('#picker').val('');
+				that.dataTable();
+				$('.upload-file-box').removeClass('none').next().addClass('none');
+			}, 1000);
+		}else{
+			$("#text").html(res.errMsg);
+			$("#num").html("0%");
+			$("#progressBar").css("width", "0%");
+		}
+        
       });
       // 上传错误
-      this.uploader.on("uploadError", function(file) {
-        this.isFileNone = true;
-        this.isProgressNone = false;
-        this.progress = 0;
+      this.uploader.on("uploadError", function(file, res) {
         $("#num").html("0%");
         $("#progressBar").css("width", "0%");
-        $("#text").html("UPLOAD ERROR!");
+		$("#text").html("UPLOAD ERROR!");
+		setTimeout(() => {
+			$('#fileName').html("未选择文件")
+			$('#picker').val('');
+		  	$('.upload-file-box').removeClass('none').next().addClass('none');
+        }, 1000);
       });
       this.uploader.on("fileQueued", function(params) {});
     },
@@ -211,11 +176,12 @@ export default {
         ordering: false,
         pagingType: "simple_numbers",
         pageLength: 5,
-        // drawCallback:()=>{
-        //     this.$http.get('../../../static/table.json').then((res)=>{
-        //         console.log(res)
-        //     })
-        // }
+        drawCallback:()=>{
+			console.log(this.uploadLink+this.type)
+            // get(this.uploadLink+this.type).then((res)=>{
+            //     console.log(res)
+            // })
+        }
 
       });
     },
@@ -234,8 +200,10 @@ export default {
     },
     closeLayerButton(){
       this.$emit('closeLayer')
-      this.isFileNone= false,
-      this.isProgressNone= true
+	  $('.upload-file-box').removeClass('none').next().addClass('none');
+	  $('#fileName').html("未选择文件")
+		$('#picker').val('');
+		$("#text").html("DAtA UPLOADING, PLEASE WAIT...");
     }
   }
 };
@@ -377,8 +345,7 @@ table.dataTable.no-footer {
             display: inline-block;
             text-align: center;
             line-height: 30px;
-            color: #fff;
-
+            color: #a0a0a1;
             .percentage {
                 position: absolute;
                 border-radius: 30px;

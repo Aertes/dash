@@ -1,5 +1,8 @@
 <template>
   <div class="dashboard-wrap box-shadow" @mousewheel.prevent="scrollBarWheel">
+    <div class="loading-wrap">
+      <img src="../../assets/img/loading.svg" class="loading-svg">
+    </div>
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap">
         <div class="chart-title">
@@ -100,6 +103,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "../../assets/style/mixin.styl"
   .dashboard-wrap
+    position relative
     float left
     width 1420px
     height 650px
@@ -210,4 +214,15 @@
             height 400px
             box-shadow: -5px 0px 5px 0px rgba(118, 118, 118, 0.4);
             z-index 10
+    .loading-wrap
+      position absolute
+      width 100%
+      height 100%
+      z-index 10
+      background-color rgba(255,255,255,.7)
+      display none
+      img
+        e-pos(top:50%,y:-50%,left:50%,x:-50%)
+        width 300px
+        height 300px
 </style>

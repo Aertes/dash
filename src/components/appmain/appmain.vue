@@ -20,7 +20,7 @@
             <router-link to="/">
               <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
               <span>Upload .COM.CN</span></router-link>-->
-            <a href="javascript:;" v-for="(item,index) in menuList" @click="openUpload(item.link)">
+            <a href="javascript:;" v-for="(item,index) in menuList" @click="openUpload(item.link, item.type, item.tableSearch, item.tableDel, item.tableDownload)">
               <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
               <span>{{item.name}}</span>
             </a>
@@ -110,23 +110,43 @@
         menuList: [
           {
             name: 'CAMPAIGN',
-            link: BASE_URL+xhrUrls.CMA_UPLOAD
+            link: BASE_URL+xhrUrls.CMA_UPLOAD,
+            type: 'Campaign',
+            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
+            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
+            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
           },
           {
             name: 'COM.CN',
-            link: BASE_URL+xhrUrls.COM_UPLOAD
+            link: BASE_URL+xhrUrls.COM_UPLOAD,
+            type: 'Com',
+            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
+            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
+            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
           },
           {
             name: 'CRM',
-            link: BASE_URL+xhrUrls.CRM_UPLOAD
+            link: BASE_URL+xhrUrls.CRM_UPLOAD,
+            type: 'Crm',
+            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
+            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
+            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
           },
           {
             name: 'RATING & REVIEW',
-            link: BASE_URL+xhrUrls.RV_UPLOAD
+            link: BASE_URL+xhrUrls.RV_UPLOAD,
+            type: 'ReviewRating',
+            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
+            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
+            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
           },
           {
             name: 'EC REPORT',
-            link: BASE_URL+xhrUrls.EC_UPLOAD
+            link: BASE_URL+xhrUrls.EC_UPLOAD,
+            type: 'Ec',
+            tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
+            tableDel:  BASE_URL+xhrUrls.HC_DELETE,
+            tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
           }
         ]
       }
@@ -135,8 +155,8 @@
       showOperation() {
         this.isShow = !this.isShow
       },
-      openUpload(link) {
-        this.$emit('showUpload',{id:'upLoadBox',link:link})
+      openUpload(link, type) {
+        this.$emit('showUpload',{id:'upLoadBox',link:link, type:type, tableSearch:tableSearch, tableDel:tableDel, tableDownload:tableDownload})
         this.isShow = false
       }
     },

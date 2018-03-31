@@ -35,6 +35,7 @@
 <script type="text/ecmascript-6">
   import xhrUrls from "../../assets/config/xhrUrls";
   import { post } from "../../assets/config/http"
+  import { setSessionItem } from "../../assets/config/storage.js"
 
   export default {
     name: "login",
@@ -85,8 +86,8 @@
                 setTimeout(() => {
                   $(".loading").hide();
                   $(".mark").hide();
-                  this.$router.push({path: "/dashborad"});
-                  sessionStorage.setItem("USERINFO", JSON.stringify(res.data));
+                  // this.$router.push({path: "/dashborad"});
+                  setSessionItem('USERINFO', JSON.stringify(res.data))
                 }, 1000);
               } else {
                 setTimeout(() => {

@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <tables @closeLayer="layerHandle"></tables>
-    <upload :uploadLink="link" @closeLayer="layerHandle"></upload>
+    <upload :uploadLink="link"  :type="type" :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload"  @closeLayer="layerHandle"></upload>
     <nav-bar></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
@@ -21,7 +21,11 @@
   export default ({
     data(){
       return{
-        link:''
+        link:'',
+        type:'',
+        tableSearch:'',
+        tableDel:'',
+        tableDownload:''
       }
     },
     components: {
@@ -39,7 +43,11 @@
     methods:{
       uploadHandle(obj){
         this.layerOpen(obj.id)
-        this.link = obj.link
+        this.link = obj.link,
+        this.type = obj.type,
+        this.tableSearch = obj.tableSearch,
+        this.tableDel = obj.tableDel,
+        this.tableDownload = obj.tableDownload
       },
       layerHandle(){
         layer.close(layerId)
@@ -49,7 +57,7 @@
           type: 1,
           title: false,
           closeBtn: 0,
-          shadeClose: true,
+          shadeClose: false,
           area: 'auto auto',
           shade: [0.5, '#fff'],
           content: $(`#${id}`)

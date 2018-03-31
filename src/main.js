@@ -36,8 +36,6 @@ import './assets/layer/layer'
 
 /*upload*/
 // import vueUploadWeb from 'vue-upload-web'
-
-
 // import './assets/js/upload/Uploader.swf'
 // import './assets/js/upload/webuploader.min'
 

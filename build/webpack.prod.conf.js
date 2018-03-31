@@ -31,7 +31,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,
-      'BASE_URL':JSON.stringify("http://192.168.1.12:8080"),
+      'BASE_URL': JSON.stringify("http://119.23.53.39:8080/dashboard"),
       'PROD':JSON.stringify(true),
       'DEV':JSON.stringify(false)
     }),

@@ -22,4 +22,8 @@ export default {
   OV_CRM_SEARCH:'/overview/crm/search',
   OV_RV_SEARCH:'/overview/review/search',
 
+  // 上传历史记录
+  HC_SEARCH: '/history/search',
+  HC_DELETE: '/history/delete',
+  HC_DOWNLOAD: '/history/download'
 }
