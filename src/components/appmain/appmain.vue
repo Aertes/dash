@@ -11,12 +11,6 @@
         <div class="dashboard-operation box-shadow" v-show="isShow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
-            <!--<router-link to="javacs">
-              <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
-              <span>Upload .COM.COM.COM.COM</span></router-link>
-            <router-link to="/">
-              <svg-icon sign="icon-upload" class="upload-icon"></svg-icon>
-              <span>Upload .COM.CN</span></router-link>-->
             <a href="javascript:;" v-for="(item,index) in menuList"  @click="openUpload(item.link, item.type)">
               <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
               <span v-if="item.status" >{{item.name}}</span>
@@ -33,6 +27,7 @@
     <div class="clearfix dashboard-all-wrap">
       <time-line></time-line>
       <dash-board></dash-board>
+      <upload-file ref='upload'></upload-file>
     </div>
 
   </div>
@@ -42,6 +37,7 @@
   import DashBoard from '../dashboard/dashboard'
   import TimeLine from '../timeline/timeline'
   import xhrUrls from '../../assets/config/xhrUrls'
+  import UploadFile from '../../components/upload/upload.vue'
   import {get, post, uploadPost} from '../../assets/config/http'
   import { getSessionItem } from "../../assets/config/storage.js"
 
@@ -96,7 +92,8 @@
       }
     },
     mounted() {
-      if (this.type === 1) {
+
+      if (this.type === 0) {
         this.selectList=1
         post(OVDateUrl, 'campaign').then(res=>{
           let data = res.data.data
@@ -105,6 +102,7 @@
           })
         })
       };
+
       const USERINFO = JSON.parse(getSessionItem('USERINFO'))
       this.USERINFO = USERINFO;
       try {
@@ -143,13 +141,15 @@
         this.isShow = !this.isShow
       },
       openUpload(link, type) {
-        this.$emit('showUpload',{id:'upLoadBox',link:link, type:type})
+        this.$emit('showUpload', {id:'upLoadBox', link:link, type:type})
+        this.$refs.upload.dataTable(type)
         this.isShow = false
       }
     },
     components: {
       DashBoard,
-      TimeLine
+      TimeLine,
+      UploadFile
     }
   }
 </script>

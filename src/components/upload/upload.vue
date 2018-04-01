@@ -59,7 +59,7 @@
 				files: "",
 				progress: 0,
 				Data:{
-					channel:'Com',
+					channel:'',
 					start:0,
 				},
 				uploader: null,
@@ -75,16 +75,15 @@
 				return formatDate(data, 'yyyy-MM-dd')
 			}
 		},
-		props: ['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
+		props: ['uploadLink', 'types'],
 		mounted() {
 			// 进度条
 			this.init();
 	
 			this.onRemoveRecord();
-	
+
 			//历史记录
 			// this.dataTable();
-	
 		},
 		methods: {
 			upload(e) {
@@ -155,8 +154,9 @@
 				this.uploader.on("fileQueued", function(params) {});
 			},
 			// 历史记录
-			dataTable() {
-				let that = this;
+			dataTable(type) {
+				var  that = this;
+				that.Data.channel = type;
 				this.table = $("#fileTable").DataTable({
 					searching: false,
 					lengthChange: false,
@@ -165,14 +165,12 @@
 					ordering: false,
 					pagingType: "simple_numbers",
 					pageLength: 5,
-					"ajax": function(data, callback, settings) {
-						
+					"ajax": (data, callback, settings) => {
 						post(xhrUrls.HC_SEARCH, that.Data).then((res) => {
 							callback(res.data.data);
 						}).catch((err)=>{
 							console.log(err);
 						})
-	
 					},
 					columns: [
 						{
@@ -209,7 +207,6 @@
 					]
 	
 				});
-	
 			},
 			onRemoveRecord() {
 				let that = this;
@@ -228,6 +225,9 @@
 				$('#fileName').html("未选择文件")
 				$('#picker').val('');
 				$("#text").html("DAtA UPLOADING, PLEASE WAIT...");
+
+				// if(this.dataTable)
+				
 			}
 		}
 	};

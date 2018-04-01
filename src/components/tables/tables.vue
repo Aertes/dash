@@ -25,30 +25,6 @@
           <td>Edinburgh</td>
           <td>$320,800</td>
         </tr>
-        <tr>
-          <td>Garrett Winters</td>
-          <td>Accountant</td>
-          <td>Tokyo</td>
-          <td>$170,750</td>
-        </tr>
-        <tr>
-          <td>Ashton Cox</td>
-          <td>Junior Technical Author</td>
-          <td>San Francisco</td>
-          <td>$86,000</td>
-        </tr>
-        <tr>
-          <td>Cedric Kelly</td>
-          <td>Senior Javascript Developer</td>
-          <td>Edinburgh</td>
-          <td>$433,060</td>
-        </tr>
-        <tr>
-          <td>Airi Satou</td>
-          <td>Accountant</td>
-          <td>Tokyo</td>
-          <td>$162,700</td>
-        </tr>
         </tbody>
       </table>
     </div>
@@ -74,7 +50,7 @@
       }
     },
     mounted() {
-      if (this.type === 1) {
+      if (this.type === 0) {
         this.selectList = 1
         post(OVDateUrl, 'campaign').then(res => {
           let data = res.data.data

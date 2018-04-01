@@ -28,6 +28,7 @@ function dataOvCmaSearch(that, data) {
         let yAxisName1 = data.chartLeftY
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
+        that.DData = []
         for (let i = 0; i < num; i++) {
           that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
         }

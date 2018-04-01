@@ -6,7 +6,7 @@
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap">
         <div class="chart-title">
-          <span>{{title}}-{{Time}}</span>
+          <span>{{title}} - {{Time}}</span>
           <span @click="openTables"><svg-icon sign="icon-grid" class="grid-icon"></svg-icon></span>
           <svg-icon sign="icon-chart" class="chart-icon active"></svg-icon>
         </div>
@@ -54,37 +54,76 @@
     data() {
       return {
         overview: 'OVERVIEW',
-        title: 'CAMPAIGN',
+        title: 'OVERVIEW CAMPAIGN',
         name: 'CAMPAIGN',
-        titleList:[
+        titleList: [
           'CAMPAIGN',
           'COM.CN B2B',
           'COM.CN B2C',
-          'COM.CN B2C',
-          'COM.CN B2C',
           'CRM',
           'RATING & REVIEW',
+
+          'CAMPAIGN',
+          'COM.CN B2B',
+          'COM.CN B2C',
+          'CRM',
+          'RATING & REVIEW YTD',
+          'RATING & REVIEW Month',
           'EC REPORT',
         ],
-        Time: '0000-00',
+        Time: '2018 - 01',
         DData: [],
-        data: {
-          "isTable": false,
-          "month": "201803"
-        },
+        data: [
+          {
+            "campaign": "OHC SEA",
+            "category": "OHC",
+            "endDate": "2017-01-01",
+            "isBar": false,
+            "isDetailTable": true,
+            "isTable": false,
+            "month": "201801",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "endDate": "2017-01-01",
+            "isB2C": false,
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "endDate": "2017-01-01",
+            "isB2C": true,
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "endDate": "2017-01-01",
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "channel": "JD",
+            "endDate": "2017-01-01",
+            "isTable": false,
+            "isYTD": true,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          }
+        ],
         dashBoardoption: '',
         canScroll: true,
         load: false
       }
     },
     computed: {
-      title: function () {
-        if (this.type < 6) {
-          return `${this.name} ${this.overview}`
-        } else {
-          return `${this.name}`
-        }
-      },
       type() {
         return this.$store.state.type
       }
@@ -94,6 +133,10 @@
     },
     mounted() {
       this.getDashBoardData()
+
+      this.$Hub.$on('goToWheel', () => {
+        this.wheelUp()
+      })
     },
     methods: {
       increment() {
@@ -102,37 +145,46 @@
       decrement() {
         this.$store.commit('decrement')
       },
+      wheelDown() {
+        let el = this.$refs.DashBoard
+        let Velocity = $.Velocity
+        this.canScroll = false
+        Velocity(el, {
+          opacity: [1, 0],
+          translateY: [0, 100 + '%'],
+          translateZ: 0
+        }, {
+          duration: 800,
+          complete: () => {
+            setTimeout(() => this.canScroll = true, 500)
+          }
+        });
+      },
+      wheelUp() {
+        let el = this.$refs.DashBoard
+        let Velocity = $.Velocity
+        this.canScroll = false
+        Velocity(el, {
+          opacity: [1, 0],
+          translateY: [0, -100 + '%'],
+          translateZ: 0
+        }, {
+          duration: 800,
+          complete: () => {
+            setTimeout(() => this.canScroll = true, 500)
+          }
+        });
+      },
       scrollBarWheel(e) {
         let value = e.wheelDelta || -e.detail;
         let delta = Math.max(-1, Math.min(1, value));
-        let el = this.$refs.DashBoard
-        let Velocity = $.Velocity
         if (this.canScroll) {
-          this.canScroll = false
-          if (delta < 0) {//dowen
+          if (delta < 0) {//down
             this.increment()
-            Velocity(el, {
-              opacity: [1],
-              translateY: [0, 100 + '%'],
-              translateZ: 0
-            }, {
-              duration: 800,
-              complete: () => {
-                setTimeout(() => this.canScroll = true, 500)
-              }
-            });
+            this.wheelDown()
           } else {//up
             this.decrement()
-            Velocity(el, {
-              opacity: [1],
-              translateY: [0, -100 + '%'],
-              translateZ: 0
-            }, {
-              duration: 800,
-              complete: () => {
-                setTimeout(() => this.canScroll = true, 500)
-              }
-            });
+            this.wheelUp()
           }
         }
       },
@@ -146,23 +198,32 @@
         this.load = false
       },
       getDashBoardData() {
+
         this.loading()
-        dataOvCmaSearch(this, this.data)
+
+        this.$Hub.$on('monthChange', (val) => {
+          if (this.type == 0) {
+            this.data[0].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            dataOvCmaSearch(this, this.data[0])
+          }
+        })
+
+        if (this.type == 0) {
+          dataOvCmaSearch(this, this.data[0])
+        }
       }
     },
-    watch:{
+    watch: {
       type: function (val) {
-        if(val<1){
-        }else if(val===2){
-        }else if(val===3){
-        }else if(val===4){
-        }else if(val===5){
-        }else if(val===6){
-        }else if(val===7){
-        }else if(val===8){
-        }else if(val===9){
-        }else if(val===10){
+        if (val < 5) {
+          this.name = `${this.titleList[val]}`
+          this.title = `${this.overview} ${this.name}`
+        } else {
+          this.name = `${this.titleList[val]}`
+          this.title = `${this.name}`
         }
+        //this.getDashBoardData()
       }
     }
   }

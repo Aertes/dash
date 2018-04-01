@@ -36,6 +36,11 @@
         this.nowIndex = index
         this.isShow = false
       }
+    },
+    watch:{
+      nowIndex:function(){
+        this.$Hub.$emit('monthChange',this.selections[this.nowIndex])
+      }
     }
   }
 </script>

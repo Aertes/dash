@@ -18,7 +18,16 @@
     },
     methods: {
       chooseMonth(index) {
+        let getYear = new Date().getFullYear().toString()
+        let getMoth = (index+1).toString()
+        let dataMoth
         this.selected = index
+        if(getMoth<10){
+          dataMoth = getYear+'0'+getMoth
+        }else{
+          dataMoth = getYear+getMoth
+        }
+        this.$Hub.$emit('monthChange',dataMoth)
       }
     }
   }

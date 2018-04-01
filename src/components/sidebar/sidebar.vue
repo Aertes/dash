@@ -27,25 +27,46 @@
     },
     methods: {
       chooseDashboard(index) {
+        let typeVal
         this.selected = index
+        if(index==0){
+          typeVal = 0
+        }else if(index==1){
+          typeVal = 5
+        }else if(index==2){
+          typeVal = 6
+        }else if(index==3){
+          typeVal = 8
+        }else if(index==4){
+          typeVal = 9
+        }else if(index==5){
+          typeVal = 11
+        }
+        this.voluation(typeVal)
+        this.$Hub.$emit('goToWheel')
+      },
+      voluation(val){
+        this.$store.commit('voluation',val)
       }
     },
     watch:{
       type: function (val) {
-        if(val<6){
+        if(val<5){
           this.selected = 0
+        }else if(val===5){
+          this.selected = 1
         }else if(val===6){
-          this.selected = 1
-        }else if(val===7){
-          this.selected = 1
-        }else if(val===8){
           this.selected = 2
-        }else if(val===9){
+        }else if(val===7){
+          this.selected = 2
+        }else if(val===8){
           this.selected = 3
+        }else if(val===9){
+          this.selected = 4
         }else if(val===10){
           this.selected = 4
         }else if(val===11){
-          this.selected = 4
+          this.selected = 5
         }
       }
     }

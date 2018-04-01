@@ -61,7 +61,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    type: 1
+    type: 0
   },
   mutations: {
     increment: state => {
@@ -71,6 +71,9 @@ const store = new Vuex.Store({
     decrement: state => {
       if(state.type == 0) return
       state.type--
+    },
+    voluation:(state,val) => {
+      state.type = val
     }
   }
 })
