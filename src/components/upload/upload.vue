@@ -1,222 +1,236 @@
 <template>
-  <div class="tables-wrap" id="upLoadBox">
-    <div class="tables-title">
-      <span>CAMPAIGN RECORD</span>
-      <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
-    </div>
-    <div class="upload-file-box">
-      <div class="upload-file">
-        <a href="javascript:;">
-          选取文件
-          <input type="file" id="picker" name="file" @change="upload"
-                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-        </a>
-        <span id="fileName">未选择文件</span>
-      </div>
-      <div class="tables-container">
-        <h3>History</h3>
-        <table id="fileTable" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <thead>
-          <tr>
-            <th>Upload Date</th>
-            <th>Channel</th>
-            <th style="width:100px;">Detail</th>
-            <th>Operation</th>
-          </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="progress-ba none">
-      <p id="text" class="text">DAtA UPLOADING, PLEASE WAIT...</p>
-      <div class="progress">
-        <span id="num" class="progressbarNum">0%</span>
-        <span id="progressBar" class="percentage" style="width: 0%" role="progressbar" aria-valuemin="0"
-              aria-valuemax="100"></span>
-      </div>
-    </div>
-    <span id="operate" hidden>
-      <svg-icon sign="icon-trash"></svg-icon>
-    </span>
-  </div>
+	<div class="tables-wrap" id="upLoadBox">
+		<div class="tables-title">
+			<span>CAMPAIGN RECORD</span>
+			<span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
+		</div>
+		<div class="upload-file-box">
+			<div class="upload-file">
+				<a href="javascript:;">
+	            选取文件
+	            <input type="file" id="picker" name="file" @change="upload"
+	                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+	          </a>
+				<span id="fileName">未选择文件</span>
+			</div>
+			<div class="tables-container">
+				<h3>History</h3>
+				<table id="fileTable" width="100%" cellpadding="0" cellspacing="0" border="0">
+					<thead>
+						<tr>
+							<th >Upload Date</th>
+							<th >Channel</th>
+							<th >Detail</th>
+							<th >Operation</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="progress-ba none">
+			<p id="text" class="text">DAtA UPLOADING, PLEASE WAIT...</p>
+			<div class="progress">
+				<span id="num" class="progressbarNum">0%</span>
+				<span id="progressBar" class="percentage" style="width: 0%" role="progressbar" aria-valuemin="0" aria-valuemax="100"></span>
+			</div>
+		</div>
+		<span id="operate" hidden>
+	        <svg-icon sign="icon-trash"></svg-icon>
+	      </span>
+	</div>
 </template>
 
 <script type="text/ecmascript-6">
-  import "./webuploader.min";
-  import xhrUrls from '../../assets/config/xhrUrls'
-  import {post} from "../../assets/config/http"
-  import {formatDate} from '../../assets/js/formatDate.js'
-
-  export default {
-    name: "upload",
-    data() {
-      return {
-        files: "",
-        progress: 0,
-        uploader: null,
-        table: null,
-        downloadFileId: xhrUrls.HC_DOWNLOAD,
-        fileDel: xhrUrls.HC_DELETE,
-        delete: null
-      };
-    },
-    filters: {
-      formatDates(time) {
-        let data = new Date(time);
-        return formatDate(data, 'yyyy-MM-dd')
-      }
-    },
-    props: ['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
-    mounted() {
-      // 进度条
-      this.init();
-
-      this.onRemoveRecord();
-
-      //历史记录
-      this.dataTable();
-
-    },
-    methods: {
-      upload(e) {
-        $('.upload-file-box').addClass('none').next().removeClass('none');
-        $('#fileName').html(e.target.files[0].name)
-        this.uploader.option('server', this.uploadLink)
-        this.uploader.addFiles(e.target.files[0]);
-      },
-      //进度条
-      init() {
-        let that = this;
-        this.uploader = WebUploader.create({
-          // swf文件路径
-          //swf: "../../assets/js/uploads/Uploader.swf",
-          // 文件接收服务端。
-          server: '',
-          auto: true,
-          accept: {
-            title: "xls",
-            mimeTypes: "xls/",
-            extensions: "xls,xlsx"
-          },
-          fileVal: "file",
-          // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-          resize: false
-        });
-
-        // 文件上传过程中创建进度条实时显示。
-        this.uploader.on("uploadProgress", function (file, percentage) {
-          this.isFileNone = true;
-          this.isProgressNone = false;
-          var percent = Math.round(percentage * 100);
-          this.progress = percent
-          $("#num").html("" + percent + " %");
-          $("#progressBar").css("width", "" + percent + "%");
-        });
-
-        // 上传成功
-        this.uploader.on("uploadSuccess", function (file, res) {
-          if (res.code == 200) {
-            $("#num").html("100%");
-            $("#progressBar").css("width", "100%");
-            $("#text").html("UPLOAD SUCCESS!");
-            setTimeout(() => {
-              $('#fileName').html("未选择文件")
-              $('#picker').val('');
-              that.table.ajax.reload();
-              $('.upload-file-box').removeClass('none').next().addClass('none');
-            }, 1000);
-          } else {
-            $("#text").html(res.errMsg);
-            $("#num").html("0%");
-            $("#progressBar").css("width", "0%");
-          }
-
-        });
-        // 上传错误
-        this.uploader.on("uploadError", function (file, res) {
-          $("#num").html("0%");
-          $("#progressBar").css("width", "0%");
-          $("#text").html("UPLOAD ERROR!");
-          setTimeout(() => {
-            $('#fileName').html("未选择文件")
-            $('#picker').val('');
-            $('.upload-file-box').removeClass('none').next().addClass('none');
-          }, 1000);
-        });
-        this.uploader.on("fileQueued", function (params) {
-        });
-      },
-      // 历史记录
-      dataTable() {
-        this.table = $("#fileTable").DataTable({
-          searching: false,
-          lengthChange: false,
-          autoWidth: false,
-          info: false,
-          ordering: false,
-          pagingType: "simple_numbers",
-          pageLength: 5,
-          "ajax": function (data, callback, settings) {
-            post(xhrUrls.HC_SEARCH, {channel: "Com", start: 0,}).then((res) => {
-              callback(res.data.data);
-            })
-
-          },
-          columns: [
-            {
-              data: "createDate",
-              render: function (data, type, row) {
-                return '<div style="text-align: center;">' + data + '</div>';
-              }
-            },
-            {
-              data: "channel",
-              render: function (data, type, row) {
-                return '<div style="text-align: center;">' + data + '</div>';
-              }
-            },
-            { 
-              sWidth:'10%',
-              data: "fileName",
-              render: function (data, type, row) {
-                return '<div style="text-align: center;" title="'+data+'"><a style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width:80%; border-bottom: 1px solid; display:block;" href="' + xhrUrls.HC_DOWNLOAD + '/' + row.id + '">' + data + '</a></div>';
-              }
-            },
-            {
-              data: "id",
-              render: function (data, type, row) {
-                return '<div style="text-align: center;" title="DELETE"><a class="removeRecord" data-id="'+row.id+'">' + $("#operate").html() + '</a></div>';
-              }
-            }
-          ]
-
-        });
-
-
-      },
-      onRemoveRecord(){
-
-        let that = this;
-        //删除
-        $(document).delegate('.removeRecord', 'click', function(event) {
-          event.stopPropagation();
-          var id = $(this).attr("data-id");
-          post(xhrUrls.HC_DELETE+'/'+id).then((res)=>{
-            that.table.ajax.reload()
-          })
-        });
-      },
-      closeLayerButton() {
-        this.$emit('closeLayer')
-        $('.upload-file-box').removeClass('none').next().addClass('none');
-        $('#fileName').html("未选择文件")
-        $('#picker').val('');
-        $("#text").html("DAtA UPLOADING, PLEASE WAIT...");
-      }
-    }
-  };
+	import "./webuploader.min";
+	import xhrUrls from '../../assets/config/xhrUrls'
+	import {
+		post
+	} from "../../assets/config/http"
+	import {
+		formatDate
+	} from '../../assets/js/formatDate.js'
+	
+	export default {
+		name: "upload",
+		data() {
+			return {
+				files: "",
+				progress: 0,
+				Data:{
+					channel:'Com',
+					start:0,
+				},
+				uploader: null,
+				table: null,
+				downloadFileId: xhrUrls.HC_DOWNLOAD,
+				fileDel: xhrUrls.HC_DELETE,
+				delete: null
+			};
+		},
+		filters: {
+			formatDates(time) {
+				let data = new Date(time);
+				return formatDate(data, 'yyyy-MM-dd')
+			}
+		},
+		props: ['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
+		mounted() {
+			// 进度条
+			this.init();
+	
+			this.onRemoveRecord();
+	
+			//历史记录
+			// this.dataTable();
+	
+		},
+		methods: {
+			upload(e) {
+				$('.upload-file-box').addClass('none').next().removeClass('none');
+				$('#fileName').html(e.target.files[0].name)
+				this.uploader.option('server', this.uploadLink)
+				this.uploader.addFiles(e.target.files[0]);
+			},
+			//进度条
+			init() {
+				let that = this;
+				this.uploader = WebUploader.create({
+					// swf文件路径
+					//swf: "../../assets/js/uploads/Uploader.swf",
+					// 文件接收服务端。
+					server: '',
+					auto: true,
+					accept: {
+						title: "xls",
+						mimeTypes: "xls/",
+						extensions: "xls,xlsx"
+					},
+					fileVal: "file",
+					// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+					resize: false
+				});
+	
+				// 文件上传过程中创建进度条实时显示。
+				this.uploader.on("uploadProgress", function(file, percentage) {
+					this.isFileNone = true;
+					this.isProgressNone = false;
+					var percent = Math.round(percentage * 100);
+					this.progress = percent
+					$("#num").html("" + percent + " %");
+					$("#progressBar").css("width", "" + percent + "%");
+				});
+	
+				// 上传成功
+				this.uploader.on("uploadSuccess", function(file, res) {
+					if (res.code == 200) {
+						$("#num").html("100%");
+						$("#progressBar").css("width", "100%");
+						$("#text").html("UPLOAD SUCCESS!");
+						setTimeout(() => {
+							$('#fileName').html("未选择文件")
+							$('#picker').val('');
+							that.table.ajax.reload();
+							$('.upload-file-box').removeClass('none').next().addClass('none');
+						}, 1000);
+					} else {
+						$("#text").html(res.errMsg);
+						$("#num").html("0%");
+						$("#progressBar").css("width", "0%");
+					}
+	
+				});
+				// 上传错误
+				this.uploader.on("uploadError", function(file, res) {
+					$("#num").html("0%");
+					$("#progressBar").css("width", "0%");
+					$("#text").html("UPLOAD ERROR!");
+					setTimeout(() => {
+						$('#fileName').html("未选择文件")
+						$('#picker').val('');
+						$('.upload-file-box').removeClass('none').next().addClass('none');
+					}, 1000);
+				});
+				this.uploader.on("fileQueued", function(params) {});
+			},
+			// 历史记录
+			dataTable() {
+				let that = this;
+				this.table = $("#fileTable").DataTable({
+					searching: false,
+					lengthChange: false,
+					bAutoWidth: false,
+					info: false,
+					ordering: false,
+					pagingType: "simple_numbers",
+					pageLength: 5,
+					"ajax": function(data, callback, settings) {
+						
+						post(xhrUrls.HC_SEARCH, that.Data).then((res) => {
+							callback(res.data.data);
+						}).catch((err)=>{
+							console.log(err);
+						})
+	
+					},
+					columns: [
+						{
+							width: '50px',
+							data: "createDate",
+							render: function(data, type, row) {
+								let date = new Date(data);
+								let timer = formatDate(date, 'yyyy/MM/dd')
+								return '<div style="text-align: center;">' + timer + '</div>';
+							}
+						},
+						{
+							width: '50px',
+							data: "channel",
+							render: function(data, type, row) {
+								return '<div style="text-align: center;">' + data + '</div>';
+							}
+						},
+						{
+							width: '10px',
+							"targets": 0,
+							data: "fileName",
+							render: function(data, type, row) {
+								return '<div style="text-align: center;" title="' + data + '"><a style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width:80%; border-bottom: 1px solid; display:block;" href="' + xhrUrls.HC_DOWNLOAD + '/' + row.id + '">' + data + '</a></div>';
+							}
+						},
+						{
+							width: '50px',
+							data: "id",
+							render: function(data, type, row) {
+								return '<div style="text-align: center;" title="DELETE"><a style="color:#a0a0a1; font-size:18px; cursor: pointer;" class="removeRecord" data-id="' + row.id + '">' + $("#operate").html() + '</a></div>';
+							}
+						}
+					]
+	
+				});
+	
+			},
+			onRemoveRecord() {
+				let that = this;
+				//删除
+				$(document).delegate('.removeRecord', 'click', function(event) {
+					event.stopPropagation();
+					var id = $(this).attr("data-id");
+					post(xhrUrls.HC_DELETE + '/' + id).then((res) => {
+						that.table.ajax.reload()
+					})
+				});
+			},
+			closeLayerButton() {
+				this.$emit('closeLayer')
+				$('.upload-file-box').removeClass('none').next().addClass('none');
+				$('#fileName').html("未选择文件")
+				$('#picker').val('');
+				$("#text").html("DAtA UPLOADING, PLEASE WAIT...");
+			}
+		}
+	};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
