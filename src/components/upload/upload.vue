@@ -220,13 +220,12 @@
 				});
 			},
 			closeLayerButton() {
+				let that = this;
 				this.$emit('closeLayer')
 				$('.upload-file-box').removeClass('none').next().addClass('none');
 				$('#fileName').html("未选择文件")
 				$('#picker').val('');
 				$("#text").html("DAtA UPLOADING, PLEASE WAIT...");
-
-				// if(this.dataTable)
 				
 			}
 		}
