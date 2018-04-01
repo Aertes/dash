@@ -7,10 +7,10 @@
 		<div class="upload-file-box">
 			<div class="upload-file">
 				<a href="javascript:;">
-	            选取文件
-	            <input type="file" id="picker" name="file" @change="upload"
-	                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-	          </a>
+		            选取文件
+		            <input type="file" id="picker" name="file" @change="upload"
+		                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+		          </a>
 				<span id="fileName">未选择文件</span>
 			</div>
 			<div class="tables-container">
@@ -18,10 +18,10 @@
 				<table id="fileTable" width="100%" cellpadding="0" cellspacing="0" border="0">
 					<thead>
 						<tr>
-							<th >Upload Date</th>
-							<th >Channel</th>
-							<th >Detail</th>
-							<th >Operation</th>
+							<th>Upload Date</th>
+							<th>Channel</th>
+							<th>Detail</th>
+							<th>Operation</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,8 +37,8 @@
 			</div>
 		</div>
 		<span id="operate" hidden>
-	        <svg-icon sign="icon-trash"></svg-icon>
-	      </span>
+		        <svg-icon sign="icon-trash"></svg-icon>
+		      </span>
 	</div>
 </template>
 
@@ -58,9 +58,9 @@
 			return {
 				files: "",
 				progress: 0,
-				Data:{
-					channel:'',
-					start:0,
+				Data: {
+					channel: '',
+					start: 0,
 				},
 				uploader: null,
 				table: null,
@@ -81,7 +81,7 @@
 			this.init();
 	
 			this.onRemoveRecord();
-
+	
 			//历史记录
 			// this.dataTable();
 		},
@@ -118,20 +118,23 @@
 					var percent = Math.round(percentage * 100);
 					this.progress = percent
 					$("#num").html("" + percent + " %");
+					if(percent == 1){
+						$("#num").html("" + percent + " %").css("color", "#fff");
+					}
 					$("#progressBar").css("width", "" + percent + "%");
 				});
 	
 				// 上传成功
 				this.uploader.on("uploadSuccess", function(file, res) {
 					if (res.code == 200) {
-						$("#num").html("100%");
-						$("#progressBar").css("width", "100%");
+						$("#num").html("100%").css("color", "#fff");
+						$("#progressBar").css("width","100%");
 						$("#text").html("UPLOAD SUCCESS!");
 						setTimeout(() => {
 							$('#fileName').html("未选择文件")
 							$('#picker').val('');
-							that.table.ajax.reload();
 							$('.upload-file-box').removeClass('none').next().addClass('none');
+							that.table.ajax.reload();
 						}, 1000);
 					} else {
 						$("#text").html(res.errMsg);
@@ -155,12 +158,12 @@
 			},
 			// 历史记录
 			dataTable(type) {
-				var  that = this;
+				var that = this;
 				that.Data.channel = type;
 				this.table = $("#fileTable").DataTable({
 					searching: false,
 					lengthChange: false,
-					bAutoWidth: false,
+					autoWidth: false,
 					info: false,
 					ordering: false,
 					pagingType: "simple_numbers",
@@ -168,13 +171,12 @@
 					"ajax": (data, callback, settings) => {
 						post(xhrUrls.HC_SEARCH, that.Data).then((res) => {
 							callback(res.data.data);
-						}).catch((err)=>{
+						}).catch((err) => {
 							console.log(err);
 						})
 					},
-					columns: [
-						{
-							width: '50px',
+					columns: [{
+							width: '150px',
 							data: "createDate",
 							render: function(data, type, row) {
 								let date = new Date(data);
@@ -183,22 +185,22 @@
 							}
 						},
 						{
-							width: '50px',
+							width: '150px',
 							data: "channel",
 							render: function(data, type, row) {
 								return '<div style="text-align: center;">' + data + '</div>';
 							}
 						},
 						{
-							width: '10px',
+							width: '150px',
 							"targets": 0,
 							data: "fileName",
 							render: function(data, type, row) {
-								return '<div style="text-align: center;" title="' + data + '"><a style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width:80%; border-bottom: 1px solid; display:block;" href="' + xhrUrls.HC_DOWNLOAD + '/' + row.id + '">' + data + '</a></div>';
+								return '<a title="' + data + '" style="color:#1f61ae; overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width:90%; border-bottom: 1px solid; display:block;" href="' + xhrUrls.HC_DOWNLOAD + '/' + row.id + '">' + data + '</a>';
 							}
 						},
 						{
-							width: '50px',
+							width: '150px',
 							data: "id",
 							render: function(data, type, row) {
 								return '<div style="text-align: center;" title="DELETE"><a style="color:#a0a0a1; font-size:18px; cursor: pointer;" class="removeRecord" data-id="' + row.id + '">' + $("#operate").html() + '</a></div>';
@@ -226,7 +228,7 @@
 				$('#fileName').html("未选择文件")
 				$('#picker').val('');
 				$("#text").html("DAtA UPLOADING, PLEASE WAIT...");
-				
+	
 			}
 		}
 	};
@@ -237,8 +239,9 @@
 
   .tables-wrap .upload-file-box .tables-container table td, .tables-wrap .upload-file-box .tables-container table th {
     height: 25px;
+	font-weight: 400;
+	color:#717071;
   }
-
   table.dataTable thead th, table.dataTable thead td {
     padding: 10px 20px;
   }
@@ -246,6 +249,11 @@
   table.dataTable.no-footer {
     border-bottom: 0;
   }
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled{
+	border: 1px solid transparent;
+}
+
+
   .center{
     text-align: center;  
   }
@@ -287,21 +295,23 @@
           border: 1px solid #abaaab;
           border-radius: 5px;
           position: relative;
-          padding: 10px 20px;
+          padding: 8px 20px;
           color: #1f61ae;
           cursor: pointer;
           font-size: 20px;
         }
 
         span {
-          // position: absolute;
-          padding-left: 10px;
+            position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+          padding-left: 20px;
           max-width: 500px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           display: inline-block;
-          font-size: 20px;
+          font-size: 18px;
         }
 
         input {
@@ -317,7 +327,7 @@
     }
 
     .tables-container {
-      padding: 0 50px 50px 50px;
+      padding: 0 50px 100px 50px;
       font-size: 18px;
 
       .dataTables_info {
@@ -389,4 +399,6 @@
       }
     }
   }
+
+
 </style>
