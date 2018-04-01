@@ -13,8 +13,8 @@ export default new Router({
       component: LoginIndex
     },
     {
-      path: '/dashborad',
-      name: 'dashborad',
+      path: '/dashboard',
+      name: 'dashboard',
       component: Layout
     }
   ]

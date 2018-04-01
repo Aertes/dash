@@ -1,11 +1,11 @@
 <template>
   <a href="javascript:;" class="dropdown-wrap" @blur="toggleUp">
     <div class="dropdown-show" @click="toggleDrop">
-      <input type="text" v-model="selections[nowIndex].label" disabled/>
+      <input type="text" v-model="selections[nowIndex]" disabled/>
       <svg-icon sign="icon-arrow-down" class="arrow-down"></svg-icon>
     </div>
     <ul class="dropdown-menu" v-show="isShow">
-      <li v-for="(items,index) in selections" @click="chooseSelection(index)">{{items.label}}</li>
+      <li v-for="(items,index) in selections" @click="chooseSelection(index)">{{items}}</li>
     </ul>
   </a>
 </template>
@@ -22,10 +22,7 @@
     props: {
       selections: {
         type: Array,
-        default: [{
-          label: 'test',
-          value: 0
-        }]
+        default: ['test']
       }
     },
     methods: {

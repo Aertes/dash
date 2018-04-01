@@ -32,11 +32,11 @@
 			</div>
 		</div>
 		<div class="footer-wrapper">
-			<p>@2014-2016 PHILIPS ELETRONICS N.V ALL RIGHTS RESERVED 沪ICP 09062110号</p>
-			<p>公安备案号：沪公网安备31010602001824号</p>
+			<p class="one">@2014-2016 PHILIPS ELETRONICS N.V ALL RIGHTS RESERVED 沪ICP 09062110号</p>
+			<p class="two">公安备案号：沪公网安备31010602001824号</p>
 		</div>
 	</div>
-	
+
 </template>
 
 <script type="text/ecmascript-6">
@@ -67,7 +67,7 @@
     computed: {},
     methods: {
       getCode() {
-        this.codeUrl = BASE_URL + xhrUrls.CODE + "?" + new Date().getTime();
+        this.codeUrl = xhrUrls.CODE + "?" + new Date().getTime();
       },
       submit() {
         if (this.loginDate.username == "" & this.loginDate.password == "" & this.loginDate.code == "") {
@@ -87,21 +87,21 @@
         if (this.loginDate.username != "" & this.loginDate.password != "" & this.loginDate.code != "") {
           $(".loading").show();
           $(".mark").show();
-          post(BASE_URL + xhrUrls.LOGIN, this.loginDate)
+          post(xhrUrls.LOGIN, this.loginDate)
             .then(res => {
               console.log(res)
               if (res.data.code == 200) {
                 setTimeout(() => {
                   $(".loading").hide();
                   $(".mark").hide();
-                  this.$router.push({path: "/dashborad"});
+                  this.$router.push({path: "/dashboard"});
                   setSessionItem('USERINFO', JSON.stringify(res.data.data))
                 }, 1000);
               } else {
                 setTimeout(() => {
                   $(".loading").hide();
                   $(".mark").hide();
-                  this.codeUrl = BASE_URL + xhrUrls.CODE + "?" + new Date().getTime();
+                  this.codeUrl = xhrUrls.CODE + "?" + new Date().getTime();
                   switch (res.data.code) {
                     case 201:
                       this.isCodeActive = true;
@@ -146,7 +146,7 @@
   @import '../../assets/style/mixin.styl';
 .app-wrapper {
 	position: relative;
-	
+
 	height: 100%
 }
 
@@ -200,25 +200,26 @@
           vertical-align top
         .user-icon
           font-size 29px
-        
+
 .bg{
-	background:url('../../assets/img/bg.jpg') no-repeat
+	background:url('../../assets/img/bg.jpg') no-repeat center;
 	background-size: cover;
 	margin 0
+	position: absolute;
+    width: 100%;
+    bottom: 80px;
+    top: 123px;
+	overflow: hidden;
 }
   .form-wrapper {
+	e-pos(left:50%, x:-50%, top:50%, y:-50%);
     width: 550px;
-    // height: 515px;
-    // e-pos(top: 50%, y: -50%, left: 50%, x:-50%);
-    // transform: scale(0.85);
-	  // padding-bottom: 7%;
+
     h2 {
       margin: 0 0 30px;
       text-align: center;
       font-size: 34px;
       color: #1f61ae;
-      // font-weight: 400;
-	    padding-top 50px;
     }
 
     .submit {
@@ -295,13 +296,17 @@
       }
     }
   }
-.footer-wrapper 
-  padding 30px 0 50px
+.footer-wrapper
+  height 80px
   text-align center
   color #ebeff6
   background-color:#1f61ad
-  p
-    padding 5px 0
+  position absolute
+  bottom 0
+  width 100%
+  font-size 16px
+  .one
+    padding 20px 0 10px
     margin-bottom 0
 
 </style>

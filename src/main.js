@@ -7,11 +7,11 @@ import Vuex from 'vuex'
 
 //字体模块
 import SvgIcon from '@/components/base/svgicon'
-Vue.component('SvgIcon', SvgIcon)
+Vue.component('SvgIcon',SvgIcon)
 
 //select模块
 import Selection from '@/components/base/selection'
-Vue.component('Selection', Selection)
+Vue.component('Selection',Selection)
 
 //svg字体配置(Js)
 import './assets/font/iconfont'
@@ -36,17 +36,22 @@ import './assets/layer/layer'
 
 /*upload*/
 // import vueUploadWeb from 'vue-upload-web'
+
 // import './assets/js/upload/Uploader.swf'
 // import './assets/js/upload/webuploader.min'
 
-//图标
+//图表
 import Echarts from 'echarts'
 Vue.prototype.$echarts = Echarts
 
 //http异步
-import Axios from 'axios'
-Axios.defaults.withCredentials = true;
-Vue.prototype.$http = Axios
+//import Axios from 'axios'
+//Axios.defaults.withCredentials=true;
+//Vue.prototype.$http = Axios
+import {get,post,uploadPost} from './assets/config/http'
+Vue.prototype.$get = get
+Vue.prototype.$post = post
+Vue.prototype.$uploadPost = uploadPost
 
 //非父子组件通信中转站
 let Hub = new Vue();
@@ -54,13 +59,29 @@ Vue.prototype.$Hub = Hub
 
 Vue.use(Vuex)
 
+const store = new Vuex.Store({
+  state: {
+    type: 1
+  },
+  mutations: {
+    increment: state => {
+      if(state.type == 11) return
+      state.type++
+    },
+    decrement: state => {
+      if(state.type == 0) return
+      state.type--
+    }
+  }
+})
+
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: {
-    App
-  },
+  store,
+  components: { App },
   template: '<App/>'
 })
+

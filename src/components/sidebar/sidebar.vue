@@ -9,7 +9,7 @@
     name: "sidebar",
     data() {
       return {
-        selected:0,
+        selected: 0,
         sideList: [
           'OVERVIEW',
           'CAMPAIGN',
@@ -20,9 +20,33 @@
         ]
       }
     },
-    methods:{
-      chooseDashboard(index){
+    computed: {
+      type() {
+        return this.$store.state.type
+      }
+    },
+    methods: {
+      chooseDashboard(index) {
         this.selected = index
+      }
+    },
+    watch:{
+      type: function (val) {
+        if(val<6){
+          this.selected = 0
+        }else if(val===6){
+          this.selected = 1
+        }else if(val===7){
+          this.selected = 1
+        }else if(val===8){
+          this.selected = 2
+        }else if(val===9){
+          this.selected = 3
+        }else if(val===10){
+          this.selected = 4
+        }else if(val===11){
+          this.selected = 4
+        }
       }
     }
   }

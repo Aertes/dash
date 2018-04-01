@@ -15,7 +15,10 @@ function post(url, data) {
   return Axios({
     method: 'post',
     url: getUrl,
-    data: data
+    data: data,
+    headers:{
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
 

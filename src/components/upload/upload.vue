@@ -8,7 +8,8 @@
       <div class="upload-file">
         <a href="javascript:;">
           选取文件
-          <input type="file" id="picker" name="file" @change="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          <input type="file" id="picker" name="file" @change="upload"
+                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         </a>
         <span id="fileName">未选择文件</span>
       </div>
@@ -17,19 +18,13 @@
         <table id="fileTable" width="100%" cellpadding="0" cellspacing="0" border="0">
           <thead>
           <tr>
-            <th style="max-width: 20%;">Upload Date</th>
-            <th style="max-width: 40%;">Channel</th>
-            <th style="max-width: 20%;">Detail</th>
-            <th style="max-width: 10%;">Operation</th>
+            <th>Upload Date</th>
+            <th>Channel</th>
+            <th style="width:100px;">Detail</th>
+            <th>Operation</th>
           </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in oldFileList" >
-                <td>{{item.createDate | formatDates}}</td>
-                <td><div :title="item.fileName" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;cursor: pointer; width:1.04167rem">{{item.fileName}}</div></td>
-                <td><div><a :href='downloadFileId+"/"+item.id'  title="Download" class="download" style="color: #2864b0;text-decoration: underline;cursor: pointer;">Download</a></div></td>
-                <td><div  @click="deleteFile(item.id, index)" ><svg-icon sign="icon-trash"  class="icon-trash" style="cursor: pointer; color:#999999"></svg-icon></div></td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -42,202 +37,206 @@
               aria-valuemax="100"></span>
       </div>
     </div>
+    <span id="operate" hidden>
+      <svg-icon sign="icon-trash"></svg-icon>
+    </span>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import "./webuploader.min";
-import xhrUrls from '../../assets/config/xhrUrls'
-import { post } from "../../assets/config/http"
-import { formatDate } from '../../assets/js/formatDate.js'
-export default {
-  name: "upload",
-  data() {
-    return {
-      files: "",
-      progress: 0,
-      uploader: null,
-	  table: null,
-	  downloadFileId: BASE_URL+xhrUrls.HC_DOWNLOAD,
-	  fileDel: BASE_URL+xhrUrls.HC_DELETE,
-      oldFileList: [
-        {
-          id: "1",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-        {
-          id: "2",
-          uploadDate: "2018/08/10",
-          fileName: "Cakadgasdad",
-          downloadUrl: ""
-        },
-      ]
-    };
-  },
-  filters:{
-	  formatDates(time){	
-		  let data =  new Date(time);
-		  return formatDate(data, 'yyyy-MM-dd')
-	  }
-  },
-  props:['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
-  mounted() {
-    // 进度条
-    this.init();
+  import "./webuploader.min";
+  import xhrUrls from '../../assets/config/xhrUrls'
+  import {post} from "../../assets/config/http"
+  import {formatDate} from '../../assets/js/formatDate.js'
 
-    //历史记录
-	this.dataTable();
-	
-  },
-  methods: {
-    upload(e) {
-      $('.upload-file-box').addClass('none').next().removeClass('none');
-	  $('#fileName').html(e.target.files[0].name)
-      this.uploader.option( 'server', this.uploadLink)
-      this.uploader.addFiles(e.target.files[0]);
+  export default {
+    name: "upload",
+    data() {
+      return {
+        files: "",
+        progress: 0,
+        uploader: null,
+        table: null,
+        downloadFileId: xhrUrls.HC_DOWNLOAD,
+        fileDel: xhrUrls.HC_DELETE,
+        delete: null
+      };
     },
-    //进度条
-    init() {
-		let that = this;
-      this.uploader = WebUploader.create({
-        // swf文件路径
-        //swf: "../../assets/js/uploads/Uploader.swf",
-        // 文件接收服务端。
-        server: '',
-        auto: true,
-        accept: {
-          title: "xls",
-          mimeTypes: "xls/",
-          extensions: "xls,xlsx"
-        },
-        fileVal: "file",
-        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-        resize: false
-      });
-
-      // 文件上传过程中创建进度条实时显示。
-      this.uploader.on("uploadProgress", function(file, percentage) {
-        this.isFileNone = true;
-        this.isProgressNone = false;
-        var percent = Math.round(percentage * 100);
-        this.progress = percent
-        $("#num").html("" + percent + " %");
-        $("#progressBar").css("width", "" + percent + "%");
-      });
-
-      // 上传成功
-      this.uploader.on("uploadSuccess", function(file, res) {
-		if(res.code == 200){
-			$("#num").html("100%");
-			$("#progressBar").css("width", "100%");
-			$("#text").html("UPLOAD SUCCESS!");
-			setTimeout(() => {
-				$('#fileName').html("未选择文件")
-				$('#picker').val('');
-				that.dataTable();
-				$('.upload-file-box').removeClass('none').next().addClass('none');
-			}, 1000);
-		}else{
-			$("#text").html(res.errMsg);
-			$("#num").html("0%");
-			$("#progressBar").css("width", "0%");
-		}
-        
-      });
-      // 上传错误
-      this.uploader.on("uploadError", function(file, res) {
-        $("#num").html("0%");
-        $("#progressBar").css("width", "0%");
-		$("#text").html("UPLOAD ERROR!");
-		setTimeout(() => {
-			$('#fileName').html("未选择文件")
-			$('#picker').val('');
-		  	$('.upload-file-box').removeClass('none').next().addClass('none');
-        }, 1000);
-      });
-      this.uploader.on("fileQueued", function(params) {});
+    filters: {
+      formatDates(time) {
+        let data = new Date(time);
+        return formatDate(data, 'yyyy-MM-dd')
+      }
     },
-    // 历史记录
-    dataTable() {
-      this.table = $("#fileTable").DataTable({
-        searching: false,
-        lengthChange: false,
-        info: false,
-        ordering: false,
-        pagingType: "simple_numbers",
-		pageLength: 5,
-        drawCallback:()=>{
-			console.log(this.uploadLink+this.type)
-            post(BASE_URL+xhrUrls.HC_SEARCH, {channel: "Com",start: 0,}).then((res)=>{
-				console.log(res.data.data.data)
-				this.oldFileList = res.data.data.data;
+    props: ['uploadLink', 'type', 'tableSearch', 'tableDel', 'tableDownload'],
+    mounted() {
+      // 进度条
+      this.init();
+
+      this.onRemoveRecord();
+
+      //历史记录
+      this.dataTable();
+
+    },
+    methods: {
+      upload(e) {
+        $('.upload-file-box').addClass('none').next().removeClass('none');
+        $('#fileName').html(e.target.files[0].name)
+        this.uploader.option('server', this.uploadLink)
+        this.uploader.addFiles(e.target.files[0]);
+      },
+      //进度条
+      init() {
+        let that = this;
+        this.uploader = WebUploader.create({
+          // swf文件路径
+          //swf: "../../assets/js/uploads/Uploader.swf",
+          // 文件接收服务端。
+          server: '',
+          auto: true,
+          accept: {
+            title: "xls",
+            mimeTypes: "xls/",
+            extensions: "xls,xlsx"
+          },
+          fileVal: "file",
+          // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+          resize: false
+        });
+
+        // 文件上传过程中创建进度条实时显示。
+        this.uploader.on("uploadProgress", function (file, percentage) {
+          this.isFileNone = true;
+          this.isProgressNone = false;
+          var percent = Math.round(percentage * 100);
+          this.progress = percent
+          $("#num").html("" + percent + " %");
+          $("#progressBar").css("width", "" + percent + "%");
+        });
+
+        // 上传成功
+        this.uploader.on("uploadSuccess", function (file, res) {
+          if (res.code == 200) {
+            $("#num").html("100%");
+            $("#progressBar").css("width", "100%");
+            $("#text").html("UPLOAD SUCCESS!");
+            setTimeout(() => {
+              $('#fileName').html("未选择文件")
+              $('#picker').val('');
+              that.table.ajax.reload();
+              $('.upload-file-box').removeClass('none').next().addClass('none');
+            }, 1000);
+          } else {
+            $("#text").html(res.errMsg);
+            $("#num").html("0%");
+            $("#progressBar").css("width", "0%");
+          }
+
+        });
+        // 上传错误
+        this.uploader.on("uploadError", function (file, res) {
+          $("#num").html("0%");
+          $("#progressBar").css("width", "0%");
+          $("#text").html("UPLOAD ERROR!");
+          setTimeout(() => {
+            $('#fileName').html("未选择文件")
+            $('#picker').val('');
+            $('.upload-file-box').removeClass('none').next().addClass('none');
+          }, 1000);
+        });
+        this.uploader.on("fileQueued", function (params) {
+        });
+      },
+      // 历史记录
+      dataTable() {
+        this.table = $("#fileTable").DataTable({
+          searching: false,
+          lengthChange: false,
+          autoWidth: false,
+          info: false,
+          ordering: false,
+          pagingType: "simple_numbers",
+          pageLength: 5,
+          "ajax": function (data, callback, settings) {
+            post(xhrUrls.HC_SEARCH, {channel: "Com", start: 0,}).then((res) => {
+              callback(res.data.data);
             })
-		}
-		
-      });
-    },
-    // 删除
-    deleteFile(id, index) {
-		post(BASE_URL+xhrUrls.HC_DELETE+'/'+id).then((res)=>{
-			this.oldFileList.splice(index, 1);
-			debugger;
-			this.dataTable()
-		})
-	},
-	downloadFile(id){
-		get(BASE_URL+xhrUrls.HC_DOWNLOAD, {id: id}).then((res)=>{
-			console.log(res.data.data.data)
-			this.oldFileList = res.data.data.data;
-		})
-	},
 
-    closeLayerButton(){
-      this.$emit('closeLayer')
-	  $('.upload-file-box').removeClass('none').next().addClass('none');
-	  $('#fileName').html("未选择文件")
-		$('#picker').val('');
-		$("#text").html("DAtA UPLOADING, PLEASE WAIT...");
+          },
+          columns: [
+            {
+              data: "createDate",
+              render: function (data, type, row) {
+                return '<div style="text-align: center;">' + data + '</div>';
+              }
+            },
+            {
+              data: "channel",
+              render: function (data, type, row) {
+                return '<div style="text-align: center;">' + data + '</div>';
+              }
+            },
+            { 
+              sWidth:'10%',
+              data: "fileName",
+              render: function (data, type, row) {
+                return '<div style="text-align: center;" title="'+data+'"><a style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width:80%; border-bottom: 1px solid; display:block;" href="' + xhrUrls.HC_DOWNLOAD + '/' + row.id + '">' + data + '</a></div>';
+              }
+            },
+            {
+              data: "id",
+              render: function (data, type, row) {
+                return '<div style="text-align: center;" title="DELETE"><a class="removeRecord" data-id="'+row.id+'">' + $("#operate").html() + '</a></div>';
+              }
+            }
+          ]
+
+        });
+
+
+      },
+      onRemoveRecord(){
+
+        let that = this;
+        //删除
+        $(document).delegate('.removeRecord', 'click', function(event) {
+          event.stopPropagation();
+          var id = $(this).attr("data-id");
+          post(xhrUrls.HC_DELETE+'/'+id).then((res)=>{
+            that.table.ajax.reload()
+          })
+        });
+      },
+      closeLayerButton() {
+        this.$emit('closeLayer')
+        $('.upload-file-box').removeClass('none').next().addClass('none');
+        $('#fileName').html("未选择文件")
+        $('#picker').val('');
+        $("#text").html("DAtA UPLOADING, PLEASE WAIT...");
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-@import '../../assets/style/mixin.styl';
+  @import '../../assets/style/mixin.styl';
 
-.tables-wrap .upload-file-box .tables-container table td, .tables-wrap .upload-file-box .tables-container table th {
+  .tables-wrap .upload-file-box .tables-container table td, .tables-wrap .upload-file-box .tables-container table th {
     height: 25px;
-}
+  }
 
-table.dataTable thead th, table.dataTable thead td {
+  table.dataTable thead th, table.dataTable thead td {
     padding: 10px 20px;
-}
+  }
 
-table.dataTable.no-footer {
+  table.dataTable.no-footer {
     border-bottom: 0;
-}
-
-.tables-wrap {
+  }
+  .center{
+    text-align: center;  
+  }
+  .tables-wrap {
     width: 720px;
     max-height: 90%;
     background-color: #fff;
@@ -246,134 +245,135 @@ table.dataTable.no-footer {
     overflow: hidden;
     min-height: 340px;
     display none
-    .none{
+    .none {
       display: none
     }
     .tables-title {
-        position: relative;
-        padding-left: 45px;
-        font-size: 30px;
-        line-height: 100px;
-        color: #a0a0a1;
+      position: relative;
+      padding-left: 45px;
+      font-size: 30px;
+      line-height: 100px;
+      color: #a0a0a1;
 
-        .icon {
-            e-pos(top: 50%, y: -50%);
-            right: 25px;
-            font-size: 35px;
-            color: #A0A0A1;
-            cursor: pointer;
-        }
+      .icon {
+        e-pos(top:50%, y:-50%);
+        right: 25px;
+        font-size: 35px;
+        color: #A0A0A1;
+        cursor: pointer;
+      }
     }
 
     .upload-file-box {
-        .upload-file {
-            position: relative;
-            margin-bottom: 30px;
-            margin-left: 50px;
-
-            a {
-                display: inline-block;
-                border: 1px solid #abaaab;
-                border-radius: 5px;
-                position: relative;
-                padding: 10px 20px;
-                color: #1f61ae;
-                cursor: pointer;
-            }
-
-            span {
-                // position: absolute;
-                padding-left: 10px;
-                max-width: 500px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                display: inline-block;
-            }
-
-            input {
-                border: 0;
-                width: 120px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                cursor: pointer;
-                opacity: 0;
-            }
+      .upload-file {
+        position: relative;
+        margin-bottom: 30px;
+        margin-left: 50px;
+        a {
+          display: inline-block;
+          border: 1px solid #abaaab;
+          border-radius: 5px;
+          position: relative;
+          padding: 10px 20px;
+          color: #1f61ae;
+          cursor: pointer;
+          font-size: 20px;
         }
+
+        span {
+          // position: absolute;
+          padding-left: 10px;
+          max-width: 500px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          display: inline-block;
+          font-size: 20px;
+        }
+
+        input {
+          border: 0;
+          width: 120px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          cursor: pointer;
+          opacity: 0;
+        }
+      }
     }
 
     .tables-container {
-        padding: 0 50px 50px 50px;
-        font-size: 18px;
+      padding: 0 50px 50px 50px;
+      font-size: 18px;
 
-        .dataTables_info {
-            display: none !important;
+      .dataTables_info {
+        display: none !important;
+      }
+
+      .icon-trash {
+        cursor: pointer;
+      }
+
+      h3 {
+        font-weight: 400;
+        color: #aeadae;
+        margin-bottom: 15px;
+        font-size: 26px;
+      }
+
+      table {
+        border-top: 1px solid #EBEBEB;
+        border-left: 1px solid #EBEBEB;
+        border-radius: 10px;
+
+        th, td {
+          height: 50px;
+          border-bottom: 1px solid #EBEBEB;
+          border-right: 1px solid #EBEBEB;
+          text-align: center;
+          vertical-align: center;
         }
-
-        .icon-trash {
-            cursor: pointer;
-        }
-
-        h3 {
-            font-weight: 400;
-            color: #aeadae;
-            margin-bottom: 15px;
-            font-size: 26px;
-        }
-
-        table {
-            border-top: 1px solid #EBEBEB;
-            border-left: 1px solid #EBEBEB;
-            border-radius: 10px;
-
-            th, td {
-                height: 50px;
-                border-bottom: 1px solid #EBEBEB;
-                border-right: 1px solid #EBEBEB;
-                text-align: center;
-                vertical-align: center;
-            }
-        }
+      }
     }
 
     .progress-ba {
-        padding: 0 80px;
+      padding: 0 80px;
+      text-align: center;
+
+      .text {
+        font-size: 24px;
+        color: #a0a0a1;
+        margin-bottom: 30px;
+        margin-top: 50px;
+      }
+
+      .progress {
+        position: relative;
+        border-radius: 30px;
+        width: 100%;
+        background: #f5f6f8;
+        height: 30px;
+        position: relative;
+        display: inline-block;
         text-align: center;
-
-        .text {
-            font-size: 24px;
-            color: #a0a0a1;
-            margin-bottom: 30px;
-            margin-top: 50px;
+        line-height: 30px;
+        color: #a0a0a1;
+        .percentage {
+          position: absolute;
+          border-radius: 30px;
+          width: 80%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          background: #1f61ae;
         }
 
-        .progress {
-            position: relative;
-            border-radius: 30px;
-            width: 100%;
-            background: #f5f6f8;
-            height: 30px;
-            position: relative;
-            display: inline-block;
-            text-align: center;
-            line-height: 30px;
-            color: #a0a0a1;
-            .percentage {
-                position: absolute;
-                border-radius: 30px;
-                width: 80%;
-                height: 100%;
-                left: 0;
-                top: 0;
-                background: #1f61ae;
-            }
-
-            .progressbarNum {
-                e-pos(left: 50%, x: -50%);
-                z-index: 1;
-            }
+        .progressbarNum {
+          e-pos(left:50%, x:-50%);
+          z-index: 1;
         }
+      }
     }
-}
+  }
 </style>

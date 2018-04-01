@@ -5,7 +5,7 @@
     <div class="user-info">
       <div class="after-login">
         <div @click="showOperation">
-          <span class="user-name" >{{userName}}</span>
+          <span class="user-name">{{userName}}</span>
           <svg-icon sign="icon-user" class="user-icon"></svg-icon>
         </div>
         <div v-if="USERINFO" class="user-operation box-shadow" v-show="isShow">
@@ -28,42 +28,45 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { getSessionItem } from "../../assets/config/storage.js"
-import { removeSessionItem } from "../../assets/config/storage.js"
-import { get } from "../../assets/config/http"
-import xhrUrls from '../../assets/config/xhrUrls'
+  import {getSessionItem} from "../../assets/config/storage.js"
+  import {removeSessionItem} from "../../assets/config/storage.js"
+  import {get} from "../../assets/config/http"
+  import xhrUrls from '../../assets/config/xhrUrls'
+
   export default {
     name: "NavBar",
     data() {
       return {
         isShow: false,
-        userName:'Login',
+        userName: 'Login',
         USERINFO: null,
       }
     },
     methods: {
       showOperation() {
         this.isShow = !this.isShow
-        if(!this.USERINFO){
+        if (!this.USERINFO) {
           this.$router.push({path: "/"});
         }
-	  },
-	  outLogin(){
-		  get(BASE_URL+xhrUrls.LOGOUT).then((res) =>{
-			  	this.USERINFO = removeSessionItem('USERINFO')
-		  		this.$router.push({path: "/"});
-		  }).catch((err)=>{
-			  console.log(err);
-		  })
+      },
+      outLogin() {
+        get(xhrUrls.LOGOUT).then((res) => {
+          this.USERINFO = removeSessionItem('USERINFO')
+          this.$router.push({path: "/"});
+        }).catch((err) => {
+          console.log(err);
+        })
 
-	  }
+      }
     },
-    mounted(){
+    mounted() {
       const USERINFO = JSON.parse(getSessionItem('USERINFO'))
       this.USERINFO = USERINFO
-      this.userName = USERINFO.name;
-      
-      
+      try {
+        this.userName = USERINFO.name;
+      } catch (ex) {
+        //console.error('报错: ', ex.message)
+      }
     }
   }
 </script>

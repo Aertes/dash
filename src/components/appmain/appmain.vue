@@ -3,10 +3,7 @@
 
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
-      <selection :selections="selectOptionsOne"></selection>
-      <selection :selections="selectOptionsTwo"></selection>
-      <selection :selections="selectOptionsThree"></selection>
-      <selection :selections="selectOptionsFour"></selection>
+      <selection v-for="item in selectList" :selections="selectOptions"></selection>
       <div v-if="all" class="options-menu">
         <div  @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
@@ -44,108 +41,101 @@
 <script type="text/ecmascript-6">
   import DashBoard from '../dashboard/dashboard'
   import TimeLine from '../timeline/timeline'
-  import Upload from '../upload/upload.vue'
   import xhrUrls from '../../assets/config/xhrUrls'
+  import {get, post, uploadPost} from '../../assets/config/http'
   import { getSessionItem } from "../../assets/config/storage.js"
+
+  let OVDateUrl = xhrUrls.OV_DATE
   export default {
     name: "appmain",
     data() {
       return {
-        isShow: false,
         USERINFO:null,
         system: false,
         all: false,
-        selectOptionsOne: [
-          {
-            label: 'WEWWQWE',
-            value: 0
-          },
-          {
-            label: 'DFSASDAS',
-            value: 1
-          },
-          {
-            label: 'XCXZVASD',
-            value: 2
-          }
-        ],
-        selectOptionsTwo: [
-          {
-            label: 'JKLJJKGH',
-            value: 0
-          },
-          {
-            label: 'ZXCVVBDF',
-            value: 1
-          },
-          {
-            label: 'TGBCEDFS',
-            value: 2
-          }
-        ],
-        selectOptionsThree: [
-          {
-            label: 'WXASDEWF',
-            value: 0
-          },
-          {
-            label: 'RFVDCXERT',
-            value: 1
-          },
-          {
-            label: 'CVFSDRES',
-            value: 2
-          }
-        ],
-        selectOptionsFour: [
-          {
-            label: '2018/12',
-            value: 0
-          },
-          {
-            label: '2018/11',
-            value: 1
-          },
-          {
-            label: '2018/10',
-            value: 2
-          }
-        ],
+        isShow: false,
+        selectOptions: [],
+        selectList: 1,
         menuList: [
           {
             name: 'CAMPAIGN',
-            link: BASE_URL+xhrUrls.CMA_UPLOAD,
+            link: xhrUrls.CMA_UPLOAD,
             type: 'Campaign',
-            // tableSearch:  BASE_URL+xhrUrls.HC_SEARCH,
-            // tableDel:  BASE_URL+xhrUrls.HC_DELETE,
-            // tableDownload: BASE_URL+xhrUrls.HC_DOWNLOAD,
             status: false,
           },
           {
             name: 'COM.CN',
-            link: BASE_URL+xhrUrls.COM_UPLOAD,
+            link: xhrUrls.COM_UPLOAD,
             type: 'Com',
             status: false,
           },
           {
             name: 'CRM',
-            link: BASE_URL+xhrUrls.CRM_UPLOAD,
+            link: xhrUrls.CRM_UPLOAD,
             type: 'Crm',
             status: false,
           },
           {
             name: 'RATING & REVIEW',
-            link: BASE_URL+xhrUrls.RV_UPLOAD,
+            link: xhrUrls.RV_UPLOAD,
             type: 'ReviewRating',
             status: false,
           },
           {
             name: 'EC REPORT',
-            link: BASE_URL+xhrUrls.EC_UPLOAD,
+            link: xhrUrls.EC_UPLOAD,
             type: 'Ec',
             status: false,
           }
         ]
+      }
+    },
+    computed: {
+      type() {
+        return this.$store.state.type
+      }
+    },
+    mounted() {
+      if (this.type === 1) {
+        this.selectList=1
+        post(OVDateUrl, 'campaign').then(res=>{
+          let data = res.data.data
+          data.forEach((val)=>{
+            this.selectOptions.push(val)
+          })
+        })
+      };
+      const USERINFO = JSON.parse(getSessionItem('USERINFO'))
+      this.USERINFO = USERINFO;
+      try {
+        let per =  USERINFO.permissions;
+        per.forEach((v, i) => {
+          if(v == 'compaign:upload'){
+            this.menuList[0].status = true;
+          }
+          if(v == 'com:upload'){
+            this.menuList[1].status = true;
+          }
+          if(v == 'crm:upload'){
+            this.menuList[2].status = true;
+          }
+          if(v == 'rr:upload'){
+            this.menuList[3].status = true;
+          }
+          if(v == 'ec:upload'){
+            this.menuList[4].status = true;
+          }
+          if(v == 'sys:setup'){
+            this.system = true;
+          }
+          if(v.indexOf(':upload') != -1 && v.indexOf(':setup') != -1){
+            this.all = false;
+          }else{
+            this.all = true;
+          }
+        });
+      }catch(ex){
+        //console.error('报错: ', ex.message)
       }
     },
     methods: {
@@ -155,44 +145,11 @@
       openUpload(link, type) {
         this.$emit('showUpload',{id:'upLoadBox',link:link, type:type})
         this.isShow = false
-      },
-
+      }
     },
     components: {
       DashBoard,
-      TimeLine,
-      Upload
-    },
-    mounted(){
-      const USERINFO = JSON.parse(getSessionItem('USERINFO'))
-      this.USERINFO = USERINFO;
-      let per =  USERINFO.permissions;
-      console.log(USERINFO)
-      per.forEach((v, i) => {
-        if(v == 'compaign:upload'){
-          this.menuList[0].status = true;
-        }
-        if(v == 'com:upload'){
-          this.menuList[1].status = true;
-        }
-        if(v == 'crm:upload'){
-          this.menuList[2].status = true;
-        }
-        if(v == 'rr:upload'){
-          this.menuList[3].status = true;
-        }
-        if(v == 'ec:upload'){
-          this.menuList[4].status = true;
-        }
-        if(v == 'sys:setup'){
-          this.system = true;
-        }
-        if(v.indexOf(':upload') != -1 && v.indexOf(':setup') != -1){
-          this.all = false;
-        }else{
-          this.all = true;
-        }
-      });
+      TimeLine
     }
   }
 </script>

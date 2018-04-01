@@ -1,45 +1,33 @@
 <template>
   <div class="dashboard-wrap box-shadow" @mousewheel.prevent="scrollBarWheel">
-    <div class="loading-wrap">
+    <div class="loading-wrap" v-show="load">
       <img src="../../assets/img/loading.svg" class="loading-svg">
     </div>
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap">
         <div class="chart-title">
-          <span>{{chartTitle}}</span>
+          <span>{{title}}-{{Time}}</span>
           <span @click="openTables"><svg-icon sign="icon-grid" class="grid-icon"></svg-icon></span>
           <svg-icon sign="icon-chart" class="chart-icon active"></svg-icon>
         </div>
         <div class="chart-cont">
           <i class="sideShadow"></i>
           <div id="charContainer">
-            <chart></chart>
+            <chart :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
           </div>
         </div>
       </div>
       <div class="chart-data-wrap">
         <div class="title-wrap">
-          <p class="ellipsis title">CAMPAIGN</p>
+          <p class="ellipsis title">{{name}}</p>
           <span class="stick"></span>
           <svg-icon sign="icon-arrow-right" class="icon-arrow"></svg-icon>
         </div>
         <div class="data-list-wrap">
           <ul class="data-list">
-            <li>
-              <p>980,000</p>
-              <p>TARGET</p>
-            </li>
-            <li>
-              <p>100,000</p>
-              <p>TARGET TO EC</p>
-            </li>
-            <li>
-              <p>53,043,034</p>
-              <p>IMPRESSION</p>
-            </li>
-            <li>
-              <p>¥25.61</p>
-              <p>COST PER LEAD</p>
+            <li v-for="item in DData">
+              <p>{{item[1]}}</p>
+              <p>{{item[0]}}</p>
             </li>
           </ul>
           <button class="box-shadow download-button">DOWNLOAD</button>
@@ -52,19 +40,68 @@
 <script type="text/ecmascript-6">
   import '../../assets/js/velocity.min'
   import Chart from './chart'
+  import {
+    dataOvCmaSearch,
+    dataOvComB2BSearch,
+    dataOvComB2CSearch,
+    dataOvCrmSearch,
+    dataOvRevSearch
+  } from '../../assets/chartsData/index'
 
+  let that = this
   export default {
     name: "DashBoard",
     data() {
       return {
-        chartTitle: 'CAMPAIGN OVERVIEW-2018-2',
-        canScroll: true
+        overview: 'OVERVIEW',
+        title: 'CAMPAIGN',
+        name: 'CAMPAIGN',
+        titleList:[
+          'CAMPAIGN',
+          'COM.CN B2B',
+          'COM.CN B2C',
+          'COM.CN B2C',
+          'COM.CN B2C',
+          'CRM',
+          'RATING & REVIEW',
+          'EC REPORT',
+        ],
+        Time: '0000-00',
+        DData: [],
+        data: {
+          "isTable": false,
+          "month": "201803"
+        },
+        dashBoardoption: '',
+        canScroll: true,
+        load: false
+      }
+    },
+    computed: {
+      title: function () {
+        if (this.type < 6) {
+          return `${this.name} ${this.overview}`
+        } else {
+          return `${this.name}`
+        }
+      },
+      type() {
+        return this.$store.state.type
       }
     },
     components: {
       Chart
     },
+    mounted() {
+      this.getDashBoardData()
+    },
     methods: {
+      increment() {
+        this.$store.commit('increment')
+      },
+      decrement() {
+        this.$store.commit('decrement')
+      },
       scrollBarWheel(e) {
         let value = e.wheelDelta || -e.detail;
         let delta = Math.max(-1, Math.min(1, value));
@@ -72,29 +109,60 @@
         let Velocity = $.Velocity
         if (this.canScroll) {
           this.canScroll = false
-          if (delta < 0) {
+          if (delta < 0) {//dowen
+            this.increment()
             Velocity(el, {
               opacity: [1],
               translateY: [0, 100 + '%'],
               translateZ: 0
             }, {
               duration: 800,
-              complete: setTimeout(() => this.canScroll = true, 1000)
+              complete: () => {
+                setTimeout(() => this.canScroll = true, 500)
+              }
             });
-          } else {
+          } else {//up
+            this.decrement()
             Velocity(el, {
               opacity: [1],
               translateY: [0, -100 + '%'],
               translateZ: 0
             }, {
               duration: 800,
-              complete: setTimeout(() => this.canScroll = true, 1000)
+              complete: () => {
+                setTimeout(() => this.canScroll = true, 500)
+              }
             });
           }
         }
       },
       openTables() {
-        this.$Hub.$emit('showTables','tablesBox')
+        this.$Hub.$emit('showTables', 'tablesBox')
+      },
+      loading() {
+        this.load = true
+      },
+      loadingHandle() {
+        this.load = false
+      },
+      getDashBoardData() {
+        this.loading()
+        dataOvCmaSearch(this, this.data)
+      }
+    },
+    watch:{
+      type: function (val) {
+        if(val<1){
+        }else if(val===2){
+        }else if(val===3){
+        }else if(val===4){
+        }else if(val===5){
+        }else if(val===6){
+        }else if(val===7){
+        }else if(val===8){
+        }else if(val===9){
+        }else if(val===10){
+        }
       }
     }
   }
@@ -219,10 +287,9 @@
       width 100%
       height 100%
       z-index 10
-      background-color rgba(255,255,255,.7)
-      display none
+      background-color rgba(255, 255, 255, .7)
       img
-        e-pos(top:50%,y:-50%,left:50%,x:-50%)
+        e-pos(top:50%, y:-50%, left:50%, x:-50%)
         width 300px
         height 300px
 </style>
