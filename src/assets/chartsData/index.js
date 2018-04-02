@@ -23,7 +23,7 @@ function dataOvCmaSearch(that, data) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartDataName.length
+        let num = data.chartDate.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
@@ -31,10 +31,15 @@ function dataOvCmaSearch(that, data) {
         let series = data.chartDate
         that.DData = []
         for (let i = 0; i < num; i++) {
-          that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
+          let val
+          if(data.chartDate[i].type==='line'){
+            val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
+          }else{
+            val = data.chartDate[i].data[0]
+          }
+          that.DData.push([data.chartDate[i].name, val])
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
-
       }).catch(
       error => console.log(error)
     )
@@ -54,7 +59,7 @@ function dataOvComB2BSearch(that, data) {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartDataName.length
+        let num = data.chartDate.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
@@ -62,7 +67,13 @@ function dataOvComB2BSearch(that, data) {
         let series = data.chartDate
         that.DData = []
         for (let i = 0; i < num; i++) {
-          that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
+          let val
+          if(data.chartDate[i].type==='line'){
+            val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
+          }else{
+            val = data.chartDate[i].data[0]
+          }
+          that.DData.push([data.chartDate[i].name, val])
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
 
@@ -85,7 +96,7 @@ function dataOvComB2CSearch(that, data) {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartDataName.length
+        let num = data.chartDate.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
@@ -93,7 +104,13 @@ function dataOvComB2CSearch(that, data) {
         let series = data.chartDate
         that.DData = []
         for (let i = 0; i < num; i++) {
-          that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
+          let val
+          if(data.chartDate[i].type==='line'){
+            val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
+          }else{
+            val = data.chartDate[i].data[0]
+          }
+          that.DData.push([data.chartDate[i].name, val])
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
 
@@ -116,7 +133,7 @@ function dataOvCrmSearch(that, data) {
     post(xhrUrls.OV_CRM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartDataName.length
+        let num = data.chartDate.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
@@ -124,7 +141,13 @@ function dataOvCrmSearch(that, data) {
         let series = data.chartDate
         that.DData = []
         for (let i = 0; i < num; i++) {
-          that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
+          let val
+          if(data.chartDate[i].type==='line'){
+            val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
+          }else{
+            val = data.chartDate[i].data[0]
+          }
+          that.DData.push([data.chartDate[i].name, val])
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
 
@@ -139,6 +162,7 @@ function dataOvRevSearch(that, data) {
     post(xhrUrls.OV_RV_SEARCH, data)
       .then(res => {
         let data = res.data.data
+        that.tableData = data
       }).catch(
       error => console.log(error)
     )
@@ -146,7 +170,7 @@ function dataOvRevSearch(that, data) {
     post(xhrUrls.OV_RV_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartDataName.length
+        let num = data.chartDate.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
@@ -154,7 +178,13 @@ function dataOvRevSearch(that, data) {
         let series = data.chartDate
         that.DData = []
         for (let i = 0; i < num; i++) {
-          that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
+          let val
+          if(data.chartDate[i].type==='line'){
+            val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
+          }else{
+            val = data.chartDate[i].data[0]
+          }
+          that.DData.push([data.chartDate[i].name, val])
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
 
@@ -166,7 +196,7 @@ function dataOvRevSearch(that, data) {
 
 
 //表二
-function data(that, data) {
+function dataCmaSearch(that, data) {
   if (data.isTable) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
@@ -187,13 +217,14 @@ function data(that, data) {
         for (let i = 0; i < num; i++) {
           that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
         }
-        that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
+        that.dashBoardoption = chartTypeTwo(legendDate, xAxisData, yAxisName1, yAxisName2, series)
 
       }).catch(
       error => console.log(error)
     )
   }
 }
+
 
 //表三
 function data(that, data) {
@@ -224,6 +255,7 @@ function data(that, data) {
     )
   }
 }
+
 
 //表四
 function data(that, data) {

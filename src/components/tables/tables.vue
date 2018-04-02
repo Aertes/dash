@@ -13,12 +13,12 @@
         <thead>
         <tr>
           <th>KPI</th>
-          <th>M v.s T</th>
           <th>Month</th>
           <th>Target</th>
-          <th>Y v.s T</th>
+          <th>M v.s T</th>
           <th>YTD</th>
           <th>Target</th>
+          <th>Y v.s T</th>
         </tr>
         </thead>
       </table>
@@ -135,7 +135,7 @@
         }
       })
 
-      this.getDashBoardTableData()
+      this.dataSearch()
 
       this.getTableData()
 
@@ -154,89 +154,114 @@
           data: this.tableData,
           columns: [
             {data: 'item'},
-            {data: 'mT'},
             {data: 'month'},
             {data: 'target'},
-            {data: 'yT'},
+            {
+              data: 'mT',
+              render: (data, type, row) => {
+                if (data == 0) {
+                  return '<div></div>'
+                } else if (data == 1) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: gray"></div>'
+                } else if (data == 2) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: green"></div>'
+                } else if (data == 3) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: yellow"></div>'
+                } else if (data == 4) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: red"></div>'
+                }
+              }
+            },
             {data: 'ytd'},
-            {data: 'ytdTarget'}
+            {data: 'ytdTarget'},
+            {
+              data: 'yT',
+              render: (data, type, row) => {
+                if (data == 0) {
+                  return '<div></div>'
+                } else if (data == 1) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: gray"></div>'
+                } else if (data == 2) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: green"></div>'
+                } else if (data == 3) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: yellow"></div>'
+                } else if (data == 4) {
+                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: red"></div>'
+                }
+              }
+            }
           ]
         })
       },
       dataSearch() {
         if (this.type == 0) {
           dataOvCmaSearch(this, this.data[0])
-        }else if(this.type == 1) {
+        } else if (this.type == 1) {
           dataOvComB2BSearch(this, this.data[1])
-        }/*else if (this.type == 1) {
-          dataOvComB2BSearch(this, this.data[1])
-        }else if (this.type == 2) {
+        } else if (this.type == 2) {
           dataOvComB2CSearch(this, this.data[2])
-        }else if (this.type == 3) {
+        } else if (this.type == 3) {
           dataOvCrmSearch(this, this.data[3])
-        }else if (this.type == 4) {
+        } else if (this.type == 4) {
           dataOvRevSearch(this, this.data[4])
-        }*/
-      },
-      getDashBoardTableData() {
-        this.dataSearch()
+        }
       },
       ovtableStyle() {
         let tData = this.tableData
-        if(this.type==0){
-          tData.forEach((val,index)=>{
-            if(index==0){
-              val.item='Traffic to e-commerce(M) '
-            }else if(index==1){
-              val.item='Traffic to .com.cn(M) '
-            }else if(index==2){
-              val.item='Conversion rate '
-            }else if(index==3){
-              val.item='Cost per lead(¥)'
+        if (this.type == 0) {
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'Traffic to e-commerce(M) '
+            } else if (index == 1) {
+              val.item = 'Traffic to .com.cn(M) '
+            } else if (index == 2) {
+              val.item = 'Conversion rate '
+            } else if (index == 3) {
+              val.item = 'Cost per lead(¥)'
             }
           })
           this.tableData = tData
-        }else if(this.type==1){
-          tData.forEach((val,index)=>{
-            if(index==0){
-              val.item='Traffic(excluding campaign)(M) '
-            }else if(index==1){
-              val.item='conversion rate(excluding campaign) '
-            }else if(index==2){
-              val.item='UGCR '
-            }else if(index==3){
-              val.item='Bounce rate'
+        } else if (this.type == 1) {
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'Total SQL'
+            } else if (index == 1) {
+              val.item = 'Total MQL'
+            } else if (index == 2) {
+              val.item = 'UGCR'
+            } else if (index == 3) {
+              val.item = 'Total Web Traffic(K)'
             }
           })
           this.tableData = tData
-        }else if(this.type==2){
-          tData.forEach((val,index)=>{
-            if(index==0){
-              val.item='Rating'
+        } else if (this.type == 2) {
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'Traffic(excluding campaign)(M)'
+            } else if (index == 1) {
+              val.item = 'conversion rate(excluding campaign)'
+            } else if (index == 2) {
+              val.item = 'UGCR'
+            } else if (index == 3) {
+              val.item = 'Bounce rate'
             }
           })
           this.tableData = tData
-        }else if(this.type==3){
-          tData.forEach((val,index)=>{
-            if(index==0){
-              val.item='New registration(M) '
-            }else if(index==1){
-              val.item='Engagement%'
-            }else if(index==2){
-              val.item='CRM related sales(M)(¥)'
+        } else if (this.type == 3) {
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'New registration(M)'
+            } else if (index == 1) {
+              val.item = 'Engagement%'
+            } else if (index == 2) {
+              val.item = 'CRM related sales(M)(¥)'
             }
           })
           this.tableData = tData
-        }else if(this.type==4){
-          tData.forEach((val,index)=>{
-            if(index==0){
-              val.item='Total SQL'
-            }else if(index==1){
-              val.item='Total MQL'
-            }else if(index==2){
-              val.item='UGCR'
-            }else if(index==3){
-              val.item='Total Web Traffic(K)'
+        } else if (this.type == 4) {
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'Rating'
             }
           })
           this.tableData = tData
@@ -252,11 +277,13 @@
           this.name = `${this.titleList[val]}`
           this.title = `${this.name}`
         }
-        this.getDashBoardTableData()
+        this.dataSearch()
       },
       tableData() {
-        this.ovtableStyle()
-        this.getTableData()
+        this.$nextTick(()=>{
+          this.ovtableStyle()
+          this.getTableData()
+        })
       }
     }
   }
@@ -310,4 +337,5 @@
           border-right 1px solid #EAEAEA
           border-top medium
           border-left medium
+
 </style>

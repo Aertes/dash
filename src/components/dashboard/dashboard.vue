@@ -13,7 +13,10 @@
         <div class="chart-cont">
           <i class="sideShadow"></i>
           <div id="charContainer">
-            <chart :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
+            <keep-alive>
+              <chart-table v-if="!isTable"></chart-table>
+              <chart v-else :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
+            </keep-alive>
           </div>
         </div>
       </div>
@@ -40,6 +43,7 @@
 <script type="text/ecmascript-6">
   import '../../assets/js/velocity.min'
   import Chart from './chart'
+  import ChartTable from '../tables/chartTables'
   import {
     dataOvCmaSearch,
     dataOvComB2BSearch,
@@ -120,7 +124,8 @@
         ],
         dashBoardoption: '',
         canScroll: true,
-        load: false
+        load: false,
+        isTable:true
       }
     },
     computed: {
@@ -129,10 +134,11 @@
       }
     },
     components: {
+      ChartTable,
       Chart
     },
     mounted() {
-      this.getDashBoardData()
+      this.dataSearch()
 
       this.$Hub.$on('goToWheel', () => {
         this.wheelUp()
@@ -141,6 +147,22 @@
       this.$Hub.$on('monthChange', (val) => {
         if (this.type == 0) {
           this.data[0].month = val
+          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+          this.dataSearch()
+        }if (this.type == 1) {
+          this.data[1].month = val
+          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+          this.dataSearch()
+        }if (this.type == 2) {
+          this.data[2].month = val
+          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+          this.dataSearch()
+        }if (this.type == 3) {
+          this.data[3].month = val
+          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+          this.dataSearch()
+        }if (this.type == 3) {
+          this.data[4].month = val
           this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
           this.dataSearch()
         }
@@ -188,11 +210,15 @@
         let delta = Math.max(-1, Math.min(1, value));
         if (this.canScroll) {
           if (delta < 0) {//down
-            this.increment()
-            this.wheelDown()
+            if(this.type!=11){
+              this.increment()
+              this.wheelDown()
+            }
           } else {//up
-            this.decrement()
-            this.wheelUp()
+            if(this.type!=0){
+              this.decrement()
+              this.wheelUp()
+            }
           }
         }
       },
@@ -218,9 +244,6 @@
         }else if (this.type == 4) {
           dataOvRevSearch(this, this.data[4])
         }
-      },
-      getDashBoardData() {
-        this.dataSearch()
       }
     },
     watch: {
@@ -232,7 +255,7 @@
           this.name = `${this.titleList[val]}`
           this.title = `${this.name}`
         }
-        this.getDashBoardData()
+        this.dataSearch()
       }
     }
   }

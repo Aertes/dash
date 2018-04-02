@@ -5,7 +5,7 @@
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
       <selection v-for="item in selectList" :selections="selectOptions"></selection>
       <div v-if="all" class="options-menu">
-        <div  @click="showOperation">
+        <div @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
         </div>
         <div class="dashboard-operation box-shadow" v-show="isShow">
@@ -13,7 +13,7 @@
           <div class="a-wrap">
             <a href="javascript:;" v-for="(item,index) in menuList"  @click="openUpload(item.link, item.type, item.name)">
               <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
-              <span v-if="item.status" >{{item.name}}</span>
+              <span v-if="item.status">{{item.name}}</span>
             </a>
             <router-link v-if="system" to="/">
               <svg-icon sign="icon-setting"></svg-icon>
@@ -39,14 +39,14 @@
   import xhrUrls from '../../assets/config/xhrUrls'
   import UploadFile from '../../components/upload/upload.vue'
   import {get, post, uploadPost} from '../../assets/config/http'
-  import { getSessionItem } from "../../assets/config/storage.js"
+  import {getSessionItem} from "../../assets/config/storage.js"
 
   let OVDateUrl = xhrUrls.OV_DATE
   export default {
     name: "appmain",
     data() {
       return {
-        USERINFO:null,
+        USERINFO: null,
         system: false,
         all: false,
         isShow: false,
@@ -93,48 +93,41 @@
     },
     mounted() {
 
-      if (this.type === 0) {
-        this.selectList=1
-        post(OVDateUrl, 'campaign').then(res=>{
-          let data = res.data.data
-          data.forEach((val)=>{
-            this.selectOptions.push(val)
-          })
-        })
-      };
+      this.getSelectData()
 
       const USERINFO = JSON.parse(getSessionItem('USERINFO'))
       this.USERINFO = USERINFO;
       try {
-        let per =  USERINFO.permissions;
+        let per = USERINFO.permissions;
         per.forEach((v, i) => {
-          if(v == 'compaign:upload'){
+          if (v == 'compaign:upload') {
             this.menuList[0].status = true;
           }
-          if(v == 'com:upload'){
+          if (v == 'com:upload') {
             this.menuList[1].status = true;
           }
-          if(v == 'crm:upload'){
+          if (v == 'crm:upload') {
             this.menuList[2].status = true;
           }
-          if(v == 'rr:upload'){
+          if (v == 'rr:upload') {
             this.menuList[3].status = true;
           }
-          if(v == 'ec:upload'){
+          if (v == 'ec:upload') {
             this.menuList[4].status = true;
           }
-          if(v == 'sys:setup'){
+          if (v == 'sys:setup') {
             this.system = true;
           }
-          if(v.indexOf(':upload') != -1 && v.indexOf(':setup') != -1){
+          if (v.indexOf(':upload') != -1 && v.indexOf(':setup') != -1) {
             this.all = false;
-          }else{
+          } else {
             this.all = true;
           }
         });
-      }catch(ex){
+      } catch (ex) {
         //console.error('报错: ', ex.message)
       }
+
     },
     methods: {
       showOperation() {
@@ -144,12 +137,64 @@
         this.$emit('showUpload', {id:'upLoadBox', link:link, type:type, name:name})
         this.$refs.upload.dataTable(type, name)
         this.isShow = false
+      },
+      getSelectData() {
+        if (this.type === 0) {
+          this.selectList = 1
+          post(OVDateUrl, 'campaign').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 1) {
+          this.selectList = 1
+          post(OVDateUrl, 'comB2b').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 2) {
+          this.selectList = 1
+          post(OVDateUrl, 'comB2c').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 3) {
+          this.selectList = 1
+          post(OVDateUrl, 'crm').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 4) {
+          this.selectList = 1
+          post(OVDateUrl, 'reviewRating').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
       }
     },
     components: {
       DashBoard,
       TimeLine,
       UploadFile
+    },
+    watch: {
+      type: function (val) {
+        this.getSelectData()
+      }
     }
   }
 </script>

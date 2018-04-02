@@ -24,7 +24,9 @@
     },
     methods: {
       Echarts() {
-        this.EchartsInit.setOption(this.chartOptions);
+        this.EchartsInit.setOption(this.chartOptions,{
+          notMerge:true
+        });
       },
       closeLoading(){
         this.$emit('closeLoading')
@@ -33,7 +35,7 @@
     watch:{
       chartOptions(){
         this.$nextTick(()=>{
-          this.Echarts();
+          this.Echarts()
           this.closeLoading()
         })
       }
