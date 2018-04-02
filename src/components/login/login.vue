@@ -1,49 +1,52 @@
 <template>
-	<div class="bigbox">
-		<div class="nav-bar-wrap clearfix">
-			<div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="198" height="100"></div>
-			<h1>ONE CHINA DIGITAL PERFORMANCE</h1>
-		</div>
-		<div class="bg">
-			<div class="form-wrapper">
-			<h2>WELCOME!</h2>
-			<form class="submit box-shadow" action="" autocomplete="off">
-				<div class="input username">
-				<input type="text" @keyup.enter="submit" name='username' @change="onInput"
-						:class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME"
-						autocomplete="off">
-				<svg-icon sign="icon-user"></svg-icon>
-				</div>
-				<div class="input password">
-				<input type="password" @keyup.enter="submit" name='password' @change="onInput"
-						:class="[isPassActive? 'active' : '']" v-model="loginDate.password" placeholder="PASSWORD">
-				<svg-icon sign="icon-Cord"></svg-icon>
-				</div>
-				<div class="input code">
-				<input type="text" @keyup.enter="submit" name='code' maxlength="4" @change="onInput"
-						:class="[isCodeActive? 'active' : '']" v-model="loginDate.code" placeholder="VERIFICATION CODE">
-				<img class="code-img" :src="codeUrl" alt="">
-				<span @click="getCode">
-							<svg-icon class="code" sign="icon-refresh"></svg-icon>
-						</span>
-				</div>
-				<button type="button" @click="submit">LOGIN</button>
-			</form>
-			</div>
-		</div>
-		<div class="footer-wrapper">
-			<p class="one">@2014-2016 PHILIPS ELETRONICS N.V ALL RIGHTS RESERVED 沪ICP 09062110号</p>
-			<p class="two">公安备案号：沪公网安备31010602001824号</p>
-		</div>
-	</div>
-
+  <div class="bigbox">
+    <div class="nav-bar-wrap clearfix">
+      <div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="198" height="100"></div>
+      <h1>ONE CHINA DIGITAL PERFORMANCE</h1>
+    </div>
+    <div class="bg">
+      <div class="form-wrapper">
+        <h2>WELCOME!</h2>
+        <form class="submit box-shadow" action="" autocomplete="off">
+          <div class="input username">
+            <input type="text" @keyup.enter="submit" name='username' @change="onInput" :class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME" autocomplete="off">
+            <svg-icon sign="icon-user"></svg-icon>
+          </div>
+          <div class="input password">
+            <input type="password" @keyup.enter="submit" name='password' @change="onInput" :class="[isPassActive? 'active' : '']" v-model="loginDate.password" placeholder="PASSWORD">
+            <svg-icon sign="icon-Cord"></svg-icon>
+          </div>
+          <div class="input code">
+            <input type="text" @keyup.enter="submit" name='code' maxlength="4" @change="onInput" :class="[isCodeActive? 'active' : '']" v-model="loginDate.code" placeholder="VERIFICATION CODE">
+            <img class="code-img" :src="codeUrl" alt="">
+            <span @click="getCode">
+  							<svg-icon class="code" sign="icon-refresh"></svg-icon>
+  						</span>
+          </div>
+          <button type="button" @click="submit">LOGIN</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-wrapper">
+      <p class="one">@2014-2016 PHILIPS ELETRONICS N.V ALL RIGHTS RESERVED 沪ICP 09062110号</p>
+      <p class="two">公安备案号：沪公网安备31010602001824号</p>
+    </div>
+    <div class="loading" v-show="isShow">
+      <img src="../../assets/img/loading.gif" alt="">
+    </div>
+    <div class="mark" v-show="isShow"></div>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
   import xhrUrls from "../../assets/config/xhrUrls";
-  import { post } from "../../assets/config/http"
-  import { setSessionItem } from "../../assets/config/storage.js"
-
+  import {
+    post
+  } from "../../assets/config/http"
+  import {
+    setSessionItem
+  } from "../../assets/config/storage.js"
+  
   export default {
     name: "login",
     data() {
@@ -94,7 +97,9 @@
                 setTimeout(() => {
                   $(".loading").hide();
                   $(".mark").hide();
-                  this.$router.push({path: "/dashboard"});
+                  this.$router.push({
+                    path: "/dashboard"
+                  });
                   setSessionItem('USERINFO', JSON.stringify(res.data.data))
                 }, 1000);
               } else {
@@ -137,7 +142,7 @@
       }
     },
     mounted() {
-	  this.getCode();
+      this.getCode();
     }
   };
 </script>
@@ -146,7 +151,6 @@
   @import '../../assets/style/mixin.styl';
 .app-wrapper {
 	position: relative;
-
 	height: 100%
 }
 

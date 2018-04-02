@@ -11,7 +11,7 @@
         <div class="dashboard-operation box-shadow" v-show="isShow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
-            <a href="javascript:;" v-for="(item,index) in menuList"  @click="openUpload(item.link, item.type)">
+            <a href="javascript:;" v-for="(item,index) in menuList"  @click="openUpload(item.link, item.type, item.name)">
               <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
               <span v-if="item.status" >{{item.name}}</span>
             </a>
@@ -140,9 +140,9 @@
       showOperation() {
         this.isShow = !this.isShow
       },
-      openUpload(link, type) {
-        this.$emit('showUpload', {id:'upLoadBox', link:link, type:type})
-        this.$refs.upload.dataTable(type)
+      openUpload(link, type, name) {
+        this.$emit('showUpload', {id:'upLoadBox', link:link, type:type, name:name})
+        this.$refs.upload.dataTable(type, name)
         this.isShow = false
       }
     },
