@@ -1,7 +1,7 @@
 <template>
 	<div class="bigbox">
 		<div class="nav-bar-wrap clearfix">
-			<div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="243" height="123"></div>
+			<div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="198" height="100"></div>
 			<h1>ONE CHINA DIGITAL PERFORMANCE</h1>
 		</div>
 		<div class="bg">
@@ -171,11 +171,11 @@
 .nav-bar-wrap
     margin: 0 39px;
     // margin-bottom 19px
-    line-height 123px
+    line-height 100px
     .logo
       float left
-      width 243px
-      height 123px
+      width 198px
+      height 100px
       margin-left 20px
       img
         width 100%
@@ -208,7 +208,7 @@
 	position: absolute;
     width: 100%;
     bottom: 80px;
-    top: 123px;
+    top: 100px;
 	overflow: hidden;
 }
   .form-wrapper {

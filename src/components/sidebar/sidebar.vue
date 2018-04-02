@@ -43,7 +43,7 @@
           typeVal = 11
         }
         this.voluation(typeVal)
-        this.$Hub.$emit('goToWheel')
+        this.$Hub.$emit('wheelDown')
       },
       voluation(val){
         this.$store.commit('voluation',val)
@@ -76,7 +76,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .side-bar-wrap
     position absolute
-    top 142px
+    top 119px
     bottom 0
     left 0
     width 280px

@@ -11,18 +11,19 @@ import {get, post, uploadPost} from '../../assets/config/http'
 
 //表一 OverView
 function dataOvCmaSearch(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
+        that.tableData = data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartX.length
+        let num = data.chartDataName.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
@@ -41,23 +42,25 @@ function dataOvCmaSearch(that, data) {
 }
 
 function dataOvComB2BSearch(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
+        that.tableData = data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartX.length
+        let num = data.chartDataName.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
+        that.DData = []
         for (let i = 0; i < num; i++) {
           that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
         }
@@ -70,23 +73,25 @@ function dataOvComB2BSearch(that, data) {
 }
 
 function dataOvComB2CSearch(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
+        that.tableData = data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartX.length
+        let num = data.chartDataName.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
+        that.DData = []
         for (let i = 0; i < num; i++) {
           that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
         }
@@ -99,23 +104,25 @@ function dataOvComB2CSearch(that, data) {
 }
 
 function dataOvCrmSearch(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_CRM_SEARCH, data)
       .then(res => {
         let data = res.data.data
+        that.tableData = data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_CRM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartX.length
+        let num = data.chartDataName.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
+        that.DData = []
         for (let i = 0; i < num; i++) {
           that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
         }
@@ -128,23 +135,24 @@ function dataOvCrmSearch(that, data) {
 }
 
 function dataOvRevSearch(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_RV_SEARCH, data)
       .then(res => {
         let data = res.data.data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_RV_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        let num = data.chartX.length
+        let num = data.chartDataName.length
         let legendDate = data.chartDataName
         let xAxisData = data.chartX
         let yAxisName1 = data.chartLeftY
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
+        that.DData = []
         for (let i = 0; i < num; i++) {
           that.DData.push([data.chartX[i], data.chartDate[i].data[i]])
         }
@@ -159,14 +167,14 @@ function dataOvRevSearch(that, data) {
 
 //表二
 function data(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
@@ -189,14 +197,14 @@ function data(that, data) {
 
 //表三
 function data(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
@@ -219,14 +227,14 @@ function data(that, data) {
 
 //表四
 function data(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
@@ -249,14 +257,14 @@ function data(that, data) {
 
 //表五
 function data(that, data) {
-  if(data.isTable){
+  if (data.isTable) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
       }).catch(
       error => console.log(error)
     )
-  }else{
+  } else {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data

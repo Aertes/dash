@@ -89,7 +89,7 @@
             "endDate": "2017-01-01",
             "isB2C": false,
             "isTable": false,
-            "month": "201803",
+            "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
@@ -97,14 +97,14 @@
             "endDate": "2017-01-01",
             "isB2C": true,
             "isTable": false,
-            "month": "201803",
+            "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
           {
             "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201803",
+            "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
@@ -113,7 +113,7 @@
             "endDate": "2017-01-01",
             "isTable": false,
             "isYTD": true,
-            "month": "201803",
+            "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
           }
@@ -136,6 +136,14 @@
 
       this.$Hub.$on('goToWheel', () => {
         this.wheelUp()
+      })
+
+      this.$Hub.$on('monthChange', (val) => {
+        if (this.type == 0) {
+          this.data[0].month = val
+          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+          this.dataSearch()
+        }
       })
     },
     methods: {
@@ -197,21 +205,22 @@
       loadingHandle() {
         this.load = false
       },
-      getDashBoardData() {
-
+      dataSearch(){
         this.loading()
-
-        this.$Hub.$on('monthChange', (val) => {
-          if (this.type == 0) {
-            this.data[0].month = val
-            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
-            dataOvCmaSearch(this, this.data[0])
-          }
-        })
-
         if (this.type == 0) {
           dataOvCmaSearch(this, this.data[0])
+        }else if (this.type == 1) {
+          dataOvComB2BSearch(this, this.data[1])
+        }else if (this.type == 2) {
+          dataOvComB2CSearch(this, this.data[2])
+        }else if (this.type == 3) {
+          dataOvCrmSearch(this, this.data[3])
+        }else if (this.type == 4) {
+          dataOvRevSearch(this, this.data[4])
         }
+      },
+      getDashBoardData() {
+        this.dataSearch()
       }
     },
     watch: {
@@ -223,7 +232,7 @@
           this.name = `${this.titleList[val]}`
           this.title = `${this.name}`
         }
-        //this.getDashBoardData()
+        this.getDashBoardData()
       }
     }
   }
@@ -234,7 +243,7 @@
   .dashboard-wrap
     position relative
     float left
-    width 1420px
+    width 1440px
     height 650px
     overflow hidden
     .dashboard-container
@@ -309,7 +318,7 @@
                   color #C9CACB
       .chart-wrap
         float left
-        width 1120px
+        width 1140px
         height 100%
         .chart-title
           position relative

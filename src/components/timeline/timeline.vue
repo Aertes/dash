@@ -37,7 +37,7 @@
   .timeline-wrap
     position relative
     float right
-    width 80px
+    width 70px
     height 650px
     .line
       display block
@@ -54,10 +54,10 @@
         position absolute
         left 0
         left 50%
-        width 30px
-        height 30px
-        margin-left -16px
-        line-height 28px
+        width 25px
+        height 25px
+        margin-left -12px
+        line-height 22px
         font-size 16px
         border 1px solid #c9caca
         border-radius 50%
@@ -70,14 +70,14 @@
           &:nth-child({row})
             top 55px * row
       .active
-        width 60px
-        height 60px
-        line-height 57px
+        width 55px
+        height 55px
+        line-height 51px
         left 50%
         font-size 23px
         color #fff
         margin-top -15px
-        margin-left -31px
+        margin-left -29px
         background url("../../assets/img/timeline_active.png") no-repeat center #F2F2F2
         background-size cover
         transition: all .2s linear

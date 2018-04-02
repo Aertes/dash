@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar-wrap clearfix">
-    <div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="243" height="123"></div>
+    <div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="198" height="100"></div>
     <h1>One China Digital Performance</h1>
     <div class="user-info">
       <div class="after-login">
@@ -74,12 +74,12 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .nav-bar-wrap
     margin-bottom 19px
-    line-height 123px
+    line-height 100px
     .logo
       float left
-      width 243px
-      height 123px
-      margin-left 20px
+      width 198px
+      height 100px
+      margin-left 45px
       img
         width 100%
         height 100%
