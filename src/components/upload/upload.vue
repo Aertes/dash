@@ -41,8 +41,8 @@
 
 		</div>
 		<span id="operate" hidden>
-					<svg-icon sign="icon-trash"></svg-icon>
-				</span>
+			<svg-icon sign="icon-trash"></svg-icon>
+		</span>
 	</div>
 </template>
 
@@ -81,23 +81,22 @@
 	
 			this.onRemoveRecord();
 
-
 			//历史记录
-			// this.dataTable();
+			this.dataTable(this.types, this.title);
+
 		},
 		methods: {
 			upload(e) {
 				$('#progress').show()
 				$('#errMsg').hide()
-				debugger
 				$('.upload-file-box').addClass('none').next().removeClass('none');
+			
 				$('#fileName').html(e.target.files[0].name)
 				this.uploader.option('server', this.uploadLink)
 				this.uploader.addFiles(e.target.files[0]);
 			},
 			//进度条
 			init() {
-
 				let that = this;
 				this.uploader = WebUploader.create({
 					// swf文件路径
@@ -127,8 +126,7 @@
 				});
 	
 				// 上传成功
-				this.uploader.on("uploadSuccess", function(file, res) {
-					debugger
+				this.uploader.on("uploadSuccess", (file, res) =>{
 					if (res.code == 200) {
 						$("#num").html("100%").css("color", "#fff");
 						$("#progressBar").css("width", "100%");
@@ -140,18 +138,16 @@
 							$("#num").html("0%").css("color", "#a0a0a1");
 							$("#progressBar").css("width", "0%");
 							$("#text").html("DATA UPLOADING, PLEASE WAIT...");
-							that.table.ajax.reload();
+							that.dataTable(this.types, this.title)
 						}, 1000);
 					} else {
-						console.log(res.errMsg)
 						let errMsg = res.errMsg.replace(/\,/g, '<br>')
 						$("#text").html("UPLOAD ERROR!");
 						$('#progress').hide()
-						$('#errMsg').show().html(errMsg)
+						$('#errMsg').show().html('')
 						$("#num").html("0%");
 						$("#progressBar").css("width", "0%");
 					}
-	
 				});
 				// 上传错误
 				this.uploader.on("uploadError", function(file, res) {
@@ -173,7 +169,7 @@
 				var that = this;
 				that.Data.channel = type;
 				$('#title').html(name + '  &nbsp;RECORD')
-				this.table = $("#fileTable").DataTable({
+				that.table = $("#fileTable").DataTable({
 					searching: false,
 					lengthChange: false,
 					autoWidth: false,
@@ -223,7 +219,6 @@
 					]
 	
 				});
-	
 			},
 			onRemoveRecord() {
 				let that = this;
@@ -242,8 +237,7 @@
 									time: 2000
 								}, function(index) {
 									layer.close(index);
-									debugger
-									that.table.ajax.reload()
+									that.table.ajax.reload(null, false)
 								})
 							} else {
 								layer.msg('Delete failed!', {
@@ -304,9 +298,9 @@
       line-height: 100px
       color: #a0a0a1
       .icon 
-        e-pos(top:50%, y:-50%)
+        e-pos(top:35%, y:-50%)
         right: 25px
-        font-size: 35px
+        font-size: 30px
         color: #A0A0A1
         cursor: pointer
     .upload-file-box 
