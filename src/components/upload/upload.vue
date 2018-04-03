@@ -11,7 +11,7 @@
 			          <input type="file" id="picker" name="file" @change="upload"
 			                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 			        </a>
-				<span id="fileName">Unselected File</span>
+				<span id="fileName" >{{fileName}}</span>
 			</div>
 			<div class="tables-container">
 				<h3>History</h3>
@@ -60,7 +60,8 @@
 		name: "upload",
 		data() {
 			return {
-				files: "",
+				isShow: false,
+				fileName: "Unselected File",
 				progress: 0,
 				name: '',
 				Data: {
@@ -90,8 +91,7 @@
 				$('#progress').show()
 				$('#errMsg').hide()
 				$('.upload-file-box').addClass('none').next().removeClass('none');
-			
-				$('#fileName').html(e.target.files[0].name)
+				this.fileName = e.target.files[0].name
 				this.uploader.option('server', this.uploadLink)
 				this.uploader.addFiles(e.target.files[0]);
 			},
@@ -234,14 +234,16 @@
 							layer.close(index);
 							if (res.data.code == 200) {
 								layer.msg('Delete the success!', {
-									time: 2000
+									time: 2000,
+									skin: 'fontColor'
 								}, function(index) {
 									layer.close(index);
 									that.table.ajax.reload(null, false)
 								})
 							} else {
 								layer.msg('Delete failed!', {
-									time: 2000
+									time: 2000,
+									skin: 'fontColor'
 								}, function(index) {
 									layer.close(index);
 								})
@@ -388,5 +390,5 @@
 			.progressbarNum 
 				e-pos(left:50%, x:-50%)
 				z-index: 1
-        
+
 </style>

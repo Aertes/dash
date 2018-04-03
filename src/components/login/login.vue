@@ -6,7 +6,7 @@
     </div>
     <div class="bg">
       <div class="form-wrapper">
-        <h2>WELCOME!</h2>
+        <!-- <h2>WELCOME!</h2> -->
         <form class="submit box-shadow" action="" autocomplete="off">
           <div class="input username">
             <input type="text" @keyup.enter="submit" name='username' @change="onInput" :class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME" autocomplete="off">
@@ -88,15 +88,12 @@
           this.isCodeActive = true;
         }
         if (this.loginDate.username != "" & this.loginDate.password != "" & this.loginDate.code != "") {
-          $(".loading").show();
-          $(".mark").show();
+          this.isShow = true
           post(xhrUrls.LOGIN, this.loginDate)
             .then(res => {
-              console.log(res)
               if (res.data.code == 200) {
                 setTimeout(() => {
-                  $(".loading").hide();
-                  $(".mark").hide();
+                  this.isShow = false
                   this.$router.push({
                     path: "/dashboard"
                   });
@@ -104,8 +101,7 @@
                 }, 1000);
               } else {
                 setTimeout(() => {
-                  $(".loading").hide();
-                  $(".mark").hide();
+                  this.isShow = false
                   this.codeUrl = xhrUrls.CODE + "?" + new Date().getTime();
                   switch (res.data.code) {
                     case 201:
@@ -121,8 +117,7 @@
             })
             .catch(err => {
               setTimeout(() => {
-                $(".loading").hide();
-                $(".mark").hide();
+                this.isShow = false
               }, 1000);
               this.isActive = true;
               console.log(err);
@@ -164,18 +159,19 @@
     opacity: 0.3;
     overflow: hidden;
     background-color: #f9f9f9;
-    display: none;
   }
 .loading{
   e-pos(top: 40%, y: -50%, left: 50%, x:-50%);
   z-index : 10001;
-   display: none;
 }
+
 
 .nav-bar-wrap
     margin: 0 39px;
-    // margin-bottom 19px
     line-height 100px
+    position absolute
+    z-index 1
+    width 100%
     .logo
       float left
       width 198px
@@ -205,18 +201,18 @@
         .user-icon
           font-size 29px
 
-.bg{
-	background:url('../../assets/img/bg.jpg') no-repeat center;
-	background-size: cover;
-	margin 0
-	position: absolute;
+  .bg{
+    background:url('../../assets/img/bg.jpg') no-repeat center;
+    background-size: cover;
+    margin 0
+    position: absolute;
     width: 100%;
     bottom: 80px;
-    top: 100px;
-	overflow: hidden;
-}
+    top: 0;
+    overflow: hidden;
+  }
   .form-wrapper {
-	e-pos(left:50%, x:-50%, top:50%, y:-50%);
+	  e-pos(left:50%, x:-50%, top:50%, y:-50%);
     width: 550px;
 
     h2 {
@@ -279,10 +275,7 @@
           font-size: 24px;
           outline: none;
         }
-        input:
-        :-moz-placeholder, input:-moz-placeholder, input:-ms-input-placeholder, input::-webkit-input-placeholder {
-          color: #a2a1a2;
-        }
+        
       }
 
       button {

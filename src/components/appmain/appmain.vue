@@ -17,7 +17,7 @@
             </a>
             <router-link v-if="system" to="/">
               <svg-icon sign="icon-setting"></svg-icon>
-              <span>system setting</span>
+              <span>SYSTEM SETTIN</span>
             </router-link>
           </div>
         </div>

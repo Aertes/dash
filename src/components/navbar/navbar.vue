@@ -13,13 +13,13 @@
           <div class="a-wrap">
             <router-link to="/">
               <svg-icon sign="icon-user"></svg-icon>
-              <span>profile</span></router-link>
+              <span>PROFILE</span></router-link>
             <router-link to="/">
               <svg-icon sign="icon-setting"></svg-icon>
-              <span>system setting</span></router-link>
+              <span>SYSTEM SETTINGS</span></router-link>
             <a @click="outLogin">
               <svg-icon sign="icon-turn-off"></svg-icon>
-              <span>sign out</span></a>
+              <span>SIGN OUT</span></a>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
         cursor pointer
         .user-name
           margin-right 24px
-          font-size 33px
+          font-size 30px
           vertical-align top
         .user-icon
           font-size 29px
