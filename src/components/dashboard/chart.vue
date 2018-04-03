@@ -14,6 +14,9 @@
         }
       }
     },
+    activated(){
+      this.Echarts()
+    },
     computed: {
       EchartsInit() {
         return this.$echarts.init(this.$refs.myEchart)

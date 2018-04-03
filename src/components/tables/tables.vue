@@ -9,7 +9,7 @@
       <selection v-for="item in selectList" :selections="selectOptions"></selection>
     </div>
     <div class="tables-container">
-      <table id="tableBox1" class="display" style="width:100%">
+      <table id="tableBox1_1" class="display" style="width:100%">
         <thead>
         <tr>
           <th>KPI</th>
@@ -117,23 +117,9 @@
       }
     },
     mounted() {
-      if (this.type === 0) {
-        this.selectList = 1
-        post(OVDateUrl, 'campaign').then(res => {
-          let data = res.data.data
-          data.forEach((val) => {
-            this.selectOptions.push(val)
-          })
-        })
-      }
+      this.getSelectData()
 
-      this.$Hub.$on('monthChange', (val) => {
-        if (this.type == 0) {
-          this.data[0].month = val
-          this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
-          this.dataSearch()
-        }
-      })
+      this.monthChange()
 
       this.dataSearch()
 
@@ -145,7 +131,7 @@
         this.$emit('closeLayer')
       },
       getTableData() {
-        $('#tableBox1').DataTable({
+        $('#tableBox1_1').DataTable({
           "searching": false,
           "lengthChange": false,
           "ordering": false,
@@ -266,6 +252,79 @@
           })
           this.tableData = tData
         }
+      },
+      monthChange(){
+        this.$Hub.$on('monthChange', (val) => {
+          if (this.type == 0) {
+            this.data[0].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.dataSearch()
+          }if (this.type == 1) {
+            this.data[1].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.dataSearch()
+          }if (this.type == 2) {
+            this.data[2].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.dataSearch()
+          }if (this.type == 3) {
+            this.data[3].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.dataSearch()
+          }if (this.type == 3) {
+            this.data[4].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.dataSearch()
+          }
+        })
+      },
+      getSelectData() {
+        this.selectOptions = []
+        if (this.type === 0) {
+          this.selectList = 1
+          post(OVDateUrl, 'campaign').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 1) {
+          this.selectList = 1
+          post(OVDateUrl, 'comB2b').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 2) {
+          this.selectList = 1
+          post(OVDateUrl, 'comB2c').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 3) {
+          this.selectList = 1
+          post(OVDateUrl, 'crm').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
+        if (this.type === 4) {
+          this.selectList = 1
+          post(OVDateUrl, 'reviewRating').then(res => {
+            let data = res.data.data
+            data.forEach((val) => {
+              this.selectOptions.push(val)
+            })
+          })
+        }
       }
     },
     watch: {
@@ -324,7 +383,7 @@
     .tables-container
       padding 15px 50px 20px 50px
       font-size 18px
-      table#tableBox1
+      table
         border-top 1px solid #EAEAEA
         border-left 1px solid #EAEAEA
         border-bottom medium

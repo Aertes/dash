@@ -16,6 +16,22 @@ let defaultOption = {
   }]
 }
 
+let indicator = [
+  {
+    "text": "RATE",
+    "max": 600
+  }, {
+    "text": "% of negative",
+    "max": 600
+  }, {
+    "text": "Timely Reponse%",
+    "max": 600
+  }, {
+    "text": "% of review",
+    "max": 600
+  }
+]
+
 function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
   return {
     tooltip: {
@@ -65,18 +81,18 @@ function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
   }
 }
 
-function chartTypeTwo(legendDate, indicatorData, seriesData) {
+function chartTypeTwo(legendDate, seriesData) {
   return {
     tooltip: {
       trigger: "axis"
     },
     legend: {
-      x: "center",
+      x: 'center',
       data: legendDate
     },
     radar: [{
-      indicator: indicatorData,
-      center: ["25%", "40%"],
+      indicator: indicator,
+      center: ["50%", "40%"],
       radius: 80
     }],
     series: [{
@@ -100,7 +116,7 @@ function chartTypeThree(legendDate, seriesData) {
   return {
     tooltip: {
       trigger: "item",
-      formatter: "{a} <br/>{b} : {c}%"
+      formatter: "{a} <br/>{b} : {c}"
     },
     legend: {
       data: legendDate
@@ -151,6 +167,7 @@ function chartTypeThree(legendDate, seriesData) {
 }
 
 function chartTypeFour(xAxisData, seriesData1, seriesData2) {
+  debugger
   return {
     tooltip: {
       trigger: "axis",
@@ -210,7 +227,8 @@ function chartTypeFour(xAxisData, seriesData1, seriesData2) {
   }
 }
 
-function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesData3, seriesData4) {
+function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesData3, seriesData4, seriesData5) {
+  
   return {
     tooltip: {
       trigger: "axis",
@@ -281,6 +299,18 @@ function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesDa
           }
         },
         data: seriesData4
+      },
+      {
+        name: "Total",
+        type: "bar",
+        stack: "总量",
+        label: {
+          normal: {
+            show: true,
+            position: "insideRight"
+          }
+        },
+        data: seriesData5
       }
     ]
   }

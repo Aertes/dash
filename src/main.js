@@ -23,8 +23,8 @@ import './assets/style/base.styl'
 import 'amfe-flexible/index'
 
 //优化滚动条
-//import 'malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css'
 //import 'malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min'
+//import 'malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css'
 //import './assets/style/scrollbar.css'
 
 //table分页条

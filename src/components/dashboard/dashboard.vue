@@ -7,16 +7,18 @@
       <div class="chart-wrap">
         <div class="chart-title">
           <span>{{title}} - {{Time}}</span>
-          <span @click="openTables"><svg-icon sign="icon-grid" class="grid-icon"></svg-icon></span>
-          <svg-icon sign="icon-chart" class="chart-icon active"></svg-icon>
+          <span @click="tableViews"><svg-icon sign="icon-grid" class="grid-icon" :class="{active:!isTable}"></svg-icon></span>
+          <span @click="chartViews"><svg-icon sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon></span>
         </div>
         <div class="chart-cont">
-          <i class="sideShadow"></i>
+          <!--<i class="sideShadow"></i>-->
           <div id="charContainer">
+
             <keep-alive>
-              <chart-table v-if="!isTable"></chart-table>
-              <chart v-else :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
+              <chart-table v-if="isTable" :tableData="dashBoardTableData" @closeLoading="loadingHandle"></chart-table>
+              <chart v-else="!isTable" :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
             </keep-alive>
+
           </div>
         </div>
       </div>
@@ -49,8 +51,18 @@
     dataOvComB2BSearch,
     dataOvComB2CSearch,
     dataOvCrmSearch,
-    dataOvRevSearch
+    dataOvRevSearch,
+    dataCmaSearch,
+    dataCmafunnelSearch,
+    dataComSearch,
+    dataCrmSearch,
+    dataRevRatSearch,
+    dataEcSearch,
+    dataEcAllSearch
   } from '../../assets/chartsData/index'
+  import {
+    getLocalItem
+  } from '../../assets/config/storage'
 
   let that = this
   export default {
@@ -66,7 +78,6 @@
           'COM.CN B2C',
           'CRM',
           'RATING & REVIEW',
-
           'CAMPAIGN',
           'COM.CN B2B',
           'COM.CN B2C',
@@ -120,16 +131,80 @@
             "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
+          },
+          {
+            "campaign": "OHC SEA",
+            "category": "OHC",
+            "endDate": "2017-01-01",
+            "isBar": false,
+            "isDetailTable": true,
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "campaign": "OHC SEA",
+            "category": "OHC",
+            "endDate": "2017-01-01",
+            "isBar": true,
+            "isDetailTable": true,
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "endDate": "2017-01-01",
+            "isB2C": false,
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "endDate": "2017-01-01",
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "channel": "JD",
+            "endDate": "2017-01-01",
+            "isTable": false,
+            "isYTD": true,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "category": "MG",
+            "endDate": "2017-01-01",
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
+          },
+          {
+            "category": "",
+            "endDate": "2017-01-01",
+            "isTable": false,
+            "month": "201803",
+            "orderBy": "string",
+            "startDate": "2017-01-01"
           }
         ],
         dashBoardoption: '',
+        dashBoardTableData: '',
         canScroll: true,
         load: false,
-        isTable:true
+        isTable: true
       }
     },
     computed: {
       type() {
+        console.log(this.$store.state.type)
         return this.$store.state.type
       }
     },
@@ -138,35 +213,17 @@
       Chart
     },
     mounted() {
+
+      //this.defaultViews()
+
       this.dataSearch()
+
+      this.monthChange()
 
       this.$Hub.$on('goToWheel', () => {
         this.wheelUp()
       })
 
-      this.$Hub.$on('monthChange', (val) => {
-        if (this.type == 0) {
-          this.data[0].month = val
-          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
-          this.dataSearch()
-        }if (this.type == 1) {
-          this.data[1].month = val
-          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
-          this.dataSearch()
-        }if (this.type == 2) {
-          this.data[2].month = val
-          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
-          this.dataSearch()
-        }if (this.type == 3) {
-          this.data[3].month = val
-          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
-          this.dataSearch()
-        }if (this.type == 3) {
-          this.data[4].month = val
-          this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
-          this.dataSearch()
-        }
-      })
     },
     methods: {
       increment() {
@@ -210,20 +267,17 @@
         let delta = Math.max(-1, Math.min(1, value));
         if (this.canScroll) {
           if (delta < 0) {//down
-            if(this.type!=11){
+            if (this.type != 11) {
               this.increment()
               this.wheelDown()
             }
           } else {//up
-            if(this.type!=0){
+            if (this.type != 0) {
               this.decrement()
               this.wheelUp()
             }
           }
         }
-      },
-      openTables() {
-        this.$Hub.$emit('showTables', 'tablesBox')
       },
       loading() {
         this.load = true
@@ -231,19 +285,76 @@
       loadingHandle() {
         this.load = false
       },
-      dataSearch(){
+      dataSearch() {
         this.loading()
         if (this.type == 0) {
+          this.data[0].isTable = this.isTable
           dataOvCmaSearch(this, this.data[0])
-        }else if (this.type == 1) {
+        } else if (this.type == 1) {
+          this.data[1].isTable = this.isTable
           dataOvComB2BSearch(this, this.data[1])
-        }else if (this.type == 2) {
+        } else if (this.type == 2) {
+          this.data[2].isTable = this.isTable
           dataOvComB2CSearch(this, this.data[2])
-        }else if (this.type == 3) {
+        } else if (this.type == 3) {
+          this.data[3].isTable = this.isTable
           dataOvCrmSearch(this, this.data[3])
-        }else if (this.type == 4) {
+        } else if (this.type == 4) {
+          this.data[4].isTable = this.isTable
           dataOvRevSearch(this, this.data[4])
+        }else if (this.type == 5) {
+          dataCmaSearch(this, this.data[5])
+        }else if (this.type == 6) {
+          dataCmafunnelSearch(this, this.data[6])
+        }else if(this.type == 7){
+          dataComSearch(this, this.data[7])
+        }else if (this.type == 8) {
+          dataCrmSearch(this, this.data[8])
+        }else if (this.type == 9) {
+          dataRevRatSearch(this, this.data[9])
+        }else if (this.type == 11) {
+          dataEcSearch(this, this.data[10])
+        }else if (this.type == 11) {
+          dataEcAllSearch(this, this.data[11])
         }
+      },
+      monthChange() {
+        this.$Hub.$on('monthChange', (val) => {
+          if (this.type == 0) {
+            this.data[0].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
+            this.dataSearch()
+          }
+          if (this.type == 1) {
+            this.data[1].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
+            this.dataSearch()
+          }
+          if (this.type == 2) {
+            this.data[2].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
+            this.dataSearch()
+          }
+          if (this.type == 3) {
+            this.data[3].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
+            this.dataSearch()
+          }
+          if (this.type == 3) {
+            this.data[4].month = val
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
+            this.dataSearch()
+          }
+        })
+      },
+      tableViews() {
+        this.isTable = true
+      },
+      chartViews() {
+        this.isTable = false
+      },
+      defaultViews() {
+        this.isTable = getLocalItem('isTableDefaultShow')
       }
     },
     watch: {
@@ -255,6 +366,9 @@
           this.name = `${this.titleList[val]}`
           this.title = `${this.name}`
         }
+        this.dataSearch()
+      },
+      isTable: function () {
         this.dataSearch()
       }
     }
@@ -320,7 +434,7 @@
           .data-list
             padding-top 15px
             li
-              width 200px
+              width 250px
               margin-top 40px
               p
                 white-space nowrap
@@ -329,7 +443,7 @@
               &:nth-of-type(1)
                 p
                   &:nth-of-type(1)
-                    font-size 45px
+                    font-size 35px
                     color #2061AE
               p
                 &:nth-of-type(1)
@@ -353,17 +467,17 @@
           .icon
             e-pos(top:50%, y:-50%)
             font-size 30px
+            cursor pointer
             &.active
               color #B7B5B6
           .chart-icon
             right 80px
           .grid-icon
             right 30px
-            cursor pointer
         .chart-cont
           position relative
-          height 532px
-          margin 0 30px 30px 30px;
+          height 552px
+          margin 0 20px 10px 20px;
           overflow hidden
           #charContainer
             width 100%
