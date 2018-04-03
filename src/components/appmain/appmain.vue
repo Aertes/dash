@@ -139,6 +139,7 @@
         this.isShow = false
       },
       getSelectData() {
+        this.selectOptions = []
         if (this.type === 0) {
           this.selectList = 1
           post(OVDateUrl, 'campaign').then(res => {

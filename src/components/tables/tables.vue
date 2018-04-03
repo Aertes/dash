@@ -162,13 +162,13 @@
                 if (data == 0) {
                   return '<div></div>'
                 } else if (data == 1) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: gray"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
                 } else if (data == 2) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: green"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
                 } else if (data == 3) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: yellow"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
                 } else if (data == 4) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: red"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
                 }
               }
             },
@@ -180,13 +180,13 @@
                 if (data == 0) {
                   return '<div></div>'
                 } else if (data == 1) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: gray"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
                 } else if (data == 2) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: green"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
                 } else if (data == 3) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: yellow"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
                 } else if (data == 4) {
-                  return '<div style="width: 20px;height: 20px;border-radius: 50%;background-color: red"></div>'
+                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
                 }
               }
             }
@@ -322,7 +322,7 @@
         color #A0A0A1
         cursor pointer
     .tables-container
-      padding 10px 50px 20px 50px
+      padding 15px 50px 20px 50px
       font-size 18px
       table#tableBox1
         border-top 1px solid #EAEAEA
