@@ -92,107 +92,83 @@
           {
             "campaign": "OHC SEA",
             "category": "OHC",
-            "endDate": "2017-01-01",
             "isBar": false,
             "isDetailTable": true,
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
             "isB2C": true,
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
             "isB2C": true,
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
             "channel": "JD",
-            "endDate": "2017-01-01",
             "isTable": false,
             "isYTD": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
             "campaign": "OHC SEA",
             "category": "OHC",
-            "endDate": "2017-01-01",
             "isBar": false,
             "isDetailTable": false,
             "isTable": false,
-            "month": "201802",
+            "month": "",
             "orderBy": "string",
-            "startDate": "2017-01-01"
           },
           {
             "campaign": "OHC SEA",
             "category": "OHC",
-            "endDate": "2017-01-01",
             "isBar": true,
             "isDetailTable": true,
             "isTable": false,
-            "month": "201803",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
             "isB2C": false,
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
             "channel": "JD",
-            "endDate": "2017-01-01",
             "isTable": false,
             "isYTD": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
             "category": "MG",
-            "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
             "category": "",
-            "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           }
         ],
         dashBoardoption: '',
@@ -205,6 +181,9 @@
     computed: {
       type() {
         return this.$store.state.type
+      },
+      getStoreYearMonth() {
+        return this.$store.getters.getYearMonth
       }
     },
     components: {
@@ -217,7 +196,7 @@
 
       this.dataSearch()
 
-      this.monthChange()
+      //this.monthChange()
 
       this.$Hub.$on('goToWheel', () => {
         this.wheelUp()
@@ -284,73 +263,82 @@
       loadingHandle() {
         this.load = false
       },
-      dataSearch() {
+      dataSearch(val) {
+
         this.loading()
-        if (this.type == 0) {
-          this.data[0].isTable = this.isTable
-          dataOvCmaSearch(this, this.data[0])
-        } else if (this.type == 1) {
-          this.data[1].isTable = this.isTable
-          dataOvComB2BSearch(this, this.data[1])
-        } else if (this.type == 2) {
-          this.data[2].isTable = this.isTable
-          dataOvComB2CSearch(this, this.data[2])
-        } else if (this.type == 3) {
-          this.data[3].isTable = this.isTable
-          dataOvCrmSearch(this, this.data[3])
-        } else if (this.type == 4) {
-          this.data[4].isTable = this.isTable
-          dataOvRevSearch(this, this.data[4])
-        } else if (this.type == 5) {
-          this.data[5].isTable = this.isTable
-          dataCmaSearch(this, this.data[5])
-        } else if (this.type == 6) {
-          this.data[6].isTable = this.isTable
-          dataCmafunnelSearch(this, this.data[6])
-        } else if (this.type == 7) {
-          this.data[7].isTable = this.isTable
-          dataComSearch(this, this.data[7])
-        } else if (this.type == 8) {
-          this.data[8].isTable = this.isTable
-          dataCrmSearch(this, this.data[8])
-        } else if (this.type == 9) {
-          this.data[9].isTable = this.isTable
-          dataRevRatSearch(this, this.data[9])
-        } else if (this.type == 10) {
-          this.data[10].isTable = this.isTable
-          dataEcSearch(this, this.data[10])
-        } else if (this.type == 11) {
-          this.data[11].isTable = this.isTable
-          dataEcAllSearch(this, this.data[11])
+
+        let num = this.type
+
+        let yearMonth = this.getStoreYearMonth
+
+        /*if(val){
+          yearMonth = val
+        }else{
+          if( getMonth < 10){
+            yearMonth = getYear + '0' + getMonth
+          }else{
+            yearMonth = getYear + getMonth
+          }
+        }*/
+
+        this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
+
+        this.data[num].isTable = this.isTable
+
+        this.data[num].month = yearMonth
+
+        if (num == 0) {
+          dataOvCmaSearch(this, this.data[num])
+        } else if (num == 1) {
+          dataOvComB2BSearch(this, this.data[num])
+        } else if (num == 2) {
+          dataOvComB2CSearch(this, this.data[num])
+        } else if (num == 3) {
+          dataOvCrmSearch(this, this.data[num])
+        } else if (num == 4) {
+          dataOvRevSearch(this, this.data[num])
+        } else if (num == 5) {
+          dataCmaSearch(this, this.data[num])
+        } else if (num == 6) {
+          dataCmafunnelSearch(this, this.data[num])
+        } else if (num == 7) {
+          dataComSearch(this, this.data[num])
+        } else if (tnum == 8) {
+          dataCrmSearch(this, this.data[num])
+        } else if (num == 9) {
+          dataRevRatSearch(this, this.data[num])
+        } else if (num == 10) {
+          dataEcSearch(this, this.data[num])
+        } else if (num == 11) {
+          dataEcAllSearch(this, this.data[num])
         }
       },
       monthChange() {
         this.$Hub.$on('monthChange', (val) => {
+
+          /*this.dataSearch(val)
+
           if (this.type == 0) {
             this.data[0].month = val
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }
-          if (this.type == 1) {
+          }else if (this.type == 1) {
             this.data[1].month = val
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }
-          if (this.type == 2) {
+          }else if (this.type == 2) {
             this.data[2].month = val
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }
-          if (this.type == 3) {
+          }else if (this.type == 3) {
             this.data[3].month = val
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }
-          if (this.type == 3) {
+          }else if (this.type == 3) {
             this.data[4].month = val
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }
+          }*/
         })
       },
       tableViews() {
@@ -379,6 +367,9 @@
         this.dataSearch()
       },
       isTable: function () {
+        this.dataSearch()
+      },
+      getStoreYearMonth: function () {
         this.dataSearch()
       }
     }

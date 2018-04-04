@@ -388,6 +388,7 @@
               columns: [
                 {data: 'item'},
                 {data: 'month'},
+                {data: 'ytd'},
                 {data: 'target'},
                 {
                   data: 'mT',
@@ -405,7 +406,6 @@
                     }
                   }
                 },
-                {data: 'ytd'},
                 {data: 'ytdTarget'},
                 {
                   data: 'yT',
@@ -659,6 +659,17 @@
               val.item = 'MQL'
             } else if (index == 7) {
               val.item = 'SQL'
+            }
+          })
+          this.tableData = tData
+        }else if(this.type == 8){
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'CRM Registrations'
+            } else if (index == 1) {
+              val.item = 'CRM Engagement Rate'
+            } else if (index == 2) {
+              val.item = 'CRM Sales'
             }
           })
           this.tableData = tData

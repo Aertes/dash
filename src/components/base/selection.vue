@@ -39,7 +39,8 @@
     },
     watch:{
       nowIndex:function(){
-        this.$Hub.$emit('monthChange',this.selections[this.nowIndex])
+        this.$store.commit('yearVoluation',this.selections[this.nowIndex])
+        //this.$Hub.$emit('monthChange',this.selections[this.nowIndex])
       }
     }
   }

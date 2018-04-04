@@ -4,7 +4,6 @@
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
       <selection :selections="selectOptions"></selection>
-      <selection :selections="selectOptions"></selection>
       <div v-if="all" class="options-menu">
         <div @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
@@ -52,7 +51,7 @@
         system: false,
         all: false,
         isShow: false,
-        selectOptions: ['2018'],
+        selectOptions: [],
         selectList: 1,
         menuList: [
           {
@@ -94,6 +93,8 @@
       }
     },
     mounted() {
+
+      this.getYear()
 
       this.getSelectData()
 
@@ -142,10 +143,13 @@
         this.$refs.upload.dataTable(type, name)
         this.isShow = false
       },
+      getYear(){
+        const getYear = new Date().getFullYear().toString()
+        this.selectOptions.push(getYear)
+      },
       getSelectData() {
-        this.selectOptions = ['2018']
+        this.selectOptions = ['2017']
         if (this.type === 0) {
-          this.selectList = 2
           post(OVDateUrl, 'campaign').then(res => {
             let data = res.data.data
             data.forEach((val) => {

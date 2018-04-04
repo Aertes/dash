@@ -16,18 +16,20 @@
         line: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
       }
     },
+    mounted(){
+      const getMoth = new Date().getMonth().toString()
+      this.selected = getMoth
+    },
     methods: {
       chooseMonth(index) {
-        let getYear = new Date().getFullYear().toString()
-        let getMoth = (index+1).toString()
-        let dataMoth
+
+        const getMoth = (index+1).toString()
+
         this.selected = index
-        if(getMoth<10){
-          dataMoth = getYear+'0'+getMoth
-        }else{
-          dataMoth = getYear+getMoth
-        }
-        this.$Hub.$emit('monthChange',dataMoth)
+
+        this.$store.commit('monthVoluation',index+1)
+
+        //this.$Hub.$emit('monthChange',getMoth)
       }
     }
   }
@@ -75,7 +77,7 @@
         left 50%
         font-size 23px
         color #fff
-        margin-top -15px
+        margin-top -8px
         margin-left -23px
         background url("../../assets/img/timeline_active.png") no-repeat center #F2F2F2
         background-size cover
