@@ -22,84 +22,6 @@
         </tr>
         </thead>
       </table>
-      <table id="tableBox1_5" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
-      <table id="tableBox1_6" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
-      <table id="tableBox1_7" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
-      <table id="tableBox1_8" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
-      <table id="tableBox1_9" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
-      <table id="tableBox1_10" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
     </div>
   </div>
 </template>
@@ -143,60 +65,102 @@
           {
             "campaign": "OHC SEA",
             "category": "OHC",
-            "endDate": "2017-01-01",
             "isBar": false,
             "isDetailTable": true,
             "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
-            "isB2C": false,
-            "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
-          },
-          {
-            "endDate": "2017-01-01",
             "isB2C": true,
             "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
           },
           {
-            "endDate": "2017-01-01",
+            "isB2C": true,
             "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "isTable": true,
+            "month": "",
+            "orderBy": "string"
           },
           {
             "channel": "JD",
-            "endDate": "2017-01-01",
             "isTable": true,
             "isYTD": true,
-            "month": "201801",
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "campaign": "OHC SEA",
+            "category": "OHC",
+            "isBar": false,
+            "isDetailTable": false,
+            "isTable": true,
+            "month": "",
             "orderBy": "string",
-            "startDate": "2017-01-01"
+          },
+          {
+            "campaign": "OHC SEA",
+            "category": "OHC",
+            "isBar": true,
+            "isDetailTable": true,
+            "isTable": true,
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "isB2C": false,
+            "isTable": true,
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "isTable": false,
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "channel": "JD",
+            "isTable": true,
+            "isYTD": true,
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "category": "MG",
+            "isTable": true,
+            "month": "",
+            "orderBy": "string"
+          },
+          {
+            "category": "",
+            "isTable": true,
+            "month": "",
+            "orderBy": "string"
           }
         ],
-        tableData: '',
         Time: '2018 - 01',
       }
     },
+    props:['tableData'],
     computed: {
       type() {
         return this.$store.state.type
+      },
+      getStoreYearMonth() {
+        return this.$store.getters.getYearMonth
       }
     },
     mounted() {
+
       this.getSelectData()
 
-      this.monthChange()
+      //this.monthChange()
 
       this.dataSearch()
 
@@ -216,6 +180,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -265,6 +230,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -314,6 +280,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -363,6 +330,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -412,6 +380,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -461,6 +430,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -510,6 +480,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info":false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -553,19 +524,43 @@
             })
             break;
         }
-        
+
       },
       dataSearch() {
-        if (this.type == 0) {
-          dataOvCmaSearch(this, this.data[0])
-        } else if (this.type == 1) {
-          dataOvComB2BSearch(this, this.data[1])
-        } else if (this.type == 2) {
-          dataOvComB2CSearch(this, this.data[2])
-        } else if (this.type == 3) {
-          dataOvCrmSearch(this, this.data[3])
-        } else if (this.type == 4) {
-          dataOvRevSearch(this, this.data[4])
+        let num = this.type
+
+        let yearMonth = this.getStoreYearMonth
+
+        this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
+
+        this.data[num].isTable = this.isTable
+
+        this.data[num].month = yearMonth
+
+        if (num == 0) {
+          dataOvCmaSearch(this, this.data[num])
+        } else if (num == 1) {
+          dataOvComB2BSearch(this, this.data[num])
+        } else if (num == 2) {
+          dataOvComB2CSearch(this, this.data[num])
+        } else if (num == 3) {
+          dataOvCrmSearch(this, this.data[num])
+        } else if (num == 4) {
+          dataOvRevSearch(this, this.data[num])
+        } else if (num == 5) {
+          dataCmaSearch(this, this.data[num])
+        } else if (num == 6) {
+          dataCmafunnelSearch(this, this.data[num])
+        } else if (num == 7) {
+          dataComSearch(this, this.data[num])
+        } else if (num == 8) {
+          dataCrmSearch(this, this.data[num])
+        } else if (num == 9) {
+          dataRevRatSearch(this, this.data[num])
+        } else if (num == 10) {
+          dataEcSearch(this, this.data[num])
+        } else if (num == 11) {
+          dataEcAllSearch(this, this.data[num])
         }
       },
       ovtableStyle() {
@@ -630,7 +625,7 @@
         }
       },
       monthChange() {
-        this.$Hub.$on('monthChange', (val) => {
+        /*this.$Hub.$on('monthChange', (val) => {
           if (this.type == 0) {
             this.data[0].month = val
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
@@ -656,20 +651,19 @@
             this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
           }
-        })
+        })*/
       },
       getSelectData() {
-        this.selectOptions = []
+        this.selectOptions = ['2018']
         if (this.type === 0) {
-          this.selectList = 1
           post(OVDateUrl, 'campaign').then(res => {
             let data = res.data.data
             data.forEach((val) => {
+              //if(val==='2018') return
               this.selectOptions.push(val)
             })
           })
         } else if (this.type === 1) {
-          this.selectList = 1
           post(OVDateUrl, 'comB2b').then(res => {
             let data = res.data.data
             data.forEach((val) => {
@@ -677,7 +671,6 @@
             })
           })
         } else if (this.type === 2) {
-          this.selectList = 1
           post(OVDateUrl, 'comB2c').then(res => {
             let data = res.data.data
             data.forEach((val) => {
@@ -685,7 +678,6 @@
             })
           })
         } else if (this.type === 3) {
-          this.selectList = 1
           post(OVDateUrl, 'crm').then(res => {
             let data = res.data.data
             data.forEach((val) => {
@@ -693,7 +685,6 @@
             })
           })
         } else if (this.type === 4) {
-          this.selectList = 1
           post(OVDateUrl, 'reviewRating').then(res => {
             let data = res.data.data
             data.forEach((val) => {
@@ -719,6 +710,9 @@
           this.ovtableStyle()
           this.getTableData()
         })
+      },
+      getStoreYearMonth: function () {
+        this.dataSearch()
       }
     }
   }

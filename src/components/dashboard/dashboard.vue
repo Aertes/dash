@@ -118,14 +118,14 @@
           {
             "channel": "JD",
             "isTable": false,
-            "isYTD": true,
+            "isBar": false,
             "month": "",
             "orderBy": "string"
           },
           {
             "campaign": "OHC SEA",
             "category": "OHC",
-            "isBar": false,
+            "isBar": true,
             "isDetailTable": false,
             "isTable": false,
             "month": "",
@@ -134,7 +134,7 @@
           {
             "campaign": "OHC SEA",
             "category": "OHC",
-            "isBar": true,
+            "isBar": false,
             "isDetailTable": true,
             "isTable": false,
             "month": "",
@@ -192,6 +192,7 @@
     },
     mounted() {
 
+      //alert(this.getStoreYearMonth)
       this.defaultViews()
 
       this.dataSearch()
@@ -303,7 +304,7 @@
           dataCmafunnelSearch(this, this.data[num])
         } else if (num == 7) {
           dataComSearch(this, this.data[num])
-        } else if (tnum == 8) {
+        } else if (num == 8) {
           dataCrmSearch(this, this.data[num])
         } else if (num == 9) {
           dataRevRatSearch(this, this.data[num])
@@ -370,6 +371,7 @@
         this.dataSearch()
       },
       getStoreYearMonth: function () {
+        //alert(this.getStoreYearMonth)
         this.dataSearch()
       }
     }

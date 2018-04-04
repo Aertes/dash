@@ -8,6 +8,7 @@
         <span>Set Default View</span>
       </label>
     </div>
+
     <table id="tableBox1" v-show="isShow1" class="display" style="width:100%">
       <thead>
       <tr>
@@ -89,15 +90,23 @@
     </table>
     <table id="tableBox9" v-show="isShow9" class="display" style="width:100%">
       <thead>
-      <tr>
-        <th>KPI</th>
-        <th>Month</th>
-        <th>Target</th>
-        <th>M v.s T</th>
-        <th>YTD</th>
-        <th>Target</th>
-        <th>Y v.s T</th>
-      </tr>
+        <tr>
+          <th>Channel</th>
+          <th>Category</th>
+          <th>Rate</th>
+          <th>&lt; 4.3%</th>
+          <th>4.3%-4.8%</th>
+          <th>&gt; 4.8%</th>
+          <th>Sellout volume</th>
+          <th>% of review</th>
+          <th>Total review</th>
+          <th>Positive</th>
+          <th>Neutral</th>
+          <th>Negative</th>
+          <th>% of negative</th>
+          <th>Timely Response</th>
+          <th>Timely Reponse%</th>
+        </tr>
       </thead>
     </table>
     <table id="tableBox11" v-show="isShow10" class="display" style="width:100%">
@@ -186,6 +195,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info": false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -283,6 +293,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info": false,
               data: this.tableData,
               columns: [
                 {data: 'week'},
@@ -309,7 +320,7 @@
                   render: (data, type, row) => {
                       return '<div>'+(data.toFixed(2)*100)+'%</div>'
                   }
-                  
+
                 }
               ]
             })
@@ -328,6 +339,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info": false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -384,6 +396,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info": false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -427,51 +440,73 @@
             })
             break;
           case 9:
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = true
+            this.isShow10 = false
             $('#tableBox9').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info": false,
               data: this.tableData,
               columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+                {data: 'channel'},
+                {data: 'category'},
+                {data: 'avgRating'},
                 {
-                  data: 'mT',
+                  data: 'smallVolume',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    debugger
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
                 {
-                  data: 'yT',
+                  data: 'midVolume',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
                   }
-                }
+                },
+                {
+                  data: 'bigVolume',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {
+                  data: 'selloutVolume',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {
+                  data: 'percentReview',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {data: 'totalReview'},
+                {data: 'positive'},
+                {data: 'neutral'},
+                {data: 'negative'},
+                {
+                  data: 'percentNegative',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {data: 'timelyResponse'},
+                {
+                  data: 'timelyResponseRate',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
               ]
             })
             break;
@@ -489,6 +524,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "info": false,
               data: this.tableData,
               columns: [
                 {data: 'category'},
@@ -520,6 +556,7 @@
                   "ordering": false,
                   'bDestroy': true,
                   "pagingType": "simple_numbers",
+                  "info": false,
                   data: this.tableData,
                   columns: [
                     {data: 'item'},
@@ -563,7 +600,7 @@
                 })
             break;
         }
-        
+
       },
       ovtableStyle() {
         let tData = this.tableData
@@ -676,7 +713,7 @@
         }
       },
       openTables() {
-        this.$Hub.$emit('showTables', 'tablesBox')
+        this.$Hub.$emit('showTables', {id:'tablesBox',tableData:this.tableData})
       },
       defaultViews() {
         this.checked = getLocalItem('isTableDefaultShow')

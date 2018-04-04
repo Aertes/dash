@@ -4,7 +4,7 @@
     <img v-if='goDown' src="../../assets/img/down.gif" alt="" class="goDown">
     <img v-if='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
 
-    <tables @closeLayer="layerHandle"></tables>
+    <tables @closeLayer="layerHandle" :tableData="tableData"></tables>
     <upload :uploadLink="link" :types="uploadType" :title="name" @closeLayer="layerHandle"></upload>
     <!-- :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload" -->
     <nav-bar></nav-bar>
@@ -31,7 +31,8 @@
         uploadType: '',
         name: '',
         goDown: true,
-        goUp: false
+        goUp: false,
+        tableData:''
       }
     },
     components: {
@@ -50,8 +51,9 @@
 
       this.goUpDown()
 
-      this.$Hub.$on('showTables', (id) => {
-        this.layerOpen(id)
+      this.$Hub.$on('showTables', (obj) => {
+        this.layerOpen(obj.id)
+        this.tableData = obj.tableData
       });
 
     },

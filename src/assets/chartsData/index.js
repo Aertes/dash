@@ -23,7 +23,6 @@ function dataOvCmaSearch(that, data) {
     post(xhrUrls.OV_CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -60,7 +59,6 @@ function dataOvComB2BSearch(that, data) {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -98,7 +96,6 @@ function dataOvComB2CSearch(that, data) {
     post(xhrUrls.OV_COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -136,7 +133,6 @@ function dataOvCrmSearch(that, data) {
     post(xhrUrls.OV_CRM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -174,7 +170,6 @@ function dataOvRevSearch(that, data) {
     post(xhrUrls.OV_RV_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -213,7 +208,6 @@ function dataCmaSearch(that, data) {
     post(xhrUrls.CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -246,7 +240,6 @@ function dataComSearch(that, data) {
     post(xhrUrls.COM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -294,7 +287,6 @@ function dataCrmSearch(that, data) {
     post(xhrUrls.CRM_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -333,7 +325,6 @@ function dataRevRatSearch(that, data) {
     post(xhrUrls.RV_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -363,7 +354,6 @@ function dataCmafunnelSearch(that, data) {
     post(xhrUrls.CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -395,7 +385,6 @@ function dataEcSearch(that, data) {
     post(xhrUrls.EC_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
@@ -424,7 +413,6 @@ function dataEcAllSearch(that, data) {
     post(xhrUrls.EC_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        that.tableData = data
         that.dashBoardTableData = data
       }).catch(
       error => console.log(error)

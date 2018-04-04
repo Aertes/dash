@@ -148,7 +148,7 @@
         this.selectOptions.push(getYear)
       },
       getSelectData() {
-        this.selectOptions = ['2017']
+        this.selectOptions = ['2018']
         if (this.type === 0) {
           post(OVDateUrl, 'campaign').then(res => {
             let data = res.data.data
