@@ -10,28 +10,21 @@
     </div>
     <table id="tableBox1" class="display" width="100%">
       <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
+      <tr>
+        <th>KPI</th>
+        <th>Month</th>
+        <th>Target</th>
+        <th>M v.s T</th>
+        <th>YTD</th>
+        <th>Target</th>
+        <th>Y v.s T</th>
+      </tr>
       </thead>
     </table>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {
-    dataOvCmaSearch,
-    dataOvComB2BSearch,
-    dataOvComB2CSearch,
-    dataOvCrmSearch,
-    dataOvRevSearch
-  } from '../../assets/chartsData/index'
   import {
     setLocalItem,
     getLocalItem,
@@ -40,79 +33,30 @@
 
   export default {
     name: "chart-table",
-    data(){
+    data() {
       return {
-        /*data: [
-          {
-            "campaign": "OHC SEA",
-            "category": "OHC",
-            "endDate": "2017-01-01",
-            "isBar": false,
-            "isDetailTable": true,
-            "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
-          },
-          {
-            "endDate": "2017-01-01",
-            "isB2C": false,
-            "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
-          },
-          {
-            "endDate": "2017-01-01",
-            "isB2C": true,
-            "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
-          },
-          {
-            "endDate": "2017-01-01",
-            "isTable": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
-          },
-          {
-            "channel": "JD",
-            "endDate": "2017-01-01",
-            "isTable": true,
-            "isYTD": true,
-            "month": "201801",
-            "orderBy": "string",
-            "startDate": "2017-01-01"
-          }
-        ],*/
-        checked:false
+        checked: false
       }
     },
-    props:['tableData'],
+    props: ['tableData'],
     computed: {
       type() {
         return this.$store.state.type
       }
     },
-    mounted(){
+    mounted() {
 
       this.defaultViews()
-
-      this.monthChange()
-
-      //this.dataSearch()
 
       this.getTableData()
 
     },
-    methods:{
+    methods: {
       bindScrollbar() {
         $("#charContainer").mCustomScrollbar({
-          axis:"x",
-          theme:"light-3",
-          advanced:{autoExpandHorizontalScroll:true}
+          axis: "x",
+          theme: "light-3",
+          advanced: {autoExpandHorizontalScroll: true}
         });
       },
       getTableData() {
@@ -123,7 +67,7 @@
           'bDestroy': true,
           "pagingType": "simple_numbers",
           "pageLength": 4,
-          info:false,
+          info: false,
           data: this.tableData,
           columns: [
             {
@@ -176,19 +120,6 @@
           ]
         })
       },
-      /*dataSearch() {
-        if (this.type == 0) {
-          dataOvCmaSearch(this, this.data[0])
-        } else if (this.type == 1) {
-          dataOvComB2BSearch(this, this.data[1])
-        } else if (this.type == 2) {
-          dataOvComB2CSearch(this, this.data[2])
-        } else if (this.type == 3) {
-          dataOvCrmSearch(this, this.data[3])
-        } else if (this.type == 4) {
-          dataOvRevSearch(this, this.data[4])
-        }
-      },*/
       ovtableStyle() {
         let tData = this.tableData
         if (this.type == 0) {
@@ -250,54 +181,30 @@
           this.tableData = tData
         }
       },
-      monthChange(){
-        this.$Hub.$on('monthChange', (val) => {
-          if (this.type == 0) {
-            this.data[0].month = val
-            this.dataSearch()
-          }if (this.type == 1) {
-            this.data[1].month = val
-            this.dataSearch()
-          }if (this.type == 2) {
-            this.data[2].month = val
-            this.dataSearch()
-          }if (this.type == 3) {
-            this.data[3].month = val
-            this.dataSearch()
-          }if (this.type == 3) {
-            this.data[4].month = val
-            this.dataSearch()
-          }
-        })
-      },
       openTables() {
         this.$Hub.$emit('showTables', 'tablesBox')
       },
-      defaultViews(){
-        this.checked =  getLocalItem('isTableDefaultShow')
+      defaultViews() {
+        this.checked = getLocalItem('isTableDefaultShow')
       },
-      closeLoading(){
+      closeLoading() {
         this.$emit('closeLoading')
       }
     },
     watch: {
-      type: function (val) {
-        this.dataSearch()
-      },
       tableData() {
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           this.ovtableStyle()
           this.getTableData()
           this.closeLoading()
         })
       },
-      checked(){
-        if(this.checked){
-          setLocalItem('isTableDefaultShow',true)
-        }else{
+      checked() {
+        if (this.checked) {
+          setLocalItem('isTableDefaultShow', true)
+        } else {
           removeLocalItem('isTableDefaultShow')
         }
-
       }
     }
   }

@@ -41,9 +41,9 @@ function dataOvCmaSearch(that, data) {
         that.DData = []
         for (let i = 0; i < num; i++) {
           let val
-          if(data.chartDate[i].type==='line'){
+          if (data.chartDate[i].type === 'line') {
             val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
-          }else{
+          } else {
             val = data.chartDate[i].data[0]
           }
           that.DData.push([data.chartDate[i].name, formatThousands(val)])
@@ -78,9 +78,9 @@ function dataOvComB2BSearch(that, data) {
         that.DData = []
         for (let i = 0; i < num; i++) {
           let val
-          if(data.chartDate[i].type==='line'){
+          if (data.chartDate[i].type === 'line') {
             val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
-          }else{
+          } else {
             val = data.chartDate[i].data[0]
           }
           that.DData.push([data.chartDate[i].name, formatThousands(val)])
@@ -116,9 +116,9 @@ function dataOvComB2CSearch(that, data) {
         that.DData = []
         for (let i = 0; i < num; i++) {
           let val
-          if(data.chartDate[i].type==='line'){
+          if (data.chartDate[i].type === 'line') {
             val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
-          }else{
+          } else {
             val = data.chartDate[i].data[0]
           }
           that.DData.push([data.chartDate[i].name, formatThousands(val)])
@@ -154,9 +154,9 @@ function dataOvCrmSearch(that, data) {
         that.DData = []
         for (let i = 0; i < num; i++) {
           let val
-          if(data.chartDate[i].type==='line'){
+          if (data.chartDate[i].type === 'line') {
             val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
-          }else{
+          } else {
             val = data.chartDate[i].data[0]
           }
           that.DData.push([data.chartDate[i].name, formatThousands(val)])
@@ -192,9 +192,9 @@ function dataOvRevSearch(that, data) {
         that.DData = []
         for (let i = 0; i < num; i++) {
           let val
-          if(data.chartDate[i].type==='line'){
+          if (data.chartDate[i].type === 'line') {
             val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
-          }else{
+          } else {
             val = data.chartDate[i].data[0]
           }
           that.DData.push([data.chartDate[i].name, formatThousands(val)])
@@ -215,8 +215,8 @@ function dataCmaSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.CMA_SEARCH, data)
       .then(res => {
@@ -234,8 +234,8 @@ function dataCmaSearch(that, data) {
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 
@@ -247,8 +247,8 @@ function dataComSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.COM_SEARCH, data)
       .then(res => {
@@ -281,8 +281,8 @@ function dataComSearch(that, data) {
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 
@@ -294,8 +294,8 @@ function dataCrmSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.CRM_SEARCH, data)
       .then(res => {
@@ -318,8 +318,8 @@ function dataCrmSearch(that, data) {
         }
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 
@@ -332,8 +332,8 @@ function dataRevRatSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.RV_SEARCH, data)
       .then(res => {
@@ -347,8 +347,8 @@ function dataRevRatSearch(that, data) {
         }
         that.dashBoardoption = chartTypeTwo(legendDate, series)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 
@@ -361,8 +361,8 @@ function dataCmafunnelSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.CMA_SEARCH, data)
       .then(res => {
@@ -378,8 +378,8 @@ function dataCmafunnelSearch(that, data) {
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
         that.dashBoardoption = chartTypeThree(legendDate, series)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 
@@ -392,8 +392,8 @@ function dataEcSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.EC_SEARCH, data)
       .then(res => {
@@ -403,11 +403,11 @@ function dataEcSearch(that, data) {
         let seriesData2 = data.series2
         that.DData = []
         that.DData.push(['Total Traffic', res.data.right.traffic])
-        that.DData.push(['Total Conversion', (res.data.right.conversionRate*100).toFixed(2)+'%'])
+        that.DData.push(['Total Conversion', (res.data.right.conversionRate * 100).toFixed(2) + '%'])
         that.dashBoardoption = chartTypeFour(xAxisData, seriesData1, seriesData2)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 
@@ -420,8 +420,8 @@ function dataEcAllSearch(that, data) {
         let data = res.data.data
         that.tableData = data
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   } else {
     post(xhrUrls.EC_SEARCH, data)
       .then(res => {
@@ -438,8 +438,8 @@ function dataEcAllSearch(that, data) {
         that.DData.push(['Total Conversion', (res.data.right.conversionRate * 100).toFixed(2) + '%'])
         that.dashBoardoption = chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesData3, seriesData4, seriesData5)
       }).catch(
-        error => console.log(error)
-      )
+      error => console.log(error)
+    )
   }
 }
 

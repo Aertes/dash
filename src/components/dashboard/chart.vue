@@ -7,14 +7,14 @@
 
   export default {
     name: "chart",
-    props:{
-      chartOptions:{
-        default:()=>{
+    props: {
+      chartOptions: {
+        default: () => {
           return defaultOption
         }
       }
     },
-    activated(){
+    activated() {
       this.Echarts()
     },
     computed: {
@@ -27,17 +27,17 @@
     },
     methods: {
       Echarts() {
-        this.EchartsInit.setOption(this.chartOptions,{
-          notMerge:true
+        this.EchartsInit.setOption(this.chartOptions, {
+          notMerge: true
         });
       },
-      closeLoading(){
+      closeLoading() {
         this.$emit('closeLoading')
       }
     },
-    watch:{
-      chartOptions(){
-        this.$nextTick(()=>{
+    watch: {
+      chartOptions() {
+        this.$nextTick(() => {
           this.Echarts()
           this.closeLoading()
         })

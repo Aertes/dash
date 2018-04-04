@@ -199,12 +199,11 @@
         dashBoardTableData: '',
         canScroll: true,
         load: false,
-        isTable: true
+        isTable: false
       }
     },
     computed: {
       type() {
-        console.log(this.$store.state.type)
         return this.$store.state.type
       }
     },
@@ -214,7 +213,7 @@
     },
     mounted() {
 
-      //this.defaultViews()
+      this.defaultViews()
 
       this.dataSearch()
 
@@ -302,19 +301,26 @@
         } else if (this.type == 4) {
           this.data[4].isTable = this.isTable
           dataOvRevSearch(this, this.data[4])
-        }else if (this.type == 5) {
+        } else if (this.type == 5) {
+          this.data[5].isTable = this.isTable
           dataCmaSearch(this, this.data[5])
-        }else if (this.type == 6) {
+        } else if (this.type == 6) {
+          this.data[6].isTable = this.isTable
           dataCmafunnelSearch(this, this.data[6])
-        }else if(this.type == 7){
+        } else if (this.type == 7) {
+          this.data[7].isTable = this.isTable
           dataComSearch(this, this.data[7])
-        }else if (this.type == 8) {
+        } else if (this.type == 8) {
+          this.data[8].isTable = this.isTable
           dataCrmSearch(this, this.data[8])
-        }else if (this.type == 9) {
+        } else if (this.type == 9) {
+          this.data[9].isTable = this.isTable
           dataRevRatSearch(this, this.data[9])
-        }else if (this.type == 11) {
+        } else if (this.type == 10) {
+          this.data[10].isTable = this.isTable
           dataEcSearch(this, this.data[10])
-        }else if (this.type == 11) {
+        } else if (this.type == 11) {
+          this.data[11].isTable = this.isTable
           dataEcAllSearch(this, this.data[11])
         }
       },
@@ -354,7 +360,11 @@
         this.isTable = false
       },
       defaultViews() {
-        this.isTable = getLocalItem('isTableDefaultShow')
+        if (!getLocalItem('isTableDefaultShow')) {
+          this.isTable = false
+        } else {
+          this.isTable = true
+        }
       }
     },
     watch: {

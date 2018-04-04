@@ -123,7 +123,7 @@
 
       this.dataSearch()
 
-      this.getTableData()
+      //this.getTableData()
 
     },
     methods: {
@@ -253,27 +253,31 @@
           this.tableData = tData
         }
       },
-      monthChange(){
+      monthChange() {
         this.$Hub.$on('monthChange', (val) => {
           if (this.type == 0) {
             this.data[0].month = val
-            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }if (this.type == 1) {
+          }
+          if (this.type == 1) {
             this.data[1].month = val
-            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }if (this.type == 2) {
+          }
+          if (this.type == 2) {
             this.data[2].month = val
-            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }if (this.type == 3) {
+          }
+          if (this.type == 3) {
             this.data[3].month = val
-            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
-          }if (this.type == 3) {
+          }
+          if (this.type == 3) {
             this.data[4].month = val
-            this.Time = val.slice(0, 4) + ' - ' + val.slice(4,6)
+            this.Time = val.slice(0, 4) + ' - ' + val.slice(4, 6)
             this.dataSearch()
           }
         })
@@ -288,8 +292,7 @@
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 1) {
+        } else if (this.type === 1) {
           this.selectList = 1
           post(OVDateUrl, 'comB2b').then(res => {
             let data = res.data.data
@@ -297,8 +300,7 @@
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 2) {
+        } else if (this.type === 2) {
           this.selectList = 1
           post(OVDateUrl, 'comB2c').then(res => {
             let data = res.data.data
@@ -306,8 +308,7 @@
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 3) {
+        } else if (this.type === 3) {
           this.selectList = 1
           post(OVDateUrl, 'crm').then(res => {
             let data = res.data.data
@@ -315,8 +316,7 @@
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 4) {
+        } else if (this.type === 4) {
           this.selectList = 1
           post(OVDateUrl, 'reviewRating').then(res => {
             let data = res.data.data
@@ -339,9 +339,9 @@
         this.dataSearch()
       },
       tableData() {
-        this.$nextTick(()=>{
-          this.ovtableStyle()
-          this.getTableData()
+        this.$nextTick(() => {
+          //this.ovtableStyle()
+          //this.getTableData()
         })
       }
     }

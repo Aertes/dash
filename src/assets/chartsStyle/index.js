@@ -228,7 +228,7 @@ function chartTypeFour(xAxisData, seriesData1, seriesData2) {
 }
 
 function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesData3, seriesData4, seriesData5) {
-  
+
   return {
     tooltip: {
       trigger: "axis",
