@@ -53,7 +53,6 @@
           'COM.CN B2C',
           'CRM',
           'RATING & REVIEW',
-
           'CAMPAIGN',
           'COM.CN B2B',
           'COM.CN B2C',

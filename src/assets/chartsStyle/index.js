@@ -167,7 +167,6 @@ function chartTypeThree(legendDate, seriesData) {
 }
 
 function chartTypeFour(xAxisData, seriesData1, seriesData2) {
-  debugger
   return {
     tooltip: {
       trigger: "axis",

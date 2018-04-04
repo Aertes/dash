@@ -343,7 +343,7 @@ function dataRevRatSearch(that, data) {
         let series = data.data
         that.DData = []
         for (let i = 0; i < num.length; i++) {
-          that.DData.push([num[i].name, num[i].value])
+          that.DData.push([num[i].name, formatThousands(num[i].value)])
         }
         that.dashBoardoption = chartTypeTwo(legendDate, series)
       }).catch(
