@@ -54,14 +54,13 @@
         position absolute
         left 0
         left 50%
-        width 25px
-        height 25px
-        margin-left -12px
-        line-height 22px
+        width 30px
+        height 30px
+        margin-left -15px
+        line-height 27px
         font-size 16px
         border 1px solid #c9caca
         border-radius 50%
-
         color #c9caca
         background-color #F2F2F2
         text-align center
@@ -70,15 +69,16 @@
           &:nth-child({row})
             top 55px * row
       .active
-        width 55px
-        height 55px
-        line-height 51px
+        width 45px
+        height 45px
+        line-height 42px
         left 50%
         font-size 23px
         color #fff
         margin-top -15px
-        margin-left -29px
+        margin-left -23px
         background url("../../assets/img/timeline_active.png") no-repeat center #F2F2F2
         background-size cover
         transition: all .2s linear
+        -ms-transition: all .2s linear
 </style>

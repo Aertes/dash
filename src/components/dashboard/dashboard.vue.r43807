@@ -102,7 +102,7 @@
           },
           {
             "endDate": "2017-01-01",
-            "isB2C": true,
+            "isB2C": false,
             "isTable": false,
             "month": "201801",
             "orderBy": "string",
@@ -137,9 +137,9 @@
             "category": "OHC",
             "endDate": "2017-01-01",
             "isBar": false,
-            "isDetailTable": false,
+            "isDetailTable": true,
             "isTable": false,
-            "month": "201802",
+            "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
@@ -150,7 +150,7 @@
             "isBar": true,
             "isDetailTable": true,
             "isTable": false,
-            "month": "201803",
+            "month": "201801",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },

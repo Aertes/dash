@@ -34,7 +34,7 @@
         }else if(index==1){
           typeVal = 5
         }else if(index==2){
-          typeVal = 6
+          typeVal = 7
         }else if(index==3){
           typeVal = 8
         }else if(index==4){
@@ -56,7 +56,7 @@
         }else if(val===5){
           this.selected = 1
         }else if(val===6){
-          this.selected = 2
+          this.selected = 1
         }else if(val===7){
           this.selected = 2
         }else if(val===8){

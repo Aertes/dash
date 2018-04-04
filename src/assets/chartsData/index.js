@@ -214,6 +214,7 @@ function dataCmaSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )
@@ -228,8 +229,8 @@ function dataCmaSearch(that, data) {
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
         that.DData = []
-        that.DData.push(['Spending', num.spending])
-        that.DData.push(['Cost per lead', num.costLead])
+        that.DData.push(['Spending', formatThousands(num.spending)])
+        that.DData.push(['Cost per lead', formatThousands(num.costLead)])
         that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
@@ -246,6 +247,7 @@ function dataComSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )
@@ -293,6 +295,7 @@ function dataCrmSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )
@@ -331,6 +334,7 @@ function dataRevRatSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )
@@ -360,6 +364,7 @@ function dataCmafunnelSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )
@@ -391,6 +396,7 @@ function dataEcSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )
@@ -419,6 +425,7 @@ function dataEcAllSearch(that, data) {
       .then(res => {
         let data = res.data.data
         that.tableData = data
+        that.dashBoardTableData = data
       }).catch(
       error => console.log(error)
     )

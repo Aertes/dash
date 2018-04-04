@@ -22,6 +22,84 @@
         </tr>
         </thead>
       </table>
+      <table id="tableBox1_5" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
+      <table id="tableBox1_6" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
+      <table id="tableBox1_7" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
+      <table id="tableBox1_8" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
+      <table id="tableBox1_9" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
+      <table id="tableBox1_10" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
     </div>
   </div>
 </template>
@@ -122,7 +200,7 @@
 
       this.dataSearch()
 
-      //this.getTableData()
+      this.getTableData()
 
     },
     methods: {
@@ -130,53 +208,352 @@
         this.$emit('closeLayer')
       },
       getTableData() {
-        $('#tableBox1_1').DataTable({
-          "searching": false,
-          "lengthChange": false,
-          "ordering": false,
-          'bDestroy': true,
-          "pagingType": "simple_numbers",
-          data: this.tableData,
-          columns: [
-            {data: 'item'},
-            {data: 'month'},
-            {data: 'target'},
-            {
-              data: 'mT',
-              render: (data, type, row) => {
-                if (data == 0) {
-                  return '<div></div>'
-                } else if (data == 1) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                } else if (data == 2) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                } else if (data == 3) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                } else if (data == 4) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+        switch (this.type) {
+          case 5:
+            $('#tableBox1_5').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
                 }
-              }
-            },
-            {data: 'ytd'},
-            {data: 'ytdTarget'},
-            {
-              data: 'yT',
-              render: (data, type, row) => {
-                if (data == 0) {
-                  return '<div></div>'
-                } else if (data == 1) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                } else if (data == 2) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                } else if (data == 3) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                } else if (data == 4) {
-                  return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+              ]
+            })
+            break;
+          case 6:
+            $('#tableBox1_6').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
                 }
-              }
-            }
-          ]
-        })
+              ]
+            })
+            break;
+          case 7:
+            $('#tableBox1_7').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                }
+              ]
+            })
+            break;
+          case 8:
+            $('#tableBox1_8').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                }
+              ]
+            })
+            break;
+          case 9:
+            $('#tableBox1_9').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                }
+              ]
+            })
+            break;
+          case 10:
+            $('#tableBox1_10').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                }
+              ]
+            })
+            break;
+          default:
+            $('#tableBox1_1').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              data: this.tableData,
+              columns: [
+                {data: 'item'},
+                {data: 'month'},
+                {data: 'target'},
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {data: 'ytd'},
+                {data: 'ytdTarget'},
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                }
+              ]
+            })
+            break;
+        }
+        
       },
       dataSearch() {
         if (this.type == 0) {
@@ -339,8 +716,8 @@
       },
       tableData() {
         this.$nextTick(() => {
-          //this.ovtableStyle()
-          //this.getTableData()
+          this.ovtableStyle()
+          this.getTableData()
         })
       }
     }

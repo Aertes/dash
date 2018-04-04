@@ -69,24 +69,24 @@
     name: "DashBoard",
     data() {
       return {
-        overview: 'Overview',
-        title: 'Overview Campaign',
-        name: 'Campaign',
+        overview: 'OVERVIEW',
+        title: 'OVERVIEW CAMPAIGN',
+        name: 'CAMPAIGN',
         titleList: [
-          'Campaign',
-          'Com.Cn B2B',
-          'Com.Cn B2C',
-          'Crm',
-          'Rating & Review',
-          'B2C Campaign Performance',
-          'Individal Campaign Performance Dashboard',
-          'Com.Cn',
-          'Crm',
-          'Rating & Review YTD',
-          'Rating & Review Month',
+          'CAMPAIGN',
+          'COM.CN B2B',
+          'COM.CN B2C',
+          'CRM',
+          'RATING & REVIEW',
+          'CAMPAIGN',
+          'COM.CN B2B',
+          'COM.CN B2C',
+          'CRM',
+          'RATING & REVIEW YTD',
+          'RATING & REVIEW Month',
           'EC REPORT',
         ],
-        Time: '2018-01',
+        Time: '2018 - 01',
         DData: [],
         data: [
           {
@@ -102,7 +102,7 @@
           },
           {
             "endDate": "2017-01-01",
-            "isB2C": true,
+            "isB2C": false,
             "isTable": false,
             "month": "201801",
             "orderBy": "string",
@@ -158,14 +158,14 @@
             "endDate": "2017-01-01",
             "isB2C": false,
             "isTable": false,
-            "month": "201801",
+            "month": "201803",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
           {
             "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
+            "month": "201803",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
@@ -174,7 +174,7 @@
             "endDate": "2017-01-01",
             "isTable": false,
             "isYTD": true,
-            "month": "201801",
+            "month": "201803",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
@@ -182,7 +182,7 @@
             "category": "MG",
             "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
+            "month": "201803",
             "orderBy": "string",
             "startDate": "2017-01-01"
           },
@@ -190,7 +190,7 @@
             "category": "",
             "endDate": "2017-01-01",
             "isTable": false,
-            "month": "201801",
+            "month": "201803",
             "orderBy": "string",
             "startDate": "2017-01-01"
           }

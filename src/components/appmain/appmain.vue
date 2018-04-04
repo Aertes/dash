@@ -3,7 +3,8 @@
 
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
-      <selection v-for="item in selectList" :selections="selectOptions"></selection>
+      <selection :selections="selectOptions"></selection>
+      <selection :selections="selectOptions"></selection>
       <div v-if="all" class="options-menu">
         <div @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
@@ -11,7 +12,8 @@
         <div class="dashboard-operation box-shadow" v-show="isShow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
-            <a href="javascript:;" v-for="(item,index) in menuList"  @click="openUpload(item.link, item.type, item.name)">
+            <a href="javascript:;" v-for="(item,index) in menuList"
+               @click="openUpload(item.link, item.type, item.name)">
               <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
               <span v-if="item.status">{{item.name}}</span>
             </a>
@@ -50,7 +52,7 @@
         system: false,
         all: false,
         isShow: false,
-        selectOptions: [],
+        selectOptions: ['2018'],
         selectList: 1,
         menuList: [
           {
@@ -96,7 +98,9 @@
       this.getSelectData()
 
       const USERINFO = JSON.parse(getSessionItem('USERINFO'))
+
       this.USERINFO = USERINFO;
+
       try {
         let per = USERINFO.permissions;
         per.forEach((v, i) => {
@@ -134,50 +138,43 @@
         this.isShow = !this.isShow
       },
       openUpload(link, type, name) {
-        this.$emit('showUpload', {id:'upLoadBox', link:link, type:type, name:name})
+        this.$emit('showUpload', {id: 'upLoadBox', link: link, type: type, name: name})
         this.$refs.upload.dataTable(type, name)
         this.isShow = false
       },
       getSelectData() {
-        this.selectOptions = []
+        this.selectOptions = ['2018']
         if (this.type === 0) {
-          this.selectList = 1
+          this.selectList = 2
           post(OVDateUrl, 'campaign').then(res => {
             let data = res.data.data
             data.forEach((val) => {
+              //if(val==='2018') return
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 1) {
-          this.selectList = 1
+        } else if (this.type === 1) {
           post(OVDateUrl, 'comB2b').then(res => {
             let data = res.data.data
             data.forEach((val) => {
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 2) {
-          this.selectList = 1
+        } else if (this.type === 2) {
           post(OVDateUrl, 'comB2c').then(res => {
             let data = res.data.data
             data.forEach((val) => {
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 3) {
-          this.selectList = 1
+        } else if (this.type === 3) {
           post(OVDateUrl, 'crm').then(res => {
             let data = res.data.data
             data.forEach((val) => {
               this.selectOptions.push(val)
             })
           })
-        }
-        if (this.type === 4) {
-          this.selectList = 1
+        } else if (this.type === 4) {
           post(OVDateUrl, 'reviewRating').then(res => {
             let data = res.data.data
             data.forEach((val) => {
@@ -203,6 +200,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "../../assets/style/mixin.styl"
   .app-main-wrap
+    position relative
     margin-left 315px
     .options-bar
       padding 20px 0
