@@ -3,7 +3,15 @@
 
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
-      <selection :selections="selectOptions"></selection>
+
+      <selection v-if="selectionOne" :selections="selectOptionsOne" ref="selectionOne"></selection>
+
+      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShow="selectShowHandle" ref="selectionTwo"></selection>
+
+      <selection v-if="selectionThree" :selections="selectOptionsThree" ref="selectionThree"></selection>
+
+      <selection v-if="selectionFour" :selections="selectOptionsFour" ref="selectionFour"></selection>
+
       <div v-if="all" class="options-menu">
         <div @click="showOperation">
           <svg-icon sign="icon-more"></svg-icon>
@@ -43,6 +51,8 @@
   import {getSessionItem} from "../../assets/config/storage.js"
 
   let OVDateUrl = xhrUrls.OV_DATE
+  let CAM_CATEGORY = xhrUrls.CAM_CATEGORY
+
   export default {
     name: "appmain",
     data() {
@@ -51,8 +61,14 @@
         system: false,
         all: false,
         isShow: false,
-        selectOptions: [],
-        selectList: 1,
+        selectOptionsOne: [],
+        selectOptionsTwo: [],
+        selectOptionsThree: [],
+        selectOptionsFour: [],
+        selectionOne: true,
+        selectionTwo: false,
+        selectionThree: false,
+        selectionFour: false,
         menuList: [
           {
             name: 'CAMPAIGN',
@@ -90,10 +106,12 @@
     computed: {
       type() {
         return this.$store.state.type
+      },
+      selO() {
+        return this.$refs.selectionTwo.selections
       }
     },
     mounted() {
-
       this.getYear()
 
       this.getSelectData()
@@ -132,7 +150,6 @@
       } catch (ex) {
         //console.error('报错: ', ex.message)
       }
-
     },
     methods: {
       showOperation() {
@@ -143,46 +160,105 @@
         this.$refs.upload.dataTable(type, name)
         this.isShow = false
       },
-      getYear(){
+      getYear() {
         const getYear = new Date().getFullYear().toString()
-        this.selectOptions.push(getYear)
+        this.selectOptionsOne = [getYear]
+      },
+      getCampaignDate(year) {
+        post(OVDateUrl, 'campaign').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getComB2bDate(year) {
+        post(OVDateUrl, 'comB2b').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getComB2cDate(year) {
+        post(OVDateUrl, 'comB2c').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getCrmDate(year) {
+        post(OVDateUrl, 'crm').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptions.push(val)
+          })
+        })
+      },
+      getReviewRatingDate(year) {
+        post(OVDateUrl, 'reviewRating').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getEcDate(year) {
+        post(OVDateUrl, 'reviewRating').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      selectShowHandle(){
+        this.selectionThree = true
       },
       getSelectData() {
-        this.selectOptions = ['2018']
+        const getYear = new Date().getFullYear().toString()
+        this.getYear()
         if (this.type === 0) {
-          post(OVDateUrl, 'campaign').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              //if(val==='2018') return
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionTwo = false
+          this.selectionThree = false
+          this.selectionFour = false
+          this.getCampaignDate(getYear)
         } else if (this.type === 1) {
-          post(OVDateUrl, 'comB2b').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionTwo = false
+          this.selectionThree = false
+          this.selectionFour = false
+          this.getComB2bDate(getYear)
         } else if (this.type === 2) {
-          post(OVDateUrl, 'comB2c').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionTwo = false
+          this.selectionThree = false
+          this.selectionFour = false
+          this.getComB2cDate(getYear)
         } else if (this.type === 3) {
-          post(OVDateUrl, 'crm').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionTwo = false
+          this.selectionThree = false
+          this.selectionFour = false
+          this.getCrmDate(getYear)
         } else if (this.type === 4) {
-          post(OVDateUrl, 'reviewRating').then(res => {
+          this.selectionTwo = false
+          this.selectionThree = false
+          this.selectionFour = false
+          this.getReviewRatingDate(getYear)
+        } else if (this.type === 5) {
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionTwo = true
+          this.getCampaignDate(getYear)
+          get(CAM_CATEGORY).then(res => {
             let data = res.data.data
+            this.selectOptionsTwo = []
             data.forEach((val) => {
-              this.selectOptions.push(val)
+              this.selectOptionsTwo.push(val)
             })
           })
         }

@@ -9,131 +9,176 @@
       </label>
     </div>
 
-    <table id="tableBox1" v-show="isShow1" class="display" style="width:100%">
-      <thead>
-      <tr>
-        <th>KPI</th>
-        <th>Month</th>
-        <th>Target</th>
-        <th>M v.s T</th>
-        <th>YTD</th>
-        <th>Target</th>
-        <th>Y v.s T</th>
-      </tr>
-      </thead>
-    </table>
-    <table id="tableBox5" v-show="isShow5" class="display" style="width:100%">
-      <thead>
+    <div class="tableBoxwrap" v-show="isShow1">
+      <table id="tableBox1" class="display" style="width:100%">
+        <thead>
         <tr>
+          <th>KPI</th>
+          <th>Month</th>
+          <th>Target</th>
+          <th>M v.s T</th>
+          <th>YTD</th>
+          <th>Target</th>
+          <th>Y v.s T</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow5">
+      <table id="tableBox5"  class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Period</th>
+            <th>Spending</th>
+            <th>Impression</th>
+            <th>Traffic</th>
+            <th>Traffic to EC</th>
+            <th>Target</th>
+            <th></th>
+            <th>Traffic to .com</th>
+            <th>Target</th>
+            <th></th>
+            <th>CTR</th>
+            <th>Leads</th>
+            <th>Cost per lead</th>
+            <th>Baseline</th>
+            <th></th>
+            <th>Conversion%</th>
+            <th>Baseline</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow6">
+      <table id="tableBox6"  class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>Week</th>
           <th>Period</th>
+          <th>Channel</th>
           <th>Spending</th>
           <th>Impression</th>
-          <th>Traffic</th>
-          <th>Traffic to EC</th>
-          <th>Target</th>
-          <th></th>
-          <th>Traffic to .com</th>
-          <th>Target</th>
-          <th></th>
+          <th>Click</th>
           <th>CTR</th>
           <th>Leads</th>
           <th>Cost per lead</th>
-          <th>Baseline</th>
-          <th></th>
-          <th>Conversion%</th>
-          <th>Baseline</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
-    <table id="tableBox6" v-show="isShow6" class="display" style="width:100%">
-      <thead>
-      <tr>
-        <th>Week</th>
-        <th>Period</th>
-        <th>Channel</th>
-        <th>Spending</th>
-        <th>Impression</th>
-        <th>Click</th>
-        <th>CTR</th>
-        <th>Leads</th>
-        <th>Cost per lead</th>
-        <th>Conversion%</th>
-      </tr>
-      </thead>
-    </table>
-    <table id="tableBox7" v-show="isShow7" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>Marketing Metrics</th>
-          <th>Month</th>
-          <th>YTD</th>
-          <th>Monthly Target</th>
-          <th></th>
-          <th>YTD Target</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
-    <table id="tableBox8" v-show="isShow8" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>Marketing Metrics</th>
-          <th>Month</th>
-          <th>YTD</th>
-          <th>Monthly target</th>
-          <th></th>
-          <th>YTD Target</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
-    <table id="tableBox9" v-show="isShow9" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>Channel</th>
-          <th>Category</th>
-          <th>Rate</th>
-          <th>&lt; 4.3%</th>
-          <th>4.3%-4.8%</th>
-          <th>&gt; 4.8%</th>
-          <th>Sellout volume</th>
-          <th>% of review</th>
-          <th>Total review</th>
-          <th>Positive</th>
-          <th>Neutral</th>
-          <th>Negative</th>
-          <th>% of negative</th>
-          <th>Timely Response</th>
-          <th>Timely Reponse%</th>
-        </tr>
-      </thead>
-    </table>
-    <table id="tableBox11" v-show="isShow10" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th rowspan="2">Category</th>
-          <th rowspan="2">Period</th>
-          <th colspan="2">Total</th>
-          <th colspan="2">站外</th>
-          <th colspan="2">钻展</th>
-          <th colspan="2">搜索</th>
-          <th colspan="2">其他</th>
-        </tr>
-        <tr>
-          <th>Traffic</th>
-          <th>Conversion%</th>
-          <th>Traffic</th>
-          <th>Conversion%</th>
-          <th>Traffic</th>
-          <th>Conversion%</th>
-          <th>Traffic</th>
-          <th>Conversion%</th>
-          <th>Traffic</th>
           <th>Conversion%</th>
         </tr>
-      </thead>
-    </table>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow7">
+      <table id="tableBox7"  class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Marketing Metrics</th>
+            <th>Month</th>
+            <th>YTD</th>
+            <th>Monthly Target</th>
+            <th></th>
+            <th>YTD Target</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow8">
+      <table id="tableBox8"  class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Marketing Metrics</th>
+            <th>Month</th>
+            <th>YTD</th>
+            <th>Monthly target</th>
+            <th></th>
+            <th>YTD Target</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow9">
+      <table id="tableBox9"  class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th>Category</th>
+            <th>Rate</th>
+            <th>&lt; 4.3%</th>
+            <th>4.3%-4.8%</th>
+            <th>&gt; 4.8%</th>
+            <th>Sellout volume</th>
+            <th>% of review</th>
+            <th>Total review</th>
+            <th>Positive</th>
+            <th>Neutral</th>
+            <th>Negative</th>
+            <th>% of negative</th>
+            <th>Timely Response</th>
+            <th>Timely Reponse%</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow10">
+      <table id="tableBox10"  class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th>Category</th>
+            <th>Rate</th>
+            <th>&lt; 4.3%</th>
+            <th>4.3%-4.8%</th>
+            <th>&gt; 4.8%</th>
+            <th>Sellout volume</th>
+            <th>% of review</th>
+            <th>Total review</th>
+            <th>Positive</th>
+            <th>Neutral</th>
+            <th>Negative</th>
+            <th>% of negative</th>
+            <th>Timely Response</th>
+            <th>Timely Reponse%</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tableBoxwrap" v-show="isShow11">
+      <table id="tableBox11"  class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th rowspan="2">Category</th>
+            <th rowspan="2">Period</th>
+            <th colspan="2">Total</th>
+            <th colspan="2">站外</th>
+            <th colspan="2">钻展</th>
+            <th colspan="2">搜索</th>
+            <th colspan="2">其他</th>
+          </tr>
+          <tr>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
   </div>
 </template>
 
@@ -156,6 +201,7 @@
         isShow8: false,
         isShow9: false,
         isShow10: false,
+        isShow11: false,
       }
     },
     props: ['tableData'],
@@ -189,12 +235,14 @@
             this.isShow8 = false
             this.isShow9 = false
             this.isShow10 = false
+            this.isShow11 = false
             $('#tableBox5').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "pageLength": 3,
               "info": false,
               data: this.tableData,
               columns: [
@@ -287,12 +335,15 @@
             this.isShow8 = false
             this.isShow9 = false
             this.isShow10 = false
+            this.isShow11 = false
             $('#tableBox6').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
+
               "pagingType": "simple_numbers",
+              "pageLength": 3,
               "info": false,
               data: this.tableData,
               columns: [
@@ -333,12 +384,15 @@
             this.isShow8 = false
             this.isShow9 = false
             this.isShow10 = false
+            this.isShow11 = false
             $('#tableBox7').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
+
               "pagingType": "simple_numbers",
+              "pageLength": 3,
               "info": false,
               data: this.tableData,
               columns: [
@@ -390,12 +444,15 @@
             this.isShow8 = true
             this.isShow9 = false
             this.isShow10 = false
+            this.isShow11 = false
             $('#tableBox8').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
+
               "pagingType": "simple_numbers",
+              "pageLength": 3,
               "info": false,
               data: this.tableData,
               columns: [
@@ -447,14 +504,16 @@
             this.isShow8 = false
             this.isShow9 = true
             this.isShow10 = false
+            this.isShow11 = false
             $('#tableBox9').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "pageLength": 3,
               "info": false,
-              data: this.tableData,
+              data: this.tableData.data,
               columns: [
                 {data: 'channel'},
                 {data: 'category'},
@@ -462,7 +521,6 @@
                 {
                   data: 'smallVolume',
                   render: (data, type, row) => {
-                    debugger
                       return '<div>'+(data.toFixed(2)*100)+'%</div>'
                   }
                 },
@@ -479,10 +537,76 @@
                   }
                 },
                 {
-                  data: 'selloutVolume',
+                  data: 'selloutVolume'
+                },
+                {
+                  data: 'percentReview',
                   render: (data, type, row) => {
                       return '<div>'+(data.toFixed(2)*100)+'%</div>'
                   }
+                },
+                {data: 'totalReview'},
+                {data: 'positive'},
+                {data: 'neutral'},
+                {data: 'negative'},
+                {
+                  data: 'percentNegative',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {data: 'timelyResponse'},
+                {
+                  data: 'timelyResponseRate',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+              ]
+            })
+            break;
+          case 10:
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = true
+            this.isShow11 = false
+            $('#tableBox10').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              "pageLength": 3,
+              "info": false,
+              data: this.tableData.data,
+              columns: [
+                {data: 'channel'},
+                {data: 'category'},
+                {data: 'avgRating'},
+                {
+                  data: 'smallVolume',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {
+                  data: 'midVolume',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {
+                  data: 'bigVolume',
+                  render: (data, type, row) => {
+                      return '<div>'+(data.toFixed(2)*100)+'%</div>'
+                  }
+                },
+                {
+                  data: 'selloutVolume'
                 },
                 {
                   data: 'percentReview',
@@ -517,13 +641,15 @@
             this.isShow7 = false
             this.isShow8 = false
             this.isShow9 = false
-            this.isShow10 = true
+            this.isShow10 = false
+            this.isShow11 = true
             $('#tableBox11').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
+              "pageLength": 3,
               "info": false,
               data: this.tableData,
               columns: [
@@ -556,6 +682,7 @@
                   "ordering": false,
                   'bDestroy': true,
                   "pagingType": "simple_numbers",
+                  "pageLength": 3,
                   "info": false,
                   data: this.tableData,
                   columns: [
@@ -600,7 +727,6 @@
                 })
             break;
         }
-
       },
       ovtableStyle() {
         let tData = this.tableData
@@ -748,6 +874,8 @@
     height 100%
     font-size 18px
     overflow auto
+    .tableBoxwrap
+      height 100%
     .table-set
       position absolute
       left 0

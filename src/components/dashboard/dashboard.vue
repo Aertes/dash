@@ -137,7 +137,7 @@
             "isBar": false,
             "isDetailTable": true,
             "isTable": false,
-            "month": "",
+            "month": "201803",
             "orderBy": "string"
           },
           {
@@ -159,10 +159,12 @@
             "orderBy": "string"
           },
           {
-            "category": "MG",
+            "channel": "total",
+            "endDate": "2017-01-01",
             "isTable": false,
-            "month": "",
-            "orderBy": "string"
+            "isYTD": true,
+            "orderBy": "string",
+            "startDate": "2017-01-01"
           },
           {
             "category": "",
@@ -309,7 +311,8 @@
         } else if (num == 9) {
           dataRevRatSearch(this, this.data[num])
         } else if (num == 10) {
-          dataEcSearch(this, this.data[num])
+          dataRevRatSearch(this, this.data[num])
+          //dataEcSearch(this, this.data[num])
         } else if (num == 11) {
           dataEcAllSearch(this, this.data[num])
         }

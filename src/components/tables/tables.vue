@@ -9,40 +9,215 @@
       <selection v-for="item in selectList" :selections="selectOptions"></selection>
     </div>
     <div class="tables-container">
-      <table id="tableBox1_1" class="display" style="width:100%">
-        <thead>
-        <tr>
-          <th>KPI</th>
-          <th>Month</th>
-          <th>Target</th>
-          <th>M v.s T</th>
-          <th>YTD</th>
-          <th>Target</th>
-          <th>Y v.s T</th>
-        </tr>
-        </thead>
-      </table>
+      <div class="tableBoxwrap" v-show="isShow1">
+        <table id="tableBoxDialog1" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>KPI</th>
+              <th>Month</th>
+              <th>Target</th>
+              <th>M v.s T</th>
+              <th>YTD</th>
+              <th>Target</th>
+              <th>Y v.s T</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow5">
+        <table id="tableBoxDialog5" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Spending</th>
+              <th>Impression</th>
+              <th>Traffic</th>
+              <th>Traffic to EC</th>
+              <th>Target</th>
+              <th></th>
+              <th>Traffic to .com</th>
+              <th>Target</th>
+              <th></th>
+              <th>CTR</th>
+              <th>Leads</th>
+              <th>Cost per lead</th>
+              <th>Baseline</th>
+              <th></th>
+              <th>Conversion%</th>
+              <th>Baseline</th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow6">
+        <table id="tableBoxDialog6" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Period</th>
+              <th>Channel</th>
+              <th>Spending</th>
+              <th>Impression</th>
+              <th>Click</th>
+              <th>CTR</th>
+              <th>Leads</th>
+              <th>Cost per lead</th>
+              <th>Conversion%</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow7">
+        <table id="tableBoxDialog7" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Marketing Metrics</th>
+              <th>Month</th>
+              <th>YTD</th>
+              <th>Monthly Target</th>
+              <th></th>
+              <th>YTD Target</th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow8">
+        <table id="tableBoxDialog8" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Marketing Metrics</th>
+              <th>Month</th>
+              <th>YTD</th>
+              <th>Monthly target</th>
+              <th></th>
+              <th>YTD Target</th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow9">
+        <table id="tableBoxDialog9" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Channel</th>
+              <th>Category</th>
+              <th>Rate</th>
+              <th>&lt; 4.3%</th>
+              <th>4.3%-4.8%</th>
+              <th>&gt; 4.8%</th>
+              <th>Sellout volume</th>
+              <th>% of review</th>
+              <th>Total review</th>
+              <th>Positive</th>
+              <th>Neutral</th>
+              <th>Negative</th>
+              <th>% of negative</th>
+              <th>Timely Response</th>
+              <th>Timely Reponse%</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow10">
+        <table id="tableBoxDialog10" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Channel</th>
+              <th>Category</th>
+              <th>Rate</th>
+              <th>&lt; 4.3%</th>
+              <th>4.3%-4.8%</th>
+              <th>&gt; 4.8%</th>
+              <th>Sellout volume</th>
+              <th>% of review</th>
+              <th>Total review</th>
+              <th>Positive</th>
+              <th>Neutral</th>
+              <th>Negative</th>
+              <th>% of negative</th>
+              <th>Timely Response</th>
+              <th>Timely Reponse%</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <div class="tableBoxwrap" v-show="isShow11">
+        <table id="tableBoxDialog11" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th rowspan="2">Category</th>
+              <th rowspan="2">Period</th>
+              <th colspan="2">Total</th>
+              <th colspan="2">站外</th>
+              <th colspan="2">钻展</th>
+              <th colspan="2">搜索</th>
+              <th colspan="2">其他</th>
+            </tr>
+            <tr>
+              <th>Traffic</th>
+              <th>Conversion%</th>
+              <th>Traffic</th>
+              <th>Conversion%</th>
+              <th>Traffic</th>
+              <th>Conversion%</th>
+              <th>Traffic</th>
+              <th>Conversion%</th>
+              <th>Traffic</th>
+              <th>Conversion%</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import xhrUrls from '../../assets/config/xhrUrls'
-  import {get, post, uploadPost} from '../../assets/config/http'
+  import {
+    get,
+    post,
+    uploadPost
+  } from '../../assets/config/http'
   import {
     dataOvCmaSearch,
     dataOvComB2BSearch,
     dataOvComB2CSearch,
     dataOvCrmSearch,
-    dataOvRevSearch
+    dataOvRevSearch,
+    dataCmaSearch,
+    dataCmafunnelSearch,
+    dataComSearch,
+    dataCrmSearch,
+    dataRevRatSearch,
+    dataEcSearch,
+    dataEcAllSearch
   } from '../../assets/chartsData/index'
-
+  
   let OVDateUrl = xhrUrls.OV_DATE
   export default {
     name: "Tables",
     data() {
       return {
         selectOptions: [],
+        isShow1: false,
+        isShow5: false,
+        isShow6: false,
+        isShow7: false,
+        isShow8: false,
+        isShow9: false,
+        isShow10: false,
+        isShow11: false,
         selectList: 1,
         overview: 'OVERVIEW',
         title: 'OVERVIEW CAMPAIGN',
@@ -61,8 +236,7 @@
           'RATING & REVIEW Month',
           'EC REPORT',
         ],
-        data: [
-          {
+        data: [{
             "campaign": "OHC SEA",
             "category": "OHC",
             "isBar": false,
@@ -147,7 +321,7 @@
         Time: '2018 - 01',
       }
     },
-    props:['tableData'],
+    props: ['tableData'],
     computed: {
       type() {
         return this.$store.state.type
@@ -157,15 +331,15 @@
       }
     },
     mounted() {
-
+  
       this.getSelectData()
-
+  
       //this.monthChange()
-
+  
       this.dataSearch()
-
+  
       this.getTableData()
-
+  
     },
     methods: {
       closeLayerButton() {
@@ -174,20 +348,43 @@
       getTableData() {
         switch (this.type) {
           case 5:
-            $('#tableBox1_5').DataTable({
+            this.isShow1 = false
+            this.isShow5 = true
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = false
+            this.isShow11 = false
+            $('#tableBoxDialog5').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "info":false,
+              "pageLength": 3,
+              "info": false,
               data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              columns: [{
+                  data: 'item',
+                },
                 {
-                  data: 'mT',
+                  data: 'spending'
+                },
+                {
+                  data: 'impression'
+                },
+                {
+                  data: 'traffic'
+                },
+                {
+                  data: 'trafficEc'
+                },
+                {
+                  data: 'trafficEcTarget'
+                },
+                {
+                  data: 'h',
                   render: (data, type, row) => {
                     if (data == 0) {
                       return '<div></div>'
@@ -202,10 +399,64 @@
                     }
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
                 {
-                  data: 'yT',
+                  data: 'trafficCom'
+                },
+                {
+                  data: 'trafficComTarget'
+                },
+                {
+                  data: 'k',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {
+                  data: 'ctr'
+                },
+                {
+                  data: 'leads'
+                },
+                {
+                  data: 'costLead'
+                },
+                {
+                  data: 'baseLine'
+                },
+                {
+                  data: 'p',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                    }
+                  }
+                },
+                {
+                  data: 'conversionRate'
+                },
+                {
+                  data: 'baseLineConversion'
+                },
+                {
+                  data: 's',
                   render: (data, type, row) => {
                     if (data == 0) {
                       return '<div></div>'
@@ -224,68 +475,97 @@
             })
             break;
           case 6:
-            $('#tableBox1_6').DataTable({
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = true
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = false
+            this.isShow11 = false
+            $('#tableBoxDialog6').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "info":false,
+              "pageLength": 3,
+              "info": false,
               data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              columns: [{
+                  data: 'week'
+                },
                 {
-                  data: 'mT',
+                  data: 'startDate',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    return '<div>' + data + '-' + row.endDate + '</div>'
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
                 {
-                  data: 'yT',
+                  data: 'channel'
+                },
+                {
+                  data: 'spending'
+                },
+                {
+                  data: 'impression'
+                },
+                {
+                  data: 'click'
+                },
+                {
+                  data: 'ctr',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
                   }
+                },
+                {
+                  data: 'leads'
+                },
+                {
+                  data: 'costLead'
+                },
+                {
+                  data: 'conversionRate',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+  
                 }
               ]
             })
             break;
           case 7:
-            $('#tableBox1_7').DataTable({
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = true
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = false
+            this.isShow11 = false
+            $('#tableBoxDialog7').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
+  
               "pagingType": "simple_numbers",
-              "info":false,
+              "pageLength": 3,
+              "info": false,
               data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              columns: [{
+                  data: 'item'
+                },
+                {
+                  data: 'month'
+                },
+                {
+                  data: 'ytd'
+                },
+                {
+                  data: 'target'
+                },
                 {
                   data: 'mT',
                   render: (data, type, row) => {
@@ -302,8 +582,9 @@
                     }
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
+                {
+                  data: 'ytdTarget'
+                },
                 {
                   data: 'yT',
                   render: (data, type, row) => {
@@ -324,18 +605,36 @@
             })
             break;
           case 8:
-            $('#tableBox1_8').DataTable({
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = true
+            this.isShow9 = false
+            this.isShow10 = false
+            this.isShow11 = false
+            $('#tableBoxDialog8').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
+  
               "pagingType": "simple_numbers",
-              "info":false,
+              "pageLength": 3,
+              "info": false,
               data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              columns: [{
+                  data: 'item'
+                },
+                {
+                  data: 'month'
+                },
+                {
+                  data: 'ytd'
+                },
+                {
+                  data: 'target'
+                },
                 {
                   data: 'mT',
                   render: (data, type, row) => {
@@ -352,8 +651,9 @@
                     }
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
+                {
+                  data: 'ytdTarget'
+                },
                 {
                   data: 'yT',
                   render: (data, type, row) => {
@@ -374,118 +674,256 @@
             })
             break;
           case 9:
-            $('#tableBox1_9').DataTable({
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = true
+            this.isShow10 = false
+            this.isShow11 = false
+            $('#tableBoxDialog9').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "info":false,
-              data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              "pageLength": 3,
+              "info": false,
+              data: this.tableData.data,
+              columns: [{
+                  data: 'channel'
+                },
                 {
-                  data: 'mT',
+                  data: 'category'
+                },
+                {
+                  data: 'avgRating'
+                },
+                {
+                  data: 'smallVolume',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
                 {
-                  data: 'yT',
+                  data: 'midVolume',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
                   }
-                }
+                },
+                {
+                  data: 'bigVolume',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+                {
+                  data: 'selloutVolume'
+                },
+                {
+                  data: 'percentReview',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+                {
+                  data: 'totalReview'
+                },
+                {
+                  data: 'positive'
+                },
+                {
+                  data: 'neutral'
+                },
+                {
+                  data: 'negative'
+                },
+                {
+                  data: 'percentNegative',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+                {
+                  data: 'timelyResponse'
+                },
+                {
+                  data: 'timelyResponseRate',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
               ]
             })
             break;
           case 10:
-            $('#tableBox1_10').DataTable({
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = true
+            this.isShow11 = false
+            $('#tableBoxDialog10').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "info":false,
-              data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              "pageLength": 3,
+              "info": false,
+              data: this.tableData.data,
+              columns: [{
+                  data: 'channel'
+                },
                 {
-                  data: 'mT',
+                  data: 'category'
+                },
+                {
+                  data: 'avgRating'
+                },
+                {
+                  data: 'smallVolume',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
                 {
-                  data: 'yT',
+                  data: 'midVolume',
                   render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
-                    }
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
                   }
-                }
+                },
+                {
+                  data: 'bigVolume',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+                {
+                  data: 'selloutVolume'
+                },
+                {
+                  data: 'percentReview',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+                {
+                  data: 'totalReview'
+                },
+                {
+                  data: 'positive'
+                },
+                {
+                  data: 'neutral'
+                },
+                {
+                  data: 'negative'
+                },
+                {
+                  data: 'percentNegative',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+                {
+                  data: 'timelyResponse'
+                },
+                {
+                  data: 'timelyResponseRate',
+                  render: (data, type, row) => {
+                    return '<div>' + (data.toFixed(2) * 100) + '%</div>'
+                  }
+                },
+              ]
+            })
+            break;
+          case 11:
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = false
+            this.isShow11 = true
+            $('#tableBoxDialog11').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              "pageLength": 3,
+              "info": false,
+              data: this.tableData,
+              columns: [{
+                  data: 'category'
+                },
+                {
+                  data: 'period'
+                },
+                {
+                  data: 'traffic1'
+                },
+                {
+                  data: 'conversionRate1'
+                },
+                {
+                  data: 'traffic2'
+                },
+                {
+                  data: 'conversionRate2'
+                },
+                {
+                  data: 'traffic3'
+                },
+                {
+                  data: 'conversionRate3'
+                },
+                {
+                  data: 'traffic4'
+                },
+                {
+                  data: 'conversionRate4'
+                },
+                {
+                  data: 'traffic5'
+                },
+                {
+                  data: 'conversionRate5'
+                },
               ]
             })
             break;
           default:
-            $('#tableBox1_1').DataTable({
+            this.isShow1 = true
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
+            this.isShow8 = false
+            this.isShow9 = false
+            this.isShow10 = false
+            $('#tableBoxDialog1').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "info":false,
+              "pageLength": 3,
+              "info": false,
               data: this.tableData,
-              columns: [
-                {data: 'item'},
-                {data: 'month'},
-                {data: 'target'},
+              columns: [{
+                  data: 'item',
+                },
+                {
+                  data: 'month'
+                },
+                {
+                  data: 'target'
+                },
                 {
                   data: 'mT',
                   render: (data, type, row) => {
@@ -502,8 +940,12 @@
                     }
                   }
                 },
-                {data: 'ytd'},
-                {data: 'ytdTarget'},
+                {
+                  data: 'ytd'
+                },
+                {
+                  data: 'ytdTarget'
+                },
                 {
                   data: 'yT',
                   render: (data, type, row) => {
@@ -524,19 +966,18 @@
             })
             break;
         }
-
       },
       dataSearch() {
         let num = this.type
-
+  
         let yearMonth = this.getStoreYearMonth
-
+  
         this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
-
+  
         this.data[num].isTable = this.isTable
-
+  
         this.data[num].month = yearMonth
-
+  
         if (num == 0) {
           dataOvCmaSearch(this, this.data[num])
         } else if (num == 1) {
@@ -695,7 +1136,7 @@
       }
     },
     watch: {
-      type: function (val) {
+      type: function(val) {
         if (val < 5) {
           this.name = `${this.titleList[val]}`
           this.title = `${this.overview} ${this.name}`
@@ -711,7 +1152,7 @@
           this.getTableData()
         })
       },
-      getStoreYearMonth: function () {
+      getStoreYearMonth: function() {
         this.dataSearch()
       }
     }
