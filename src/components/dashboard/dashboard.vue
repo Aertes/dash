@@ -209,10 +209,15 @@
       ChartTable,
       Chart
     },
+    beforeCreate() {
+      
+    },
     mounted() {
 
       // alert(this.getStoreYearMonth)
       this.defaultViews()
+
+      
 
       this.dataSearch()
 
@@ -409,10 +414,10 @@
             obj[strs[i].split('=')[0]]=unescape(strs[i].split('=')[1])
           }
         }
+        this.$store.commit('voluation', Number(obj.type))
+        this.$store.commit('yearVoluation', Number(obj.yearMonth.substr(0, 4)))
+        this.$store.commit('monthVoluation', Number(obj.yearMonth.substr(4)))
 
-        this.$store.commit('type', Number(obj.type))
-
-        console.log(Number(obj.type))
       }
     },
     watch: {
@@ -430,7 +435,8 @@
         this.dataSearch()
       },
       getStoreYearMonth: function () {
-        //alert(this.getStoreYearMonth)
+        alert(this.getStoreYearMonth)
+
         this.dataSearch()
       }
     }

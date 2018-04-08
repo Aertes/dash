@@ -22,13 +22,9 @@
     },
     methods: {
       chooseMonth(index) {
-
         const getMoth = (index+1).toString()
-
         this.selected = index
-
         this.$store.commit('monthVoluation',index+1)
-
         //this.$Hub.$emit('monthChange',getMoth)
       }
     }
