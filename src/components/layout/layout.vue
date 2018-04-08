@@ -10,7 +10,7 @@
     <nav-bar></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
-      <app-main @showUpload="uploadHandle"></app-main>
+      <app-main @showUpload="uploadHandle" ></app-main>
     </div>
   </div>
 

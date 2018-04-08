@@ -35,10 +35,24 @@
               <p>{{item[0]}}</p>
             </li>
           </ul>
-          <button class="box-shadow download-button">DOWNLOAD</button>
+          <button class="box-shadow download-button" @click="downloadUrl">DOWNLOAD</button>
         </div>
       </div>
     </div>
+
+
+    <div class="downLoadUrl" id="downLoadUrl">
+      <div class="tables-title">
+        <span class="title">Download</span>
+        <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
+      </div>
+      <div class="content">
+        <input type="text" name="url" id="url" ref="inputUrl" :value="url">
+        <button type="button" @click="copyURL">Click on the copy</button>
+      </div>
+        
+    </div>
+  
   </div>
 </template>
 
@@ -65,6 +79,7 @@
   } from '../../assets/config/storage'
 
   let that = this
+  let layerId
   export default {
     name: "DashBoard",
     data() {
@@ -177,7 +192,9 @@
         dashBoardTableData: '',
         canScroll: true,
         load: false,
-        isTable: false
+        isShow: false,
+        isTable: false,
+        url:''
       }
     },
     computed: {
@@ -194,7 +211,7 @@
     },
     mounted() {
 
-      //alert(this.getStoreYearMonth)
+      // alert(this.getStoreYearMonth)
       this.defaultViews()
 
       this.dataSearch()
@@ -204,6 +221,8 @@
       this.$Hub.$on('goToWheel', () => {
         this.wheelUp()
       })
+
+      this.getUrl();
 
     },
     methods: {
@@ -267,13 +286,9 @@
         this.load = false
       },
       dataSearch(val) {
-
         this.loading()
-
         let num = this.type
-
         let yearMonth = this.getStoreYearMonth
-
         /*if(val){
           yearMonth = val
         }else{
@@ -283,13 +298,11 @@
             yearMonth = getYear + getMonth
           }
         }*/
-
         this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
 
         this.data[num].isTable = this.isTable
 
         this.data[num].month = yearMonth
-
         if (num == 0) {
           dataOvCmaSearch(this, this.data[num])
         } else if (num == 1) {
@@ -357,6 +370,49 @@
         } else {
           this.isTable = true
         }
+      },
+      layerOpen(id) {
+        layerId = layer.open({
+          type: 1,
+          title: false,
+          closeBtn: 0,
+          shadeClose: false,
+          area: 'auto auto',
+          shade: [0.5, '#fff'],
+          content: $(`#${id}`)
+        })
+      },
+      closeLayerButton(){
+        layer.close(layerId)
+        this.url = ''
+      },
+      downloadUrl() {
+        let baseUrl = window.location.origin;
+        let downloadUrl = baseUrl + '/#/dashboard?type='+this.type+'&yearMonth='+this.getStoreYearMonth+''
+        this.url = downloadUrl
+        this.layerOpen('downLoadUrl')
+      },
+      copyURL(){
+        let inputUrl = this.$refs.inputUrl;
+        inputUrl.select();
+        document.execCommand('Copy');
+        console.log(this.$refs.inputUrl)
+        layer.msg("Copy success !");
+      },
+      getUrl(){
+        let url = window.location.hash;
+        let obj = {}
+        if (url.indexOf("?") != -1) {
+          let str = url.substr(12);
+          let strs = str.split("&");
+          for(let i=0; i<strs.length; i++){
+            obj[strs[i].split('=')[0]]=unescape(strs[i].split('=')[1])
+          }
+        }
+
+        this.$store.commit('type', Number(obj.type))
+
+        console.log(Number(obj.type))
       }
     },
     watch: {
@@ -510,4 +566,36 @@
         e-pos(top:50%, y:-50%, left:50%, x:-50%)
         width 300px
         height 300px
+  .downLoadUrl
+    .tables-title
+      position: relative
+      padding-left: 30px
+      font-size: 24px
+      line-height: 80px
+      color: #a0a0a1
+      .icon
+        e-pos(top:50%, y:-50%)
+        right: 25px
+        font-size: 24px
+        color: #A0A0A1
+        cursor: pointer
+    .content
+      padding 20px 30px 60px 30px
+      input
+        padding: 10px
+        width: 500px
+        height: 40px
+        line-height: 40px
+        font-size 20px
+      button
+        height: 40px
+        line-height: 40px
+        background: #fff
+        border: 1px solid #ccc
+        padding: 0 10px 0px
+        vertical-align: bottom
+        cursor pointer
+        margin-left 20px
+        font-size 20px
+
 </style>

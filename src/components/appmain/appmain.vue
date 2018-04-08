@@ -4,13 +4,13 @@
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
-      <selection v-if="selectionOne" :selections="selectOptionsOne" ref="selectionOne"></selection>
+      <selection v-if="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle" ref="selectionOne"></selection>
 
-      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShow="selectShowHandle" ref="selectionTwo"></selection>
+      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle" ref="selectionTwo"></selection>
 
-      <selection v-if="selectionThree" :selections="selectOptionsThree" ref="selectionThree"></selection>
+      <selection v-if="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle" ref="selectionThree"></selection>
 
-      <selection v-if="selectionFour" :selections="selectOptionsFour" ref="selectionFour"></selection>
+      <selection v-if="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle" ref="selectionFour"></selection>
 
       <div v-if="all" class="options-menu">
         <div @click="showOperation">
@@ -46,7 +46,7 @@
   import DashBoard from '../dashboard/dashboard'
   import TimeLine from '../timeline/timeline'
   import xhrUrls from '../../assets/config/xhrUrls'
-  import UploadFile from '../../components/upload/upload.vue'
+  import UploadFile from '../../components/upload/upload'
   import {get, post, uploadPost} from '../../assets/config/http'
   import {getSessionItem} from "../../assets/config/storage.js"
 
@@ -112,6 +112,8 @@
       }
     },
     mounted() {
+
+
       this.getYear()
 
       this.getSelectData()
@@ -218,8 +220,17 @@
           })
         })
       },
-      selectShowHandle(){
-        this.selectionThree = true
+      selectShowOneHandle(){
+        alert(1)
+      },
+      selectShowTwoHandle(){
+        alert(2)
+      },
+      selectShowThreeHandle(){
+        alert(3)
+      },
+      selectShowFourHandle(){
+        alert(4)
       },
       getSelectData() {
         const getYear = new Date().getFullYear().toString()
@@ -267,7 +278,7 @@
     components: {
       DashBoard,
       TimeLine,
-      UploadFile
+      UploadFile,
     },
     watch: {
       type: function (val) {

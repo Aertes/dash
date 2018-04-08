@@ -191,7 +191,7 @@
 							render: function(data, type, row) {
 								let date = new Date(data);
 								let timer = formatDate(date, 'yyyy/MM/dd')
-								return '<div style="text-align: center;">' + timer + '</div>';
+								return '<div style="text-align: center; font-weight: 400;">' + timer + '</div>';
 							}
 						},
 						{

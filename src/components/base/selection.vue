@@ -39,7 +39,10 @@
     },
     watch:{
       nowIndex:function(){
-        this.$emit('selectShow')
+        this.$emit('selectShowOne')
+        this.$emit('selectShowTwo')
+        this.$emit('selectShowThree')
+        this.$emit('selectShowFour')
         //this.$store.commit('yearVoluation',this.selections[this.nowIndex])
         //this.$Hub.$emit('monthChange',this.selections[this.nowIndex])
       }
