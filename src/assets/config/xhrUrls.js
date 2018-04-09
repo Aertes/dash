@@ -26,6 +26,9 @@ export default {
   OV_DATE: BASE_URL + '/overview/getDate',
 
   CAM_CATEGORY: BASE_URL + '/campaign/getCategory',
+  CAM_GETPARAMETER: BASE_URL + '/campaign/getParameter',
+
+  EC_CATEGORY: BASE_URL + '/ec/getCategory',
 
   // 上传历史记录
   HC_SEARCH: BASE_URL + '/history/search',

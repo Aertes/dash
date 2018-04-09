@@ -56,6 +56,10 @@
         this.tableData = obj.tableData
       });
 
+      this.$Hub.$on('sentData', (obj) => {
+        this.tableData = obj.tableData
+      })
+
     },
     methods: {
       uploadHandle(obj) {

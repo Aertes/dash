@@ -37,12 +37,17 @@
         this.isShow = false
       }
     },
-    watch:{
-      nowIndex:function(){
-        this.$emit('selectShowOne')
-        this.$emit('selectShowTwo')
-        this.$emit('selectShowThree')
-        this.$emit('selectShowFour')
+    watch: {
+      nowIndex: function () {
+
+        this.$emit('selectShowOne', this.selections[this.nowIndex])
+
+        this.$emit('selectShowTwo', this.selections[this.nowIndex])
+
+        this.$emit('selectShowThree', this.selections[this.nowIndex])
+
+        this.$emit('selectShowFour', this.selections[this.nowIndex])
+
         //this.$store.commit('yearVoluation',this.selections[this.nowIndex])
         //this.$Hub.$emit('monthChange',this.selections[this.nowIndex])
       }
@@ -56,7 +61,7 @@
   .dropdown-wrap
     position relative
     display block
-    width 200px
+    width 180px
     height 35px
     outline none
     .dropdown-show
@@ -73,6 +78,7 @@
         width 100%
         height 100%
         padding-left 10px
+        padding-right 35px
         appearance none
         border 1px solid #E2DFDE
         border-radius 5px

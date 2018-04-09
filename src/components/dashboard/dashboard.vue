@@ -50,9 +50,9 @@
         <input type="text" name="url" id="url" ref="inputUrl" :value="url">
         <button type="button" @click="copyURL">Click on the copy</button>
       </div>
-        
+
     </div>
-  
+
   </div>
 </template>
 
@@ -105,87 +105,65 @@
         DData: [],
         data: [
           {
-            "campaign": "OHC SEA",
-            "category": "OHC",
             "isBar": false,
             "isDetailTable": true,
             "isTable": false,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "isB2C": true,
-            "isTable": false,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "isB2C": true,
-            "isTable": false,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "isTable": false,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "channel": "JD",
-            "isTable": false,
-            "isBar": false,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "campaign": "OHC SEA",
-            "category": "OHC",
-            "isBar": true,
-            "isDetailTable": false,
-            "isTable": false,
-            "month": "",
-            "orderBy": "string",
-          },
-          {
-            "campaign": "OHC SEA",
-            "category": "OHC",
-            "isBar": false,
-            "isDetailTable": true,
-            "isTable": false,
-            "month": "201803",
-            "orderBy": "string"
+            "month": ""
           },
           {
             "isB2C": false,
             "isTable": false,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
+          },
+          {
+            "isB2C": true,
+            "isTable": false,
+            "month": ""
           },
           {
             "isTable": false,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           },
           {
-            "channel": "JD",
+            "isTable": false,
+            "isBar": false,
+            "month": ""
+          },
+          {
+            "isBar": true,
+            "isDetailTable": false,
+            "isTable": false,
+            "month": ""
+          },
+          {
+            "isBar": false,
+            "isDetailTable": true,
+            "isTable": false,
+            "month": ""
+          },
+          {
+            "isB2C": true,
+            "isTable": false,
+            "month": ""
+          },
+          {
+            "isTable": false,
+            "month": ""
+          },
+          {
             "isTable": false,
             "isYTD": true,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           },
           {
-            "channel": "total",
-            "endDate": "2017-01-01",
             "isTable": false,
-            "isYTD": true,
-            "orderBy": "string",
-            "startDate": "2017-01-01"
+            "isYTD": false,
+            "month": ""
           },
           {
             "category": "",
             "isTable": false,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           }
         ],
         dashBoardoption: '',
@@ -203,6 +181,30 @@
       },
       getStoreYearMonth() {
         return this.$store.getters.getYearMonth
+      },
+      camOneCategory() {
+        return this.$store.state.camOneCategory
+      },
+      camCategory() {
+        return this.$store.state.camCategory
+      },
+      camCompaign() {
+        return this.$store.state.camCompaign
+      },
+      camWeek() {
+        return this.$store.state.camWeek
+      },
+      comMarketType() {
+        return this.$store.state.comMarketType
+      },
+      rrOneChannel() {
+        return this.$store.state.rrOneChannel
+      },
+      rrChannel() {
+        return this.$store.state.rrChannel
+      },
+      ecCategory() {
+        return this.$store.state.ecCategory
       }
     },
     components: {
@@ -210,14 +212,12 @@
       Chart
     },
     beforeCreate() {
-      
+
     },
     mounted() {
 
-      // alert(this.getStoreYearMonth)
       this.defaultViews()
 
-      
 
       this.dataSearch()
 
@@ -227,7 +227,9 @@
         this.wheelUp()
       })
 
-      this.getUrl();
+      if(window.location.hash.indexOf("?") != -1){
+        this.getUrl();
+      }
 
     },
     methods: {
@@ -308,6 +310,7 @@
         this.data[num].isTable = this.isTable
 
         this.data[num].month = yearMonth
+
         if (num == 0) {
           dataOvCmaSearch(this, this.data[num])
         } else if (num == 1) {
@@ -319,20 +322,37 @@
         } else if (num == 4) {
           dataOvRevSearch(this, this.data[num])
         } else if (num == 5) {
+          this.data[num].category = this.camOneCategory
           dataCmaSearch(this, this.data[num])
         } else if (num == 6) {
+          this.data[num].category = this.camCategory
+          this.data[num].campaign = this.camCompaign
+          this.data[num].week = this.camWeek
           dataCmafunnelSearch(this, this.data[num])
         } else if (num == 7) {
+          if(this.comMarketType == 'B2C'){
+            this.data[num].isB2C = true
+          }else if(this.comMarketType == 'B2B'){
+            this.data[num].isB2C = false
+          }
           dataComSearch(this, this.data[num])
         } else if (num == 8) {
           dataCrmSearch(this, this.data[num])
         } else if (num == 9) {
+          this.data[num].channel = this.rrOneChannel
           dataRevRatSearch(this, this.data[num])
         } else if (num == 10) {
+          this.data[num].channel = this.rrChannel
           dataRevRatSearch(this, this.data[num])
-          //dataEcSearch(this, this.data[num])
         } else if (num == 11) {
-          dataEcAllSearch(this, this.data[num])
+
+          this.data[num].category = this.ecCategory
+
+          if(this.ecCategory!=null || this.ecCategory!=undefined){
+            dataEcSearch(this, this.data[num])
+          }else{
+            dataEcAllSearch(this, this.data[num])
+          }
         }
       },
       monthChange() {
@@ -435,8 +455,30 @@
         this.dataSearch()
       },
       getStoreYearMonth: function () {
-        alert(this.getStoreYearMonth)
-
+        this.dataSearch()
+      },
+      camOneCategory: function () {
+        this.dataSearch()
+      },
+      camCategory: function () {
+        this.dataSearch()
+      },
+      camCompaign: function () {
+        this.dataSearch()
+      },
+      camWeek: function () {
+        this.dataSearch()
+      },
+      comMarketType: function () {
+        this.dataSearch()
+      },
+      rrOneChannel: function () {
+        this.dataSearch()
+      },
+      rrChannel: function () {
+        this.dataSearch()
+      },
+      ecCategory: function () {
         this.dataSearch()
       }
     }

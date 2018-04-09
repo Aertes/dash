@@ -16,9 +16,14 @@
         line: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
       }
     },
+    computed: {
+      getMoth() {
+        return this.$store.state.month
+      }
+    },
     mounted(){
-      const getMoth = new Date().getMonth().toString()
-      this.selected = getMoth
+      /*const getMoth = new Date().getMonth().toString()*/
+      this.getTimeMonth()
     },
     methods: {
       chooseMonth(index) {
@@ -26,6 +31,14 @@
         this.selected = index
         this.$store.commit('monthVoluation',index+1)
         //this.$Hub.$emit('monthChange',getMoth)
+      },
+      getTimeMonth(){
+        this.selected = (this.getMoth-1)
+      }
+    },
+    watch:{
+      getMoth:function () {
+        this.getTimeMonth()
       }
     }
   }

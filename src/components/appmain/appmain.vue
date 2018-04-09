@@ -4,13 +4,16 @@
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
-      <selection v-if="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle" ref="selectionOne"></selection>
+      <selection v-if="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
 
-      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle" ref="selectionTwo"></selection>
+      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
+                 ref="selectionTwoBox"></selection>
 
-      <selection v-if="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle" ref="selectionThree"></selection>
+      <selection v-if="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
+                 ref="selectionThreeBox" class="styleone"></selection>
 
-      <selection v-if="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle" ref="selectionFour"></selection>
+      <selection v-if="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
+                 ref="selectionFourBox"></selection>
 
       <div v-if="all" class="options-menu">
         <div @click="showOperation">
@@ -52,6 +55,8 @@
 
   let OVDateUrl = xhrUrls.OV_DATE
   let CAM_CATEGORY = xhrUrls.CAM_CATEGORY
+  let CAM_GETPARAMETER = xhrUrls.CAM_GETPARAMETER
+  let EC_CATEGORY = xhrUrls.EC_CATEGORY
 
   export default {
     name: "appmain",
@@ -107,8 +112,29 @@
       type() {
         return this.$store.state.type
       },
-      selO() {
-        return this.$refs.selectionTwo.selections
+      camOneCategory() {
+        return this.$store.state.camOneCategory
+      },
+      camCategory() {
+        return this.$store.state.camCategory
+      },
+      camCompaign() {
+        return this.$store.state.camCompaign
+      },
+      camWeek() {
+        return this.$store.state.camWeek
+      },
+      comMarketType() {
+        return this.$store.state.comMarketType
+      },
+      rrOneChannel() {
+        return this.$store.state.rrOneChannel
+      },
+      rrChannel() {
+        return this.$store.state.rrChannel
+      },
+      ecCategory() {
+        return this.$store.state.ecCategory
       }
     },
     mounted() {
@@ -220,19 +246,42 @@
           })
         })
       },
-      selectShowOneHandle(){
-        alert(1)
+      selectShowOneHandle(val) {
+
+        this.$store.commit('yearVoluation', val)
+
       },
-      selectShowTwoHandle(){
-        alert(2)
+      selectShowTwoHandle(val) {
+
+        this.getSelectData(val)
+
       },
-      selectShowThreeHandle(){
-        alert(3)
+      selectShowThreeHandle(val) {
+
+        this.$store.commit('camCompaignVoluation', val)
+
+        if (this.camCompaign != null || this.camCompaign != undefined) {
+          const url = `${CAM_GETPARAMETER}?category=${this.camCategory}&campaign=${this.camCompaign}`
+          this.selectionFour = true
+          get(url).then(res => {
+            let data = res.data.data
+            this.selectOptionsFour = ['全部']
+            data.forEach((val) => {
+              this.selectOptionsFour.push(val)
+              this.$refs.selectShowFourBox.nowIndex = 0
+            })
+          })
+        } else {
+          this.selectionFour = false
+        }
+
       },
-      selectShowFourHandle(){
-        alert(4)
+      selectShowFourHandle(val) {
+
+        this.$store.commit('camWeekVoluation', val)
+
       },
-      getSelectData() {
+      getSelectData(val) {
         const getYear = new Date().getFullYear().toString()
         this.getYear()
         if (this.type === 0) {
@@ -261,17 +310,119 @@
           this.selectionFour = false
           this.getReviewRatingDate(getYear)
         } else if (this.type === 5) {
+
           this.selectionThree = false
           this.selectionFour = false
           this.selectionTwo = true
+
+          this.$store.commit('camOneCategoryVoluation', val)
+
           this.getCampaignDate(getYear)
+
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsTwo = []
+            this.selectOptionsTwo = ['全部']
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
           })
+
+        } else if (this.type === 6) {
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionTwo = true
+
+          this.$store.commit('camCategoryVoluation', val)
+
+          this.$store.commit('camCompaignVoluation', null)
+
+          this.$store.commit('camWeekVoluation', null)
+
+          this.getCampaignDate(getYear)
+
+          get(CAM_CATEGORY).then(res => {
+            let data = res.data.data
+            this.selectOptionsTwo = ['全部']
+            data.forEach((val) => {
+              this.selectOptionsTwo.push(val)
+            })
+          })
+
+          if (this.camCategory != null || this.camCategory != undefined) {
+            const url = `${CAM_GETPARAMETER}?category=${this.camCategory}`
+            this.selectionThree = true
+            get(url).then(res => {
+              let data = res.data.data
+              this.selectOptionsThree = ['全部']
+              data.forEach((val) => {
+                this.selectOptionsThree.push(val)
+                this.$refs.selectionThreeBox.nowIndex = 0
+              })
+            })
+          }
+
+        } else if (this.type === 7) {
+
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionTwo = true
+
+          this.$store.commit('comMarketTypeVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsTwo = ['B2C', 'B2B']
+
+        } else if (this.type === 8) {
+
+          this.selectionTwo = false
+          this.selectionThree = false
+          this.selectionFour = false
+
+          this.getCampaignDate(getYear)
+
+        } else if (this.type === 9) {
+
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionTwo = true
+
+          this.$store.commit('rrOneChannelVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsTwo = ['全部', 'JD', 'Tmall']
+
+        } else if (this.type === 10) {
+
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionTwo = true
+
+          this.$store.commit('rrChannelVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsTwo = ['全部', 'JD', 'Tmall']
+
+        } else if (this.type === 11) {
+
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionTwo = true
+
+          this.$store.commit('ecCategoryVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          get(EC_CATEGORY).then(res => {
+            let data = res.data.data
+            this.selectOptionsTwo = ['全部']
+            data.forEach((val) => {
+              this.selectOptionsTwo.push(val)
+            })
+          })
+
         }
       }
     },
@@ -281,8 +432,39 @@
       UploadFile,
     },
     watch: {
-      type: function (val) {
-        this.getSelectData()
+      type: function () {
+        this.getSelectData(null)
+
+        if (this.$refs.selectionTwoBox.nowIndex) {
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }
+
+        /*if (this.type == 5) {
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }else if(this.type == 6){
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }else if(this.type == 7){
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }else if(this.type == 8){
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }else if(this.type == 9){
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }else if(this.type == 10){
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }else if(this.type == 11){
+          this.selectOptionsTwo = []
+          this.$refs.selectionTwoBox.nowIndex = 0
+        }
+      */
+
+
       }
     }
   }
@@ -347,10 +529,10 @@
             width 44px
             height 15px
       .dropdown-wrap
-        margin-right 80px
+        margin-right 50px
         float left
       .styleone
-        width 380px
+        width 350px
     .dashboard-all-wrap
       margin-top 25px
 </style>

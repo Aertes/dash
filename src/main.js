@@ -67,7 +67,16 @@ const store = new Vuex.Store({
   state: {
     type: 0,
     year: null,
-    month: null
+    month: null,
+
+    camOneCategory:null,
+    camCategory:null,
+    camCompaign:null,
+    camWeek:null,
+    comMarketType:'B2C',
+    rrOneChannel:null,
+    rrChannel:null,
+    ecCategory:null
   },
   mutations: {
     increment: state => {
@@ -86,6 +95,38 @@ const store = new Vuex.Store({
     },
     monthVoluation: (state, val) => {
       state.month = val
+    },
+
+    camOneCategoryVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.camOneCategory = val
+    },
+    camCategoryVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.camCategory = val
+    },
+    camCompaignVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.camCompaign = val
+    },
+    camWeekVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.camWeek = val
+    },
+    comMarketTypeVoluation:(state, val) => {
+      state.comMarketType = val
+    },
+    rrOneChannelVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.rrOneChannel = val
+    },
+    rrChannelVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.rrChannel = val
+    },
+    ecCategoryVoluation:(state, val) => {
+      if(val == '全部') val =null
+      state.ecCategory = val
     },
   },
   getters: {

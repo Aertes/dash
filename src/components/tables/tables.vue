@@ -6,175 +6,190 @@
     </div>
     <div class="clearfix select-wrap">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
-      <selection v-for="item in selectList" :selections="selectOptions"></selection>
+
+      <selection v-if="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
+
+      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
+                 ref="selectionTwoBox"></selection>
+
+      <selection v-if="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
+                 ref="selectionThreeBox" class="styleone"></selection>
+
+      <selection v-if="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
+                 ref="selectionFourBox"></selection>
+
+      <selection v-if="selectionFive" :selections="selectOptionsFour" @selectShowFour="selectShowFiveHandle"
+                 ref="selectionFiveBox"></selection>
+
+      <!--<selection v-for="item in selectList" :selections="selectOptions"></selection>-->
     </div>
     <div class="tables-container">
       <div class="tableBoxwrap" v-show="isShow1">
         <table id="tableBoxDialog1" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>KPI</th>
-              <th>Month</th>
-              <th>Target</th>
-              <th>M v.s T</th>
-              <th>YTD</th>
-              <th>Target</th>
-              <th>Y v.s T</th>
-            </tr>
+          <tr>
+            <th>KPI</th>
+            <th>Month</th>
+            <th>Target</th>
+            <th>M v.s T</th>
+            <th>YTD</th>
+            <th>Target</th>
+            <th>Y v.s T</th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow5">
         <table id="tableBoxDialog5" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>Period</th>
-              <th>Spending</th>
-              <th>Impression</th>
-              <th>Traffic</th>
-              <th>Traffic to EC</th>
-              <th>Target</th>
-              <th></th>
-              <th>Traffic to .com</th>
-              <th>Target</th>
-              <th></th>
-              <th>CTR</th>
-              <th>Leads</th>
-              <th>Cost per lead</th>
-              <th>Baseline</th>
-              <th></th>
-              <th>Conversion%</th>
-              <th>Baseline</th>
-              <th></th>
-            </tr>
+          <tr>
+            <th>Period</th>
+            <th>Spending</th>
+            <th>Impression</th>
+            <th>Traffic</th>
+            <th>Traffic to EC</th>
+            <th>Target</th>
+            <th></th>
+            <th>Traffic to .com</th>
+            <th>Target</th>
+            <th></th>
+            <th>CTR</th>
+            <th>Leads</th>
+            <th>Cost per lead</th>
+            <th>Baseline</th>
+            <th></th>
+            <th>Conversion%</th>
+            <th>Baseline</th>
+            <th></th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow6">
         <table id="tableBoxDialog6" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>Week</th>
-              <th>Period</th>
-              <th>Channel</th>
-              <th>Spending</th>
-              <th>Impression</th>
-              <th>Click</th>
-              <th>CTR</th>
-              <th>Leads</th>
-              <th>Cost per lead</th>
-              <th>Conversion%</th>
-            </tr>
+          <tr>
+            <th>Week</th>
+            <th>Period</th>
+            <th>Channel</th>
+            <th>Spending</th>
+            <th>Impression</th>
+            <th>Click</th>
+            <th>CTR</th>
+            <th>Leads</th>
+            <th>Cost per lead</th>
+            <th>Conversion%</th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow7">
         <table id="tableBoxDialog7" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>Marketing Metrics</th>
-              <th>Month</th>
-              <th>YTD</th>
-              <th>Monthly Target</th>
-              <th></th>
-              <th>YTD Target</th>
-              <th></th>
-            </tr>
+          <tr>
+            <th>Marketing Metrics</th>
+            <th>Month</th>
+            <th>YTD</th>
+            <th>Monthly Target</th>
+            <th></th>
+            <th>YTD Target</th>
+            <th></th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow8">
         <table id="tableBoxDialog8" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>Marketing Metrics</th>
-              <th>Month</th>
-              <th>YTD</th>
-              <th>Monthly target</th>
-              <th></th>
-              <th>YTD Target</th>
-              <th></th>
-            </tr>
+          <tr>
+            <th>Marketing Metrics</th>
+            <th>Month</th>
+            <th>YTD</th>
+            <th>Monthly target</th>
+            <th></th>
+            <th>YTD Target</th>
+            <th></th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow9">
         <table id="tableBoxDialog9" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>Channel</th>
-              <th>Category</th>
-              <th>Rate</th>
-              <th>&lt; 4.3%</th>
-              <th>4.3%-4.8%</th>
-              <th>&gt; 4.8%</th>
-              <th>Sellout volume</th>
-              <th>% of review</th>
-              <th>Total review</th>
-              <th>Positive</th>
-              <th>Neutral</th>
-              <th>Negative</th>
-              <th>% of negative</th>
-              <th>Timely Response</th>
-              <th>Timely Reponse%</th>
-            </tr>
+          <tr>
+            <th>Channel</th>
+            <th>Category</th>
+            <th>Rate</th>
+            <th>&lt; 4.3%</th>
+            <th>4.3%-4.8%</th>
+            <th>&gt; 4.8%</th>
+            <th>Sellout volume</th>
+            <th>% of review</th>
+            <th>Total review</th>
+            <th>Positive</th>
+            <th>Neutral</th>
+            <th>Negative</th>
+            <th>% of negative</th>
+            <th>Timely Response</th>
+            <th>Timely Reponse%</th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow10">
         <table id="tableBoxDialog10" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th>Channel</th>
-              <th>Category</th>
-              <th>Rate</th>
-              <th>&lt; 4.3%</th>
-              <th>4.3%-4.8%</th>
-              <th>&gt; 4.8%</th>
-              <th>Sellout volume</th>
-              <th>% of review</th>
-              <th>Total review</th>
-              <th>Positive</th>
-              <th>Neutral</th>
-              <th>Negative</th>
-              <th>% of negative</th>
-              <th>Timely Response</th>
-              <th>Timely Reponse%</th>
-            </tr>
+          <tr>
+            <th>Channel</th>
+            <th>Category</th>
+            <th>Rate</th>
+            <th>&lt; 4.3%</th>
+            <th>4.3%-4.8%</th>
+            <th>&gt; 4.8%</th>
+            <th>Sellout volume</th>
+            <th>% of review</th>
+            <th>Total review</th>
+            <th>Positive</th>
+            <th>Neutral</th>
+            <th>Negative</th>
+            <th>% of negative</th>
+            <th>Timely Response</th>
+            <th>Timely Reponse%</th>
+          </tr>
           </thead>
         </table>
       </div>
-  
+
       <div class="tableBoxwrap" v-show="isShow11">
         <table id="tableBoxDialog11" class="display" style="width:100%">
           <thead>
-            <tr>
-              <th rowspan="2">Category</th>
-              <th rowspan="2">Period</th>
-              <th colspan="2">Total</th>
-              <th colspan="2">站外</th>
-              <th colspan="2">钻展</th>
-              <th colspan="2">搜索</th>
-              <th colspan="2">其他</th>
-            </tr>
-            <tr>
-              <th>Traffic</th>
-              <th>Conversion%</th>
-              <th>Traffic</th>
-              <th>Conversion%</th>
-              <th>Traffic</th>
-              <th>Conversion%</th>
-              <th>Traffic</th>
-              <th>Conversion%</th>
-              <th>Traffic</th>
-              <th>Conversion%</th>
-            </tr>
+          <tr>
+            <th rowspan="2">Category</th>
+            <th rowspan="2">Period</th>
+            <th colspan="2">Total</th>
+            <th colspan="2">站外</th>
+            <th colspan="2">钻展</th>
+            <th colspan="2">搜索</th>
+            <th colspan="2">其他</th>
+          </tr>
+          <tr>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+            <th>Traffic</th>
+            <th>Conversion%</th>
+          </tr>
           </thead>
         </table>
       </div>
@@ -203,13 +218,26 @@
     dataEcSearch,
     dataEcAllSearch
   } from '../../assets/chartsData/index'
-  
+
   let OVDateUrl = xhrUrls.OV_DATE
+  let CAM_CATEGORY = xhrUrls.CAM_CATEGORY
+  let CAM_GETPARAMETER = xhrUrls.CAM_GETPARAMETER
+  let EC_CATEGORY = xhrUrls.EC_CATEGORY
+
   export default {
     name: "Tables",
     data() {
       return {
-        selectOptions: [],
+        selectOptionsOne: [],
+        selectOptionsTwo: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        selectOptionsThree: [],
+        selectOptionsFour: [],
+        selectOptionsFive: [],
+        selectionOne: true,
+        selectionTwo: true,
+        selectionThree: false,
+        selectionFour: false,
+        selectionFive: false,
         isShow1: false,
         isShow5: false,
         isShow6: false,
@@ -236,86 +264,67 @@
           'RATING & REVIEW Month',
           'EC REPORT',
         ],
-        data: [{
-            "campaign": "OHC SEA",
-            "category": "OHC",
+        data: [
+          {
             "isBar": false,
             "isDetailTable": true,
             "isTable": true,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "isB2C": true,
-            "isTable": true,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "isB2C": true,
-            "isTable": true,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "isTable": true,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "channel": "JD",
-            "isTable": true,
-            "isYTD": true,
-            "month": "",
-            "orderBy": "string"
-          },
-          {
-            "campaign": "OHC SEA",
-            "category": "OHC",
-            "isBar": false,
-            "isDetailTable": false,
-            "isTable": true,
-            "month": "",
-            "orderBy": "string",
-          },
-          {
-            "campaign": "OHC SEA",
-            "category": "OHC",
-            "isBar": true,
-            "isDetailTable": true,
-            "isTable": true,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           },
           {
             "isB2C": false,
             "isTable": true,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           },
           {
-            "isTable": false,
-            "month": "",
-            "orderBy": "string"
+            "isB2C": true,
+            "isTable": true,
+            "month": ""
           },
           {
-            "channel": "JD",
+            "isTable": true,
+            "month": ""
+          },
+          {
+            "isTable": true,
+            "isBar": false,
+            "month": ""
+          },
+          {
+            "isBar": true,
+            "isDetailTable": false,
+            "isTable": true,
+            "month": ""
+          },
+          {
+            "isBar": false,
+            "isDetailTable": true,
+            "isTable": true,
+            "month": ""
+          },
+          {
+            "isB2C": true,
+            "isTable": true,
+            "month": ""
+          },
+          {
+            "isTable": true,
+            "month": ""
+          },
+          {
             "isTable": true,
             "isYTD": true,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           },
           {
-            "category": "MG",
             "isTable": true,
-            "month": "",
-            "orderBy": "string"
+            "isYTD": false,
+            "month": ""
           },
           {
             "category": "",
             "isTable": true,
-            "month": "",
-            "orderBy": "string"
+            "month": ""
           }
         ],
         Time: '2018 - 01',
@@ -328,18 +337,46 @@
       },
       getStoreYearMonth() {
         return this.$store.getters.getYearMonth
+      },
+      month() {
+        return this.$store.state.month
+      },
+      camOneCategory() {
+        return this.$store.state.camOneCategory
+      },
+      camCategory() {
+        return this.$store.state.camCategory
+      },
+      camCompaign() {
+        return this.$store.state.camCompaign
+      },
+      camWeek() {
+        return this.$store.state.camWeek
+      },
+      comMarketType() {
+        return this.$store.state.comMarketType
+      },
+      rrOneChannel() {
+        return this.$store.state.rrOneChannel
+      },
+      rrChannel() {
+        return this.$store.state.rrChannel
+      },
+      ecCategory() {
+        return this.$store.state.ecCategory
       }
     },
     mounted() {
-  
+
+      this.getTimeMonth()
       this.getSelectData()
-  
+
       //this.monthChange()
-  
-      this.dataSearch()
-  
+
+      //this.dataSearch()
+
       this.getTableData()
-  
+
     },
     methods: {
       closeLayerButton() {
@@ -362,12 +399,15 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData,
               columns: [{
-                  data: 'item',
-                },
+                data: 'item',
+              },
                 {
                   data: 'spending'
                 },
@@ -489,12 +529,12 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [{
-                  data: 'week'
-                },
+                data: 'week'
+              },
                 {
                   data: 'startDate',
                   render: (data, type, row) => {
@@ -530,7 +570,7 @@
                   render: (data, type, row) => {
                     return '<div>' + (data.toFixed(2) * 100) + '%</div>'
                   }
-  
+
                 }
               ]
             })
@@ -549,14 +589,14 @@
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
-  
+
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [{
-                  data: 'item'
-                },
+                data: 'item'
+              },
                 {
                   data: 'month'
                 },
@@ -618,14 +658,14 @@
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
-  
+
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [{
-                  data: 'item'
-                },
+                data: 'item'
+              },
                 {
                   data: 'month'
                 },
@@ -688,12 +728,15 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData.data,
               columns: [{
-                  data: 'channel'
-                },
+                data: 'channel'
+              },
                 {
                   data: 'category'
                 },
@@ -772,12 +815,15 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData.data,
               columns: [{
-                  data: 'channel'
-                },
+                data: 'channel'
+              },
                 {
                   data: 'category'
                 },
@@ -856,12 +902,12 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [{
-                  data: 'category'
-                },
+                data: 'category'
+              },
                 {
                   data: 'period'
                 },
@@ -912,12 +958,12 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [{
-                  data: 'item',
-                },
+                data: 'item',
+              },
                 {
                   data: 'month'
                 },
@@ -968,17 +1014,17 @@
         }
       },
       dataSearch() {
-        let num = this.type
-  
-        let yearMonth = this.getStoreYearMonth
-  
+        //let num = this.type
+
+        //let yearMonth = this.getStoreYearMonth
+
         this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
-  
-        this.data[num].isTable = this.isTable
-  
-        this.data[num].month = yearMonth
-  
-        if (num == 0) {
+
+        /*this.data[num].isTable = this.isTable
+
+        this.data[num].month = yearMonth*/
+
+        /*if (num == 0) {
           dataOvCmaSearch(this, this.data[num])
         } else if (num == 1) {
           dataOvComB2BSearch(this, this.data[num])
@@ -989,20 +1035,38 @@
         } else if (num == 4) {
           dataOvRevSearch(this, this.data[num])
         } else if (num == 5) {
+          this.data[num].category = this.camOneCategory
           dataCmaSearch(this, this.data[num])
         } else if (num == 6) {
+          this.data[num].category = this.camCategory
+          this.data[num].campaign = this.camCompaign
+          this.data[num].week = this.camWeek
           dataCmafunnelSearch(this, this.data[num])
         } else if (num == 7) {
+          if(this.comMarketType == 'B2C'){
+            this.data[num].isB2C = true
+          }else if(this.comMarketType == 'B2B'){
+            this.data[num].isB2C = false
+          }
           dataComSearch(this, this.data[num])
         } else if (num == 8) {
           dataCrmSearch(this, this.data[num])
         } else if (num == 9) {
+          this.data[num].channel = this.rrOneChannel
           dataRevRatSearch(this, this.data[num])
         } else if (num == 10) {
-          dataEcSearch(this, this.data[num])
+          this.data[num].channel = this.rrChannel
+          dataRevRatSearch(this, this.data[num])
         } else if (num == 11) {
-          dataEcAllSearch(this, this.data[num])
-        }
+
+          this.data[num].category = this.ecCategory
+
+          if(this.ecCategory!=null || this.ecCategory!=undefined){
+            dataEcSearch(this, this.data[num])
+          }else{
+            dataEcAllSearch(this, this.data[num])
+          }
+        }*/
       },
       ovtableStyle() {
         let tData = this.tableData
@@ -1065,6 +1129,13 @@
           this.tableData = tData
         }
       },
+      getTimeMonth() {
+        this.$refs.selectionTwoBox.nowIndex = (this.month - 1)
+      },
+      getYear() {
+        const getYear = new Date().getFullYear().toString()
+        this.selectOptionsOne = [getYear]
+      },
       monthChange() {
         /*this.$Hub.$on('monthChange', (val) => {
           if (this.type == 0) {
@@ -1094,49 +1165,255 @@
           }
         })*/
       },
-      getSelectData() {
-        this.selectOptions = ['2018']
+      getCampaignDate(year) {
+        post(OVDateUrl, 'campaign').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getComB2bDate(year) {
+        post(OVDateUrl, 'comB2b').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getComB2cDate(year) {
+        post(OVDateUrl, 'comB2c').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getCrmDate(year) {
+        post(OVDateUrl, 'crm').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptions.push(val)
+          })
+        })
+      },
+      getReviewRatingDate(year) {
+        post(OVDateUrl, 'reviewRating').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      getEcDate(year) {
+        post(OVDateUrl, 'reviewRating').then(res => {
+          let data = res.data.data
+          data.forEach((val) => {
+            if (val == year) return
+            this.selectOptionsOne.push(val)
+          })
+        })
+      },
+      selectShowOneHandle(val) {
+
+        this.$store.commit('yearVoluation', val)
+
+      },
+      selectShowTwoHandle(val) {
+
+        this.$store.commit('monthVoluation', val)
+
+      },
+      selectShowThreeHandle(val) {
+
+        this.getSelectData(val)
+
+      },
+      selectShowFourHandle(val) {
+
+        this.$store.commit('camCompaignVoluation', val)
+
+        if (this.camCompaign != null || this.camCompaign != undefined) {
+          const url = `${CAM_GETPARAMETER}?category=${this.camCategory}&campaign=${this.camCompaign}`
+          this.selectionFour = true
+          get(url).then(res => {
+            let data = res.data.data
+            this.selectOptionsFive = ['全部']
+            data.forEach((val) => {
+              this.selectOptionsFive.push(val)
+              this.$refs.selectShowFiveBox.nowIndex = 0
+            })
+          })
+        } else {
+          this.selectionFour = false
+        }
+
+      },
+      selectShowFiveHandle(val) {
+
+        this.$store.commit('camWeekVoluation', val)
+
+      },
+      getSelectData(val) {
+        const getYear = new Date().getFullYear().toString()
+        this.getYear()
         if (this.type === 0) {
-          post(OVDateUrl, 'campaign').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              //if(val==='2018') return
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionFive = false
+          this.getCampaignDate(getYear)
         } else if (this.type === 1) {
-          post(OVDateUrl, 'comB2b').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionFive = false
+          this.getComB2bDate(getYear)
         } else if (this.type === 2) {
-          post(OVDateUrl, 'comB2c').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionFive = false
+          this.getComB2cDate(getYear)
         } else if (this.type === 3) {
-          post(OVDateUrl, 'crm').then(res => {
-            let data = res.data.data
-            data.forEach((val) => {
-              this.selectOptions.push(val)
-            })
-          })
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionFive = false
+          this.getCrmDate(getYear)
         } else if (this.type === 4) {
-          post(OVDateUrl, 'reviewRating').then(res => {
+          this.selectionThree = false
+          this.selectionFour = false
+          this.selectionFive = false
+          this.getReviewRatingDate(getYear)
+        } else if (this.type === 5) {
+
+          this.selectionThree = true
+          this.selectionFour = false
+          this.selectionFive = false
+
+          this.$store.commit('camOneCategoryVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          get(CAM_CATEGORY).then(res => {
             let data = res.data.data
+            this.selectOptionsThree = ['全部']
             data.forEach((val) => {
-              this.selectOptions.push(val)
+              this.selectOptionsThree.push(val)
             })
           })
+
+        } else if (this.type === 6) {
+          this.selectionThree = true
+          this.selectionFour = false
+          this.selectionFive = false
+
+          this.$store.commit('camCategoryVoluation', val)
+
+          this.$store.commit('camCompaignVoluation', null)
+
+          this.$store.commit('camWeekVoluation', null)
+
+          this.getCampaignDate(getYear)
+
+          get(CAM_CATEGORY).then(res => {
+            let data = res.data.data
+            this.selectOptionsThree = ['全部']
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+          })
+
+          if (this.camCategory != null || this.camCategory != undefined) {
+            const url = `${CAM_GETPARAMETER}?category=${this.camCategory}`
+            this.selectionThree = true
+            get(url).then(res => {
+              let data = res.data.data
+              this.selectOptionsThree = ['全部']
+              data.forEach((val) => {
+                this.selectOptionsThree.push(val)
+                this.$refs.selectionThreeBox.nowIndex = 0
+              })
+            })
+          }
+
+        } else if (this.type === 7) {
+
+          this.selectionThree = true
+          this.selectionFour = false
+          this.selectionFive = false
+
+          this.$store.commit('comMarketTypeVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsThree = ['B2C', 'B2B']
+
+        } else if (this.type === 8) {
+
+          this.selectionFive = false
+          this.selectionThree = false
+          this.selectionFour = false
+
+          this.getCampaignDate(getYear)
+
+        } else if (this.type === 9) {
+
+          this.selectionThree = true
+          this.selectionFour = false
+          this.selectionFive = false
+
+          this.$store.commit('rrOneChannelVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsThree = ['全部', 'JD', 'Tmall']
+
+        } else if (this.type === 10) {
+
+          this.selectionThree = true
+          this.selectionFour = false
+          this.selectionFive = false
+
+          this.$store.commit('rrChannelVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsThree = ['全部', 'JD', 'Tmall']
+
+        } else if (this.type === 11) {
+
+          this.selectionThree = true
+          this.selectionFour = false
+          this.selectionFive = false
+
+          this.$store.commit('ecCategoryVoluation', val)
+
+          this.getCampaignDate(getYear)
+
+          get(EC_CATEGORY).then(res => {
+            let data = res.data.data
+            this.selectOptionsThree = ['全部']
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+          })
+
         }
       }
     },
     watch: {
-      type: function(val) {
+      type: function (val) {
+
+        this.getSelectData(null)
+
+        if (this.$refs.selectionThreeBox.nowIndex) {
+          this.selectOptionsThree = []
+          this.$refs.selectionThreeBox.nowIndex = 0
+        }
+
         if (val < 5) {
           this.name = `${this.titleList[val]}`
           this.title = `${this.overview} ${this.name}`
@@ -1144,7 +1421,8 @@
           this.name = `${this.titleList[val]}`
           this.title = `${this.name}`
         }
-        this.dataSearch()
+
+        //this.dataSearch()
       },
       tableData() {
         this.$nextTick(() => {
@@ -1152,9 +1430,36 @@
           this.getTableData()
         })
       },
-      getStoreYearMonth: function() {
+      /*getStoreYearMonth: function () {
         this.dataSearch()
-      }
+      },
+      month: function () {
+        this.getTimeMonth()
+      },
+      camOneCategory: function () {
+        this.dataSearch()
+      },
+      camCategory: function () {
+        this.dataSearch()
+      },
+      camCompaign: function () {
+        this.dataSearch()
+      },
+      camWeek: function () {
+        this.dataSearch()
+      },
+      comMarketType: function () {
+        this.dataSearch()
+      },
+      rrOneChannel: function () {
+        this.dataSearch()
+      },
+      rrChannel: function () {
+        this.dataSearch()
+      },
+      ecCategory: function () {
+        this.dataSearch()
+      }*/
     }
   }
 </script>
@@ -1174,6 +1479,8 @@
     .dropdown-wrap
       margin-right 80px
       float left
+    .styleone
+      width 350px
     .options-icon-date
       font-size 22px
       color #A0A0A1

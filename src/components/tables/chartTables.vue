@@ -9,7 +9,7 @@
       </label>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow1">
+    <div class="tableBoxwrap" width="100%" v-show="isShow1">
       <table id="tableBox1" class="display" style="width:100%">
         <thead>
         <tr>
@@ -25,7 +25,8 @@
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow5">
+    <div class="tableBoxwrap" width="100%" v-show="isShow5">
+      
       <table id="tableBox5"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -52,7 +53,7 @@
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow6">
+    <div class="tableBoxwrap" width="100%" v-show="isShow6">
       <table id="tableBox6"  class="display" style="width:100%">
         <thead>
         <tr>
@@ -71,7 +72,7 @@
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow7">
+    <div class="tableBoxwrap" width="100%" v-show="isShow7">
       <table id="tableBox7"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -79,15 +80,15 @@
             <th>Month</th>
             <th>YTD</th>
             <th>Monthly Target</th>
-            <th></th>
+            <th ></th>
             <th>YTD Target</th>
-            <th></th>
+            <th ></th>
           </tr>
         </thead>
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow8">
+    <div class="tableBoxwrap" width="100%" v-show="isShow8">
       <table id="tableBox8"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -95,15 +96,15 @@
             <th>Month</th>
             <th>YTD</th>
             <th>Monthly target</th>
-            <th></th>
+            <th ></th>
             <th>YTD Target</th>
-            <th></th>
+            <th ></th>
           </tr>
         </thead>
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow9">
+    <div class="tableBoxwrap" width="100%" v-show="isShow9">
       <table id="tableBox9"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -127,7 +128,7 @@
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow10">
+    <div class="tableBoxwrap" width="100%" v-show="isShow10">
       <table id="tableBox10"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -151,7 +152,7 @@
       </table>
     </div>
 
-    <div class="tableBoxwrap" v-show="isShow11">
+    <div class="tableBoxwrap" width="100%" v-show="isShow11">
       <table id="tableBox11"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -202,6 +203,14 @@
         isShow9: false,
         isShow10: false,
         isShow11: false,
+        table1: null,
+        table5: null,
+        table6: null,
+        table7: null,
+        table8: null,
+        table9: null,
+        table10: null,
+        table11: null,
       }
     },
     props: ['tableData'],
@@ -236,14 +245,17 @@
             this.isShow9 = false
             this.isShow10 = false
             this.isShow11 = false
-            $('#tableBox5').DataTable({
+            this.table5 = $('#tableBox5').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": true,
+              "paging": true,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -343,7 +355,7 @@
               'bDestroy': true,
 
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [
@@ -392,7 +404,7 @@
               'bDestroy': true,
 
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [
@@ -452,7 +464,7 @@
               'bDestroy': true,
 
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
               data: this.tableData,
               columns: [
@@ -505,14 +517,17 @@
             this.isShow9 = true
             this.isShow10 = false
             this.isShow11 = false
-            $('#tableBox9').DataTable({
+            this.table9 = $('#tableBox9').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -574,14 +589,17 @@
             this.isShow9 = false
             this.isShow10 = true
             this.isShow11 = false
-            $('#tableBox10').DataTable({
+            this.table10 = $('#tableBox10').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -643,14 +661,17 @@
             this.isShow9 = false
             this.isShow10 = false
             this.isShow11 = true
-            $('#tableBox11').DataTable({
+            this.table11 = $('#tableBox11').DataTable({
               "searching": false,
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 3,
+              "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData,
               columns: [
                 {data: 'category'},
@@ -682,7 +703,7 @@
                   "ordering": false,
                   'bDestroy': true,
                   "pagingType": "simple_numbers",
-                  "pageLength": 3,
+                  "pageLength": 6,
                   "info": false,
                   data: this.tableData,
                   columns: [
@@ -854,6 +875,7 @@
           this.ovtableStyle()
           this.getTableData()
           this.closeLoading()
+          this.$Hub.$emit('sentData', {tableData:this.tableData})
         })
       },
       checked() {
@@ -904,7 +926,7 @@
       border-right medium
       line-height 30px
       text-align center
-      height 87%
+      // height 87%
       th
       td
         border-bottom 1px solid #EAEAEA
