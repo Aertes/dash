@@ -1,7 +1,7 @@
 <template>
   <div class="tables-wrap" id="tablesBox">
     <div class="tables-title">
-      <span>{{title}} ({{Time}})</span>
+      <span>{{title}}({{Time}})</span>
       <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
     </div>
     <div class="clearfix select-wrap">
@@ -328,7 +328,7 @@
             "month": ""
           }
         ],
-        Time: '2018 - 01',
+        Time: '2018/01',
       }
     },
     props: ['tableData'],
@@ -1309,7 +1309,7 @@
 
         let yearMonth = this.getStoreYearMonth
 
-        this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
+        this.Time = yearMonth.slice(0, 4) +'/'+yearMonth.slice(4, 6)
 
         /*this.data[num].isTable = this.isTable
 

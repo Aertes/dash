@@ -4,7 +4,11 @@
     <h1>One China Digital Performance Dashboard</h1>
     <div class="user-info">
       <div class="after-login">
-        <div class="userHover">
+        <div class="userHover" v-if="USERINFO">
+          <span class="user-name">{{userName}}</span>
+          <svg-icon sign="icon-user" class="user-icon"></svg-icon>
+        </div>
+        <div class="userHover" v-else @click="showOperation"> 
           <span class="user-name">{{userName}}</span>
           <svg-icon sign="icon-user" class="user-icon"></svg-icon>
         </div>
@@ -44,7 +48,6 @@
     },
     methods: {
       showOperation() {
-        this.isShow = !this.isShow
         if (!this.USERINFO) {
           this.$router.push({path: "/"});
         }

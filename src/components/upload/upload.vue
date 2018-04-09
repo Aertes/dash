@@ -7,11 +7,11 @@
 		<div class="upload-file-box">
 			<div class="upload-file">
 				<a href="javascript:;" title="Unselected File">
-			          Select File
-			          <input type="file" id="picker" name="file" @change="upload"
-			                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-			        </a>
-				<span id="fileName" >{{fileName}}</span>
+				          Select File
+				          <input type="file" id="picker" name="file" @change="upload"
+				                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+				        </a>
+				<span id="fileName">{{fileName}}</span>
 			</div>
 			<div class="tables-container">
 				<h3>History</h3>
@@ -36,13 +36,13 @@
 				<span id="progressBar" class="percentage" style="width: 0%" role="progressbar" aria-valuemin="0" aria-valuemax="100"></span>
 			</div>
 			<div id="errMsg" class="errMsg">
-
+	
 			</div>
-
+	
 		</div>
 		<span id="operate" hidden>
-			<svg-icon sign="icon-trash"></svg-icon>
-		</span>
+				<svg-icon sign="icon-trash"></svg-icon>
+			</span>
 	</div>
 </template>
 
@@ -55,7 +55,20 @@
 	import {
 		formatDate
 	} from '../../assets/js/formatDate.js'
-	
+	import {
+		dataOvCmaSearch,
+		dataOvComB2BSearch,
+		dataOvComB2CSearch,
+		dataOvCrmSearch,
+		dataOvRevSearch,
+		dataCmaSearch,
+		dataCmafunnelSearch,
+		dataComSearch,
+		dataCrmSearch,
+		dataRevRatSearch,
+		dataEcSearch,
+		dataEcAllSearch
+	} from '../../assets/chartsData/index'
 	export default {
 		name: "upload",
 		data() {
@@ -72,7 +85,70 @@
 				table: null,
 				downloadFileId: xhrUrls.HC_DOWNLOAD,
 				fileDel: xhrUrls.HC_DELETE,
-				delete: null
+				delete: null,
+				Time: '2018/01',
+				data: [{
+						"isBar": false,
+						"isDetailTable": true,
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isB2C": false,
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isB2C": true,
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isTable": false,
+						"isBar": false,
+						"month": ""
+					},
+					{
+						"isBar": true,
+						"isDetailTable": false,
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isBar": false,
+						"isDetailTable": true,
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isB2C": true,
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isTable": false,
+						"month": ""
+					},
+					{
+						"isTable": false,
+						"isYTD": true,
+						"month": ""
+					},
+					{
+						"isTable": false,
+						"isYTD": false,
+						"month": ""
+					},
+					{
+						"category": "",
+						"isTable": false,
+						"month": ""
+					}
+				],
 			};
 		},
 		props: ['uploadLink', 'types', 'title'],
@@ -81,10 +157,10 @@
 			this.init();
 	
 			this.onRemoveRecord();
-
+	
 			//历史记录
 			this.dataTable(this.types, this.title);
-
+	
 		},
 		methods: {
 			upload(e) {
@@ -126,7 +202,7 @@
 				});
 	
 				// 上传成功
-				this.uploader.on("uploadSuccess", (file, res) =>{
+				this.uploader.on("uploadSuccess", (file, res) => {
 					if (res.code == 200) {
 						$("#num").html("100%").css("color", "#fff");
 						$("#progressBar").css("width", "100%");
@@ -139,6 +215,7 @@
 							$("#progressBar").css("width", "0%");
 							$("#text").html("DATA UPLOADING, PLEASE WAIT...");
 							that.dataTable(this.types, this.title)
+							this.dataSearch()
 						}, 1000);
 					} else {
 						let errMsg = res.errMsg.replace(/\,/g, '<br>')
@@ -220,18 +297,103 @@
 	
 				});
 			},
+			type() {
+				return this.$store.state.type
+			},
+			getStoreYearMonth() {
+        return this.$store.getters.getYearMonth
+			},
+			getStoreYearMonth() {
+        return this.$store.getters.getYearMonth
+      },
+      camOneCategory() {
+        return this.$store.state.camOneCategory
+      },
+      camCategory() {
+        return this.$store.state.camCategory
+      },
+      camCompaign() {
+        return this.$store.state.camCompaign
+      },
+      camWeek() {
+        return this.$store.state.camWeek
+      },
+      comMarketType() {
+        return this.$store.state.comMarketType
+      },
+      rrOneChannel() {
+        return this.$store.state.rrOneChannel
+      },
+      rrChannel() {
+        return this.$store.state.rrChannel
+      },
+      ecCategory() {
+        return this.$store.state.ecCategory
+      },
+			dataSearch(val) {
+				let num = this.type()
+				let yearMonth = this.getStoreYearMonth()
+				this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
+				
+        this.data[num].month = yearMonth
+				if (num == 0) {
+					dataOvCmaSearch(this, this.data[num])
+				} else if (num == 1) {
+					dataOvComB2BSearch(this, this.data[num])
+				} else if (num == 2) {
+					dataOvComB2CSearch(this, this.data[num])
+				} else if (num == 3) {
+					dataOvCrmSearch(this, this.data[num])
+				} else if (num == 4) {
+					dataOvRevSearch(this, this.data[num])
+				} else if (num == 5) {
+					this.data[num].category = this.camOneCategory
+					dataCmaSearch(this, this.data[num])
+				} else if (num == 6) {
+					this.data[num].category = this.camCategory
+					this.data[num].campaign = this.camCompaign
+					this.data[num].week = this.camWeek
+					dataCmafunnelSearch(this, this.data[num])
+				} else if (num == 7) {
+					if (this.comMarketType == 'B2C') {
+						this.data[num].isB2C = true
+					} else if (this.comMarketType == 'B2B') {
+						this.data[num].isB2C = false
+					}
+					dataComSearch(this, this.data[num])
+				} else if (num == 8) {
+					dataCrmSearch(this, this.data[num])
+				} else if (num == 9) {
+					this.data[num].channel = this.rrOneChannel
+					dataRevRatSearch(this, this.data[num])
+				} else if (num == 10) {
+					this.data[num].channel = this.rrChannel
+					dataRevRatSearch(this, this.data[num])
+				} else if (num == 11) {
+	
+					this.data[num].category = this.ecCategory
+	
+					if (this.ecCategory != null || this.ecCategory != undefined) {
+						dataEcSearch(this, this.data[num])
+					} else {
+						dataEcAllSearch(this, this.data[num])
+					}
+				}
+			},
+	
+			//删除
 			onRemoveRecord() {
 				let that = this;
-				//删除
 				$(document).delegate('.removeRecord', 'click', function(event) {
 					event.stopPropagation();
+					event.preventDefault();
 					var id = $(this).attr("data-id");
 					layer.confirm('Do you want to delete this file?', {
 						title: 'Prompt information',
-						btn: ['Confirm', 'Cancel']
+						btn: ['Confirm', 'Cancel'],
 					}, function(index) {
+						layer.close(index);
 						post(xhrUrls.HC_DELETE + '/' + id).then((res) => {
-							layer.close(index);
 							if (res.data.code == 200) {
 								layer.msg('Delete the success!', {
 									time: 2000,
@@ -263,6 +425,28 @@
 				$("#text").html("DATA UPLOADING, PLEASE WAIT...");
 	
 			}
+		},
+		watch: {
+			type: function(val) {
+				debugger
+				this.getSelectData(null)
+	
+				if (this.$refs.selectionThreeBox.nowIndex) {
+					this.selectOptionsThree = []
+					this.$refs.selectionThreeBox.nowIndex = 0
+				}
+				if (val < 5) {
+					this.name = `${this.titleList[val]}`
+					this.title = `${this.overview} ${this.name}`
+				} else {
+					this.name = `${this.titleList[val]}`
+					this.title = `${this.name}`
+				}
+				this.dataSearch()
+			},
+			getStoreYearMonth: function () {
+        this.dataSearch()
+      },
 		}
 	};
 </script>

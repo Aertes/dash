@@ -388,8 +388,19 @@ html #layuicss-layer {
     height: 30px;
     margin-left: 10px;
     font-size: 22px;
-    _overflow: hidden
+    _overflow: hidden;
 }
+.layui-layer-setwin a:before {
+position: absolute;
+  content: '×';
+  display: block;
+  width: 20px;
+  height: 30px;
+  color: #a0a0a1;
+	font-size: 30px;
+	top: -5px;
+}
+
 
 .layui-layer-setwin .layui-layer-min cite {
     position: absolute;
@@ -424,12 +435,12 @@ html #layuicss-layer {
 }
 
 .layui-layer-setwin .layui-layer-close1 {
-    background-position: 1px -49px;
+    background-position: 1px 100px;
     cursor: pointer
 }
 
 .layui-layer-setwin .layui-layer-close1:hover {
-    opacity: .7
+    opacity: 1
 }
 
 .layui-layer-setwin .layui-layer-close2 {

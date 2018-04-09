@@ -72,7 +72,7 @@
       .arrow-down
         e-pos(top:50%, y:-50%)
         right 10px
-        font-size 13px
+        font-size 20px
         color #A0A0A1
       input
         width 100%
@@ -83,14 +83,14 @@
         border 1px solid #E2DFDE
         border-radius 5px
         color #A0A0A1
-        font-size 20px
+        font-size 21px
         &:disabled
           background-color #fff
     .dropdown-menu
       position absolute
       top 37px
       width 100%
-      font-size: 20px
+      font-size: 21px
       color #A0A0A1
       line-height 35px
       background-color #fff

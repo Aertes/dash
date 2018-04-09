@@ -480,16 +480,16 @@
       border-radius 10px
       background-color #fff
       .options-icon-date
-        font-size 22px
+        font-size 28px
         color #A0A0A1
         float left
-        margin 8px 18px 0 39px
+        margin 4px 18px 0 39px
       .options-menu
         position absolute
         right 0
         margin-right 25px
         width 50px
-        height 100px
+        height 60px
         z-index 5000
         padding-left 15px
         &:hover .dashboard-operation

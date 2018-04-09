@@ -6,7 +6,7 @@
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap" :style="isTable?'width:100%':''">
         <div class="chart-title">
-          <span>{{title}} ({{Time}}) </span>
+          <span>{{title}}({{Time}}) </span>
           <span title="Check the chart" @click="tableViews"><svg-icon  sign="icon-grid" class="grid-icon" :class="{active:!isTable}"></svg-icon></span>
           <span title="See the table" @click="chartViews"><svg-icon  sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon></span>
         </div>
@@ -83,21 +83,21 @@
     name: "DashBoard",
     data() {
       return {
-        overview: 'Overview',
-        title: 'Overview Campaign',
+        overview: 'OVERVIEW',
+        title: 'OVERVIEW CAMPAIGN',
         name: 'Campaign',
         titleList: [
-          'Campaign',
-          'Com.Cn B2B',
-          'Com.Cn B2C',
-          'Crm',
-          'Rating & Review',
-          'B2C Campaign Performance',
-          'Individal Campaign Performance Dashboard',
-          'Com.Cn',
-          'Crm',
-          'Rating & Review YTD',
-          'Rating & Review Month',
+          'CAMPAIGN',
+          'COM.CN B2B',
+          'COM.CN B2C',
+          'CRM',
+          'RATING & REVIEW',
+          'B2C CAMPAIGN PERFORMANCE',
+          'INDIVIDAL CAMPAIGN PERFORMANCE DASHBOARD',
+          'COM.CN',
+          'CRM',
+          'RATING & REVIEW YTD',
+          'RATING & REVIEW MONTH',
           'EC REPORT',
         ],
         Time: '2018/01',
@@ -304,7 +304,7 @@
             yearMonth = getYear + getMonth
           }
         }*/
-        this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
+        this.Time = yearMonth.slice(0, 4)+'/'+yearMonth.slice(4, 6)
 
         this.data[num].isTable = this.isTable
 
