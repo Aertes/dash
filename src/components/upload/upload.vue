@@ -334,7 +334,7 @@
 				let num = this.type()
 				let yearMonth = this.getStoreYearMonth()
 				this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
-				
+
         this.data[num].month = yearMonth
 				if (num == 0) {
 					dataOvCmaSearch(this, this.data[num])
@@ -385,7 +385,7 @@
 			onRemoveRecord() {
 				let that = this;
 				$(document).delegate('.removeRecord', 'click', function(event) {
-					event.stopPropagation();
+					event.stopImmediatePropagation();
 					event.preventDefault();
 					var id = $(this).attr("data-id");
 					layer.confirm('Do you want to delete this file?', {

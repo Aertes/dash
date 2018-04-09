@@ -250,7 +250,7 @@
         selectList: 1,
         overview: 'OVERVIEW',
         title: 'OVERVIEW CAMPAIGN',
-        name: 'CAMPAIGN',
+        name: 'Campaign',
         titleList: [
           'CAMPAIGN',
           'COM.CN B2B',
