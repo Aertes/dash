@@ -450,5 +450,6 @@ export {
   dataCrmSearch,
   dataRevRatSearch,
   dataEcSearch,
-  dataEcAllSearch
+  dataEcAllSearch,
+  formatThousands
 }
