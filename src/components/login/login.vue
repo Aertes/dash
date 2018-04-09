@@ -2,7 +2,7 @@
   <div class="bigbox">
     <div class="nav-bar-wrap clearfix">
       <div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="198" height="100"></div>
-      <h1>ONE CHINA DIGITAL PERFORMANCE</h1>
+      <h1>ONE CHINA DIGITAL PERFORMANCE DASHBOARD</h1>
     </div>
     <div class="bg">
       <div class="form-wrapper">
@@ -186,6 +186,7 @@
       font-size 37px
       color #a0a0a1
       font-weight normal
+      text-shadow: 5px 5px 5px #bbbbbb;
     .user-info
       float right
       color #2061AE

@@ -1,7 +1,7 @@
 <template>
   <div class="tables-wrap" id="tablesBox">
     <div class="tables-title">
-      <span>{{title}} - {{Time}}</span>
+      <span>{{title}} ({{Time}})</span>
       <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
     </div>
     <div class="clearfix select-wrap">
@@ -1074,6 +1074,9 @@
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData,
               columns: [{
                   data: 'category'
@@ -1306,7 +1309,7 @@
 
         let yearMonth = this.getStoreYearMonth
 
-        this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
+        this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
 
         /*this.data[num].isTable = this.isTable
 
@@ -1797,6 +1800,8 @@
         border-right medium
         line-height 30px
         text-align center
+        thead
+          background #bad7ed6b
         th
         td
           border-bottom 1px solid #EAEAEA

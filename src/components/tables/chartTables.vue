@@ -1333,7 +1333,8 @@
       border-right medium
       line-height 30px
       text-align center
-      // height 87%
+      thead
+        background #bad7ed6b
       th
       td
         border-bottom 1px solid #EAEAEA

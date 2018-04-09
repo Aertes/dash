@@ -23,8 +23,16 @@ td {
   width: 100% !important;
 }
 
+
+
+
 table.dataTable.display tbody tr:first-child td.dataTables_empty {
   text-align: center;
+}
+
+table.dataTable thead th,
+table.dataTable thead td{
+  padding: 10px 40px
 }
 
 

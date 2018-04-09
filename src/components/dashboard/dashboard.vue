@@ -6,14 +6,13 @@
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap" :style="isTable?'width:100%':''">
         <div class="chart-title">
-          <span>{{title}} - {{Time}}</span>
-          <span @click="tableViews"><svg-icon sign="icon-grid" class="grid-icon" :class="{active:!isTable}"></svg-icon></span>
-          <span @click="chartViews"><svg-icon sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon></span>
+          <span>{{title}} ({{Time}}) </span>
+          <span title="Check the chart" @click="tableViews"><svg-icon  sign="icon-grid" class="grid-icon" :class="{active:!isTable}"></svg-icon></span>
+          <span title="See the table" @click="chartViews"><svg-icon  sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon></span>
         </div>
         <div class="chart-cont">
           <!--<i class="sideShadow"></i>-->
           <div id="charContainer">
-
             <keep-alive>
               <chart-table v-if="isTable" :tableData="dashBoardTableData" @closeLoading="loadingHandle"></chart-table>
               <chart v-else="!isTable" :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
@@ -101,7 +100,7 @@
           'Rating & Review Month',
           'EC REPORT',
         ],
-        Time: '2018-01',
+        Time: '2018/01',
         DData: [],
         data: [
           {
@@ -305,7 +304,7 @@
             yearMonth = getYear + getMonth
           }
         }*/
-        this.Time = yearMonth.slice(0, 4) + ' - ' + yearMonth.slice(4, 6)
+        this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
 
         this.data[num].isTable = this.isTable
 
@@ -638,12 +637,15 @@
       button
         height: 40px
         line-height: 40px
-        background: #fff
-        border: 1px solid #ccc
         padding: 0 10px 0px
         vertical-align: bottom
         cursor pointer
         margin-left 20px
         font-size 20px
-
+        background-color #2061AE
+        border-radius 10px
+        color #fff
+        border medium
+        outline none
+        cursor pointer
 </style>

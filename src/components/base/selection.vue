@@ -83,14 +83,14 @@
         border 1px solid #E2DFDE
         border-radius 5px
         color #A0A0A1
-        font-size 16px
+        font-size 20px
         &:disabled
           background-color #fff
     .dropdown-menu
       position absolute
       top 37px
       width 100%
-      font-size: 15px
+      font-size: 20px
       color #A0A0A1
       line-height 35px
       background-color #fff

@@ -16,10 +16,10 @@
                  ref="selectionFourBox"></selection>
 
       <div v-if="all" class="options-menu">
-        <div @click="showOperation">
+        <div>
           <svg-icon sign="icon-more"></svg-icon>
         </div>
-        <div class="dashboard-operation box-shadow" v-show="isShow">
+        <div class="dashboard-operation box-shadow" >
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
             <a href="javascript:;" v-for="(item,index) in menuList"
@@ -485,14 +485,21 @@
         float left
         margin 8px 18px 0 39px
       .options-menu
-        position relative
-        float right
+        position absolute
+        right 0
         margin-right 25px
+        width 50px
+        height 100px
+        z-index 5000
+        padding-left 15px
+        &:hover .dashboard-operation
+          display block
         .icon
           font-size 35px
           color #2061AE
           cursor pointer
         .dashboard-operation
+          display none
           position absolute
           right -24px
           top 60px

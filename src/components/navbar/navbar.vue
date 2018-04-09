@@ -1,14 +1,14 @@
 <template>
   <div class="nav-bar-wrap clearfix">
     <div class="logo box-shadow"><img src="../../assets/img/logo.png" alt="philips" width="198" height="100"></div>
-    <h1>One China Digital Performance</h1>
+    <h1>One China Digital Performance Dashboard</h1>
     <div class="user-info">
       <div class="after-login">
-        <div @click="showOperation">
+        <div class="userHover">
           <span class="user-name">{{userName}}</span>
           <svg-icon sign="icon-user" class="user-icon"></svg-icon>
         </div>
-        <div v-if="USERINFO" class="user-operation box-shadow" v-show="isShow">
+        <div v-if="USERINFO"  class="user-operation box-shadow" >
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
             <router-link to="/">
@@ -79,7 +79,7 @@
       float left
       width 198px
       height 100px
-      margin-left 45px
+      // margin-left 45px
       img
         width 100%
         height 100%
@@ -89,6 +89,7 @@
       font-size 37px
       color #a0a0a1
       font-weight normal
+      text-shadow: 5px 5px 5px #bbbbbb;
     .user-info
       float right
       color #2061AE
@@ -97,12 +98,14 @@
       .after-login
         position relative
         cursor pointer
+        &:hover .user-operation
+          display block
         .user-name
           margin-right 24px
-          font-size 30px
+          font-size 27px
           vertical-align top
         .user-icon
-          font-size 29px
+          font-size 27px
         .user-operation
           position absolute
           right -24px
@@ -112,6 +115,7 @@
           border-radius 10px
           white-space nowrap
           z-index 99999
+          display none
           .a-wrap
             border-radius 10px
             overflow hidden

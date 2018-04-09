@@ -384,10 +384,10 @@ html #layuicss-layer {
 
 .layui-layer-setwin a {
     position: relative;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 30px;
     margin-left: 10px;
-    font-size: 12px;
+    font-size: 22px;
     _overflow: hidden
 }
 
@@ -424,7 +424,7 @@ html #layuicss-layer {
 }
 
 .layui-layer-setwin .layui-layer-close1 {
-    background-position: 1px -40px;
+    background-position: 1px -49px;
     cursor: pointer
 }
 
