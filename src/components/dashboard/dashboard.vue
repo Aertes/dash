@@ -7,8 +7,10 @@
       <div class="chart-wrap" :style="isTable?'width:100%':''">
         <div class="chart-title">
           <span>{{title}}({{Time}}) </span>
-          <span title="Check the chart" @click="tableViews"><svg-icon  sign="icon-grid" class="grid-icon" :class="{active:!isTable}"></svg-icon></span>
-          <span title="See the table" @click="chartViews"><svg-icon  sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon></span>
+          <span title="Check the chart" @click="tableViews"><svg-icon sign="icon-grid" class="grid-icon"
+                                                                      :class="{active:!isTable}"></svg-icon></span>
+          <span title="See the table" @click="chartViews"><svg-icon sign="icon-chart" class="chart-icon"
+                                                                    :class="{active:isTable}"></svg-icon></span>
         </div>
         <div class="chart-cont">
           <!--<i class="sideShadow"></i>-->
@@ -171,7 +173,7 @@
         load: false,
         isShow: false,
         isTable: false,
-        url:''
+        url: ''
       }
     },
     computed: {
@@ -204,14 +206,37 @@
       },
       ecCategory() {
         return this.$store.state.ecCategory
+      },
+
+
+      camOneCategoryId() {
+        return this.$store.state.camOneCategoryId
+      },
+      camCategoryId() {
+        return this.$store.state.camCategoryId
+      },
+      camCompaignId() {
+        return this.$store.state.camCompaignId
+      },
+      camWeekId() {
+        return this.$store.state.camWeekId
+      },
+      comMarketTypeId() {
+        return this.$store.state.comMarketTypeId
+      },
+      rrOneChannelId() {
+        return this.$store.state.rrOneChannelId
+      },
+      rrChannelId() {
+        return this.$store.state.rrChannelId
+      },
+      ecCategoryId() {
+        return this.$store.state.ecCategoryId
       }
     },
     components: {
       ChartTable,
       Chart
-    },
-    beforeCreate() {
-
     },
     mounted() {
 
@@ -226,7 +251,11 @@
         this.wheelUp()
       })
 
-      if(window.location.hash.indexOf("?") != -1){
+      this.$Hub.$on('refreshData', () => {
+        this.dataSearch()
+      })
+
+      if (window.location.hash.indexOf("?") != -1) {
         this.getUrl();
       }
 
@@ -304,7 +333,7 @@
             yearMonth = getYear + getMonth
           }
         }*/
-        this.Time = yearMonth.slice(0, 4)+'/'+yearMonth.slice(4, 6)
+        this.Time = yearMonth.slice(0, 4) + '/' + yearMonth.slice(4, 6)
 
         this.data[num].isTable = this.isTable
 
@@ -329,9 +358,9 @@
           this.data[num].week = this.camWeek
           dataCmafunnelSearch(this, this.data[num])
         } else if (num == 7) {
-          if(this.comMarketType == 'B2C'){
+          if (this.comMarketType == 'B2C') {
             this.data[num].isB2C = true
-          }else if(this.comMarketType == 'B2B'){
+          } else if (this.comMarketType == 'B2B') {
             this.data[num].isB2C = false
           }
           dataComSearch(this, this.data[num])
@@ -347,9 +376,9 @@
 
           this.data[num].category = this.ecCategory
 
-          if(this.ecCategory!=null || this.ecCategory!=undefined){
+          if (this.ecCategory != null || this.ecCategory != undefined) {
             dataEcSearch(this, this.data[num])
-          }else{
+          } else {
             dataEcAllSearch(this, this.data[num])
           }
         }
@@ -406,36 +435,236 @@
           content: $(`#${id}`)
         })
       },
-      closeLayerButton(){
+      closeLayerButton() {
         layer.close(layerId)
         this.url = ''
       },
-      downloadUrl() {
-        let baseUrl = window.location.origin;
-        let downloadUrl = baseUrl + '/#/dashboard?type='+this.type+'&yearMonth='+this.getStoreYearMonth+''
-        this.url = downloadUrl
-        this.layerOpen('downLoadUrl')
-      },
-      copyURL(){
+      copyURL() {
         let inputUrl = this.$refs.inputUrl;
         inputUrl.select();
         document.execCommand('Copy');
-        console.log(this.$refs.inputUrl)
-        layer.msg("Copy success !");
+        layer.msg("Copy success !", {
+            time: 1000, 
+            skin: 'fontColor'
+          }, function (index){
+            layer.close(index);
+        })
       },
-      getUrl(){
+      downloadUrl() {
+
+        /*camOneCategory:null,
+        camCategory:null,
+        camCompaign:null,
+        camWeek:null,
+        comMarketType:'B2C',
+        rrOneChannel:null,
+        rrChannel:null,
+        ecCategory:null*/
+
+        let urlParameter = ''
+
+        if (this.type == 5) {
+
+          if (this.camOneCategory != null || this.camOneCategory != undefined) {
+
+            urlParameter = `&category=${this.camOneCategory}&categoryid=${this.camOneCategoryId}`
+
+          }
+
+        } else if (this.type == 6) {
+
+          if (this.camCategory != null || this.camCategory != undefined) {
+
+            if (this.camCompaign != null || this.camCompaign != undefined) {
+
+              if (this.camWeek != null || this.camWeek != undefined) {
+
+                urlParameter = `&category=${this.camCategory}&categoryid=${this.camCategoryId}&compaign=${this.camCompaign}&compaignid=${this.camCompaignId}&week=${this.camWeek}&weekid=${this.camWeekId}`
+
+              } else {
+
+                urlParameter = `&category=${this.camCategory}&categoryid=${this.camCategoryId}&compaign=${this.camCompaign}&compaignid=${this.camCompaignId}`
+
+              }
+
+            } else {
+              urlParameter = `&category=${this.camCategory}&categoryid=${this.camCategoryId}`
+            }
+
+          }
+
+        } else if (this.type == 7) {
+
+          if (this.comMarketType != null || this.comMarketType != undefined) {
+
+            urlParameter = `&markettype=${this.comMarketType}&markettypeid=${this.comMarketTypeId}`
+
+          }
+
+        } else if (this.type == 9) {
+
+          if (this.rrOneChannel != null || this.rrOneChannel != undefined) {
+
+            urlParameter = `&channel=${this.rrOneChannel}&channelid=${this.rrOneChannelId}`
+
+          }
+
+        } else if (this.type == 10) {
+
+          if (this.rrChannel != null || this.rrChannel != undefined) {
+
+            urlParameter = `&channel=${this.rrChannel}&channelid=${this.rrChannelId}`
+
+          }
+
+        } else if (this.type == 11) {
+
+          if (this.ecCategory != null || this.ecCategory != undefined) {
+
+            urlParameter = `&category=${this.ecCategory}&categoryid=${this.ecCategoryId}`
+
+          }
+
+        }
+
+        let baseUrl = `${window.location.origin}/#/dashboard?type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
+
+        let downloadUrl = `${baseUrl}${urlParameter}`
+
+        this.url = downloadUrl
+
+        this.layerOpen('downLoadUrl')
+
+      },
+      getUrl() {
         let url = window.location.hash;
         let obj = {}
         if (url.indexOf("?") != -1) {
           let str = url.substr(12);
           let strs = str.split("&");
-          for(let i=0; i<strs.length; i++){
-            obj[strs[i].split('=')[0]]=unescape(strs[i].split('=')[1])
+          for (let i = 0; i < strs.length; i++) {
+            obj[strs[i].split('=')[0]] = decodeURIComponent(strs[i].split('=')[1]) //unescape
           }
         }
         this.$store.commit('voluation', Number(obj.type))
         this.$store.commit('yearVoluation', Number(obj.yearMonth.substr(0, 4)))
         this.$store.commit('monthVoluation', Number(obj.yearMonth.substr(4)))
+
+        if (this.type == 5) {
+
+          this.$nextTick(()=>{
+
+            if(obj.category!=undefined || obj.categoryid!=undefined){
+
+              this.$store.commit('camOneCategoryVoluation', obj.category)
+              this.$store.commit('camOneCategoryIdVoluation', Number(obj.categoryid))
+
+            }
+
+          })
+
+        } else if (this.type == 6) {
+
+          if (obj.category != undefined || obj.categoryid != undefined) {
+
+            if (obj.compaign != null || obj.compaignid != undefined) {
+
+              if (obj.week != null || obj.weekid != undefined) {
+
+                this.$nextTick(()=>{
+
+                  this.$store.commit('camCategoryVoluation', obj.category)
+                  this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
+
+                  this.$store.commit('camCompaignVoluation', obj.compaign)
+                  this.$store.commit('camCompaignIdVoluation', Number(obj.compaignid))
+
+                  this.$store.commit('camWeekVoluation', obj.week)
+                  this.$store.commit('camWeekIdVoluation', Number(obj.weekid))
+
+                })
+
+              } else {
+
+                this.$nextTick(()=>{
+
+                  this.$store.commit('camCategoryVoluation', obj.category)
+                  this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
+
+                  this.$store.commit('camCompaignVoluation', obj.compaign)
+                  this.$store.commit('camCompaignIdVoluation', Number(obj.compaignid))
+
+                })
+
+              }
+
+            } else {
+
+              this.$nextTick(()=>{
+
+                this.$store.commit('camCategoryVoluation', obj.category)
+                this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
+
+              })
+            }
+
+          }
+
+        } else if (this.type == 7) {
+
+          if(obj.markettype!=undefined || obj.markettypeid!=undefined){
+
+            this.$nextTick(()=>{
+
+              this.$store.commit('comMarketTypeVoluation', obj.markettype)
+              this.$store.commit('comMarketTypeIdVoluation', Number(obj.markettypeid))
+
+            })
+
+          }
+
+
+        } else if (this.type == 9) {
+
+          if(obj.channel!=undefined || obj.channelid!=undefined){
+
+            this.$nextTick(()=>{
+
+              this.$store.commit('rrOneChannelVoluation', obj.channel)
+              this.$store.commit('rrOneChannelIdVoluation', Number(obj.channelid))
+
+            })
+
+          }
+
+
+        } else if (this.type == 10) {
+
+          if(obj.channel!=undefined || obj.channelid!=undefined){
+
+            this.$nextTick(()=>{
+
+              this.$store.commit('rrChannelVoluation', obj.channel)
+              this.$store.commit('rrChannelIdVoluation', Number(obj.channelid))
+
+            })
+
+          }
+
+        } else if (this.type == 11) {
+
+          if(obj.category!=undefined || obj.categoryid!=undefined){
+
+            this.$nextTick(()=>{
+
+              this.$store.commit('ecCategoryVoluation', obj.category)
+              this.$store.commit('ecCategoryIdVoluation', Number(obj.categoryid))
+
+            })
+
+          }
+
+        }
 
       }
     },
@@ -613,6 +842,7 @@
         e-pos(top:50%, y:-50%, left:50%, x:-50%)
         width 300px
         height 300px
+
   .downLoadUrl
     .tables-title
       position: relative

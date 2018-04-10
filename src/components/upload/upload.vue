@@ -6,11 +6,10 @@
 		</div>
 		<div class="upload-file-box">
 			<div class="upload-file">
-				<a href="javascript:;" title="Unselected File">
-				          Select File
-				          <input type="file" id="picker" name="file" @change="upload"
-				                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-				        </a>
+				<a href="javascript:;" title="Unselected File" style="background-color: #2061ae">
+					Select File
+					<input type="file" id="picker" name="file" @change="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+				</a>
 				<span id="fileName">{{fileName}}</span>
 			</div>
 			<div class="tables-container">
@@ -41,8 +40,8 @@
 	
 		</div>
 		<span id="operate" hidden>
-				<svg-icon sign="icon-trash"></svg-icon>
-			</span>
+							<svg-icon sign="icon-trash"></svg-icon>
+						</span>
 	</div>
 </template>
 
@@ -55,20 +54,6 @@
 	import {
 		formatDate
 	} from '../../assets/js/formatDate.js'
-	import {
-		dataOvCmaSearch,
-		dataOvComB2BSearch,
-		dataOvComB2CSearch,
-		dataOvCrmSearch,
-		dataOvRevSearch,
-		dataCmaSearch,
-		dataCmafunnelSearch,
-		dataComSearch,
-		dataCrmSearch,
-		dataRevRatSearch,
-		dataEcSearch,
-		dataEcAllSearch
-	} from '../../assets/chartsData/index'
 	export default {
 		name: "upload",
 		data() {
@@ -215,7 +200,7 @@
 							$("#progressBar").css("width", "0%");
 							$("#text").html("DATA UPLOADING, PLEASE WAIT...");
 							that.dataTable(this.types, this.title)
-							this.dataSearch()
+							this.refreshData()
 						}, 1000);
 					} else {
 						let errMsg = res.errMsg.replace(/\,/g, '<br>')
@@ -257,6 +242,9 @@
 					pageLength: 5,
 					"ajax": (data, callback, settings) => {
 						post(xhrUrls.HC_SEARCH, that.Data).then((res) => {
+							if (res.data.data.data.length <= 0) {
+								$('#fileTable_paginate').hide()
+							}
 							callback(res.data.data);
 						}).catch((err) => {
 							console.log(err);
@@ -290,95 +278,16 @@
 							width: '150px',
 							data: "id",
 							render: function(data, type, row) {
-								return '<div style="text-align: center;" title="DELETE"><a style="color:#a0a0a1; font-size:18px; cursor: pointer;" class="removeRecord" data-id="' + row.id + '">' + $("#operate").html() + '</a></div>';
+								return '<div style="text-align: center;" title="DELETE"><a style="color:red; font-size:18px; cursor: pointer;" class="removeRecord" data-id="' + row.id + '">' + $("#operate").html() + '</a></div>';
 							}
 						}
 					]
 	
 				});
 			},
-			type() {
-				return this.$store.state.type
-			},
-			getStoreYearMonth() {
-        return this.$store.getters.getYearMonth
-			},
-			getStoreYearMonth() {
-        return this.$store.getters.getYearMonth
-      },
-      camOneCategory() {
-        return this.$store.state.camOneCategory
-      },
-      camCategory() {
-        return this.$store.state.camCategory
-      },
-      camCompaign() {
-        return this.$store.state.camCompaign
-      },
-      camWeek() {
-        return this.$store.state.camWeek
-      },
-      comMarketType() {
-        return this.$store.state.comMarketType
-      },
-      rrOneChannel() {
-        return this.$store.state.rrOneChannel
-      },
-      rrChannel() {
-        return this.$store.state.rrChannel
-      },
-      ecCategory() {
-        return this.$store.state.ecCategory
-      },
-			dataSearch(val) {
-				let num = this.type()
-				let yearMonth = this.getStoreYearMonth()
-				this.Time = yearMonth.slice(0, 4) + ' / ' + yearMonth.slice(4, 6)
-
-        this.data[num].month = yearMonth
-				if (num == 0) {
-					dataOvCmaSearch(this, this.data[num])
-				} else if (num == 1) {
-					dataOvComB2BSearch(this, this.data[num])
-				} else if (num == 2) {
-					dataOvComB2CSearch(this, this.data[num])
-				} else if (num == 3) {
-					dataOvCrmSearch(this, this.data[num])
-				} else if (num == 4) {
-					dataOvRevSearch(this, this.data[num])
-				} else if (num == 5) {
-					this.data[num].category = this.camOneCategory
-					dataCmaSearch(this, this.data[num])
-				} else if (num == 6) {
-					this.data[num].category = this.camCategory
-					this.data[num].campaign = this.camCompaign
-					this.data[num].week = this.camWeek
-					dataCmafunnelSearch(this, this.data[num])
-				} else if (num == 7) {
-					if (this.comMarketType == 'B2C') {
-						this.data[num].isB2C = true
-					} else if (this.comMarketType == 'B2B') {
-						this.data[num].isB2C = false
-					}
-					dataComSearch(this, this.data[num])
-				} else if (num == 8) {
-					dataCrmSearch(this, this.data[num])
-				} else if (num == 9) {
-					this.data[num].channel = this.rrOneChannel
-					dataRevRatSearch(this, this.data[num])
-				} else if (num == 10) {
-					this.data[num].channel = this.rrChannel
-					dataRevRatSearch(this, this.data[num])
-				} else if (num == 11) {
-	
-					this.data[num].category = this.ecCategory
-	
-					if (this.ecCategory != null || this.ecCategory != undefined) {
-						dataEcSearch(this, this.data[num])
-					} else {
-						dataEcAllSearch(this, this.data[num])
-					}
-				}
+			//刷新图表
+			refreshData() {
+				this.$Hub.$emit('refreshData');
 			},
 	
 			//删除
@@ -395,15 +304,15 @@
 						layer.close(index);
 						post(xhrUrls.HC_DELETE + '/' + id).then((res) => {
 							if (res.data.code == 200) {
-								layer.msg('Delete the success!', {
+								layer.msg('Delete the success !', {
 									time: 2000,
 									skin: 'fontColor'
 								}, function(index) {
 									layer.close(index);
-									that.table.ajax.reload(null, false)
+									that.dataTable(that.types, that.title)
 								})
 							} else {
-								layer.msg('Delete failed!', {
+								layer.msg('Delete failed !', {
 									time: 2000,
 									skin: 'fontColor'
 								}, function(index) {
@@ -417,36 +326,14 @@
 	
 				});
 			},
+			//关闭上传弹窗
 			closeLayerButton() {
 				this.$emit('closeLayer')
 				$('.upload-file-box').removeClass('none').next().addClass('none');
 				$('#fileName').html("Unselected File")
 				$('#picker').val('');
 				$("#text").html("DATA UPLOADING, PLEASE WAIT...");
-	
 			}
-		},
-		watch: {
-			type: function(val) {
-				debugger
-				this.getSelectData(null)
-	
-				if (this.$refs.selectionThreeBox.nowIndex) {
-					this.selectOptionsThree = []
-					this.$refs.selectionThreeBox.nowIndex = 0
-				}
-				if (val < 5) {
-					this.name = `${this.titleList[val]}`
-					this.title = `${this.overview} ${this.name}`
-				} else {
-					this.name = `${this.titleList[val]}`
-					this.title = `${this.name}`
-				}
-				this.dataSearch()
-			},
-			getStoreYearMonth: function () {
-        this.dataSearch()
-      },
 		}
 	};
 </script>
@@ -454,18 +341,20 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../assets/style/mixin.styl';
 
-  .tables-wrap .upload-file-box .tables-container table td, .tables-wrap .upload-file-box .tables-container table th
+  .tables-wrap .upload-file-box .tables-container table td, 
+  .tables-wrap .upload-file-box .tables-container table th
     height: 25px
     font-weight: 400
     color: #717071
-  table.dataTable thead th, table.dataTable thead td 
+  table.dataTable thead th, 
+	table.dataTable thead td 
     padding: 10px 20px
   table.dataTable.no-footer 
     border-bottom: 0
-  .dataTables_wrapper .dataTables_paginate .paginate_button.disabled 
-    border: 1px solid transparent
-  .center 
-    text-align: center
+  .dataTables_wrapper 
+		.dataTables_paginate 
+			.paginate_button.disabled 
+				border: 1px solid transparent
   .tables-wrap 
     width: 900px
     max-height: 90%
@@ -496,11 +385,11 @@
         margin-left: 50px
         a 
           display: inline-block
-          border: 1px solid #abaaab
-          border-radius: 5px
+          border: 1px solid #2061ae
+          border-radius: 10px
           position: relative
           padding: 8px 20px
-          color: #1f61ae
+          color: #fff
           cursor: pointer
           font-size: 20px
         span 
@@ -544,35 +433,35 @@
           border-right: 1px solid #EBEBEB
           text-align: center
           vertical-align: center
-.progress-ba 
-		padding: 0 80px
-		text-align: center
-		.text 
-			font-size: 28px
-			color: #a0a0a1
-			margin-bottom: 30px
-			margin-top: 50px
-		.progress 
-			position: relative
-			border-radius: 30px
-			width: 100%
-			background: #f5f6f8
-			height: 30px
-			position: relative
-			display: inline-block
+	.progress-ba 
+			padding: 0 80px
 			text-align: center
-			line-height: 30px
-			color: #a0a0a1
-			.percentage 
-				position: absolute
+			.text 
+				font-size: 28px
+				color: #a0a0a1
+				margin-bottom: 30px
+				margin-top: 50px
+			.progress 
+				position: relative
 				border-radius: 30px
-				width: 80%
-				height: 100%
-				left: 0
-				top: 0
-				background: #1f61ae
-			.progressbarNum 
-				e-pos(left:50%, x:-50%)
-				z-index: 1
+				width: 100%
+				background: #f5f6f8
+				height: 30px
+				position: relative
+				display: inline-block
+				text-align: center
+				line-height: 30px
+				color: #a0a0a1
+				.percentage 
+					position: absolute
+					border-radius: 30px
+					width: 80%
+					height: 100%
+					left: 0
+					top: 0
+					background: #1f61ae
+				.progressbarNum 
+					e-pos(left:50%, x:-50%)
+					z-index: 1
 
 </style>

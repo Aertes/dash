@@ -497,7 +497,7 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 8,
               "info": false,
               data: this.tableData,
               columns: [
@@ -1313,7 +1313,7 @@
     width 100%
     height 100%
     font-size 18px
-    overflow auto
+    // overflow auto
     .tableBoxwrap
       height 100%
     .table-set

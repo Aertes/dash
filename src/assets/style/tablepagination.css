@@ -1,5 +1,5 @@
 .dataTables_paginate {
-  display: inline-block !important;
+  /* display: inline-block !important; */
   padding-left: 0 !important;
   padding-top: 0 !important;
   overflow: hidden;
@@ -12,7 +12,8 @@
   right: 0;
 }
 .dataTables_wrapper.no-footer .dataTables_scrollBody{
-  border-bottom:0;
+  border-bottom: 0;
+  padding-bottom: 5px
 }
 th,
 td {
@@ -38,7 +39,6 @@ table.dataTable thead td{
 #tableBox6_wrapper table.dataTable thead th{
   padding: 10px 80px
 }
-
 
 
 .dataTables_paginate span a,
@@ -226,4 +226,3 @@ table.dataTable thead tr th:first-of-type {
 .chart-tables-container .dataTables_wrapper {
   height: 100%;
 }
-

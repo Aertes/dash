@@ -328,6 +328,7 @@
             "month": ""
           }
         ],
+        selectOneVal: '',
         Time: '2018/01',
       }
     },
@@ -397,10 +398,13 @@
       }
     },
     mounted() {
+
       this.getTimeMonth()
       this.getSelectData()
       this.setTime()
       this.getTableData()
+
+
       //this.monthChange()
     },
     methods: {
@@ -1530,16 +1534,29 @@
           })
         })
       },
+      pageinNowIndex() {
+        this.pagNowIndex = !this.pagNowIndex
+      },
       selectShowOneHandle(val) {
+
         this.$store.commit('yearVoluation', val)
+
       },
       selectShowTwoHandle(val) {
+
         this.$store.commit('monthVoluation', val)
+
       },
       selectShowThreeHandle(val) {
+
         this.getSelectData(val)
+
       },
       selectShowFourHandle(val) {
+
+        if(val == undefined){
+          val = this.camCompaign
+        }
 
         this.$store.commit('camCompaignVoluation', val)
 
@@ -1555,7 +1572,6 @@
               this.selectOptionsFive.push(val)
             })
             this.$refs.selectionFiveBox.nowIndex = 0
-            //this.$store.commit('camCompaignIdVoluation', this.$refs.selectionFourBox.nowIndex)
           })
         } else {
           this.selectionFive = false
@@ -1563,6 +1579,10 @@
 
       },
       selectShowFiveHandle(val) {
+
+        if(val == undefined){
+          val = this.camWeek
+        }
 
         this.$store.commit('camWeekVoluation', val)
 
@@ -1633,9 +1653,9 @@
 
           this.selectionFive = false
 
-          /*if(val == undefined){
+          if(val == undefined){
             val = this.camOneCategory
-          }*/
+          }
 
           this.$store.commit('camOneCategoryVoluation', val)
 
@@ -1654,23 +1674,29 @@
 
         } else if (this.type === 6) {
 
+          if(this.selectionFive){
+            this.selectionFive = true
+          }else{
+            this.selectionFive = false
+          }
+
           this.selectionThree = true
 
           this.selectionFour = false
 
-          this.selectionFive = false
+          //this.selectionFive = false
 
-          /*if(val == undefined){
+          if(val == undefined){
             val = this.camCategory
-          }*/
+          }
 
           this.$store.commit('camCategoryVoluation', val)
 
           this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
-          this.$store.commit('camCompaignVoluation', null)
+          /*this.$store.commit('camCompaignVoluation', null)
 
-          this.$store.commit('camWeekVoluation', null)
+          this.$store.commit('camWeekVoluation', null)*/
 
           this.getCampaignDate(getYear)
 
@@ -1692,7 +1718,12 @@
               data.forEach((val) => {
                 this.selectOptionsFour.push(val)
               })
-              this.$refs.selectionFourBox.nowIndex = 0
+              if(this.selectOneVal == this.camCategory){
+                this.$refs.selectionFourBox.nowIndex = this.camCompaignId
+              }else{
+                this.$refs.selectionFourBox.nowIndex = 0
+              }
+              //this.$refs.selectionFourBox.nowIndex = 0
             })
           }
 
@@ -1703,6 +1734,10 @@
           this.selectionFour = false
 
           this.selectionFive = false
+
+          if(val == undefined){
+            val = this.comMarketType
+          }
 
           this.$store.commit('comMarketTypeVoluation', val)
 
@@ -1743,6 +1778,10 @@
 
           this.selectionFive = false
 
+          if(val == undefined){
+            val = this.rrOneChannel
+          }
+
           this.$store.commit('rrOneChannelVoluation', val)
 
           this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
@@ -1771,6 +1810,10 @@
           this.selectionFour = false
 
           this.selectionFive = false
+
+          if(val == undefined){
+            val = this.rrChannel
+          }
 
           this.$store.commit('rrChannelVoluation', val)
 
@@ -1801,6 +1844,10 @@
 
           this.selectionFive = false
 
+          if(val == undefined){
+            val = this.ecCategory
+          }
+
           this.$store.commit('ecCategoryVoluation', val)
 
           this.$store.commit('ecCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
@@ -1822,13 +1869,61 @@
     watch: {
       type: function (val) {
 
-        this.getSelectData(null)
+        if (this.type == 5) {
+
+          //alert('camOne'+' : '+this.camOneCategoryId)
+          this.$refs.selectionThreeBox.nowIndex = this.camOneCategoryId
+
+        }else if (this.type == 6) {
+
+          //alert('camCategory'+' : '+this.camCategoryId)
+          this.$refs.selectionThreeBox.nowIndex = this.camCategoryId
+
+          //alert('camCompaign'+' : '+this.camCompaignId)
+          if(this.camCompaignId > 0) {
+            this.selectionFive = true
+          }
+
+          this.selectOneVal = this.camCategory
+
+          this.$refs.selectionFourBox.nowIndex = this.camCompaignId
+
+          //alert('camWeek'+' : '+this.camWeekId)
+          this.$refs.selectionFiveBox.nowIndex = this.camWeekId
+
+        }else if(this.type == 7){
+
+          //alert('comMarketType'+' : '+this.comMarketTypeId)
+          this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
+
+        }else if(this.type == 9){
+
+          //alert('rrOneChannel'+' : '+this.rrOneChannelId)
+          this.$refs.selectionThreeBox.nowIndex = this.rrOneChannelId
+
+        }else if(this.type == 10){
+
+          //alert('rrChannel'+' : '+this.rrChannelId)
+          this.$refs.selectionThreeBox.nowIndex = this.rrChannelId
+
+        }else if(this.type == 11){
+
+          //alert('ecCategory'+' : '+this.ecCategoryId)
+          this.$refs.selectionThreeBox.nowIndex = this.ecCategoryId
+
+        }
+
+        this.getSelectData()
+
+
+        /*this.getSelectData(null)
 
         this.selectOptionsThree = []
 
         this.$nextTick(()=>{
           this.$refs.selectionThreeBox.nowIndex = 0
-        })
+        })*/
+
 
         if (val < 5) {
           this.name = `${this.titleList[val]}`

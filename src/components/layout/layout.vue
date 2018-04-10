@@ -1,19 +1,18 @@
 <template>
   <div class="app-wrapper">
-
+  
     <img v-if='goDown' src="../../assets/img/down.gif" alt="" class="goDown">
     <img v-if='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
-
+  
     <tables @closeLayer="layerHandle" :tableData="tableData"></tables>
     <upload :uploadLink="link" :types="uploadType" :title="name" @closeLayer="layerHandle"></upload>
     <!-- :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload" -->
     <nav-bar></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
-      <app-main @showUpload="uploadHandle" ></app-main>
+      <app-main @showUpload="uploadHandle"></app-main>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -22,7 +21,7 @@
   import AppMain from '../appmain/appmain'
   import Tables from '../tables/tables'
   import Upload from '@/components/upload/upload'
-
+  
   let layerId
   export default ({
     data() {
@@ -32,7 +31,7 @@
         name: '',
         goDown: true,
         goUp: false,
-        tableData:''
+        tableData: ''
       }
     },
     components: {
@@ -48,18 +47,18 @@
       }
     },
     mounted() {
-
+  
       this.goUpDown()
-
+  
       this.$Hub.$on('showTables', (obj) => {
         this.layerOpen(obj.id)
         this.tableData = obj.tableData
       });
-
+  
       this.$Hub.$on('sentData', (obj) => {
         this.tableData = obj.tableData
       })
-
+  
     },
     methods: {
       uploadHandle(obj) {
@@ -85,26 +84,25 @@
           content: $(`#${id}`)
         })
       },
-      goUpDown(){
-        if(this.type==0){
+      goUpDown() {
+        if (this.type == 0) {
           this.goDown = true
           this.goUp = false
-        }else if(this.type==11){
+        } else if (this.type == 11) {
           this.goUp = true
           this.goDown = false
-        }else{
+        } else {
           this.goUp = true
           this.goDown = true
         }
       }
     },
     watch: {
-      type: function () {
+      type: function() {
         this.goUpDown()
       }
     }
   })
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
