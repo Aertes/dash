@@ -439,7 +439,7 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>'+ formatThousands((data.toFixed(2))) +'</div>'
                   }
                 },
                 {
@@ -627,7 +627,6 @@
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
-
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
@@ -1038,6 +1037,9 @@
                           case "Rating":
                             return '<div>'+ (data).toFixed(2) + '%</div>'
                             break;
+                          case "UGCR":
+                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            break;
                           default:
                             return '<div>'+ formatThousands(data) +'</div>'
                             break;
@@ -1061,6 +1063,9 @@
                             return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "Rating":
+                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            break;
+                          case "UGCR":
                             return '<div>'+ (data).toFixed(2) + '%</div>'
                             break;
                           default:
@@ -1104,6 +1109,9 @@
                           case "Rating":
                             return '<div>'+ (data).toFixed(2) + '%</div>'
                             break;
+                          case "UGCR":
+                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            break;
                           default:
                             return '<div>'+ formatThousands(data) +'</div>'
                             break;
@@ -1127,6 +1135,9 @@
                             return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "Rating":
+                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            break;
+                          case "UGCR":
                             return '<div>'+ (data).toFixed(2) + '%</div>'
                             break;
                           default:
@@ -1334,7 +1345,7 @@
       line-height 30px
       text-align center
       thead
-        background #bad7ed6b
+        background rgba(186,215,237,.42);
       th
       td
         border-bottom 1px solid #EAEAEA

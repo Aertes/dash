@@ -76,7 +76,17 @@ const store = new Vuex.Store({
     comMarketType:'B2C',
     rrOneChannel:null,
     rrChannel:null,
-    ecCategory:null
+    ecCategory:null,
+
+
+    camOneCategoryId:0,
+    camCategoryId:0,
+    camCompaignId:0,
+    camWeekId:0,
+    comMarketTypeId:0,
+    rrOneChannelId:0,
+    rrChannelId:0,
+    ecCategoryId:0
   },
   mutations: {
     increment: state => {
@@ -98,36 +108,66 @@ const store = new Vuex.Store({
     },
 
     camOneCategoryVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.camOneCategory = val
     },
     camCategoryVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.camCategory = val
     },
     camCompaignVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.camCompaign = val
     },
     camWeekVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.camWeek = val
     },
     comMarketTypeVoluation:(state, val) => {
       state.comMarketType = val
     },
     rrOneChannelVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.rrOneChannel = val
     },
     rrChannelVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.rrChannel = val
     },
     ecCategoryVoluation:(state, val) => {
-      if(val == '全部') val =null
+      if(val == 'All') val =null
       state.ecCategory = val
     },
+
+
+
+
+
+    camOneCategoryIdVoluation:(state, val) => {
+      state.camOneCategoryId = val
+    },
+    camCategoryIdVoluation:(state, val) => {
+      state.camCategoryId = val
+    },
+    camCompaignIdVoluation:(state, val) => {
+      state.camCompaignId = val
+    },
+    camWeekIdVoluation:(state, val) => {
+      state.camWeekId = val
+    },
+    comMarketTypeIdVoluation:(state, val) => {
+      state.comMarketTypeId = val
+    },
+    rrOneChannelIdVoluation:(state, val) => {
+      state.rrOneChannelId = val
+    },
+    rrChannelIdVoluation:(state, val) => {
+      state.rrChannelId = val
+    },
+    ecCategoryIdVoluation:(state, val) => {
+      state.ecCategoryId = val
+    }
+
   },
   getters: {
     getYearMonth: state => {

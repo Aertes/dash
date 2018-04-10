@@ -7,18 +7,18 @@
     <div class="clearfix select-wrap">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
-      <selection v-if="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
+      <selection v-show="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
 
-      <selection v-if="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
+      <selection v-show="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
                  ref="selectionTwoBox"></selection>
 
-      <selection v-if="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
-                 ref="selectionThreeBox" class="styleone"></selection>
+      <selection v-show="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
+                 ref="selectionThreeBox"></selection>
 
-      <selection v-if="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
-                 ref="selectionFourBox"></selection>
+      <selection v-show="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
+                 ref="selectionFourBox" class="styleone"></selection>
 
-      <selection v-if="selectionFive" :selections="selectOptionsFour" @selectShowFour="selectShowFiveHandle"
+      <selection v-show="selectionFive" :selections="selectOptionsFive" @selectShowFour="selectShowFiveHandle"
                  ref="selectionFiveBox"></selection>
 
       <!--<selection v-for="item in selectList" :selections="selectOptions"></selection>-->
@@ -257,12 +257,12 @@
           'COM.CN B2C',
           'CRM',
           'RATING & REVIEW',
-          'CAMPAIGN',
-          'COM.CN B2B',
-          'COM.CN B2C',
+          'B2C CAMPAIGN PERFORMANCE',
+          'INDIVIDAL CAMPAIGN PERFORMANCE DASHBOARD',
+          'COM.CN',
           'CRM',
           'RATING & REVIEW YTD',
-          'RATING & REVIEW Month',
+          'RATING & REVIEW MONTH',
           'EC REPORT',
         ],
         data: [
@@ -339,6 +339,9 @@
       getStoreYearMonth() {
         return this.$store.getters.getYearMonth
       },
+      getMoth() {
+        return this.$store.state.month
+      },
       month() {
         return this.$store.state.month
       },
@@ -365,19 +368,40 @@
       },
       ecCategory() {
         return this.$store.state.ecCategory
+      },
+
+
+      camOneCategoryId() {
+        return this.$store.state.camOneCategoryId
+      },
+      camCategoryId() {
+        return this.$store.state.camCategoryId
+      },
+      camCompaignId() {
+        return this.$store.state.camCompaignId
+      },
+      camWeekId() {
+        return this.$store.state.camWeekId
+      },
+      comMarketTypeId() {
+        return this.$store.state.comMarketTypeId
+      },
+      rrOneChannelId() {
+        return this.$store.state.rrOneChannelId
+      },
+      rrChannelId() {
+        return this.$store.state.rrChannelId
+      },
+      ecCategoryId() {
+        return this.$store.state.ecCategoryId
       }
     },
     mounted() {
-
       this.getTimeMonth()
       this.getSelectData()
-
-      //this.monthChange()
-
-      this.dataSearch()
-
+      this.setTime()
       this.getTableData()
-
+      //this.monthChange()
     },
     methods: {
       closeLayerButton() {
@@ -573,6 +597,9 @@
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
+              "scrollX": true,
+              "scrollCollapse": false,
+              "paging": true,
               data: this.tableData,
               columns: [
                 {data: 'week'},
@@ -586,7 +613,7 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>'+ formatThousands((data.toFixed(2))) +'</div>'
                   }
                 },
                 {
@@ -1304,17 +1331,12 @@
             break;
         }
       },
-      dataSearch() {
-        //let num = this.type
-
+      setTime() { //dataSearch
         let yearMonth = this.getStoreYearMonth
-
         this.Time = yearMonth.slice(0, 4) +'/'+yearMonth.slice(4, 6)
-
+        //let num = this.type
         /*this.data[num].isTable = this.isTable
-
         this.data[num].month = yearMonth*/
-
         /*if (num == 0) {
           dataOvCmaSearch(this, this.data[num])
         } else if (num == 1) {
@@ -1349,9 +1371,7 @@
           this.data[num].channel = this.rrChannel
           dataRevRatSearch(this, this.data[num])
         } else if (num == 11) {
-
           this.data[num].category = this.ecCategory
-
           if(this.ecCategory!=null || this.ecCategory!=undefined){
             dataEcSearch(this, this.data[num])
           }else{
@@ -1511,37 +1531,34 @@
         })
       },
       selectShowOneHandle(val) {
-
         this.$store.commit('yearVoluation', val)
-
       },
       selectShowTwoHandle(val) {
-
         this.$store.commit('monthVoluation', val)
-
       },
       selectShowThreeHandle(val) {
-
         this.getSelectData(val)
-
       },
       selectShowFourHandle(val) {
 
         this.$store.commit('camCompaignVoluation', val)
 
+        this.$store.commit('camCompaignIdVoluation', this.$refs.selectionFourBox.nowIndex)
+
         if (this.camCompaign != null || this.camCompaign != undefined) {
           const url = `${CAM_GETPARAMETER}?category=${this.camCategory}&campaign=${this.camCompaign}`
-          this.selectionFour = true
+          this.selectionFive = true
           get(url).then(res => {
             let data = res.data.data
-            this.selectOptionsFive = ['全部']
+            this.selectOptionsFive = ['All']
             data.forEach((val) => {
               this.selectOptionsFive.push(val)
-              this.$refs.selectShowFiveBox.nowIndex = 0
             })
+            this.$refs.selectionFiveBox.nowIndex = 0
+            //this.$store.commit('camCompaignIdVoluation', this.$refs.selectionFourBox.nowIndex)
           })
         } else {
-          this.selectionFour = false
+          this.selectionFive = false
         }
 
       },
@@ -1549,59 +1566,107 @@
 
         this.$store.commit('camWeekVoluation', val)
 
+        this.$store.commit('camWeekIdVoluation', this.$refs.selectionFiveBox.nowIndex)
+
       },
       getSelectData(val) {
+
         const getYear = new Date().getFullYear().toString()
+
         this.getYear()
+
         if (this.type === 0) {
+
           this.selectionThree = false
+
           this.selectionFour = false
+
           this.selectionFive = false
+
           this.getCampaignDate(getYear)
+
         } else if (this.type === 1) {
+
           this.selectionThree = false
+
           this.selectionFour = false
+
           this.selectionFive = false
+
           this.getComB2bDate(getYear)
+
         } else if (this.type === 2) {
+
           this.selectionThree = false
+
           this.selectionFour = false
+
           this.selectionFive = false
+
           this.getComB2cDate(getYear)
+
         } else if (this.type === 3) {
+
           this.selectionThree = false
+
           this.selectionFour = false
+
           this.selectionFive = false
+
           this.getCrmDate(getYear)
+
         } else if (this.type === 4) {
+
           this.selectionThree = false
+
           this.selectionFour = false
+
           this.selectionFive = false
+
           this.getReviewRatingDate(getYear)
+
         } else if (this.type === 5) {
 
           this.selectionThree = true
+
           this.selectionFour = false
+
           this.selectionFive = false
 
+          /*if(val == undefined){
+            val = this.camOneCategory
+          }*/
+
           this.$store.commit('camOneCategoryVoluation', val)
+
+          this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
           this.getCampaignDate(getYear)
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['全部']
+            this.selectOptionsThree = ['All']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
+            //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
           })
 
         } else if (this.type === 6) {
+
           this.selectionThree = true
+
           this.selectionFour = false
+
           this.selectionFive = false
 
+          /*if(val == undefined){
+            val = this.camCategory
+          }*/
+
           this.$store.commit('camCategoryVoluation', val)
+
+          this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
           this.$store.commit('camCompaignVoluation', null)
 
@@ -1611,41 +1676,61 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['全部']
+            this.selectOptionsThree = ['All']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
+            //this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
           })
 
           if (this.camCategory != null || this.camCategory != undefined) {
             const url = `${CAM_GETPARAMETER}?category=${this.camCategory}`
-            this.selectionThree = true
+            this.selectionFour = true
             get(url).then(res => {
               let data = res.data.data
-              this.selectOptionsThree = ['全部']
+              this.selectOptionsFour = ['All']
               data.forEach((val) => {
-                this.selectOptionsThree.push(val)
-                this.$refs.selectionThreeBox.nowIndex = 0
+                this.selectOptionsFour.push(val)
               })
+              this.$refs.selectionFourBox.nowIndex = 0
             })
           }
 
         } else if (this.type === 7) {
 
           this.selectionThree = true
+
           this.selectionFour = false
+
           this.selectionFive = false
 
           this.$store.commit('comMarketTypeVoluation', val)
 
+          this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
           this.getCampaignDate(getYear)
 
-          this.selectOptionsThree = ['B2C', 'B2B']
+          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+            let data = res.data.markettype
+            this.selectOptionsThree = []
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+          })
+
+          /*this.$nextTick(() => {
+            this.selectOptionsThree = ['B2C', 'B2B']
+            this.$refs.selectionThreeBox.nowIndex = 0
+          })*/
+
+          //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
         } else if (this.type === 8) {
 
           this.selectionFive = false
+
           this.selectionThree = false
+
           this.selectionFour = false
 
           this.getCampaignDate(getYear)
@@ -1653,43 +1738,82 @@
         } else if (this.type === 9) {
 
           this.selectionThree = true
+
           this.selectionFour = false
+
           this.selectionFive = false
 
           this.$store.commit('rrOneChannelVoluation', val)
 
+          this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
           this.getCampaignDate(getYear)
 
-          this.selectOptionsThree = ['全部', 'JD', 'Tmall']
+          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+            let data = res.data.channel
+            this.selectOptionsThree = ['All']
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+          })
+
+          /*this.$nextTick(() => {
+            this.selectOptionsThree = ['All', 'JD', 'Tmall']
+            this.$refs.selectionThreeBox.nowIndex = 0
+          })*/
+
+          //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
         } else if (this.type === 10) {
 
           this.selectionThree = true
+
           this.selectionFour = false
+
           this.selectionFive = false
 
           this.$store.commit('rrChannelVoluation', val)
 
+          this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
           this.getCampaignDate(getYear)
 
-          this.selectOptionsThree = ['全部', 'JD', 'Tmall']
+          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+            let data = res.data.channel
+            this.selectOptionsThree = ['All']
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+          })
+
+          /*this.$nextTick(() => {
+            this.selectOptionsThree = ['All', 'JD', 'Tmall']
+            this.$refs.selectionThreeBox.nowIndex = 0
+          })*/
+
+          //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
         } else if (this.type === 11) {
 
           this.selectionThree = true
+
           this.selectionFour = false
+
           this.selectionFive = false
 
           this.$store.commit('ecCategoryVoluation', val)
+
+          this.$store.commit('ecCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
           this.getCampaignDate(getYear)
 
           get(EC_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['全部']
+            this.selectOptionsThree = ['All']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
+            //this.$store.commit('ecCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
           })
 
         }
@@ -1700,10 +1824,11 @@
 
         this.getSelectData(null)
 
-        if (this.$refs.selectionThreeBox.nowIndex) {
-          this.selectOptionsThree = []
+        this.selectOptionsThree = []
+
+        this.$nextTick(()=>{
           this.$refs.selectionThreeBox.nowIndex = 0
-        }
+        })
 
         if (val < 5) {
           this.name = `${this.titleList[val]}`
@@ -1713,15 +1838,88 @@
           this.title = `${this.name}`
         }
 
-        this.dataSearch()
+        this.setTime()
+
       },
+
       tableData() {
         this.$nextTick(() => {
           this.ovtableStyle()
           this.getTableData()
-          this.dataSearch()
+          this.setTime()
         })
       },
+
+      getMoth: function () {
+        this.getTimeMonth()
+      },
+
+      /*camOneCategory: function () {
+        this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        //this.$refs.selectionThreeBox.nowIndex = this.camOneCategoryId
+      },
+      camCategory: function () {
+        this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        //this.$refs.selectionThreeBox.nowIndex = this.camCategoryId
+      },
+      camCompaign: function () {
+        this.$store.commit('camCompaignIdVoluation', this.$refs.selectionFourBox.nowIndex)
+        //this.$refs.selectionFourBox.nowIndex = this.camCompaignId
+      },
+      camWeek: function () {
+        this.$store.commit('camWeekIdVoluation', this.$refs.selectionFiveBox.nowIndex)
+        //this.$refs.selectionFiveBox.nowIndex = this.camWeekId
+      },
+      comMarketType: function () {
+        this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        //this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
+      },
+      rrOneChannel: function () {
+        this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        //this.$refs.selectionThreeBox.nowIndex = this.rrOneChannelId
+      },
+      rrChannel: function () {
+        this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        //this.$refs.selectionThreeBox.nowIndex = this.rrChannelId
+      },
+      ecCategory: function () {
+        this.$store.commit('ecCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        //this.$refs.selectionThreeBox.nowIndex = this.ecCategoryId
+      },*/
+
+      camOneCategoryId: function () {
+        //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.camOneCategoryId
+      },
+      camCategoryId: function () {
+        //this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.camCategoryId
+      },
+      camCompaignId: function () {
+        //this.$store.commit('camCompaignIdVoluation', this.$refs.selectionFourBox.nowIndex)
+        this.$refs.selectionFourBox.nowIndex = this.camCompaignId
+      },
+      camWeekId: function () {
+        //this.$store.commit('camWeekIdVoluation', this.$refs.selectionFiveBox.nowIndex)
+        this.$refs.selectionFiveBox.nowIndex = this.camWeekId
+      },
+      comMarketTypeId: function () {
+        //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
+      },
+      rrOneChannelId: function () {
+        //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.rrOneChannelId
+      },
+      rrChannelId: function () {
+        //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.rrChannelId
+      },
+      ecCategoryId: function () {
+        //this.$store.commit('ecCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.ecCategoryId
+      }
+
       /*getStoreYearMonth: function () {
         this.dataSearch()
       },
@@ -1774,10 +1972,10 @@
     .styleone
       width 350px
     .options-icon-date
-      font-size 22px
+      font-size 28px
       color #A0A0A1
       float left
-      margin 8px 18px 0 0
+      margin 4px 18px 0 0
     .tables-title
       position relative
       padding-left 45px
@@ -1801,12 +1999,15 @@
         line-height 30px
         text-align center
         thead
-          background #bad7ed6b
+          background rgba(186,215,237,.42)
         th
         td
           border-bottom 1px solid #EAEAEA
           border-right 1px solid #EAEAEA
           border-top medium
           border-left medium
-
+  #tableBoxDialog6_wrapper
+    .dataTables_scroll
+       tr>th
+         padding: 10px 80px
 </style>

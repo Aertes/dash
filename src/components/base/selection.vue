@@ -1,7 +1,7 @@
 <template>
   <a href="javascript:;" class="dropdown-wrap" @blur="toggleUp">
     <div class="dropdown-show" @click="toggleDrop">
-      <input type="text" v-model="selections[nowIndex]" disabled/>
+      <input type="text" v-model="selections[nowIndex]" disabled ref="input"/>
       <svg-icon sign="icon-arrow-down" class="arrow-down"></svg-icon>
     </div>
     <ul class="dropdown-menu" v-show="isShow">

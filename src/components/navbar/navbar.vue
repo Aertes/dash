@@ -54,8 +54,8 @@
       },
       outLogin() {
         get(xhrUrls.LOGOUT).then((res) => {
-          this.USERINFO = removeSessionItem('USERINFO')
           this.$router.push({path: "/"});
+          this.USERINFO = removeSessionItem('USERINFO')
         }).catch((err) => {
           console.log(err);
         })
