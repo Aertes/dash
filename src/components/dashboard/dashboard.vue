@@ -1,12 +1,12 @@
 <template>
-  <div class="dashboard-wrap box-shadow" @mousewheel.prevent="scrollBarWheel">
+  <div class="dashboard-wrap box-shadow" @wheel.prevent="scrollBarWheel">
     <div class="loading-wrap" v-show="load">
       <img src="../../assets/img/loading.svg" class="loading-svg">
     </div>
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap" :style="isTable?'width:100%':''">
         <div class="chart-title">
-          <span>{{title}}({{Time}}) </span>
+          <span>{{title}} ({{Time}}) </span>
           <span title="Check the chart" @click="tableViews"><svg-icon sign="icon-grid" class="grid-icon"
                                                                       :class="{active:!isTable}"></svg-icon></span>
           <span title="See the table" @click="chartViews"><svg-icon sign="icon-chart" class="chart-icon"
@@ -85,8 +85,8 @@
     name: "DashBoard",
     data() {
       return {
-        overview: 'OVERVIEW',
-        title: 'OVERVIEW CAMPAIGN',
+        overview: '',
+        title: 'CAMPAIGN',
         name: 'Campaign',
         titleList: [
           'CAMPAIGN',
@@ -444,22 +444,13 @@
         inputUrl.select();
         document.execCommand('Copy');
         layer.msg("Copy success !", {
-            time: 1000, 
+            time: 1000,
             skin: 'fontColor'
           }, function (index){
             layer.close(index);
         })
       },
       downloadUrl() {
-
-        /*camOneCategory:null,
-        camCategory:null,
-        camCompaign:null,
-        camWeek:null,
-        comMarketType:'B2C',
-        rrOneChannel:null,
-        rrChannel:null,
-        ecCategory:null*/
 
         let urlParameter = ''
 

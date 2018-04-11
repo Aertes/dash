@@ -4,7 +4,7 @@
   padding-top: 0 !important;
   overflow: hidden;
   margin-top: 20px;
-  
+
 }
 #charContainer .dataTables_paginate {
   position: absolute;
@@ -223,6 +223,15 @@ table.dataTable thead tr th:first-of-type {
   text-align: center;
 }
 
+.tables-container .dataTables_wrapper,
+.tables-container .tableBoxwrap,
 .chart-tables-container .dataTables_wrapper {
   height: 100%;
 }
+
+.tables-container .dataTables_paginate{
+  position: absolute;
+  bottom:0;
+  right: 0;
+}
+

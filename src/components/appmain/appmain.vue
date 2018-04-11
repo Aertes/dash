@@ -1,6 +1,9 @@
 <template>
   <div class="app-main-wrap">
 
+    <img v-if='goDown' src="../../assets/img/down.gif" alt="" class="goDown">
+    <img v-else='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
+
     <div class="options-bar box-shadow clearfix">
       <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
@@ -24,9 +27,9 @@
               <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
               <span v-if="item.status">{{item.name}}</span>
             </a>
-            <router-link v-if="system" to="/">
+            <router-link v-if="system" to="/setting">
               <svg-icon sign="icon-setting"></svg-icon>
-              <span>SYSTEM SETTIN</span>
+              <span>SYSTEM SETTING</span>
             </router-link>
           </div>
         </div>
@@ -72,6 +75,7 @@
         selectionThree: false,
         selectionFour: false,
         selectOneVal: '',
+        goDown: true,
         menuList: [
           {
             name: 'CAMPAIGN',
@@ -162,6 +166,8 @@
       }
     },
     mounted() {
+
+      this.goUpDown()
 
       this.getYear()
 
@@ -592,6 +598,15 @@
           })
 
         }
+      },
+      goUpDown() {
+        if (this.type == 0) {
+          this.goDown = true
+        } else if (this.type == 11) {
+          this.goDown = false
+        } else {
+          this.goDown = false
+        }
       }
     },
     components: {
@@ -637,6 +652,8 @@
         }
 
         this.getSelectData()
+
+        this.goUpDown()
 
         /*this.getSelectData(null)
 
@@ -803,10 +820,16 @@
             width 44px
             height 15px
       .dropdown-wrap
-        margin-right 50px
+        margin-right 30px
         float left
       .styleone
         width 350px
     .dashboard-all-wrap
       margin-top 25px
+  .goUp,
+  .goDown
+    e-pos(left:50%, x:-50%, top:50%, y:-50%)
+    margin-top 400px
+    width 20px
+    z-index 99999
 </style>

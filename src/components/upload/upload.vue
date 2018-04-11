@@ -71,69 +71,6 @@
 				downloadFileId: xhrUrls.HC_DOWNLOAD,
 				fileDel: xhrUrls.HC_DELETE,
 				delete: null,
-				Time: '2018/01',
-				data: [{
-						"isBar": false,
-						"isDetailTable": true,
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isB2C": false,
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isB2C": true,
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isTable": false,
-						"isBar": false,
-						"month": ""
-					},
-					{
-						"isBar": true,
-						"isDetailTable": false,
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isBar": false,
-						"isDetailTable": true,
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isB2C": true,
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isTable": false,
-						"month": ""
-					},
-					{
-						"isTable": false,
-						"isYTD": true,
-						"month": ""
-					},
-					{
-						"isTable": false,
-						"isYTD": false,
-						"month": ""
-					},
-					{
-						"category": "",
-						"isTable": false,
-						"month": ""
-					}
-				],
 			};
 		},
 		props: ['uploadLink', 'types', 'title'],
@@ -242,7 +179,7 @@
 					pageLength: 5,
 					"ajax": (data, callback, settings) => {
 						post(xhrUrls.HC_SEARCH, that.Data).then((res) => {
-							if (res.data.data.data.length <= 0) {
+							if (res.data.data.data.length <= 5) {
 								$('#fileTable_paginate').hide()
 							}
 							callback(res.data.data);
@@ -464,4 +401,5 @@
 					e-pos(left:50%, x:-50%)
 					z-index: 1
 
+	
 </style>

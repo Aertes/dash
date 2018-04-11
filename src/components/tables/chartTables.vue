@@ -26,7 +26,7 @@
     </div>
 
     <div class="tableBoxwrap" width="100%" v-show="isShow5">
-      
+
       <table id="tableBox5"  class="display" style="width:100%">
         <thead>
           <tr>
@@ -252,12 +252,12 @@
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
-              "pagingType": "simple_numbers",
               "pageLength": 6,
+              "pagingType": "simple_numbers",
               "info": false,
               "scrollX": true,
               "scrollCollapse": true,
-              "paging": true,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -297,13 +297,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 },
@@ -325,13 +325,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 },
@@ -365,13 +365,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 },
@@ -393,13 +393,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 }
@@ -426,6 +426,7 @@
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'week'},
@@ -497,8 +498,9 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 8,
+              "pageLength": 6,
               "info": false,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -565,13 +567,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 },
@@ -600,13 +602,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 }
@@ -630,6 +632,7 @@
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [{
                   data: 'item'
@@ -670,13 +673,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 },
@@ -696,13 +699,13 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                     } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                     } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                     }
                   }
                 }
@@ -728,7 +731,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": true,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -828,7 +831,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": true,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -928,7 +931,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": true,
+              "paging":this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [{
                   data: 'category'
@@ -1015,6 +1018,7 @@
                   "pagingType": "simple_numbers",
                   "pageLength": 6,
                   "info": false,
+                  "paging":this.tableData.length > 6 ? true : false,
                   data: this.tableData,
                   columns: [
                     {data: 'item'},
@@ -1080,13 +1084,13 @@
                         if (data == 0) {
                           return '<div></div>'
                         } else if (data == 1) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                         } else if (data == 2) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                         } else if (data == 3) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                         } else if (data == 4) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                         }
                       }
                     },
@@ -1152,13 +1156,13 @@
                         if (data == 0) {
                           return '<div></div>'
                         } else if (data == 1) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: gray"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
                         } else if (data == 2) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: green"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                         } else if (data == 3) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: yellow"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
                         } else if (data == 4) {
-                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: red"></div>'
+                          return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
                         }
                       }
                     }

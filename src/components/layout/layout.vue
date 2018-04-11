@@ -1,16 +1,16 @@
 <template>
   <div class="app-wrapper">
-  
-    <img v-if='goDown' src="../../assets/img/down.gif" alt="" class="goDown">
-    <img v-if='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
-  
     <tables @closeLayer="layerHandle" :tableData="tableData"></tables>
     <upload :uploadLink="link" :types="uploadType" :title="name" @closeLayer="layerHandle"></upload>
     <!-- :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload" -->
     <nav-bar></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
-      <app-main @showUpload="uploadHandle"></app-main>
+      <keep-alive>
+          <app-main v-if="isSetting" @showUpload="uploadHandle"></app-main>
+          <system-settings v-if="!isSetting"></system-settings>
+      </keep-alive>
+      
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@
   import AppMain from '../appmain/appmain'
   import Tables from '../tables/tables'
   import Upload from '@/components/upload/upload'
+  import SystemSettings from '@/components/setting/setting'
   
   let layerId
   export default ({
@@ -29,9 +30,8 @@
         link: '',
         uploadType: '',
         name: '',
-        goDown: true,
-        goUp: false,
-        tableData: ''
+        tableData: '',
+        isSetting: true
       }
     },
     components: {
@@ -39,7 +39,8 @@
       SideBar,
       AppMain,
       Tables,
-      Upload
+      Upload,
+      SystemSettings
     },
     computed: {
       type() {
@@ -47,18 +48,16 @@
       }
     },
     mounted() {
-  
-      this.goUpDown()
-  
+
       this.$Hub.$on('showTables', (obj) => {
         this.layerOpen(obj.id)
         this.tableData = obj.tableData
       });
-  
+
       this.$Hub.$on('sentData', (obj) => {
         this.tableData = obj.tableData
       })
-  
+
     },
     methods: {
       uploadHandle(obj) {
@@ -83,23 +82,6 @@
           shade: [0.5, '#fff'],
           content: $(`#${id}`)
         })
-      },
-      goUpDown() {
-        if (this.type == 0) {
-          this.goDown = true
-          this.goUp = false
-        } else if (this.type == 11) {
-          this.goUp = true
-          this.goDown = false
-        } else {
-          this.goUp = true
-          this.goDown = true
-        }
-      }
-    },
-    watch: {
-      type: function() {
-        this.goUpDown()
       }
     }
   })
@@ -112,12 +94,4 @@
     position relative
     margin 0 39px
     height 100%
-
-  .goUp,
-  .goDown
-    e-pos(left:50%, x:-50%)
-    bottom 10px
-    margin-left 100px
-    width 30px
-    z-index 99999
 </style>
