@@ -212,7 +212,7 @@
         table8: null,
         table9: null,
         table10: null,
-        table11: null,
+        table11: null
       }
     },
     props: ['tableData'],
@@ -731,7 +731,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging":this.tableData.data.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -831,7 +831,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging":this.tableData.data.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -1294,17 +1294,26 @@
     watch: {
       tableData() {
         this.$nextTick(() => {
+
           this.ovtableStyle()
+
           this.getTableData()
+
           this.closeLoading()
+
           this.$Hub.$emit('sentData', {tableData:this.tableData})
+
         })
       },
       checked() {
         if (this.checked) {
+
           setLocalItem('isTableDefaultShow', true)
+
         } else {
+
           removeLocalItem('isTableDefaultShow')
+
         }
       }
     }

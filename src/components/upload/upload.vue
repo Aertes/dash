@@ -40,8 +40,8 @@
 	
 		</div>
 		<span id="operate" hidden>
-							<svg-icon sign="icon-trash"></svg-icon>
-						</span>
+			<svg-icon sign="icon-trash"></svg-icon>
+		</span>
 	</div>
 </template>
 
@@ -92,6 +92,7 @@
 				this.fileName = e.target.files[0].name
 				this.uploader.option('server', this.uploadLink)
 				this.uploader.addFiles(e.target.files[0]);
+				
 			},
 			//进度条
 			init() {
@@ -109,7 +110,8 @@
 					},
 					fileVal: "file",
 					// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-					resize: false
+					resize: false,
+					duplicate :true
 				});
 	
 				// 文件上传过程中创建进度条实时显示。
@@ -125,6 +127,7 @@
 	
 				// 上传成功
 				this.uploader.on("uploadSuccess", (file, res) => {
+					
 					if (res.code == 200) {
 						$("#num").html("100%").css("color", "#fff");
 						$("#progressBar").css("width", "100%");
@@ -150,6 +153,7 @@
 				});
 				// 上传错误
 				this.uploader.on("uploadError", function(file, res) {
+					
 					$("#text").html("UPLOAD ERROR!");
 					$('#progress').hide()
 					$('#errMsg').show().html(res.errMsg)

@@ -3,14 +3,13 @@
     <tables @closeLayer="layerHandle" :tableData="tableData"></tables>
     <upload :uploadLink="link" :types="uploadType" :title="name" @closeLayer="layerHandle"></upload>
     <!-- :tableSearch="tableSearch" :tableDel="tableDel" :tableDownload="tableDownload" -->
-    <nav-bar></nav-bar>
+    <nav-bar ></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
       <keep-alive>
           <app-main v-if="isSetting" @showUpload="uploadHandle"></app-main>
           <system-settings v-if="!isSetting"></system-settings>
       </keep-alive>
-      
     </div>
   </div>
 </template>
@@ -40,7 +39,7 @@
       AppMain,
       Tables,
       Upload,
-      SystemSettings
+      SystemSettings,
     },
     computed: {
       type() {
@@ -82,7 +81,7 @@
           shade: [0.5, '#fff'],
           content: $(`#${id}`)
         })
-      }
+      },
     }
   })
 </script>

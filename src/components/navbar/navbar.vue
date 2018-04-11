@@ -15,12 +15,12 @@
         <div v-if="USERINFO"  class="user-operation box-shadow" >
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
-            <router-link to="/">
+            <a @click="showEditPass">
               <svg-icon sign="icon-user"></svg-icon>
-              <span>PROFILE</span></router-link>
-            <router-link to="/">
+              <span>PROFILE</span></a>
+            <a >
               <svg-icon sign="icon-setting"></svg-icon>
-              <span>SYSTEM SETTINGS</span></router-link>
+              <span>SYSTEM SETTINGS</span></a>
             <a @click="outLogin">
               <svg-icon sign="icon-turn-off"></svg-icon>
               <span>SIGN OUT</span></a>
@@ -28,22 +28,61 @@
         </div>
       </div>
     </div>
+
+    <div class="tables-wrap" id="editPassword" v-show="isShow">
+      <div class="tables-title">
+			  <span class="title">EDIT USERINFO</span>
+        <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
+      </div>
+			<form action="" autocomplete="off">
+          <div class="resg">
+              <div>
+									<label>USERNAME</label>
+									<label for="">{{userName}}</label>
+							</div>
+							<div>
+									<label>OLD PASSWORD</label>
+									<input type="password" name="oldPassword" :class="[isPassActive? 'active' : '']" v-model="oldPassword">
+							</div>
+							<div>
+									<label>NEW PASSWORD</label>
+									<input type="password" name="newPassword" minlength="6" maxlength="16" v-model="newPassword">
+							</div>
+							<div>
+									<label>SURE PASSWORD</label>
+									<input type="password" name="surePassword" minlength="6" maxlength="16" v-model="surePassword">
+							</div>
+          </div>
+          <div class="submit-btn">
+            <button type="button" class="confirm" @click="submit">confirm</button>
+					  <button type="button" class="cancel" @click="closeLayerButton">cancel</button>
+          </div>
+			</form>
+  	</div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {getSessionItem} from "../../assets/config/storage.js"
   import {removeSessionItem} from "../../assets/config/storage.js"
-  import {get} from "../../assets/config/http"
+  import {get, post} from "../../assets/config/http"
   import xhrUrls from '../../assets/config/xhrUrls'
-
+  let layerId
   export default {
     name: "NavBar",
     data() {
       return {
         isShow: false,
+        isErr: false,
         userName: 'Login',
         USERINFO: null,
+        name: '',
+        errMsg:'',
+        data:{
+          oldPassword:'',
+          newPassword:'',
+          surePassword:''
+        }
       }
     },
     methods: {
@@ -59,7 +98,29 @@
         }).catch((err) => {
           console.log(err);
         })
-
+      },
+      layerOpen(id) {
+        layerId = layer.open({
+          type: 1,
+          title: false,
+          closeBtn: 0,
+          shadeClose: false,
+          area: 'auto auto',
+          shade: [0.5, '#fff'],
+          content: $(`#${id}`)
+        })
+      },
+      showEditPass(obj){
+        this.layerOpen('editPassword')
+      },
+      //关闭上传弹窗
+			closeLayerButton() {
+				layer.close(layerId)
+			},
+      submit(){
+        if(this.data.oldPassword == ''){
+          
+        }
       }
     },
     mounted() {
@@ -70,11 +131,12 @@
       } catch (ex) {
         //console.error('报错: ', ex.message)
       }
-    }
+    },
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import '../../assets/style/mixin.styl';
   .nav-bar-wrap
     margin-bottom 19px
     line-height 100px
@@ -144,4 +206,65 @@
             right 16px
             width 44px
             height 15px
+#editPassword
+  width 700px
+  .tables-title
+    position: relative
+    padding-left: 45px
+    font-size: 30px
+    line-height: 80px
+    height 60px
+    color: #a0a0a1
+    .icon 
+      e-pos(top:35%, y:-50%)
+      right: 25px
+      font-size: 30px
+      color: #A0A0A1
+      cursor: pointer
+  .resg
+    padding 0 60px 0 50px
+    p
+      color red
+      font-size 24px
+      height 50px
+      line-height 50px
+    div
+      height 50px
+      line-height 50px
+      width 100%
+      margin 20px 0
+      label
+        font-size 22px
+        display inline-block
+        width 40%
+        float left
+        color #a0a0a1
+      input 
+        width 60%
+        height 100%
+        padding-left 10px
+        padding-right 35px
+        appearance none
+        border 1px solid #E2DFDE
+        border-radius 5px
+        font-size 21px
+        float right
+  .submit-btn
+    text-align center
+    button 
+      height 40px
+      background-color #2061AE
+      border-radius 10px
+      color #fff
+      border medium
+      outline none
+      cursor pointer
+      padding 0 20px
+      font-size 24px
+    .confirm
+      margin-right 10px
+    .cancel
+      margin-left 10px
+      background-color #ccc
+    
 </style>

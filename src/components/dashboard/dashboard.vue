@@ -51,7 +51,6 @@
         <input type="text" name="url" id="url" ref="inputUrl" :value="url">
         <button type="button" @click="copyURL">Click on the copy</button>
       </div>
-
     </div>
 
   </div>
@@ -173,7 +172,8 @@
         load: false,
         isShow: false,
         isTable: false,
-        url: ''
+        url: '',
+        locationHash: false
       }
     },
     computed: {
@@ -242,9 +242,6 @@
 
       this.defaultViews()
 
-
-      this.dataSearch()
-
       //this.monthChange()
 
       this.$Hub.$on('goToWheel', () => {
@@ -256,9 +253,22 @@
       })
 
       if (window.location.hash.indexOf("?") != -1) {
-        this.getUrl();
+        this.locationHash = true
+      } else {
+        this.locationHash = false
       }
 
+      this.locationHash ? this.getUrl() : this.dataSearch()
+
+      /*if (window.location.hash.indexOf("?") != -1) {
+        this.getUrl();
+      } else {
+        this.dataSearch()
+      }*/
+
+    },
+    updated(){
+      this.locationHash = false
     },
     methods: {
       increment() {
@@ -321,9 +331,13 @@
         this.load = false
       },
       dataSearch(val) {
+
         this.loading()
+
         let num = this.type
+
         let yearMonth = this.getStoreYearMonth
+
         /*if(val){
           yearMonth = val
         }else{
@@ -333,6 +347,7 @@
             yearMonth = getYear + getMonth
           }
         }*/
+
         this.Time = yearMonth.slice(0, 4) + '/' + yearMonth.slice(4, 6)
 
         this.data[num].isTable = this.isTable
@@ -373,9 +388,7 @@
           this.data[num].channel = this.rrChannel
           dataRevRatSearch(this, this.data[num])
         } else if (num == 11) {
-
           this.data[num].category = this.ecCategory
-
           if (this.ecCategory != null || this.ecCategory != undefined) {
             dataEcSearch(this, this.data[num])
           } else {
@@ -385,7 +398,6 @@
       },
       monthChange() {
         this.$Hub.$on('monthChange', (val) => {
-
           /*this.dataSearch(val)
 
           if (this.type == 0) {
@@ -444,10 +456,10 @@
         inputUrl.select();
         document.execCommand('Copy');
         layer.msg("Copy success !", {
-            time: 1000,
-            skin: 'fontColor'
-          }, function (index){
-            layer.close(index);
+          time: 1000,
+          skin: 'fontColor'
+        }, function (index) {
+          layer.close(index);
         })
       },
       downloadUrl() {
@@ -520,7 +532,7 @@
 
         let baseUrl = `${window.location.origin}/#/dashboard?type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
 
-        let downloadUrl = `${baseUrl}${urlParameter}`
+        let downloadUrl = encodeURI(`${baseUrl}${urlParameter}`) //encodeURI
 
         this.url = downloadUrl
 
@@ -528,31 +540,45 @@
 
       },
       getUrl() {
+
         let url = window.location.hash;
+
         let obj = {}
+
         if (url.indexOf("?") != -1) {
+
           let str = url.substr(12);
+
           let strs = str.split("&");
+
           for (let i = 0; i < strs.length; i++) {
-            obj[strs[i].split('=')[0]] = decodeURIComponent(strs[i].split('=')[1]) //unescape
+
+            obj[strs[i].split('=')[0]] = decodeURI(strs[i].split('=')[1]) // unescape
+
           }
         }
+
         this.$store.commit('voluation', Number(obj.type))
+
         this.$store.commit('yearVoluation', Number(obj.yearMonth.substr(0, 4)))
+
         this.$store.commit('monthVoluation', Number(obj.yearMonth.substr(4)))
 
-        if (this.type == 5) {
+        if(this.type < 5 || this.type == 8){
 
-          this.$nextTick(()=>{
+          this.dataSearch()
 
-            if(obj.category!=undefined || obj.categoryid!=undefined){
+        }else if (this.type == 5) {
 
-              this.$store.commit('camOneCategoryVoluation', obj.category)
-              this.$store.commit('camOneCategoryIdVoluation', Number(obj.categoryid))
+          if (obj.category != undefined || obj.categoryid != undefined) {
 
-            }
+            this.$store.commit('camOneCategoryVoluation', obj.category)
 
-          })
+            this.$store.commit('camOneCategoryIdVoluation', Number(obj.categoryid))
+
+            this.dataSearch()
+
+          }
 
         } else if (this.type == 6) {
 
@@ -560,98 +586,95 @@
 
             if (obj.compaign != null || obj.compaignid != undefined) {
 
+
               if (obj.week != null || obj.weekid != undefined) {
 
-                this.$nextTick(()=>{
+                this.$store.commit('camCategoryVoluation', obj.category)
 
-                  this.$store.commit('camCategoryVoluation', obj.category)
-                  this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
+                this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
 
-                  this.$store.commit('camCompaignVoluation', obj.compaign)
-                  this.$store.commit('camCompaignIdVoluation', Number(obj.compaignid))
+                this.$store.commit('camCompaignVoluation', obj.compaign)
 
-                  this.$store.commit('camWeekVoluation', obj.week)
-                  this.$store.commit('camWeekIdVoluation', Number(obj.weekid))
+                this.$store.commit('camCompaignIdVoluation', Number(obj.compaignid))
 
-                })
+                this.$store.commit('camWeekVoluation', obj.week)
+
+                this.$store.commit('camWeekIdVoluation', Number(obj.weekid))
+
+                this.dataSearch()
 
               } else {
 
-                this.$nextTick(()=>{
+                this.$store.commit('camCategoryVoluation', obj.category)
 
-                  this.$store.commit('camCategoryVoluation', obj.category)
-                  this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
+                this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
 
-                  this.$store.commit('camCompaignVoluation', obj.compaign)
-                  this.$store.commit('camCompaignIdVoluation', Number(obj.compaignid))
+                this.$store.commit('camCompaignVoluation', obj.compaign)
 
-                })
+                this.$store.commit('camCompaignIdVoluation', Number(obj.compaignid))
+
+                this.dataSearch()
 
               }
 
             } else {
 
-              this.$nextTick(()=>{
+              this.$store.commit('camCategoryVoluation', obj.category)
 
-                this.$store.commit('camCategoryVoluation', obj.category)
-                this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
+              this.$store.commit('camCategoryIdVoluation', Number(obj.categoryid))
 
-              })
+              this.dataSearch()
             }
 
           }
 
         } else if (this.type == 7) {
 
-          if(obj.markettype!=undefined || obj.markettypeid!=undefined){
+          if (obj.markettype != undefined || obj.markettypeid != undefined) {
 
-            this.$nextTick(()=>{
+            this.$store.commit('comMarketTypeVoluation', obj.markettype)
 
-              this.$store.commit('comMarketTypeVoluation', obj.markettype)
-              this.$store.commit('comMarketTypeIdVoluation', Number(obj.markettypeid))
+            this.$store.commit('comMarketTypeIdVoluation', Number(obj.markettypeid))
 
-            })
+            this.dataSearch()
 
           }
 
 
         } else if (this.type == 9) {
 
-          if(obj.channel!=undefined || obj.channelid!=undefined){
+          if (obj.channel != undefined || obj.channelid != undefined) {
 
-            this.$nextTick(()=>{
+            this.$store.commit('rrOneChannelVoluation', obj.channel)
 
-              this.$store.commit('rrOneChannelVoluation', obj.channel)
-              this.$store.commit('rrOneChannelIdVoluation', Number(obj.channelid))
+            this.$store.commit('rrOneChannelIdVoluation', Number(obj.channelid))
 
-            })
+            this.dataSearch()
 
           }
 
 
         } else if (this.type == 10) {
 
-          if(obj.channel!=undefined || obj.channelid!=undefined){
+          if (obj.channel != undefined || obj.channelid != undefined) {
 
-            this.$nextTick(()=>{
+            this.$store.commit('rrChannelVoluation', obj.channel)
 
-              this.$store.commit('rrChannelVoluation', obj.channel)
-              this.$store.commit('rrChannelIdVoluation', Number(obj.channelid))
+            this.$store.commit('rrChannelIdVoluation', Number(obj.channelid))
 
-            })
+            this.dataSearch()
 
           }
 
         } else if (this.type == 11) {
 
-          if(obj.category!=undefined || obj.categoryid!=undefined){
+          if (obj.category != undefined || obj.categoryid != undefined) {
 
-            this.$nextTick(()=>{
+            this.$store.commit('ecCategoryVoluation', obj.category)
 
-              this.$store.commit('ecCategoryVoluation', obj.category)
-              this.$store.commit('ecCategoryIdVoluation', Number(obj.categoryid))
+            this.$store.commit('ecCategoryIdVoluation', Number(obj.categoryid))
 
-            })
+            this.dataSearch()
 
           }
 
@@ -668,37 +691,43 @@
           this.name = `${this.titleList[val]}`
           this.title = `${this.name}`
         }
-        this.dataSearch()
+
+        //this.dataSearch()
+
+        if(!this.locationHash){
+          this.dataSearch()
+        }
+
       },
       isTable: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()this.dataSearch()
       },
       getStoreYearMonth: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camOneCategory: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camCategory: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camCompaign: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camWeek: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       comMarketType: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       rrOneChannel: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       rrChannel: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       ecCategory: function () {
-        this.dataSearch()
+        if(!this.locationHash) this.dataSearch() //this.dataSearch()
       }
     }
   }

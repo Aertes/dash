@@ -107,7 +107,8 @@
             type: 'Ec',
             status: false,
           }
-        ]
+        ],
+        locationHash: false
       }
     },
     computed: {
@@ -171,8 +172,6 @@
 
       this.getYear()
 
-      this.getSelectData()
-
       const USERINFO = JSON.parse(getSessionItem('USERINFO'))
 
       this.USERINFO = USERINFO;
@@ -207,6 +206,18 @@
       } catch (ex) {
         //console.error('报错: ', ex.message)
       }
+
+      if (window.location.hash.indexOf("?") != -1) {
+        this.locationHash = true
+      } else {
+        this.locationHash = false
+      }
+
+      if(!this.locationHash) this.getSelectData() //this.getSelectData()
+
+    },
+    updated(){
+      this.locationHash = false
     },
     methods: {
       showOperation() {
@@ -282,7 +293,7 @@
       },
       selectShowTwoHandle(val) {
 
-        this.getSelectData(val,'SI')
+        this.getSelectData(val)
 
       },
       pageinNowIndex() {
@@ -307,7 +318,6 @@
             data.forEach((val) => {
               this.selectOptionsFour.push(val)
             })
-            this.$refs.selectionFourBox.nowIndex = 0
           })
         } else {
           this.selectionFour = false
@@ -317,7 +327,7 @@
       selectShowFourHandle(val) {
 
         if(val == undefined){
-          val = this.camCompaign
+          val = this.camWeek
         }
 
         this.$store.commit('camWeekVoluation', val)
@@ -428,10 +438,6 @@
 
           this.$store.commit('camCategoryIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-          /*this.$store.commit('camCompaignVoluation', null)
-
-          this.$store.commit('camWeekVoluation', null)*/
-
           this.getCampaignDate(getYear)
 
           get(CAM_CATEGORY).then(res => {
@@ -452,6 +458,7 @@
               data.forEach((val) => {
                 this.selectOptionsThree.push(val)
               })
+
               if(this.selectOneVal == this.camCategory){
                 this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
               }else{
@@ -618,14 +625,11 @@
       type: function () {
 
         if (this.type == 5) {
-          //alert('camOne'+' : '+this.camOneCategoryId)
           this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
         }else if (this.type == 6) {
 
-          //alert('camCategory'+' : '+this.camCategoryId)
           this.$refs.selectionTwoBox.nowIndex = this.camCategoryId
 
-          //alert('camCompaign'+' : '+this.camCompaignId)
           if(this.camCompaignId > 0) {
             this.selectionFour = true
           }
@@ -634,24 +638,19 @@
 
           this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
 
-          //alert('camWeek'+' : '+this.camWeekId)
           this.$refs.selectionFourBox.nowIndex = this.camWeekId
 
         }else if(this.type == 7){
-          //alert('comMarketType'+' : '+this.comMarketTypeId)
           this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
         }else if(this.type == 9){
-          //alert('rrOneChannel'+' : '+this.rrOneChannelId)
           this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
         }else if(this.type == 10){
-          //alert('rrChannel'+' : '+this.rrChannelId)
           this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
         }else if(this.type == 11){
-          //alert('ecCategory'+' : '+this.ecCategoryId)
           this.$refs.selectionTwoBox.nowIndex = this.ecCategoryId
         }
 
-        this.getSelectData()
+        if(!this.locationHash) this.getSelectData() //this.getSelectData()
 
         this.goUpDown()
 

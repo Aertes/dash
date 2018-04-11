@@ -330,6 +330,7 @@
         ],
         selectOneVal: '',
         Time: '2018/01',
+        locationHash: false
       }
     },
     props: ['tableData'],
@@ -400,12 +401,22 @@
     mounted() {
 
       this.getTimeMonth()
-      this.getSelectData()
+
       this.setTime()
+
       this.getTableData()
 
-
       //this.monthChange()
+
+      if (window.location.hash.indexOf("?") != -1) {
+        this.locationHash = true
+      } else {
+        this.locationHash = false
+      }
+
+      if(!this.locationHash) this.getSelectData() //this.getSelectData()
+
+
     },
     methods: {
       closeLayerButton() {
@@ -909,7 +920,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging":this.tableData.data.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -1009,7 +1020,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging":this.tableData.data.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -1574,7 +1585,6 @@
             data.forEach((val) => {
               this.selectOptionsFive.push(val)
             })
-            this.$refs.selectionFiveBox.nowIndex = 0
           })
         } else {
           this.selectionFive = false
@@ -1696,10 +1706,6 @@
           this.$store.commit('camCategoryVoluation', val)
 
           this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
-
-          /*this.$store.commit('camCompaignVoluation', null)
-
-          this.$store.commit('camWeekVoluation', null)*/
 
           this.getCampaignDate(getYear)
 
@@ -1874,15 +1880,12 @@
 
         if (this.type == 5) {
 
-          //alert('camOne'+' : '+this.camOneCategoryId)
           this.$refs.selectionThreeBox.nowIndex = this.camOneCategoryId
 
         }else if (this.type == 6) {
 
-          //alert('camCategory'+' : '+this.camCategoryId)
           this.$refs.selectionThreeBox.nowIndex = this.camCategoryId
 
-          //alert('camCompaign'+' : '+this.camCompaignId)
           if(this.camCompaignId > 0) {
             this.selectionFive = true
           }
@@ -1891,32 +1894,27 @@
 
           this.$refs.selectionFourBox.nowIndex = this.camCompaignId
 
-          //alert('camWeek'+' : '+this.camWeekId)
           this.$refs.selectionFiveBox.nowIndex = this.camWeekId
 
         }else if(this.type == 7){
 
-          //alert('comMarketType'+' : '+this.comMarketTypeId)
           this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
 
         }else if(this.type == 9){
 
-          //alert('rrOneChannel'+' : '+this.rrOneChannelId)
           this.$refs.selectionThreeBox.nowIndex = this.rrOneChannelId
 
         }else if(this.type == 10){
 
-          //alert('rrChannel'+' : '+this.rrChannelId)
           this.$refs.selectionThreeBox.nowIndex = this.rrChannelId
 
         }else if(this.type == 11){
 
-          //alert('ecCategory'+' : '+this.ecCategoryId)
           this.$refs.selectionThreeBox.nowIndex = this.ecCategoryId
 
         }
 
-        this.getSelectData()
+        if(!this.locationHash) this.getSelectData() //this.getSelectData()
 
 
         /*this.getSelectData(null)
@@ -1942,9 +1940,13 @@
 
       tableData() {
         this.$nextTick(() => {
+
           this.ovtableStyle()
+
           this.getTableData()
+
           this.setTime()
+
         })
       },
 
