@@ -73,7 +73,7 @@
         this.codeUrl = xhrUrls.CODE + "?" + new Date().getTime();
       },
       submit() {
-        if (this.loginDate.username == "" & this.loginDate.password == "" & this.loginDate.code == "") {
+        if (this.loginDate.username == "" && this.loginDate.password == "" && this.loginDate.code == "") {
           this.isUserActive = true;
           this.isPassActive = true;
           this.isCodeActive = true;
@@ -138,6 +138,7 @@
     },
     mounted() {
       this.getCode();
+      this.isShow = false
     }
   };
 </script>

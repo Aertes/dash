@@ -36,5 +36,8 @@ export default {
   HC_DOWNLOAD: BASE_URL + '/history/download',
 
   // 登出
-  LOGOUT: BASE_URL + '/auto/logout'
+  LOGOUT: BASE_URL + '/auto/logout',
+
+  //修改密码
+  EDIT_PWD: BASE_URL + '/sys/user/resetPwd'
 }

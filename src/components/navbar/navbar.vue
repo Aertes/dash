@@ -38,19 +38,19 @@
           <div class="resg">
               <div>
 									<label>USERNAME</label>
-									<label for="">{{userName}}</label>
+									<label for="">{{data.username}}</label>
 							</div>
 							<div>
 									<label>OLD PASSWORD</label>
-									<input type="password" name="oldPassword" :class="[isPassActive? 'active' : '']" v-model="oldPassword">
+									<input type="password" name="oldPassword" @change="onInput" :class="[isOldActive? 'active' : '']" v-model="data.password">
 							</div>
 							<div>
 									<label>NEW PASSWORD</label>
-									<input type="password" name="newPassword" minlength="6" maxlength="16" v-model="newPassword">
+									<input type="password" name="newPassword" @change="onInput" :class="[isNewActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.newPassword">
 							</div>
 							<div>
 									<label>SURE PASSWORD</label>
-									<input type="password" name="surePassword" minlength="6" maxlength="16" v-model="surePassword">
+									<input type="password" name="surePassword" @change="onInput" :class="[isSureActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.surePassword">
 							</div>
           </div>
           <div class="submit-btn">
@@ -76,12 +76,17 @@
         isErr: false,
         userName: 'Login',
         USERINFO: null,
+        isOldActive:false,
+        isNewActive:false,
+        isSureActive:false,
         name: '',
         errMsg:'',
         data:{
-          oldPassword:'',
+          password:'',
           newPassword:'',
-          surePassword:''
+          surePassword:'',
+          id:'',
+          username: ''
         }
       }
     },
@@ -115,11 +120,66 @@
       },
       //关闭上传弹窗
 			closeLayerButton() {
-				layer.close(layerId)
+        layer.close(layerId)
+        this.data.password = ''
+        this.data.newPassword = ''
+        this.data.surePassword = ''
 			},
+      onInput() {
+        if (this.data.password != '') {
+          this.isOldActive = false;
+        }
+        if (this.data.newPassword != '') {
+          this.isNewActive = false;
+        }
+        if (this.data.surePassword != '') {
+          this.isSureActive = false;
+        }
+      },
       submit(){
-        if(this.data.oldPassword == ''){
-          
+        let that = this
+        if(this.data.password == '' && this.data.newPassword == '' && this.data.surePassword == ''){
+          this.isOldActive = true;
+          this.isNewActive = true;
+          this.isSureActive = true;
+        }
+        if (this.data.password == '') {
+          this.isOldActive = true;
+        }
+        if (this.data.newPassword == '') {
+          this.isNewActive = true;
+        }
+        if (this.data.surePassword == '') {
+          this.isSureActive = true;
+        }
+        if (this.data.newPassword != this.data.surePassword) {
+          this.isSureActive = true;
+        }
+        if (this.data.password != '' && this.data.newPassword != '' && this.data.surePassword != '' && this.data.newPassword == this.data.surePassword) {
+          post(xhrUrls.EDIT_PWD, this.data)
+            .then(res => {
+              if (res.data.code == 200) {
+                layer.msg('Password modification successful !', {
+									time: 2000,
+									skin: 'fontColor'
+								}, function(index) {
+									layer.close(index);
+									that.$router.push({path: "/"});
+                  that.USERINFO = removeSessionItem('USERINFO')
+                  layer.close(layerId)
+								})
+              } else {
+                layer.msg('Password modification failed !', {
+									time: 2000,
+									skin: 'fontColor'
+								}, function(index) {
+									layer.close(index);
+								})
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
         }
       }
     },
@@ -128,6 +188,8 @@
       this.USERINFO = USERINFO
       try {
         this.userName = USERINFO.name;
+        this.data.id = USERINFO.id;
+        this.data.username = USERINFO.username;
       } catch (ex) {
         //console.error('报错: ', ex.message)
       }
@@ -249,6 +311,8 @@
         border-radius 5px
         font-size 21px
         float right
+      .active 
+        border-color: #e78b70
   .submit-btn
     text-align center
     button 

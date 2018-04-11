@@ -6,7 +6,7 @@
         <div>
           <svg-icon sign="icon-more"></svg-icon>
         </div>
-        <div class="dashboard-operation box-shadow" >
+        <!-- <div class="dashboard-operation box-shadow" >
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
             <a href="javascript:;" v-for="(item,index) in menuList"
@@ -19,9 +19,74 @@
               <span>SYSTEM SETTING</span>
             </router-link>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
+
+    <div class="userbox">
+      <div class="tab">
+        <ul class="clearfix">
+          <li v-for="(tab, index) in tabsName" :class="{active:tab.isActive}"><a href="javascript:;" class="tab-link" @click="tabsSwitch(index)" >{{tab.name}}</a></li>
+        </ul>
+      </div>
+      <div class="cards clearfix">
+        <div class="tab-card" style="display: block;">
+          <div class="content">
+            <form action="" class="clearfix">
+              <div class="search">
+                <label for="">User Name</label>
+                <input type="text">
+              </div>
+              <div class="search">
+                <label for="">Login Account</label>
+                <input type="text">
+              </div>
+              <div class="search">
+                <label for="">Status</label>
+                <selection  :selections="selectOptions"></selection>
+                <!-- <select name="" id="">
+                  <option value="all">All</option>
+                  <option value="0">Enable</option>
+                  <option value="1">Disable</option>
+                </select> -->
+              </div>
+            </form>
+            <div class="user-content clearfix">
+              <div class="ztree">
+                <h4>Department Organization</h4>
+                <ul class="ztreeDome">
+
+                </ul>
+              </div>
+              <div class="tables">
+                <div class="create">
+                  <svg-icon sign="icon-user" class="user-icon"></svg-icon>
+                  <span class="newUser">New user</span>
+                </div>
+                <div class="user-table">
+                  <table id="userTable" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                      <tr>
+                        <th>User Name</th>
+                        <th>Login Account</th>
+                        <th>Status</th>
+                        <th>Operation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+        <div class="tab-card">2</div>  
+        <div class="tab-card">3</div>  
+      </div>
+    </div>
+
+
 
     <div class="clearfix dashboard-all-wrap">
       <upload-file ref='upload'></upload-file>
@@ -79,6 +144,22 @@
             type: 'Ec',
             status: false,
           }
+        ],
+        active:false,
+        selectOptions:['All', 'Enable', 'Disable'],
+        tabsName:[
+          {
+            name:'USER',
+            isActive:true
+          },
+          {
+            name:'ROLE',
+            isActive:false
+          },
+          {
+            name:'TARGET',
+            isActive:false
+          }
         ]
       }
     },
@@ -89,7 +170,6 @@
     },
     mounted() {
 			this.isLogin();
-      
     },
     methods: {
 			isLogin(){
@@ -125,7 +205,17 @@
 				} catch (ex) {
 					//console.error('报错: ', ex.message)
 				}
-			}
+      },
+      tabsSwitch (tabIndex){
+        let tabCardCollection = document.querySelectorAll('.tab-card'),
+            len = tabCardCollection.length;
+        for (let i = 0; i < len; i++) {
+          tabCardCollection[i].style.display = 'none';
+          this.tabsName[i].isActive = false;  
+        }
+        this.tabsName[tabIndex].isActive = true;  
+        tabCardCollection[tabIndex].style.display = "block";
+      }
     },
     components: {
       UploadFile,
@@ -245,4 +335,62 @@
 	.title
 		color #2061AE
 		padding-left 20px
+
+.userbox
+  .tab
+    margin-top 40px
+    ul>li
+      float left
+      background url("../../assets/img/tab.png") no-repeat left bottom
+      border-top-left-radius 10px
+      border-top-right-radius 10px
+      &.active
+          background url("../../assets/img/tab_active.jpg") no-repeat center
+          transition: all .3s linear
+      .tab-link
+        color #fff;
+        width 200px
+        height 60px
+        display block
+        text-align center
+        line-height 60px
+        font-size 22px
+  .cards
+    background #fff
+    width 100%
+    padding 40px
+    .tab-card
+      float left
+      display none
+      .content
+        width 100%
+        form
+          width 100%
+        .search
+          float left
+          .dropdown-wrap
+            display inline-block
+            width 200px
+            height 35px
+            line-height 35px
+            .dropdown-show
+              height 35px
+              line-height 35px
+          label 
+            color #717071
+            font-size 22px
+            margin-right 15px
+            line-height 35px
+            display inline-block
+          input 
+            margin-right 30px
+            appearance none
+            border 1px solid #E2DFDE
+            border-radius 5px
+            width 200px
+            height 35px
+            line-height 35px
+            padding 0 10px
+          
+
 </style>
