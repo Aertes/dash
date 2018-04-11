@@ -16,7 +16,8 @@
           <!--<i class="sideShadow"></i>-->
           <div id="charContainer">
             <keep-alive>
-              <chart-table v-if="isTable" :tableData="dashBoardTableData" @closeLoading="loadingHandle"></chart-table>
+              <chart-table v-if="isTable" :tableData="dashBoardTableData" @closeLoading="loadingHandle"
+                           @downloadUrl="downloadUrl"></chart-table>
               <chart v-else="!isTable" :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
             </keep-alive>
 
@@ -67,15 +68,20 @@
     dataOvCrmSearch,
     dataOvRevSearch,
     dataCmaSearch,
-    dataCmafunnelSearch,
     dataComSearch,
     dataCrmSearch,
     dataRevRatSearch,
     dataEcSearch,
-    dataEcAllSearch
+    dataEcAllSearch,
+    dataCmafunnelSearch,
+    dataCmaBarSearch,
+    dataCmaLineSearch
   } from '../../assets/chartsData/index'
+
   import {
-    getLocalItem
+    setLocalItem,
+    getLocalItem,
+    removeLocalItem
   } from '../../assets/config/storage'
 
   let that = this
@@ -93,7 +99,8 @@
           'COM.CN B2C',
           'CRM',
           'RATING & REVIEW',
-          'B2C CAMPAIGN PERFORMANCE',
+          'CAMPAIGN TRAFFIC',
+          'CAMPAIGN KPI',
           'INDIVIDAL CAMPAIGN PERFORMANCE DASHBOARD',
           'COM.CN',
           'CRM',
@@ -129,14 +136,20 @@
             "isBar": false,
             "month": ""
           },
-          {
-            "isBar": true,
+          {//cam1表
+            "chartType": "bar",
             "isDetailTable": false,
             "isTable": false,
             "month": ""
           },
-          {
-            "isBar": false,
+          {//cam2表
+            "chartType": "line",
+            "isDetailTable": false,
+            "isTable": false,
+            "month": ""
+          },
+          {//cam3表
+            "chartType": "funnel",
             "isDetailTable": true,
             "isTable": false,
             "month": ""
@@ -186,6 +199,9 @@
       camOneCategory() {
         return this.$store.state.camOneCategory
       },
+      camOneTwoCategory() {
+        return this.$store.state.camOneTwoCategory
+      },
       camCategory() {
         return this.$store.state.camCategory
       },
@@ -211,6 +227,9 @@
 
       camOneCategoryId() {
         return this.$store.state.camOneCategoryId
+      },
+      camOneTwoCategoryId() {
+        return this.$store.state.camOneTwoCategoryId
       },
       camCategoryId() {
         return this.$store.state.camCategoryId
@@ -240,9 +259,9 @@
     },
     mounted() {
 
-      this.defaultViews()
-
       //this.monthChange()
+
+      if (!this.locationHash) this.defaultViews()
 
       this.$Hub.$on('goToWheel', () => {
         this.wheelUp()
@@ -267,7 +286,7 @@
       }*/
 
     },
-    updated(){
+    updated() {
       this.locationHash = false
     },
     methods: {
@@ -312,7 +331,7 @@
         let delta = Math.max(-1, Math.min(1, value));
         if (this.canScroll) {
           if (delta < 0) {//down
-            if (this.type != 11) {
+            if (this.type != 12) {
               this.increment()
               this.wheelDown()
             }
@@ -366,28 +385,31 @@
           dataOvRevSearch(this, this.data[num])
         } else if (num == 5) {
           this.data[num].category = this.camOneCategory
-          dataCmaSearch(this, this.data[num])
+          dataCmaBarSearch(this, this.data[num])
         } else if (num == 6) {
+          this.data[num].category = this.camOneTwoCategory
+          dataCmaLineSearch(this, this.data[num])
+        } else if (num == 7) {
           this.data[num].category = this.camCategory
           this.data[num].campaign = this.camCompaign
           this.data[num].week = this.camWeek
           dataCmafunnelSearch(this, this.data[num])
-        } else if (num == 7) {
+        } else if (num == 8) {
           if (this.comMarketType == 'B2C') {
             this.data[num].isB2C = true
           } else if (this.comMarketType == 'B2B') {
             this.data[num].isB2C = false
           }
           dataComSearch(this, this.data[num])
-        } else if (num == 8) {
-          dataCrmSearch(this, this.data[num])
         } else if (num == 9) {
+          dataCrmSearch(this, this.data[num])
+        } else if (num == 10) {
           this.data[num].channel = this.rrOneChannel
           dataRevRatSearch(this, this.data[num])
-        } else if (num == 10) {
+        } else if (num == 11) {
           this.data[num].channel = this.rrChannel
           dataRevRatSearch(this, this.data[num])
-        } else if (num == 11) {
+        } else if (num == 12) {
           this.data[num].category = this.ecCategory
           if (this.ecCategory != null || this.ecCategory != undefined) {
             dataEcSearch(this, this.data[num])
@@ -462,7 +484,19 @@
           layer.close(index);
         })
       },
-      downloadUrl() {
+      downloadUrl(val) {
+
+        let baseUrl
+
+        if (val.isTable == 1) {
+
+          baseUrl = `${window.location.origin}/#/dashboard?istable=1&type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
+
+        } else {
+
+          baseUrl = `${window.location.origin}/#/dashboard?istable=0&type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
+
+        }
 
         let urlParameter = ''
 
@@ -475,6 +509,14 @@
           }
 
         } else if (this.type == 6) {
+
+          if (this.camOneTwoCategory != null || this.camOneTwoCategory != undefined) {
+
+            urlParameter = `&category=${this.camOneTwoCategory}&categoryid=${this.camOneTwoCategoryId}`
+
+          }
+
+        } else if (this.type == 7) {
 
           if (this.camCategory != null || this.camCategory != undefined) {
 
@@ -496,7 +538,7 @@
 
           }
 
-        } else if (this.type == 7) {
+        } else if (this.type == 8) {
 
           if (this.comMarketType != null || this.comMarketType != undefined) {
 
@@ -504,7 +546,7 @@
 
           }
 
-        } else if (this.type == 9) {
+        } else if (this.type == 10) {
 
           if (this.rrOneChannel != null || this.rrOneChannel != undefined) {
 
@@ -512,7 +554,7 @@
 
           }
 
-        } else if (this.type == 10) {
+        } else if (this.type == 11) {
 
           if (this.rrChannel != null || this.rrChannel != undefined) {
 
@@ -520,7 +562,7 @@
 
           }
 
-        } else if (this.type == 11) {
+        } else if (this.type == 12) {
 
           if (this.ecCategory != null || this.ecCategory != undefined) {
 
@@ -529,8 +571,6 @@
           }
 
         }
-
-        let baseUrl = `${window.location.origin}/#/dashboard?type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
 
         let downloadUrl = encodeURI(`${baseUrl}${urlParameter}`) //encodeURI
 
@@ -558,17 +598,31 @@
           }
         }
 
+        if (obj.istable == 1) {
+
+          setLocalItem('isTableDefaultShow', true)
+
+          this.defaultViews()
+
+        } else if (obj.istable == 0) {
+
+          removeLocalItem('isTableDefaultShow')
+
+          this.defaultViews()
+
+        }
+
         this.$store.commit('voluation', Number(obj.type))
 
         this.$store.commit('yearVoluation', Number(obj.yearMonth.substr(0, 4)))
 
         this.$store.commit('monthVoluation', Number(obj.yearMonth.substr(4)))
 
-        if(this.type < 5 || this.type == 8){
+        if (this.type < 5 || this.type == 8) {
 
           this.dataSearch()
 
-        }else if (this.type == 5) {
+        } else if (this.type == 5) {
 
           if (obj.category != undefined || obj.categoryid != undefined) {
 
@@ -578,9 +632,25 @@
 
             this.dataSearch()
 
+          } else {
+            this.dataSearch()
           }
 
-        } else if (this.type == 6) {
+        }else if (this.type == 6) {
+
+          if (obj.category != undefined || obj.categoryid != undefined) {
+
+            this.$store.commit('camOneTwoCategoryVoluation', obj.category)
+
+            this.$store.commit('camOneTwoCategoryIdVoluation', Number(obj.categoryid))
+
+            this.dataSearch()
+
+          } else {
+            this.dataSearch()
+          }
+
+        } else if (this.type == 7) {
 
           if (obj.category != undefined || obj.categoryid != undefined) {
 
@@ -626,9 +696,11 @@
               this.dataSearch()
             }
 
+          } else {
+            this.dataSearch()
           }
 
-        } else if (this.type == 7) {
+        } else if (this.type == 8) {
 
           if (obj.markettype != undefined || obj.markettypeid != undefined) {
 
@@ -638,10 +710,12 @@
 
             this.dataSearch()
 
+          } else {
+            this.dataSearch()
           }
 
 
-        } else if (this.type == 9) {
+        } else if (this.type == 10) {
 
           if (obj.channel != undefined || obj.channelid != undefined) {
 
@@ -651,10 +725,12 @@
 
             this.dataSearch()
 
+          } else {
+            this.dataSearch()
           }
 
 
-        } else if (this.type == 10) {
+        } else if (this.type == 11) {
 
           if (obj.channel != undefined || obj.channelid != undefined) {
 
@@ -664,9 +740,11 @@
 
             this.dataSearch()
 
+          } else {
+            this.dataSearch()
           }
 
-        } else if (this.type == 11) {
+        } else if (this.type == 12) {
 
           if (obj.category != undefined || obj.categoryid != undefined) {
 
@@ -676,6 +754,8 @@
 
             this.dataSearch()
 
+          } else {
+            this.dataSearch()
           }
 
         }
@@ -684,6 +764,7 @@
     },
     watch: {
       type: function (val) {
+
         if (val < 5) {
           this.name = `${this.titleList[val]}`
           this.title = `${this.overview} ${this.name}`
@@ -694,40 +775,43 @@
 
         //this.dataSearch()
 
-        if(!this.locationHash){
+        if (!this.locationHash) {
           this.dataSearch()
         }
 
       },
       isTable: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()this.dataSearch()
+        this.dataSearch()
       },
       getStoreYearMonth: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camOneCategory: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
+      },
+      camOneTwoCategory: function () {
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camCategory: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camCompaign: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       camWeek: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       comMarketType: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       rrOneChannel: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       rrChannel: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       ecCategory: function () {
-        if(!this.locationHash) this.dataSearch() //this.dataSearch()
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
       }
     }
   }

@@ -112,60 +112,6 @@ function chartTypeTwo(legendDate, seriesData) {
   }
 }
 
-function chartTypeThree(legendDate, seriesData) {
-  return {
-    tooltip: {
-      trigger: "item",
-      formatter: "{a} <br/>{b} : {c}"
-    },
-    legend: {
-      data: legendDate
-    },
-    calculable: true,
-    series: [{
-      name: "漏斗图",
-      type: "funnel",
-      left: "10%",
-      top: 60,
-      bottom: 60,
-      width: "80%",
-      min: 0,
-      max: 100,
-      minSize: "0%",
-      maxSize: "100%",
-      sort: "descending",
-      gap: 2,
-      label: {
-        normal: {
-          show: true,
-          position: "inside"
-        },
-        emphasis: {
-          textStyle: {
-            fontSize: 20
-          }
-        }
-      },
-      labelLine: {
-        normal: {
-          length: 10,
-          lineStyle: {
-            width: 1,
-            type: "solid"
-          }
-        }
-      },
-      itemStyle: {
-        normal: {
-          borderColor: "#fff",
-          borderWidth: 1
-        }
-      },
-      data: seriesData
-    }]
-  }
-}
-
 function chartTypeFour(xAxisData, seriesData1, seriesData2) {
   return {
     tooltip: {
@@ -315,11 +261,165 @@ function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesDa
   }
 }
 
+
+//compaign1 bar
+function chartTypeSix(legendDate, xAxisData, seriesData) {
+
+  return {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: { // 坐标轴指示器，坐标轴触发有效
+        type: "shadow" // 默认为直线，可选为："line" | "shadow"
+      }
+    },
+    legend: {
+      data: legendDate
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true
+    },
+    xAxis: [{
+      type: "category",
+      data: xAxisData,
+      axisPointer: {
+        type: "shadow"
+      }
+    }],
+    yAxis: [{
+      type: "value",
+      name: "Traffic",
+      min: 0
+    }],
+    series: seriesData
+  }
+
+}
+
+//compaign2 line
+function chartTypeSeven(legendDate, xAxisData, cpl, conversionRate) {
+
+  return {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+        crossStyle: {
+          color: '#999'
+        }
+      }
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true
+    },
+    legend: {
+      data: legendDate
+    },
+    xAxis: [{
+      type: 'category',
+      data: xAxisData,
+      axisPointer: {
+        type: 'shadow'
+      }
+    }],
+    yAxis: [{
+      type: 'value',
+      name: 'CPL(￥)',
+      min: 0
+    },
+      {
+        type: 'value',
+        name: 'Rate',
+        axisLabel: {
+          formatter: '{value} %'
+        }
+      }
+    ],
+    series: [{
+      name: 'Cost per lead',
+      type: 'bar',
+      data: cpl
+    },
+      {
+        name: 'Conversion rate',
+        type: 'line',
+        yAxisIndex: 1,
+        data: conversionRate
+      }
+    ]
+  }
+
+}
+
+//compaign3 funnl
+function chartTypeThree(legendDate, seriesData) {
+
+  return {
+    tooltip: {
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c}"
+    },
+    legend: {
+      data: legendDate
+    },
+    calculable: true,
+    series: [{
+      name: "漏斗图",
+      type: "funnel",
+      left: "10%",
+      top: 60,
+      bottom: 60,
+      width: "80%",
+      min: 0,
+      max: 100,
+      minSize: "0%",
+      maxSize: "100%",
+      sort: "descending",
+      gap: 2,
+      label: {
+        normal: {
+          show: true,
+          position: "inside"
+        },
+        emphasis: {
+          textStyle: {
+            fontSize: 20
+          }
+        }
+      },
+      labelLine: {
+        normal: {
+          length: 10,
+          lineStyle: {
+            width: 1,
+            type: "solid"
+          }
+        }
+      },
+      itemStyle: {
+        normal: {
+          borderColor: "#fff",
+          borderWidth: 1
+        }
+      },
+      data: seriesData
+    }]
+  }
+
+}
+
 export {
   defaultOption,
   chartTypeOne,
   chartTypeTwo,
   chartTypeThree,
   chartTypeFour,
-  chartTypeFive
+  chartTypeFive,
+  chartTypeSix,
+  chartTypeSeven
 }

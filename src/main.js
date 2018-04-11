@@ -70,6 +70,7 @@ const store = new Vuex.Store({
     month: null,
 
     camOneCategory:null,
+    camOneTwoCategory:null,
     camCategory:null,
     camCompaign:null,
     camWeek:null,
@@ -80,6 +81,7 @@ const store = new Vuex.Store({
 
 
     camOneCategoryId:0,
+    camOneTwoCategoryId:0,
     camCategoryId:0,
     camCompaignId:0,
     camWeekId:0,
@@ -90,7 +92,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     increment: state => {
-      if (state.type == 11) return
+      if (state.type == 12) return
       state.type++
     },
     decrement: state => {
@@ -110,6 +112,10 @@ const store = new Vuex.Store({
     camOneCategoryVoluation:(state, val) => {
       if(val == 'All') val =null
       state.camOneCategory = val
+    },
+    camOneTwoCategoryVoluation:(state, val) => {
+      if(val == 'All') val =null
+      state.camOneTwoCategory = val
     },
     camCategoryVoluation:(state, val) => {
       if(val == 'All') val =null
@@ -145,6 +151,10 @@ const store = new Vuex.Store({
 
     camOneCategoryIdVoluation:(state, val) => {
       state.camOneCategoryId = val
+    },
+    camOneTwoCategoryIdVoluation:(state, val) => {
+      if(val == 'All') val =null
+      state.camOneTwoCategoryId = val
     },
     camCategoryIdVoluation:(state, val) => {
       state.camCategoryId = val

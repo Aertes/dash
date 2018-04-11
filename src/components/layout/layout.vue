@@ -30,7 +30,7 @@
         uploadType: '',
         name: '',
         tableData: '',
-        isSetting: false
+        isSetting: true
       }
     },
     components: {

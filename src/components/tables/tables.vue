@@ -257,7 +257,8 @@
           'COM.CN B2C',
           'CRM',
           'RATING & REVIEW',
-          'B2C CAMPAIGN PERFORMANCE',
+          'CAMPAIGN TRAFFIC',
+          'CAMPAIGN KPI',
           'INDIVIDAL CAMPAIGN PERFORMANCE DASHBOARD',
           'COM.CN',
           'CRM',
@@ -291,14 +292,20 @@
             "isBar": false,
             "month": ""
           },
-          {
-            "isBar": true,
+          {//cam1表
+            "chartType": "bar",
             "isDetailTable": false,
             "isTable": true,
             "month": ""
           },
-          {
-            "isBar": false,
+          {//cam2表
+            "chartType": "line",
+            "isDetailTable": false,
+            "isTable": true,
+            "month": ""
+          },
+          {//cam3表
+            "chartType": "funnel",
             "isDetailTable": true,
             "isTable": true,
             "month": ""
@@ -329,8 +336,8 @@
           }
         ],
         selectOneVal: '',
-        Time: '2018/01',
-        locationHash: false
+        selectTwoVal: '',
+        Time: '2018/01'
       }
     },
     props: ['tableData'],
@@ -349,6 +356,9 @@
       },
       camOneCategory() {
         return this.$store.state.camOneCategory
+      },
+      camOneTwoCategory() {
+        return this.$store.state.camOneTwoCategory
       },
       camCategory() {
         return this.$store.state.camCategory
@@ -375,6 +385,9 @@
 
       camOneCategoryId() {
         return this.$store.state.camOneCategoryId
+      },
+      camOneTwoCategoryId() {
+        return this.$store.state.camOneTwoCategoryId
       },
       camCategoryId() {
         return this.$store.state.camCategoryId
@@ -408,13 +421,7 @@
 
       //this.monthChange()
 
-      if (window.location.hash.indexOf("?") != -1) {
-        this.locationHash = true
-      } else {
-        this.locationHash = false
-      }
-
-      if(!this.locationHash) this.getSelectData() //this.getSelectData()
+      this.getSelectData()
 
 
     },
@@ -425,6 +432,7 @@
       getTableData() {
         switch (this.type) {
           case 5:
+          case 6:
             this.isShow1 = false
             this.isShow5 = true
             this.isShow6 = false
@@ -450,31 +458,31 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'impression',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'traffic',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'trafficEc',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'trafficEcTarget',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
@@ -496,13 +504,13 @@
                 {
                   data: 'trafficCom',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'trafficComTarget',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
@@ -524,25 +532,25 @@
                 {
                   data: 'ctr',
                   render: (data, type, row) => {
-                    return '<div>'+ (data*100).toFixed(2) +'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'leads',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'costLead',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'baseLine',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
@@ -564,13 +572,13 @@
                 {
                   data: 'conversionRate',
                   render: (data, type, row) => {
-                    return '<div>'+ (data*100).toFixed(2) +'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'baseLineConversion',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
@@ -592,7 +600,7 @@
               ]
             })
             break;
-          case 6:
+          case 7:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = true
@@ -621,57 +629,57 @@
                 {
                   data: 'startDate',
                   render: (data, type, row) => {
-                      return '<div>'+data+'-'+row.endDate+'</div>'
+                    return '<div>' + data + '-' + row.endDate + '</div>'
                   }
                 },
                 {data: 'channel'},
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands((data.toFixed(2))) +'</div>'
+                    return '<div>' + formatThousands((data.toFixed(2))) + '</div>'
                   }
                 },
                 {
                   data: 'impression',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'click',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'ctr',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'leads',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'costLead',
                   render: (data, type, row) => {
-                    return '<div>'+ formatThousands(data) +'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
 
                 }
               ]
             })
             break;
-          case 7:
+          case 8:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -689,7 +697,7 @@
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -698,16 +706,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -717,16 +725,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -736,16 +744,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -771,114 +779,17 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
-                    }
-                  }
-                },
-                {
-                  data: 'yT',
-                  render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
-                    }
-                  }
-                }
-              ]
-            })
-            break;
-          case 8:
-            this.isShow1 = false
-            this.isShow5 = false
-            this.isShow6 = false
-            this.isShow7 = false
-            this.isShow8 = true
-            this.isShow9 = false
-            this.isShow10 = false
-            this.isShow11 = false
-            $('#tableBoxDialog8').DataTable({
-              "searching": false,
-              "lengthChange": false,
-              "ordering": false,
-              'bDestroy': true,
-              "pagingType": "simple_numbers",
-              "pageLength": 6,
-              "info": false,
-              "paging":this.tableData.length > 6 ? true : false,
-              data: this.tableData,
-              columns: [{
-                  data: 'item'
-                },
-                {
-                  data: 'month',
-                  render: (data, type, row) => {
-                    if(row.item == "CRM Engagement Rate"){
-                      return '<div>'+ (data*100).toFixed(2) + '%</div>'
-                    }else{
-                      return '<div>'+ formatThousands(data) +'</div>'
-                    }
-                  }
-                },
-                {
-                  data: 'ytd',
-                  render: (data, type, row) => {
-                    if(row.item == "CRM Engagement Rate"){
-                      return '<div>'+ (data*100).toFixed(2) + '%</div>'
-                    }else{
-                      return '<div>'+ formatThousands(data) +'</div>'
-                    }
-                  }
-                },
-                {
-                  data: 'target',
-                  render: (data, type, row) => {
-                    if(row.item == "CRM Engagement Rate"){
-                      return '<div>'+ (data*100).toFixed(2) + '%</div>'
-                    }else{
-                      return '<div>'+ formatThousands(data) +'</div>'
-                    }
-                  }
-                },
-                {
-                  data: 'mT',
-                  render: (data, type, row) => {
-                    if (data == 0) {
-                      return '<div></div>'
-                    } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
-                    } else if (data == 2) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
-                    } else if (data == 3) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
-                    } else if (data == 4) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
-                    }
-                  }
-                },
-                {
-                  data: 'ytdTarget',
-                  render: (data, type, row) => {
-                    if(row.item == "CRM Engagement Rate"){
-                      return '<div>'+ (data*100).toFixed(2) + '%</div>'
-                    }else{
-                      return '<div>'+ formatThousands(data) +'</div>'
                     }
                   }
                 },
@@ -906,6 +817,103 @@
             this.isShow5 = false
             this.isShow6 = false
             this.isShow7 = false
+            this.isShow8 = true
+            this.isShow9 = false
+            this.isShow10 = false
+            this.isShow11 = false
+            $('#tableBoxDialog8').DataTable({
+              "searching": false,
+              "lengthChange": false,
+              "ordering": false,
+              'bDestroy': true,
+              "pagingType": "simple_numbers",
+              "pageLength": 6,
+              "info": false,
+              "paging": this.tableData.length > 6 ? true : false,
+              data: this.tableData,
+              columns: [{
+                data: 'item'
+              },
+                {
+                  data: 'month',
+                  render: (data, type, row) => {
+                    if (row.item == "CRM Engagement Rate") {
+                      return '<div>' + (data * 100).toFixed(2) + '%</div>'
+                    } else {
+                      return '<div>' + formatThousands(data) + '</div>'
+                    }
+                  }
+                },
+                {
+                  data: 'ytd',
+                  render: (data, type, row) => {
+                    if (row.item == "CRM Engagement Rate") {
+                      return '<div>' + (data * 100).toFixed(2) + '%</div>'
+                    } else {
+                      return '<div>' + formatThousands(data) + '</div>'
+                    }
+                  }
+                },
+                {
+                  data: 'target',
+                  render: (data, type, row) => {
+                    if (row.item == "CRM Engagement Rate") {
+                      return '<div>' + (data * 100).toFixed(2) + '%</div>'
+                    } else {
+                      return '<div>' + formatThousands(data) + '</div>'
+                    }
+                  }
+                },
+                {
+                  data: 'mT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
+                    }
+                  }
+                },
+                {
+                  data: 'ytdTarget',
+                  render: (data, type, row) => {
+                    if (row.item == "CRM Engagement Rate") {
+                      return '<div>' + (data * 100).toFixed(2) + '%</div>'
+                    } else {
+                      return '<div>' + formatThousands(data) + '</div>'
+                    }
+                  }
+                },
+                {
+                  data: 'yT',
+                  render: (data, type, row) => {
+                    if (data == 0) {
+                      return '<div></div>'
+                    } else if (data == 1) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                    } else if (data == 2) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
+                    } else if (data == 3) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #F3C883"></div>'
+                    } else if (data == 4) {
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #D65532"></div>'
+                    }
+                  }
+                }
+              ]
+            })
+            break;
+          case 10:
+            this.isShow1 = false
+            this.isShow5 = false
+            this.isShow6 = false
+            this.isShow7 = false
             this.isShow8 = false
             this.isShow9 = true
             this.isShow10 = false
@@ -920,7 +928,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.data.length > 6 ? true : false,
+              "paging": this.tableData.data.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -929,79 +937,79 @@
                 {
                   data: 'smallVolume',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'midVolume',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'bigVolume',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'selloutVolume',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'percentReview',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'totalReview',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'positive',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'neutral',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'negative',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'percentNegative',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'timelyResponse',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'timelyResponseRate',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
               ]
             })
             break;
-          case 10:
+          case 11:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1020,7 +1028,7 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.data.length > 6 ? true : false,
+              "paging": this.tableData.data.length > 6 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -1029,79 +1037,79 @@
                 {
                   data: 'smallVolume',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'midVolume',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'bigVolume',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'selloutVolume',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'percentReview',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'totalReview',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'positive',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'neutral',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'negative',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'percentNegative',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'timelyResponse',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'timelyResponseRate',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
               ]
             })
             break;
-          case 11:
+          case 12:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1120,72 +1128,72 @@
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [{
-                  data: 'category'
-                },
+                data: 'category'
+              },
                 {
                   data: 'period'
                 },
                 {
                   data: 'traffic1',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate1',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic2',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate2',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic3',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate3',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic4',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate4',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic5',
                   render: (data, type, row) => {
-                      return '<div>'+formatThousands(data)+'</div>'
+                    return '<div>' + formatThousands(data) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate5',
                   render: (data, type, row) => {
-                      return '<div>'+(data*100).toFixed(2)+'%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
               ]
@@ -1207,7 +1215,7 @@
               "pagingType": "simple_numbers",
               "pageLength": 6,
               "info": false,
-              "paging":this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 6 ? true : false,
               data: this.tableData,
               columns: [{
                 data: 'item',
@@ -1217,22 +1225,22 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Conversion rate ":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>'+ (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -1242,22 +1250,22 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Conversion rate ":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>'+ (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -1283,22 +1291,22 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Conversion rate ":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>'+ (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -1308,22 +1316,22 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Conversion rate ":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>'+ (data*100).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>'+ (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data).toFixed(2) + '%</div>'
                         break;
                       default:
-                        return '<div>'+ formatThousands(data) +'</div>'
+                        return '<div>' + formatThousands(data) + '</div>'
                         break;
                     }
                   }
@@ -1351,7 +1359,7 @@
       },
       setTime() { //dataSearch
         let yearMonth = this.getStoreYearMonth
-        this.Time = yearMonth.slice(0, 4) +'/'+yearMonth.slice(4, 6)
+        this.Time = yearMonth.slice(0, 4) + '/' + yearMonth.slice(4, 6)
         //let num = this.type
         /*this.data[num].isTable = this.isTable
         this.data[num].month = yearMonth*/
@@ -1453,6 +1461,55 @@
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'Rating'
+            }
+          })
+          this.tableData = tData
+        }else if(this.type == 5 || this.type == 6){
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'Month'
+            } else if (index == 1) {
+              val.item = 'YTD'
+            } else if (index == 2) {
+              val.item = 'Q1'
+            } else if (index == 3) {
+              val.item = 'Q2'
+            } else if (index == 4) {
+              val.item = 'Q3'
+            } else if (index == 5) {
+              val.item = 'Q4'
+            }
+          })
+          this.tableData = tData
+        }else if(this.type == 8){
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'Traffic'
+            } else if (index == 1) {
+              val.item = 'Free Traffic'
+            } else if (index == 2) {
+              val.item = 'Paid Traffic'
+            } else if (index == 3) {
+              val.item = 'Bounce Rate'
+            } else if (index == 4) {
+              val.item = 'Conversion Rate'
+            } else if (index == 5) {
+              val.item = 'UGCR'
+            } else if (index == 6) {
+              val.item = 'MQL'
+            } else if (index == 7) {
+              val.item = 'SQL'
+            }
+          })
+          this.tableData = tData
+        }else if(this.type == 9){
+          tData.forEach((val, index) => {
+            if (index == 0) {
+              val.item = 'CRM Registrations'
+            } else if (index == 1) {
+              val.item = 'CRM Engagement Rate'
+            } else if (index == 2) {
+              val.item = 'CRM Sales'
             }
           })
           this.tableData = tData
@@ -1568,7 +1625,7 @@
       },
       selectShowFourHandle(val) {
 
-        if(val == undefined){
+        if (val == undefined) {
           val = this.camCompaign
         }
 
@@ -1585,15 +1642,23 @@
             data.forEach((val) => {
               this.selectOptionsFive.push(val)
             })
+
+            if (this.selectTwoVal == this.camCompaign) {
+              this.$refs.selectionFiveBox.nowIndex = this.camWeekId
+            } else {
+              this.$refs.selectionFiveBox.nowIndex = 0
+            }
+
           })
         } else {
           this.selectionFive = false
+          this.$store.commit('camWeekVoluation', val)
         }
 
       },
       selectShowFiveHandle(val) {
 
-        if(val == undefined){
+        if (val == undefined) {
           val = this.camWeek
         }
 
@@ -1666,7 +1731,7 @@
 
           this.selectionFive = false
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.camOneCategory
           }
 
@@ -1687,9 +1752,36 @@
 
         } else if (this.type === 6) {
 
-          if(this.selectionFive){
+          this.selectionThree = true
+
+          this.selectionFour = false
+
+          this.selectionFive = false
+
+          if (val == undefined) {
+            val = this.camOneTwoCategory
+          }
+
+          this.$store.commit('camOneTwoCategoryVoluation', val)
+
+          this.$store.commit('camOneTwoCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
+          this.getCampaignDate(getYear)
+
+          get(CAM_CATEGORY).then(res => {
+            let data = res.data.data
+            this.selectOptionsThree = ['All']
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+            //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+          })
+
+        } else if (this.type === 7) {
+
+          if (this.selectionFive) {
             this.selectionFive = true
-          }else{
+          } else {
             this.selectionFive = false
           }
 
@@ -1699,7 +1791,7 @@
 
           //this.selectionFive = false
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.camCategory
           }
 
@@ -1727,16 +1819,20 @@
               data.forEach((val) => {
                 this.selectOptionsFour.push(val)
               })
-              if(this.selectOneVal == this.camCategory){
+              if (this.selectOneVal == this.camCategory) {
                 this.$refs.selectionFourBox.nowIndex = this.camCompaignId
-              }else{
+              } else {
                 this.$refs.selectionFourBox.nowIndex = 0
               }
               //this.$refs.selectionFourBox.nowIndex = 0
             })
+          } else {
+            this.selectionFive = false
+            this.$store.commit('camCompaignVoluation', val)
+            this.$store.commit('camWeekVoluation', val)
           }
 
-        } else if (this.type === 7) {
+        } else if (this.type === 8) {
 
           this.selectionThree = true
 
@@ -1744,7 +1840,7 @@
 
           this.selectionFive = false
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.comMarketType
           }
 
@@ -1754,13 +1850,15 @@
 
           this.getCampaignDate(getYear)
 
-          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+          this.selectOptionsThree = ['B2C', 'B2B']
+
+          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
             let data = res.data.markettype
             this.selectOptionsThree = []
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
-          })
+          })*/
 
           /*this.$nextTick(() => {
             this.selectOptionsThree = ['B2C', 'B2B']
@@ -1769,7 +1867,7 @@
 
           //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
-        } else if (this.type === 8) {
+        } else if (this.type === 9) {
 
           this.selectionFive = false
 
@@ -1779,7 +1877,7 @@
 
           this.getCampaignDate(getYear)
 
-        } else if (this.type === 9) {
+        } else if (this.type === 10) {
 
           this.selectionThree = true
 
@@ -1787,7 +1885,7 @@
 
           this.selectionFive = false
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.rrOneChannel
           }
 
@@ -1797,13 +1895,15 @@
 
           this.getCampaignDate(getYear)
 
-          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+          this.selectOptionsThree = ['All', 'JD', 'Tmall']
+
+          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
             let data = res.data.channel
             this.selectOptionsThree = ['All']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
-          })
+          })*/
 
           /*this.$nextTick(() => {
             this.selectOptionsThree = ['All', 'JD', 'Tmall']
@@ -1811,39 +1911,6 @@
           })*/
 
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
-
-        } else if (this.type === 10) {
-
-          this.selectionThree = true
-
-          this.selectionFour = false
-
-          this.selectionFive = false
-
-          if(val == undefined){
-            val = this.rrChannel
-          }
-
-          this.$store.commit('rrChannelVoluation', val)
-
-          this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
-
-          this.getCampaignDate(getYear)
-
-          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.channel
-            this.selectOptionsThree = ['All']
-            data.forEach((val) => {
-              this.selectOptionsThree.push(val)
-            })
-          })
-
-          /*this.$nextTick(() => {
-            this.selectOptionsThree = ['All', 'JD', 'Tmall']
-            this.$refs.selectionThreeBox.nowIndex = 0
-          })*/
-
-          //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
         } else if (this.type === 11) {
 
@@ -1853,7 +1920,42 @@
 
           this.selectionFive = false
 
-          if(val == undefined){
+          if (val == undefined) {
+            val = this.rrChannel
+          }
+
+          this.$store.commit('rrChannelVoluation', val)
+
+          this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsThree = ['All', 'JD', 'Tmall']
+
+          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+            let data = res.data.channel
+            this.selectOptionsThree = ['All']
+            data.forEach((val) => {
+              this.selectOptionsThree.push(val)
+            })
+          })*/
+
+          /*this.$nextTick(() => {
+            this.selectOptionsThree = ['All', 'JD', 'Tmall']
+            this.$refs.selectionThreeBox.nowIndex = 0
+          })*/
+
+          //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
+        } else if (this.type === 12) {
+
+          this.selectionThree = true
+
+          this.selectionFour = false
+
+          this.selectionFive = false
+
+          if (val == undefined) {
             val = this.ecCategory
           }
 
@@ -1882,11 +1984,15 @@
 
           this.$refs.selectionThreeBox.nowIndex = this.camOneCategoryId
 
-        }else if (this.type == 6) {
+        } else if (this.type == 6) {
+
+          this.$refs.selectionThreeBox.nowIndex = this.camOneTwoCategoryId
+
+        } else if (this.type == 7) {
 
           this.$refs.selectionThreeBox.nowIndex = this.camCategoryId
 
-          if(this.camCompaignId > 0) {
+          if (this.camCompaignId > 0) {
             this.selectionFive = true
           }
 
@@ -1894,27 +2000,29 @@
 
           this.$refs.selectionFourBox.nowIndex = this.camCompaignId
 
+          this.selectTwoVal = this.camCompaign
+
           this.$refs.selectionFiveBox.nowIndex = this.camWeekId
 
-        }else if(this.type == 7){
+        } else if (this.type == 8) {
 
           this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
 
-        }else if(this.type == 9){
+        } else if (this.type == 10) {
 
           this.$refs.selectionThreeBox.nowIndex = this.rrOneChannelId
 
-        }else if(this.type == 10){
+        } else if (this.type == 11) {
 
           this.$refs.selectionThreeBox.nowIndex = this.rrChannelId
 
-        }else if(this.type == 11){
+        } else if (this.type == 12) {
 
           this.$refs.selectionThreeBox.nowIndex = this.ecCategoryId
 
         }
 
-        if(!this.locationHash) this.getSelectData() //this.getSelectData()
+        this.getSelectData()
 
 
         /*this.getSelectData(null)
@@ -1991,6 +2099,10 @@
         //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
         this.$refs.selectionThreeBox.nowIndex = this.camOneCategoryId
       },
+      camOneTwoCategoryId: function () {
+        //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.camOneTwoCategoryId
+      },
       camCategoryId: function () {
         //this.$store.commit('camCategoryIdVoluation', this.$refs.selectionThreeBox.nowIndex)
         this.$refs.selectionThreeBox.nowIndex = this.camCategoryId
@@ -2058,7 +2170,7 @@
   @import "../../assets/style/mixin.styl"
   .tables-wrap
     width 1800px
-    height 600px
+    height 700px
     background-color #fff
     border-radius 15px
     z-index: 99999
@@ -2090,7 +2202,7 @@
         cursor pointer
     .tables-container
       position relative
-      height 485px
+      height 585px
       padding 15px 50px 20px 50px
       font-size 18px
       overflow visible
@@ -2104,15 +2216,16 @@
         line-height 30px
         text-align center
         thead
-          background rgba(186,215,237,.42)
+          background rgba(186, 215, 237, .42)
         th
         td
           border-bottom 1px solid #EAEAEA
           border-right 1px solid #EAEAEA
           border-top medium
           border-left medium
+
   #tableBoxDialog6_wrapper
     .dataTables_scroll
-       tr>th
-         padding: 10px 80px
+      tr > th
+        padding: 10px 80px
 </style>

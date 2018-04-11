@@ -9,17 +9,20 @@
 
       <selection v-show="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
 
-      <selection v-show="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle" ref="selectionTwoBox"></selection>
+      <selection v-show="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
+                 ref="selectionTwoBox"></selection>
 
-      <selection v-show="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle" ref="selectionThreeBox" class="styleone"></selection>
+      <selection v-show="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
+                 ref="selectionThreeBox" class="styleone"></selection>
 
-      <selection v-show="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle" ref="selectionFourBox"></selection>
+      <selection v-show="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
+                 ref="selectionFourBox"></selection>
 
       <div v-if="all" class="options-menu">
         <div>
           <svg-icon sign="icon-more"></svg-icon>
         </div>
-        <div class="dashboard-operation box-shadow" >
+        <div class="dashboard-operation box-shadow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
           <div class="a-wrap">
             <a href="javascript:;" v-for="(item,index) in menuList"
@@ -75,6 +78,7 @@
         selectionThree: false,
         selectionFour: false,
         selectOneVal: '',
+        selectTwoVal: '',
         goDown: true,
         menuList: [
           {
@@ -107,8 +111,7 @@
             type: 'Ec',
             status: false,
           }
-        ],
-        locationHash: false
+        ]
       }
     },
     computed: {
@@ -117,6 +120,9 @@
       },
       camOneCategory() {
         return this.$store.state.camOneCategory
+      },
+      camOneTwoCategory() {
+        return this.$store.state.camOneTwoCategory
       },
       camCategory() {
         return this.$store.state.camCategory
@@ -143,6 +149,9 @@
 
       camOneCategoryId() {
         return this.$store.state.camOneCategoryId
+      },
+      camOneTwoCategoryId() {
+        return this.$store.state.camOneTwoCategoryId
       },
       camCategoryId() {
         return this.$store.state.camCategoryId
@@ -207,17 +216,8 @@
         //console.error('报错: ', ex.message)
       }
 
-      if (window.location.hash.indexOf("?") != -1) {
-        this.locationHash = true
-      } else {
-        this.locationHash = false
-      }
+      this.getSelectData()
 
-      if(!this.locationHash) this.getSelectData() //this.getSelectData()
-
-    },
-    updated(){
-      this.locationHash = false
     },
     methods: {
       showOperation() {
@@ -301,7 +301,7 @@
       },
       selectShowThreeHandle(val) {
 
-        if(val == undefined){
+        if (val == undefined) {
           val = this.camCompaign
         }
 
@@ -318,15 +318,23 @@
             data.forEach((val) => {
               this.selectOptionsFour.push(val)
             })
+
+            if (this.selectTwoVal == this.camCompaign) {
+              this.$refs.selectionFourBox.nowIndex = this.camWeekId
+            } else {
+              this.$refs.selectionFourBox.nowIndex = 0
+            }
+
           })
         } else {
           this.selectionFour = false
+          this.$store.commit('camWeekVoluation', val)
         }
 
       },
       selectShowFourHandle(val) {
 
-        if(val == undefined){
+        if (val == undefined) {
           val = this.camWeek
         }
 
@@ -335,7 +343,7 @@
         this.$store.commit('camWeekIdVoluation', this.$refs.selectionFourBox.nowIndex)
 
       },
-      getSelectData(val,page) {
+      getSelectData(val) {
 
         const getYear = new Date().getFullYear().toString()
 
@@ -399,7 +407,7 @@
 
           this.selectionTwo = true
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.camOneCategory
           }
 
@@ -420,9 +428,36 @@
 
         } else if (this.type === 6) {
 
-          if(this.selectionFour){
+          this.selectionThree = false
+
+          this.selectionFour = false
+
+          this.selectionTwo = true
+
+          if (val == undefined) {
+            val = this.camOneTwoCategory
+          }
+
+          this.$store.commit('camOneTwoCategoryVoluation', val)
+
+          this.$store.commit('camOneTwoCategoryIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+
+          this.getCampaignDate(getYear)
+
+          get(CAM_CATEGORY).then(res => {
+            let data = res.data.data
+            this.selectOptionsTwo = ['All']
+            data.forEach((val) => {
+              this.selectOptionsTwo.push(val)
+            })
+            //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+          })
+
+        } else if (this.type === 7) {
+
+          if (this.selectionFour) {
             this.selectionFour = true
-          }else{
+          } else {
             this.selectionFour = false
           }
 
@@ -430,7 +465,7 @@
 
           this.selectionTwo = true
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.camCategory
           }
 
@@ -459,16 +494,19 @@
                 this.selectOptionsThree.push(val)
               })
 
-              if(this.selectOneVal == this.camCategory){
+              if (this.selectOneVal == this.camCategory) {
                 this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
-              }else{
+              } else {
                 this.$refs.selectionThreeBox.nowIndex = 0
               }
-
             })
+          } else {
+            this.selectionFour = false
+            this.$store.commit('camCompaignVoluation', val)
+            this.$store.commit('camWeekVoluation', val)
           }
 
-        } else if (this.type === 7) {
+        } else if (this.type === 8) {
 
           this.selectionThree = false
 
@@ -476,7 +514,7 @@
 
           this.selectionTwo = true
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.comMarketType
           }
 
@@ -486,13 +524,15 @@
 
           this.getCampaignDate(getYear)
 
-          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+          this.selectOptionsTwo = ['B2C', 'B2B']
+
+          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
             let data = res.data.markettype
             this.selectOptionsTwo = []
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
-          })
+          })*/
 
           /*this.$nextTick(() => {
             this.selectOptionsTwo = ['B2C', 'B2B']
@@ -501,7 +541,7 @@
 
           //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-        } else if (this.type === 8) {
+        } else if (this.type === 9) {
 
           this.selectionTwo = false
 
@@ -511,7 +551,7 @@
 
           this.getCampaignDate(getYear)
 
-        } else if (this.type === 9) {
+        } else if (this.type === 10) {
 
           this.selectionThree = false
 
@@ -519,7 +559,7 @@
 
           this.selectionTwo = true
 
-          if(val == undefined){
+          if (val == undefined) {
             val = this.rrOneChannel
           }
 
@@ -529,13 +569,15 @@
 
           this.getCampaignDate(getYear)
 
-          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+          this.selectOptionsTwo = ['All', 'JD', 'Tmall']
+
+          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
             let data = res.data.channel
             this.selectOptionsTwo = ['All']
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
-          })
+          })*/
 
           /*this.$nextTick(() => {
             this.selectOptionsTwo = ['All', 'JD', 'Tmall']
@@ -543,39 +585,6 @@
           })*/
 
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
-
-        } else if (this.type === 10) {
-
-          this.selectionThree = false
-
-          this.selectionFour = false
-
-          this.selectionTwo = true
-
-          if(val == undefined){
-            val = this.rrChannel
-          }
-
-          this.$store.commit('rrChannelVoluation', val)
-
-          this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
-
-          this.getCampaignDate(getYear)
-
-          get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.channel
-            this.selectOptionsTwo = ['All']
-            data.forEach((val) => {
-              this.selectOptionsTwo.push(val)
-            })
-          })
-
-          /*this.$nextTick(() => {
-            this.selectOptionsTwo = ['All', 'JD', 'Tmall']
-            this.$refs.selectionTwoBox.nowIndex = 0
-          })*/
-
-          //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
         } else if (this.type === 11) {
 
@@ -585,7 +594,42 @@
 
           this.selectionTwo = true
 
-          if(val == undefined){
+          if (val == undefined) {
+            val = this.rrChannel
+          }
+
+          this.$store.commit('rrChannelVoluation', val)
+
+          this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsTwo = ['All', 'JD', 'Tmall']
+
+          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
+            let data = res.data.channel
+            this.selectOptionsTwo = ['All']
+            data.forEach((val) => {
+              this.selectOptionsTwo.push(val)
+            })
+          })*/
+
+          /*this.$nextTick(() => {
+            this.selectOptionsTwo = ['All', 'JD', 'Tmall']
+            this.$refs.selectionTwoBox.nowIndex = 0
+          })*/
+
+          //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+
+        } else if (this.type === 12) {
+
+          this.selectionThree = false
+
+          this.selectionFour = false
+
+          this.selectionTwo = true
+
+          if (val == undefined) {
             val = this.ecCategory
           }
 
@@ -609,7 +653,7 @@
       goUpDown() {
         if (this.type == 0) {
           this.goDown = true
-        } else if (this.type == 11) {
+        } else if (this.type == 12) {
           this.goDown = false
         } else {
           this.goDown = false
@@ -625,12 +669,18 @@
       type: function () {
 
         if (this.type == 5) {
+
           this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
-        }else if (this.type == 6) {
+
+        } else if (this.type == 6) {
+
+          this.$refs.selectionTwoBox.nowIndex = this.camOneTwoCategoryId
+
+        } else if (this.type == 7) {
 
           this.$refs.selectionTwoBox.nowIndex = this.camCategoryId
 
-          if(this.camCompaignId > 0) {
+          if (this.camCompaignId > 0) {
             this.selectionFour = true
           }
 
@@ -638,19 +688,21 @@
 
           this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
 
+          this.selectTwoVal = this.camCompaign
+
           this.$refs.selectionFourBox.nowIndex = this.camWeekId
 
-        }else if(this.type == 7){
+        } else if (this.type == 8) {
           this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
-        }else if(this.type == 9){
+        } else if (this.type == 10) {
           this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
-        }else if(this.type == 10){
+        } else if (this.type == 11) {
           this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
-        }else if(this.type == 11){
+        } else if (this.type == 12) {
           this.$refs.selectionTwoBox.nowIndex = this.ecCategoryId
         }
 
-        if(!this.locationHash) this.getSelectData() //this.getSelectData()
+        this.getSelectData()
 
         this.goUpDown()
 
@@ -720,6 +772,10 @@
       camOneCategoryId: function () {
         //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionTwoBox.nowIndex)
         this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
+      },
+      camOneTwoCategoryId: function () {
+        //this.$store.commit('camOneCategoryIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+        this.$refs.selectionTwoBox.nowIndex = this.camOneTwoCategoryId
       },
       camCategoryId: function () {
         //this.$store.commit('camCategoryIdVoluation', this.$refs.selectionTwoBox.nowIndex)
@@ -825,6 +881,7 @@
         width 350px
     .dashboard-all-wrap
       margin-top 25px
+
   .goUp,
   .goDown
     e-pos(left:50%, x:-50%, top:50%, y:-50%)

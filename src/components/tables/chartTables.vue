@@ -1,6 +1,7 @@
 <template>
   <div class="chart-tables-container" id="tableWrap">
     <div class="clearfix table-set">
+      <button class="box-shadow download-button" @click="downloadUrl">DOWNLOAD</button> <!--@click="downloadUrl"-->
       <span @click="openTables"><svg-icon sign="icon-enlarge" class="enlarge"></svg-icon></span>
       <label>
         <input type="checkbox" v-model="checked">
@@ -239,6 +240,7 @@
       getTableData() {
         switch (this.type) {
           case 5:
+          case 6:
             this.isShow1 = false
             this.isShow5 = true
             this.isShow6 = false
@@ -406,7 +408,7 @@
               ]
             })
             break;
-          case 6:
+          case 7:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = true
@@ -483,7 +485,7 @@
               ]
             })
             break;
-          case 7:
+          case 8:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -615,7 +617,7 @@
               ]
             })
             break;
-          case 8:
+          case 9:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -712,7 +714,7 @@
               ]
             })
             break;
-          case 9:
+          case 10:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -812,7 +814,7 @@
               ]
             })
             break;
-          case 10:
+          case 11:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -912,7 +914,7 @@
               ]
             })
             break;
-          case 11:
+          case 12:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1230,7 +1232,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 5){
+        }else if(this.type == 5 || this.type == 6){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'Month'
@@ -1247,7 +1249,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 7){
+        }else if(this.type == 8){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'Traffic'
@@ -1268,7 +1270,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 8){
+        }else if(this.type == 9){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'CRM Registrations'
@@ -1289,6 +1291,9 @@
       },
       closeLoading() {
         this.$emit('closeLoading')
+      },
+      downloadUrl(){
+        this.$emit('downloadUrl',{isTable:'1'})
       }
     },
     watch: {
@@ -1306,6 +1311,7 @@
         })
       },
       checked() {
+
         if (this.checked) {
 
           setLocalItem('isTableDefaultShow', true)
@@ -1332,8 +1338,18 @@
     .table-set
       position absolute
       left 0
-      bottom 20px
+      bottom 10px
       z-index 1
+      .download-button
+        width 200px
+        height 40px
+        margin-right 10px
+        background-color #2061AE
+        border-radius 10px
+        color #fff
+        border medium
+        outline none
+        cursor pointer
       label
         .checkBox
           vertical-align -6px

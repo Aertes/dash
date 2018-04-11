@@ -4,7 +4,9 @@ import {
   chartTypeTwo,
   chartTypeThree,
   chartTypeFour,
-  chartTypeFive
+  chartTypeFive,
+  chartTypeSix,
+  chartTypeSeven
 } from '../../assets/chartsStyle/index'
 import xhrUrls from '../../assets/config/xhrUrls'
 import {get, post, uploadPost} from '../../assets/config/http'
@@ -347,8 +349,66 @@ function dataRevRatSearch(that, data) {
   }
 }
 
-//表三 漏斗图
-// campaign
+// campaign 1
+function dataCmaBarSearch(that, data) {
+  if (data.isTable) {
+    post(xhrUrls.CMA_SEARCH, data)
+      .then(res => {
+        let data = res.data.data
+        that.dashBoardTableData = data
+      }).catch(
+      error => console.log(error)
+    )
+  } else {
+    post(xhrUrls.CMA_SEARCH, data)
+      .then(res => {
+        let data = res.data.data
+        let num = res.data.right
+        let legendDate = data.legend
+        let xAxisData = data.xAxis
+        let seriesData = data.series
+        that.DData = []
+        that.DData.push(['Spending', num.spending])
+        that.DData.push(['Cost per lead', num.costLead])
+        that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
+        that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
+        that.dashBoardoption = chartTypeSix(legendDate, xAxisData, seriesData)
+      }).catch(
+      error => console.log(error)
+    )
+  }
+}
+// campaign 2
+function dataCmaLineSearch(that, data) {
+  if (data.isTable) {
+    post(xhrUrls.CMA_SEARCH, data)
+      .then(res => {
+        let data = res.data.data
+        that.dashBoardTableData = data
+      }).catch(
+      error => console.log(error)
+    )
+  } else {
+    post(xhrUrls.CMA_SEARCH, data)
+      .then(res => {
+        let data = res.data.data
+        let num = res.data.right
+        let legendDate = data.legend
+        let xAxisData = data.xAxis
+        let cpl = data.cpl
+        let conversionRate = data.conversionRate
+        that.DData = []
+        that.DData.push(['Spending', num.spending])
+        that.DData.push(['Cost per lead', num.costLead])
+        that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
+        that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
+        that.dashBoardoption = chartTypeSeven(legendDate, xAxisData, cpl, conversionRate)
+      }).catch(
+      error => console.log(error)
+    )
+  }
+}
+// campaign 3
 function dataCmafunnelSearch(that, data) {
   if (data.isTable) {
     post(xhrUrls.CMA_SEARCH, data)
@@ -362,7 +422,6 @@ function dataCmafunnelSearch(that, data) {
     post(xhrUrls.CMA_SEARCH, data)
       .then(res => {
         let data = res.data.data
-        console.log(data)
         let num = res.data.right
         let legendDate = data.legend
         let series = data.data
@@ -451,5 +510,7 @@ export {
   dataRevRatSearch,
   dataEcSearch,
   dataEcAllSearch,
-  formatThousands
+  formatThousands,
+  dataCmaBarSearch,
+  dataCmaLineSearch
 }

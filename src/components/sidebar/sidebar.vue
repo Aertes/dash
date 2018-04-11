@@ -34,13 +34,13 @@
         }else if(index==1){
           typeVal = 5
         }else if(index==2){
-          typeVal = 7
-        }else if(index==3){
           typeVal = 8
-        }else if(index==4){
+        }else if(index==3){
           typeVal = 9
+        }else if(index==4){
+          typeVal = 10
         }else if(index==5){
-          typeVal = 11
+          typeVal = 12
         }
         this.voluation(typeVal)
         this.$Hub.$emit('wheelDown')
@@ -58,14 +58,16 @@
         }else if(val===6){
           this.selected = 1
         }else if(val===7){
-          this.selected = 2
+          this.selected = 1
         }else if(val===8){
-          this.selected = 3
+          this.selected = 2
         }else if(val===9){
-          this.selected = 4
+          this.selected = 3
         }else if(val===10){
           this.selected = 4
         }else if(val===11){
+          this.selected = 4
+        }else if(val===12){
           this.selected = 5
         }
       }
