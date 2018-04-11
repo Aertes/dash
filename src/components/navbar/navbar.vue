@@ -285,11 +285,6 @@
       cursor: pointer
   .resg
     padding 0 60px 0 50px
-    p
-      color red
-      font-size 24px
-      height 50px
-      line-height 50px
     div
       height 50px
       line-height 50px

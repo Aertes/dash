@@ -39,5 +39,18 @@ export default {
   LOGOUT: BASE_URL + '/auto/logout',
 
   //修改密码
-  EDIT_PWD: BASE_URL + '/sys/user/resetPwd'
+  EDIT_PWD: BASE_URL + '/sys/user/resetPwd',
+
+
+  //role
+  ROLE_SEARCH: BASE_URL + '/sys/role/search',
+
+
+  //user
+  USER_SEARCH: BASE_URL + '/sys/user/search',
+  USER_SAVE: BASE_URL + '/sys/user/save',
+   
+  //org
+  ORG_SEARCH: BASE_URL + '/sys/org/search',
+    
 }
