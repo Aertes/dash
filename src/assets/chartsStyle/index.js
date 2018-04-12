@@ -413,6 +413,50 @@ function chartTypeThree(legendDate, seriesData) {
 
 }
 
+//com.cn-crm
+function chartTypeEight(legendDate,xAxisData,seriesData){
+    return {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+          type: "shadow" // 默认为直线，可选为："line" | "shadow"
+        }
+      },
+      legend: {
+        data: legendDate
+      },
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true
+      },
+      xAxis: [{
+        type: "category",
+        data: xAxisData,
+        axisPointer: {
+          type: "shadow"
+        }
+      }],
+      yAxis: [{
+        type: "value",
+        name: "Traffic",
+        min: 0
+      },
+        {
+          type: "value",
+          name: "Rate",
+          min: 0,
+          axisLabel: {
+            formatter: "{value} %"
+          }
+        }
+      ],
+      series: seriesData
+    }
+}
+
+
 export {
   defaultOption,
   chartTypeOne,
@@ -421,5 +465,6 @@ export {
   chartTypeFour,
   chartTypeFive,
   chartTypeSix,
-  chartTypeSeven
+  chartTypeSeven,
+  chartTypeEight
 }

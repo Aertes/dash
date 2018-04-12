@@ -75,6 +75,7 @@ const store = new Vuex.Store({
     camCompaign:null,
     camWeek:null,
     comMarketType:'B2C',
+    comMarketTypeTwo:'B2C',
     rrOneChannel:null,
     rrChannel:null,
     ecCategory:null,
@@ -86,13 +87,14 @@ const store = new Vuex.Store({
     camCompaignId:0,
     camWeekId:0,
     comMarketTypeId:0,
+    comMarketTypeTwoId:0,
     rrOneChannelId:0,
     rrChannelId:0,
     ecCategoryId:0
   },
   mutations: {
     increment: state => {
-      if (state.type == 12) return
+      if (state.type == 14) return
       state.type++
     },
     decrement: state => {
@@ -132,6 +134,9 @@ const store = new Vuex.Store({
     comMarketTypeVoluation:(state, val) => {
       state.comMarketType = val
     },
+    comMarketTypeTwoVoluation:(state, val) => {
+      state.comMarketTypeTwo = val
+    },
     rrOneChannelVoluation:(state, val) => {
       if(val == 'All') val =null
       state.rrOneChannel = val
@@ -167,6 +172,9 @@ const store = new Vuex.Store({
     },
     comMarketTypeIdVoluation:(state, val) => {
       state.comMarketTypeId = val
+    },
+    comMarketTypeTwoIdVoluation:(state, val) => {
+      state.comMarketTypeTwoId = val
     },
     rrOneChannelIdVoluation:(state, val) => {
       state.rrOneChannelId = val

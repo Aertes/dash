@@ -5,18 +5,23 @@
     <img v-else='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
 
     <div class="options-bar box-shadow clearfix">
-      <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
-      <selection v-show="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
+      <h3 class="titleH3" v-if="isSetting">SYSTEM SETTING</h3>
 
-      <selection v-show="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
-                 ref="selectionTwoBox"></selection>
+      <div v-if="!isSetting">
+        <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
-      <selection v-show="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
-                 ref="selectionThreeBox" class="styleone"></selection>
+        <selection v-show="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
 
-      <selection v-show="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
-                 ref="selectionFourBox"></selection>
+        <selection v-show="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
+                  ref="selectionTwoBox"></selection>
+
+        <selection v-show="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
+                  ref="selectionThreeBox" class="styleone"></selection>
+
+        <selection v-show="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
+                  ref="selectionFourBox"></selection>
+      </div>
 
       <div v-if="all" class="options-menu">
         <div>
@@ -30,21 +35,23 @@
               <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
               <span v-if="item.status">{{item.name}}</span>
             </a>
-            <router-link v-if="system" to="/setting">
+            <a v-if="system" href="javascript:;" @click="settingChange">
               <svg-icon sign="icon-setting"></svg-icon>
               <span>SYSTEM SETTING</span>
-            </router-link>
+            </a>
           </div>
         </div>
       </div>
     </div>
 
     <div class="clearfix dashboard-all-wrap">
-      <time-line></time-line>
-      <dash-board></dash-board>
+      <time-line v-if="!isSetting"></time-line>
+      <keep-alive>
+          <dash-board v-if="!isSetting"></dash-board>
+          <system-settings v-if="isSetting"></system-settings>
+      </keep-alive>
       <upload-file ref='upload'></upload-file>
     </div>
-
   </div>
 </template>
 
@@ -55,6 +62,7 @@
   import UploadFile from '../../components/upload/upload'
   import {get, post, uploadPost} from '../../assets/config/http'
   import {getSessionItem} from "../../assets/config/storage.js"
+  import SystemSettings from '@/components/setting/setting'
 
   let OVDateUrl = xhrUrls.OV_DATE
   let CAM_CATEGORY = xhrUrls.CAM_CATEGORY
@@ -80,6 +88,8 @@
         selectOneVal: '',
         selectTwoVal: '',
         goDown: true,
+        locationHash: false,
+        isSetting: false,
         menuList: [
           {
             name: 'CAMPAIGN',
@@ -136,6 +146,9 @@
       comMarketType() {
         return this.$store.state.comMarketType
       },
+      comMarketTypeTwo() {
+        return this.$store.state.comMarketTypeTwo
+      },
       rrOneChannel() {
         return this.$store.state.rrOneChannel
       },
@@ -164,6 +177,9 @@
       },
       comMarketTypeId() {
         return this.$store.state.comMarketTypeId
+      },
+      comMarketTypeTwoId() {
+        return this.$store.state.comMarketTypeTwoId
       },
       rrOneChannelId() {
         return this.$store.state.rrOneChannelId
@@ -216,8 +232,20 @@
         //console.error('报错: ', ex.message)
       }
 
-      this.getSelectData()
+      if (window.location.hash.indexOf("?") != -1) {
+        this.locationHash = true
+      } else {
+        this.locationHash = false
+      }
 
+      if(!this.locationHash) this.getSelectData()
+
+      this.$Hub.$on('settingShow', () => {
+        this.settingChange();
+      });
+    },
+    updated() {
+      this.locationHash = false
     },
     methods: {
       showOperation() {
@@ -526,22 +554,31 @@
 
           this.selectOptionsTwo = ['B2C', 'B2B']
 
-          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.markettype
-            this.selectOptionsTwo = []
-            data.forEach((val) => {
-              this.selectOptionsTwo.push(val)
-            })
-          })*/
+          //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-          /*this.$nextTick(() => {
-            this.selectOptionsTwo = ['B2C', 'B2B']
-            this.$refs.selectionTwoBox.nowIndex = 0
-          })*/
+        }  else if (this.type === 9) {
+
+          this.selectionThree = false
+
+          this.selectionFour = false
+
+          this.selectionTwo = true
+
+          if (val == undefined) {
+            val = this.comMarketTypeTwo
+          }
+
+          this.$store.commit('comMarketTypeTwoVoluation', val)
+
+          this.$store.commit('comMarketTypeTwoIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsTwo = ['B2C', 'B2B']
 
           //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-        } else if (this.type === 9) {
+        } else if (this.type === 10) {
 
           this.selectionTwo = false
 
@@ -551,7 +588,17 @@
 
           this.getCampaignDate(getYear)
 
-        } else if (this.type === 10) {
+        }  else if (this.type === 11) {
+
+          this.selectionTwo = false
+
+          this.selectionThree = false
+
+          this.selectionFour = false
+
+          this.getCampaignDate(getYear)
+
+        } else if (this.type === 12) {
 
           this.selectionThree = false
 
@@ -571,22 +618,9 @@
 
           this.selectOptionsTwo = ['All', 'JD', 'Tmall']
 
-          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.channel
-            this.selectOptionsTwo = ['All']
-            data.forEach((val) => {
-              this.selectOptionsTwo.push(val)
-            })
-          })*/
-
-          /*this.$nextTick(() => {
-            this.selectOptionsTwo = ['All', 'JD', 'Tmall']
-            this.$refs.selectionTwoBox.nowIndex = 0
-          })*/
-
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-        } else if (this.type === 11) {
+        } else if (this.type === 13) {
 
           this.selectionThree = false
 
@@ -606,22 +640,9 @@
 
           this.selectOptionsTwo = ['All', 'JD', 'Tmall']
 
-          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.channel
-            this.selectOptionsTwo = ['All']
-            data.forEach((val) => {
-              this.selectOptionsTwo.push(val)
-            })
-          })*/
-
-          /*this.$nextTick(() => {
-            this.selectOptionsTwo = ['All', 'JD', 'Tmall']
-            this.$refs.selectionTwoBox.nowIndex = 0
-          })*/
-
           //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-        } else if (this.type === 12) {
+        } else if (this.type === 14) {
 
           this.selectionThree = false
 
@@ -653,17 +674,22 @@
       goUpDown() {
         if (this.type == 0) {
           this.goDown = true
-        } else if (this.type == 12) {
+        } else if (this.type == 14) {
           this.goDown = false
         } else {
           this.goDown = false
         }
-      }
+      },
+      settingChange(){
+        this.isSetting = !this.isSetting
+      },
+
     },
     components: {
       DashBoard,
       TimeLine,
       UploadFile,
+      SystemSettings,
     },
     watch: {
       type: function () {
@@ -693,26 +719,30 @@
           this.$refs.selectionFourBox.nowIndex = this.camWeekId
 
         } else if (this.type == 8) {
+
           this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
-        } else if (this.type == 10) {
-          this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
-        } else if (this.type == 11) {
-          this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
+
+        }  else if (this.type == 9) {
+
+          this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeTwoId
+
         } else if (this.type == 12) {
+
+          this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
+
+        } else if (this.type == 13) {
+
+          this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
+
+        } else if (this.type == 14) {
+
           this.$refs.selectionTwoBox.nowIndex = this.ecCategoryId
+
         }
 
-        this.getSelectData()
+        if(!this.locationHash) this.getSelectData()
 
         this.goUpDown()
-
-        /*this.getSelectData(null)
-
-        this.selectOptionsTwo = []
-
-        this.$nextTick(()=>{
-          this.$refs.selectionTwoBox.nowIndex = 0
-        })*/
 
         /*else if(this.type == 6){
           this.selectOptionsTwo = []
@@ -793,6 +823,10 @@
         //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionTwoBox.nowIndex)
         this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
       },
+      comMarketTypeTwoId: function () {
+        //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionTwoBox.nowIndex)
+        this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeTwoId
+      },
       rrOneChannelId: function () {
         //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
         this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
@@ -818,6 +852,12 @@
       padding 20px 0
       border-radius 10px
       background-color #fff
+      .titleH3
+        color #2061AE
+        padding 5px 0 5px 20px
+        float left
+        font-size 28px
+        font-weight 400
       .options-icon-date
         font-size 28px
         color #A0A0A1

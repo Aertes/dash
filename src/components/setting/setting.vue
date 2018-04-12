@@ -1,35 +1,12 @@
 <template>
-  <div class="app-main-wrap">
-    <div class="options-bar box-shadow clearfix">
-			<h3 class="title">SYSTEM SETTING</h3>
-      <div v-if="all" class="options-menu">
-        <div>
-          <svg-icon sign="icon-more"></svg-icon>
-        </div>
-        <!-- <div class="dashboard-operation box-shadow" >
-          <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
-          <div class="a-wrap">
-            <a href="javascript:;" v-for="(item,index) in menuList"
-               @click="openUpload(item.link, item.type, item.name)">
-              <svg-icon v-if="item.status" sign="icon-upload" class="upload-icon"></svg-icon>
-              <span v-if="item.status">{{item.name}}</span>
-            </a>
-            <router-link v-if="system" to="/">
-              <svg-icon sign="icon-setting"></svg-icon>
-              <span>SYSTEM SETTING</span>
-            </router-link>
-          </div>
-        </div> -->
-      </div>
-    </div>
-
+  <div class="app-main-wrap" style="margin-left:0;">
     <div class="userbox">
       <div class="tab">
         <ul class="clearfix">
           <li v-for="(tab, index) in tabsName" :class="{active:tab.isActive}"><a href="javascript:;" class="tab-link" @click="tabsSwitch(index)" >{{tab.name}}</a></li>
         </ul>
       </div>
-      <div class="cards clearfix">
+      <div class="cards box-shadow clearfix">
         <div class="tab-card" style="display: block;">
           <div class="content">
             <form action="" class="clearfix">
@@ -43,11 +20,9 @@
               </div>
               <div class="search">
                 <label for="">Status</label>
-                <selection  :selections="selectOptions"></selection>
-                <!-- <select name="" id="">
-                  <option value="all">All</option>
-                  <option value="0">Enable</option>
-                  <option value="1">Disable</option>
+                <selection  :selections="selectStatusOptions"></selection>
+                <!-- <select name="" id="" v-model="selectedStatus">
+                  <option v-for="option in selectStatusOptions" :value="option.value">{{option.text}}</option>
                 </select> -->
               </div>
             </form>
@@ -60,10 +35,10 @@
               </div>
               <div class="tables">
                 <div class="create" @click="showCreate">
-                    <svg-icon sign="icon-user" class="user-icon"></svg-icon>
+                    <svg-icon sign="icon-tianjia" class="user-create"></svg-icon>
                     <span class="newUser">New user</span>
                 </div>
-                <div class="user-table">
+                <div class="user-table clearfix">
                   <table id="userTable" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <thead>
                       <tr>
@@ -78,6 +53,15 @@
                   </table>
                 </div>
               </div>
+              <span id="deluser" hidden>
+                <svg-icon sign="icon-trash"></svg-icon>
+              </span>
+              <span id="edituser" hidden>
+                <svg-icon sign="icon-edit"></svg-icon>
+              </span>
+              <span id="viewuser" hidden>
+                <svg-icon sign="icon-chakan01"></svg-icon>
+              </span>
             </div>
           </div>
         </div>  
@@ -95,31 +79,52 @@
           <div class="resg">
               <div>
 									<label>User Name</label>
-									<input type="text" class="input" name="username" @change="onInput" :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
+                  <label v-if="!isViewUser">{{userinfo.name}}</label>
+									<input type="text" v-if="isViewUser" class="input" name="username" @change="onInput" :class="[isActive.isUserActive? 'active' : '']" v-model="data.name" placeholder="Please Username">
 							</div>
-              <div>
+              <div v-if="isViewUser">
 									<label>Password</label>
-									<input type="password" class="input" name="password" @change="onInput" :class="[isActive.isPwdActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.password">
+									<input type="password"  class="input" name="password" @change="onInput" :class="[isActive.isPwdActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.password" placeholder="Please Password">
 							</div>
-              <div>
+              <div v-if="isViewUser">
 									<label>Sure Password</label>
-									<input type="password" class="input" name="surePassword" @change="onInput" :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.surePassword">
+									<!-- <label v-if="isEdit">New Password</label> -->
+									<input type="password" class="input" name="surePassword" @change="onInput" :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.surePassword" placeholder="Please SurePassword">
 							</div>
 							<div>
 									<label>Login Account</label>
-									<input type="text" class="input" name="loginAccount" @change="onInput" :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username">
+                  <label v-if="!isViewUser">{{userinfo.username}}</label>
+									<input type="text" v-if="isViewUser" class="input" name="loginAccount" @change="onInput" :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username" placeholder="Please Login Account">
 							</div>
               <div>
 									<label>Department</label>
-									<selection  :selections="selectOrgOptions"  @selectShowOne="selectShowOneHandle"></selection>
+                  <label v-if="!isViewUser">{{userinfo.org}}</label>
+                  <!-- <select v-if="isViewUser" name="" id="" v-model="selectedOrg">
+                    <option v-for="(option, index) in selectOrgOptions" :value="option.id">{{option.name}}</option>
+                  </select> -->
+									<selection ref='user' v-if="isViewUser"  :selections="selectOrgOptions" :selectedId='selectOrgOptionsId'  @selectUser="selectUserHandle"></selection>
 							</div>
               <div>
 									<label>Role</label>
-									<selection  :selections="selectRoleOptions"  @selectShowTwo="selectShowTwoHandle"></selection>
+                  <label v-if="!isViewUser">{{userinfo.role}}</label>
+                  <!-- <select v-if="isViewUser" name="" id="" v-model="selectedRole">
+                    <option v-for="option in selectRoleOptions" :value="option.id">{{option.name}}</option>
+                  </select> -->
+									<selection ref='role'  v-if="isViewUser" :selections="selectRoleOptions" :selectedId="selectRoleOptionsId"  @selectRole="selectRoleHandle"></selection>
 							</div>
 							<div>
 									<label>Status</label>
-                  <div class="radio">
+                  <div class="radio" v-if="!isViewUser">
+                      <label for="status1" v-if="userinfo.status == 1">
+									      <input type="radio" id="status1" name="newPassword" value="1" :checked=true >
+                        Enable
+                      </label>
+                      <label for="status2" v-if="userinfo.status == 0">
+									      <input type="radio" id="status2" name="newPassword" value="0"  :checked=true>
+                        Disable
+                      </label>
+                  </div>
+                  <div class="radio" v-if="isViewUser">
                       <label for="status1">
 									      <input type="radio" id="status1" name="newPassword" value="1" :checked=true  v-model="data.status">
                         Enable
@@ -131,8 +136,8 @@
                   </div>
 							</div>
           </div>
-          <div class="submit-btn">
-            <button type="button" class="confirm" @click="submit">confirm</button>
+          <div class="submit-btn" >
+            <button type="button" v-if="isViewUser" class="confirm" @click="submit">confirm</button>
 					  <button type="button" class="cancel" @click="closeLayerButton">cancel</button>
           </div>
 			</form>
@@ -193,8 +198,18 @@
         ],
         table:null,
         tableData:{},
+        isViewUser: false,
+        isCreate:true,
+        userinfo:{
+          name:'',
+          username:'',
+          org:'',
+          role: '',
+          status: ''
+        },
         active:false,
-        selectOptions:['All', 'Enable', 'Disable'],
+        selectedStatus: '',
+        selectStatusOptions:['All','Enable','Disable'],
         tabsName:[
           {
             name:'USER',
@@ -214,12 +229,18 @@
           password:'',
           surePassword:'',
           username:'',
-          status: '',
+          status: 1,
           orgid:'036d330f55f447acae9d7d78044e3add',
-          roleIds:''
+          roleIds:'',
+          id:''
         },
+        isEdit:true,
+        selectedRole:'',
+        selectedOrg:'',
         selectRoleOptions:[],
         selectOrgOptions:[],
+        selectRoleOptionsId:[],
+        selectOrgOptionsId:[],
         isActive:{
           isUserActive: false,
           isPwdActive: false,
@@ -228,14 +249,12 @@
         }
       }
     },
-    computed: {
-      type() {
-        return this.$store.state.type
-      }
-    },
     mounted() {
       this.isLogin();
       this.userTable();
+      this.removeUser();
+      this.viewUser();
+      this.editUser();
     },
     methods: {
 			isLogin(){
@@ -282,7 +301,7 @@
         this.tabsName[tabIndex].isActive = true;  
         tabCardCollection[tabIndex].style.display = "block";
       },
-      userTable(type, name) {
+      userTable() {
 				var that = this;
 				// that.Data.channel = type;
 				that.table = $("#userTable").DataTable({
@@ -329,14 +348,109 @@
 						{
 							data: null,
 							render: function(data, type, row) {
-								return '<div style="text-align: center;" title="DELETE"><a style="color:red; font-size:18px; cursor: pointer;" class="removeRecord" data-id="' + row.id + '">' + $("#operate").html() + '</a></div>';
+                return '<div style="text-align: center;">'+
+                          '<a title="VIEW" style="color:#2061ae; font-size:18px; cursor: pointer" class="viewUser" data-id="' + row.id + '">' + $("#viewuser").html() + '</a>'+
+                          '<a title="EDIT" style="color:green; font-size:18px; cursor: pointer;margin-left: 10px" class="editUser" data-id="' + row.id + '">' + $("#edituser").html() + '</a>'+
+                          '<a title="DELETE" style="color:red; font-size:18px; cursor: pointer;;margin-left: 10px" class="removeUser" data-id="' + row.id + '">' + $("#deluser").html() + '</a>'+
+                        '</div>';
 							}
 						}
 					]
 	
 				});
       },
+
+      //删除
+      removeUser() {
+				let that = this;
+				$(document).delegate('.removeUser', 'click', function(event) {
+					event.stopImmediatePropagation();
+					event.preventDefault();
+          var id = $(this).attr("data-id");
+					layer.confirm('Do you delete this user?', {
+						title: 'Prompt information',
+						btn: ['Confirm', 'Cancel'],
+					}, function(index) {
+						layer.close(index);
+						get(xhrUrls.USER_DEL + '/' + id).then((res) => {
+							if (res.data.code == 200) {
+								layer.msg('Delete the success !', {
+									time: 2000,
+									skin: 'fontColor'
+								}, function(index) {
+									layer.close(index);
+									that.userTable()
+								})
+							} else {
+								layer.msg('Delete failed !', {
+									time: 2000,
+									skin: 'fontColor'
+								}, function(index) {
+									layer.close(index);
+								})
+							}
+						}, function(index) {
+							layer.close(index);
+						})
+					})
+	
+				});
+      },
       
+      //编辑用户
+      editUser(){
+        let that = this;
+        $(document).delegate('.editUser', 'click', function(event) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          var id = $(this).attr("data-id");
+          that.isViewUser = true
+          that.isEdit = false
+          get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
+							if (res.data.code == 200) {
+                that.data.name = res.data.user.name
+                that.data.username = res.data.user.username
+                that.selectedOrg = res.data.org.name
+                if(res.data.role){
+                  that.selectedRole = res.data.role.name
+                  that.data.roleIds = res.data.role.id
+                }
+                that.data.status = res.data.user.status
+                that.data.id = id
+                that.data.orgid = res.data.org.id
+                that.showCreate()
+							} else {
+                console.log('err')
+							}
+						}).catch(err=>console.log(err))
+        })
+      },
+
+      //查看用户
+      viewUser(){
+        let that = this;
+        $(document).delegate('.viewUser', 'click', function(event) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          that.isViewUser = false
+          // that.isEdit = false
+          var id = $(this).attr("data-id");
+          get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
+							if (res.data.code == 200) {
+                that.userinfo.name = res.data.user.name
+                that.userinfo.username = res.data.user.username
+                that.userinfo.org = res.data.org.name
+                that.userinfo.role = res.data.role.name
+                that.userinfo.status = res.data.user.status
+                that.layerOpen('user')
+							} else {
+                console.log('err')
+							}
+						}).catch(err=>console.log(err))
+        })
+      },
+
+
       //关闭上传弹窗
 			closeLayerButton() {
         layer.close(layerId)
@@ -362,10 +476,16 @@
       },
       showCreate(obj){
         this.layerOpen('user')
+        this.isViewUser = true
+        let roleId = this.data.roleIds;
+        let orgid = this.data.orgid;
         post(xhrUrls.ROLE_SEARCH, {}).then(res=>{
           let data = res.data.data;
           data.forEach((v, i) => {
             this.selectRoleOptions.push(v.name);
+            if(roleId == v.id){
+              this.$refs.role.nowIndex = i
+            }
           });
         }).catch(err=>console.log(err))
         
@@ -374,15 +494,21 @@
           console.log(data);
           data.forEach((v, i) => {
             this.selectOrgOptions.push(v.name);
+            if(orgid == v.id){
+              this.$refs.user.nowIndex = i
+            }
           });
         }).catch(err=>console.log(err))
 
       },
-      selectShowOneHandle(val){
-        this.data.orgid = val
+      selectUserHandle(val){
+        alert(val.val)
+        //this.data.orgid = val
       },
-      selectShowTwoHandle(val){
-        this.data.roleIds = val
+      selectRoleHandle(val){
+        
+        alert(this.$refs.role.nowIndex )
+        //this.data.roleIds = val
       },
       onInput(){
         if (this.data.name != '') {
@@ -399,6 +525,7 @@
         }
       },
       submit(){
+
         let that = this
         if(this.data.name == '' && this.data.password == '' && this.data.surePassword == '' && this.data.username == ''){
           this.isActive.isUserActive = true;
@@ -422,7 +549,33 @@
           this.isActive.isSurePwdActive = true;
         }
         if (this.data.name != '' && this.data.password != '' && this.data.surePassword != '' && this.data.username != '' &&  this.data.password == this.data.surePassword) {
-          post(xhrUrls.USER_SAVE, this.data)
+          console.log(this.data)
+          if(!this.isEdit == true){
+            // this.data.id = id
+            post(xhrUrls.USER_EDIT, this.data)
+            .then(res => {
+              if (res.data.code == 200) {
+                layer.msg('Updata user success !', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function(index) {
+                  that.isShow = false
+                  that.closeLayerButton()
+                  that.userTable();
+                  layer.close(index);
+                })
+              } else {
+                layer.msg('Updata user failed !', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function(index) {
+                  that.isActive.isUserActive = true;
+                  layer.close(index);
+                })
+              }
+            }).catch(err => console.log(err));
+          }else{
+            post(xhrUrls.USER_SAVE, this.data)
             .then(res => {
               if (res.data.code == 200) {
                 layer.msg('Create user success !', {
@@ -444,51 +597,13 @@
 								})
               }
             })
-            .catch(err => {
-              console.log(err);
-            });
+            .catch(err => console.log(err));
+          }
         }
       }
     },
     components: {
       UploadFile,
-    },
-    watch: {
-      type: function () {
-        if (this.type == 5) {
-          //alert('camOne'+' : '+this.camOneCategoryId)
-          this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
-        }else if (this.type == 6) {
-
-          //alert('camCategory'+' : '+this.camCategoryId)
-          this.$refs.selectionTwoBox.nowIndex = this.camCategoryId
-
-          //alert('camCompaign'+' : '+this.camCompaignId)
-          if(this.camCompaignId > 0) {
-            this.selectionFour = true
-          }
-
-          this.selectOneVal = this.camCategory
-
-          this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
-
-          //alert('camWeek'+' : '+this.camWeekId)
-          this.$refs.selectionFourBox.nowIndex = this.camWeekId
-
-        }else if(this.type == 7){
-          //alert('comMarketType'+' : '+this.comMarketTypeId)
-          this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
-        }else if(this.type == 9){
-          //alert('rrOneChannel'+' : '+this.rrOneChannelId)
-          this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
-        }else if(this.type == 10){
-          //alert('rrChannel'+' : '+this.rrChannelId)
-          this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
-        }else if(this.type == 11){
-          //alert('ecCategory'+' : '+this.ecCategoryId)
-          this.$refs.selectionTwoBox.nowIndex = this.ecCategoryId
-        }
-      }
     }
   }
 </script>
@@ -565,10 +680,7 @@
         width 350px
     .dashboard-all-wrap
       margin-top 25px
-	.title
-		color #2061AE
-		padding-left 20px
-
+	
 .userbox
   .tab
     margin-top 40px
@@ -598,6 +710,7 @@
     .tab-card
       float left
       display none
+      width 100%
       .content
         width 100%
         form
@@ -607,46 +720,51 @@
           .dropdown-wrap
             display inline-block
             width 200px
-            height 35px
-            line-height 35px
+            height 40px
+            line-height 40px
             .dropdown-show
-              height 35px
-              line-height 35px
+              height 40px
+              line-height 40px
           label 
             color #717071
             font-size 22px
             margin-right 15px
-            line-height 35px
+            line-height 40px
             display inline-block
-          input 
+          input,select
             margin-right 30px
             appearance none
             border 1px solid #E2DFDE
             border-radius 5px
             width 200px
-            height 35px
-            line-height 35px
+            height 40px
+            line-height 40px
             padding 0 10px
+          
         .user-content
           width 100%
           margin-top 30px
           .ztree
-            width 40%
-            height 600px
+            width 20%
+            height 450px
             float left
             border 1px solid #b3b1b2
             border-radius 5px
             h4
-             height 55px
-             line-height 55px
-             text-align center
-             color #838383
-             border-bottom 1px solid #b3b1b2
-             font-size 20px
-             font-weight 400
+              height 55px
+              line-height 55px
+              text-align center
+              color #838383
+              border-bottom 1px solid #b3b1b2
+              font-size 20px
+              font-weight 400
+              background rgba(241, 240, 240, 0.7)
           .tables
-            margin-left 42%
-            width 100%
+            margin-left 22%
+            .user-create
+              color #2061ae
+              font-size 22px
+              vertical-align -3px
             .create
               border 1px solid #b3b1b2
               border-radius 5px
@@ -654,22 +772,29 @@
               line-height 55px
               cursor pointer
               padding-left 20px
+              background rgba(241, 240, 240, 0.7)
+              .newUser
+                margin-left 10px
+                color: #2061ae
               span 
                 color #838383
                 font-size 20px
             .user-table
               margin-top 20px
+              position relative
+              width 100%
+              
 #user
   width 700px
   .tables-title
     position: relative
     padding-left: 45px
     font-size: 30px
-    line-height: 80px
+    line-height: 60px
     height 60px
     color: #a0a0a1
     .icon 
-      e-pos(top:35%, y:-50%)
+      e-pos(top:50%, y:-50%)
       right: 25px
       font-size: 30px
       color: #A0A0A1
@@ -677,24 +802,59 @@
   .resg
     padding 0 60px 0 50px
     div
-      height 50px
-      line-height 50px
+      height 40px
+      line-height 40px
       width 100%
       margin 20px 0
       .dropdown-wrap
+        position relative
         display inline-block
         width 60%
         height 50px
-        line-height 50px
+        outline none
         .dropdown-show
+          position relative
+          width 100%
           height 50px
-          line-height 50px
+          cursor pointer
+          .arrow-down
+            e-pos(top:50%, y:-50%)
+            right 10px
+            font-size 20px
+            color #A0A0A1
           input
-            height 50px
-            line-height 50px
+            width 100%
+            height 100%
+            padding-left 10px
+            padding-right 35px
+            appearance none
+            border 1px solid #E2DFDE
+            border-radius 5px
+            color #A0A0A1
+            font-size 21px
+            &:disabled
+              background-color #fff
         .dropdown-menu
+          position absolute
+          top 37px
+          width 100%
+          font-size: 21px
+          color #A0A0A1
+          line-height 40px
+          background-color #fff
+          border 1px solid #E2DFDE
+          border-radius 5px
           overflow-y scroll
+          z-index 10
           max-height 80px
+          li
+            padding-left 10px
+            border-bottom 1px solid #eaeaea
+            cursor: pointer
+            &:last-of-type
+              border-bottom medium
+            &:hover
+              background-color #F5F6F8
       label
         font-size 22px
         display inline-block
@@ -702,6 +862,8 @@
         float left
         color #a0a0a1
       .radio
+        input
+          vertical-align -1px
         label
          width 20%
       .input 

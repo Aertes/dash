@@ -37,7 +37,6 @@
 			<div id="errMsg" class="errMsg">
 	
 			</div>
-	
 		</div>
 		<span id="operate" hidden>
 			<svg-icon sign="icon-trash"></svg-icon>

@@ -1,7 +1,7 @@
 <template>
   <a href="javascript:;" class="dropdown-wrap" @blur="toggleUp">
     <div class="dropdown-show" @click="toggleDrop">
-      <input type="text" v-model="selections[nowIndex]" disabled ref="input"/>
+      <input type="text" :data-id='selectedId[nowIndex]' v-model="selections[nowIndex]" disabled ref="input"/>
       <svg-icon sign="icon-arrow-down" class="arrow-down"></svg-icon>
     </div>
     <ul class="dropdown-menu" v-show="isShow">
@@ -23,6 +23,10 @@
       selections: {
         type: Array,
         default: ['test']
+      },
+      selectedId:{
+        type: Array,
+        default: [0]
       }
     },
     methods: {
@@ -48,6 +52,10 @@
 
         this.$emit('selectShowFour', this.selections[this.nowIndex])
 
+        this.$emit('selectUser', {val:this.selections[this.nowIndex],id:this.selectedId[this.nowIndex]})
+
+        this.$emit('selectRole', {val:this.selections[this.nowIndex],id:this.selectedId[this.nowIndex]})
+
         //this.$store.commit('yearVoluation',this.selections[this.nowIndex])
         //this.$Hub.$emit('monthChange',this.selections[this.nowIndex])
       }
@@ -57,17 +65,16 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../assets/style/mixin'
-
   .dropdown-wrap
     position relative
     display block
     width 180px
-    height 35px
+    height 40px
     outline none
     .dropdown-show
       position relative
       width 100%
-      height 35px
+      height 40px
       cursor pointer
       .arrow-down
         e-pos(top:50%, y:-50%)
@@ -96,8 +103,9 @@
       background-color #fff
       border 1px solid #E2DFDE
       border-radius 5px
-      overflow hidden
+      overflow-y auto
       z-index 10
+      max-height 100px
       li
         padding-left 10px
         border-bottom 1px solid #eaeaea

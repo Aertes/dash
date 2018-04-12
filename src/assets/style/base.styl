@@ -47,6 +47,7 @@ select:-webkit-autofill
   -webkit-box-shadow 0 0 0px 1000px #ffffff inset !important
   -ms-box-shadow 0 0 0px 1000px #ffffff inset !important
 
+
 #fileTable_wrapper table.dataTable tbody th, 
 #fileTable_wrapper table.dataTable tbody td
 	border-bottom 1px solid #ebebeb !important
@@ -84,6 +85,10 @@ select:-webkit-autofill
 #fileTable_wrapper .dataTables_empty
 		text-align center
 
+.tab-card
+  .dataTables_wrapper
+    position absolute
+    width 100%
 .layui-layer-msg
   .layui-layer-content
     color #fff !important
@@ -152,3 +157,25 @@ table.dataTable tbody tr.odd
     border-radius: 20px;
     background: rgba(244,245,247, 1);
 }
+
+.layui-layer-shade
+    background-color: rgb(255, 255, 255) !important
+    opacity: 0.5 !important
+
+.tab-card 
+  .dataTables_wrapper
+    table
+      border-collapse: collapse
+      thead
+        background: rgba(186,215,237,.42)
+        th
+          border: 1px solid #eaeaea
+          height 30px
+          font-size: 18px
+      tbody
+        td
+          border: 1px solid #eaeaea
+          font-size: 18px
+  .dataTables_paginate
+    .paginate_button
+      font-size: 18px

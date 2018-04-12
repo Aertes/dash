@@ -102,8 +102,10 @@
           'CAMPAIGN TRAFFIC',
           'CAMPAIGN KPI',
           'INDIVIDAL CAMPAIGN PERFORMANCE DASHBOARD',
-          'COM.CN',
-          'CRM',
+          'COM.CN MONTH TRAFFIC',
+          'COM.CN YTD TRAFFIC',
+          'CRM MONTH TRAFFIC',
+          'CRM YTD TRAFFIC',
           'RATING & REVIEW YTD',
           'RATING & REVIEW MONTH',
           'EC REPORT',
@@ -154,13 +156,26 @@
             "isTable": false,
             "month": ""
           },
-          {
+          {//com.cn.month
             "isB2C": true,
+            "isYTD": false,
             "isTable": false,
             "month": ""
           },
-          {
+          {//com.cn.YTD
+            "isB2C": true,
+            "isYTD": true,
             "isTable": false,
+            "month": ""
+          },
+          {//crm.month
+            "isTable": false,
+            "isYTD": false,
+            "month": ""
+          },
+          {//crm.YTD
+            "isTable": false,
+            "isYTD": true,
             "month": ""
           },
           {
@@ -214,6 +229,9 @@
       comMarketType() {
         return this.$store.state.comMarketType
       },
+      comMarketTypeTwo() {
+        return this.$store.state.comMarketTypeTwo
+      },
       rrOneChannel() {
         return this.$store.state.rrOneChannel
       },
@@ -242,6 +260,9 @@
       },
       comMarketTypeId() {
         return this.$store.state.comMarketTypeId
+      },
+      comMarketTypeTwoId() {
+        return this.$store.state.comMarketTypeTwoId
       },
       rrOneChannelId() {
         return this.$store.state.rrOneChannelId
@@ -278,12 +299,6 @@
       }
 
       this.locationHash ? this.getUrl() : this.dataSearch()
-
-      /*if (window.location.hash.indexOf("?") != -1) {
-        this.getUrl();
-      } else {
-        this.dataSearch()
-      }*/
 
     },
     updated() {
@@ -331,7 +346,7 @@
         let delta = Math.max(-1, Math.min(1, value));
         if (this.canScroll) {
           if (delta < 0) {//down
-            if (this.type != 12) {
+            if (this.type != 14) {
               this.increment()
               this.wheelDown()
             }
@@ -402,14 +417,23 @@
           }
           dataComSearch(this, this.data[num])
         } else if (num == 9) {
-          dataCrmSearch(this, this.data[num])
+          if (this.comMarketTypeTwo == 'B2C') {
+            this.data[num].isB2C = true
+          } else if (this.comMarketTypeTwo == 'B2B') {
+            this.data[num].isB2C = false
+          }
+          dataComSearch(this, this.data[num])
         } else if (num == 10) {
+          dataCrmSearch(this, this.data[num])
+        } else if (num == 11) {
+          dataCrmSearch(this, this.data[num])
+        } else if (num == 12) {
           this.data[num].channel = this.rrOneChannel
           dataRevRatSearch(this, this.data[num])
-        } else if (num == 11) {
+        } else if (num == 13) {
           this.data[num].channel = this.rrChannel
           dataRevRatSearch(this, this.data[num])
-        } else if (num == 12) {
+        } else if (num == 14) {
           this.data[num].category = this.ecCategory
           if (this.ecCategory != null || this.ecCategory != undefined) {
             dataEcSearch(this, this.data[num])
@@ -546,7 +570,15 @@
 
           }
 
-        } else if (this.type == 10) {
+        } else if (this.type == 9) {
+
+          if (this.comMarketTypeTwo != null || this.comMarketTypeTwo != undefined) {
+
+            urlParameter = `&markettype=${this.comMarketTypeTwo}&markettypeid=${this.comMarketTypeTwoId}`
+
+          }
+
+        } else if (this.type == 12) {
 
           if (this.rrOneChannel != null || this.rrOneChannel != undefined) {
 
@@ -554,7 +586,7 @@
 
           }
 
-        } else if (this.type == 11) {
+        } else if (this.type == 13) {
 
           if (this.rrChannel != null || this.rrChannel != undefined) {
 
@@ -562,7 +594,7 @@
 
           }
 
-        } else if (this.type == 12) {
+        } else if (this.type == 14) {
 
           if (this.ecCategory != null || this.ecCategory != undefined) {
 
@@ -618,7 +650,7 @@
 
         this.$store.commit('monthVoluation', Number(obj.yearMonth.substr(4)))
 
-        if (this.type < 5 || this.type == 8) {
+        if (this.type < 5 || this.type == 10 || this.type == 11) {
 
           this.dataSearch()
 
@@ -636,7 +668,7 @@
             this.dataSearch()
           }
 
-        }else if (this.type == 6) {
+        } else if (this.type == 6) {
 
           if (obj.category != undefined || obj.categoryid != undefined) {
 
@@ -715,7 +747,22 @@
           }
 
 
-        } else if (this.type == 10) {
+        } else if (this.type == 9) {
+
+          if (obj.markettype != undefined || obj.markettypeid != undefined) {
+
+            this.$store.commit('comMarketTypeTwoVoluation', obj.markettype)
+
+            this.$store.commit('comMarketTypeTwoIdVoluation', Number(obj.markettypeid))
+
+            this.dataSearch()
+
+          } else {
+            this.dataSearch()
+          }
+
+
+        } else if (this.type == 12) {
 
           if (obj.channel != undefined || obj.channelid != undefined) {
 
@@ -730,7 +777,7 @@
           }
 
 
-        } else if (this.type == 11) {
+        } else if (this.type == 13) {
 
           if (obj.channel != undefined || obj.channelid != undefined) {
 
@@ -744,7 +791,7 @@
             this.dataSearch()
           }
 
-        } else if (this.type == 12) {
+        } else if (this.type == 14) {
 
           if (obj.category != undefined || obj.categoryid != undefined) {
 
@@ -802,6 +849,9 @@
         if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       comMarketType: function () {
+        if (!this.locationHash) this.dataSearch() //this.dataSearch()
+      },
+      comMarketTypeTwo: function () {
         if (!this.locationHash) this.dataSearch() //this.dataSearch()
       },
       rrOneChannel: function () {

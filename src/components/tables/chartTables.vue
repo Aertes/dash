@@ -486,6 +486,7 @@
             })
             break;
           case 8:
+          case 9:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -617,7 +618,8 @@
               ]
             })
             break;
-          case 9:
+          case 10:
+          case 11:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -714,7 +716,7 @@
               ]
             })
             break;
-          case 10:
+          case 12:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -814,7 +816,7 @@
               ]
             })
             break;
-          case 11:
+          case 13:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -914,7 +916,7 @@
               ]
             })
             break;
-          case 12:
+          case 14:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1041,10 +1043,10 @@
                             return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "Rating":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "UGCR":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           default:
                             return '<div>'+ formatThousands(data) +'</div>'
@@ -1069,10 +1071,10 @@
                             return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "Rating":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "UGCR":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           default:
                             return '<div>'+ formatThousands(data) +'</div>'
@@ -1113,10 +1115,10 @@
                             return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "Rating":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "UGCR":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           default:
                             return '<div>'+ formatThousands(data) +'</div>'
@@ -1141,10 +1143,10 @@
                             return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "Rating":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           case "UGCR":
-                            return '<div>'+ (data).toFixed(2) + '%</div>'
+                            return '<div>'+ (data*100).toFixed(2) + '%</div>'
                             break;
                           default:
                             return '<div>'+ formatThousands(data) +'</div>'
@@ -1249,7 +1251,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 8){
+        }else if(this.type == 8 || this.type == 9){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'Traffic'
@@ -1270,7 +1272,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 9){
+        }else if(this.type == 10 || this.type == 11){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'CRM Registrations'

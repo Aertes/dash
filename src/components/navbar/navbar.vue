@@ -18,7 +18,7 @@
             <a @click="showEditPass">
               <svg-icon sign="icon-user"></svg-icon>
               <span>PROFILE</span></a>
-            <a >
+            <a @click="settingShow">
               <svg-icon sign="icon-setting"></svg-icon>
               <span>SYSTEM SETTINGS</span></a>
             <a @click="outLogin">
@@ -78,7 +78,7 @@
         USERINFO: null,
         isOldActive:false,
         isNewActive:false,
-        isSureActive:false,
+        isSureActive:false, 
         name: '',
         errMsg:'',
         data:{
@@ -181,6 +181,9 @@
               console.log(err);
             });
         }
+      },
+      settingShow(){
+        this.$Hub.$emit('settingShow')
       }
     },
     mounted() {
@@ -278,7 +281,7 @@
     height 60px
     color: #a0a0a1
     .icon 
-      e-pos(top:35%, y:-50%)
+      e-pos(top:50%, y:-50%)
       right: 25px
       font-size: 30px
       color: #A0A0A1

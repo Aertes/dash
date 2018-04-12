@@ -6,10 +6,7 @@
     <nav-bar ></nav-bar>
     <div class="clear">
       <side-bar></side-bar>
-      <keep-alive>
-          <app-main v-if="isSetting" @showUpload="uploadHandle"></app-main>
-          <system-settings v-if="!isSetting"></system-settings>
-      </keep-alive>
+      <app-main  @showUpload="uploadHandle"></app-main>
     </div>
   </div>
 </template>
@@ -20,7 +17,7 @@
   import AppMain from '../appmain/appmain'
   import Tables from '../tables/tables'
   import Upload from '@/components/upload/upload'
-  import SystemSettings from '@/components/setting/setting'
+  
   
   let layerId
   export default ({
@@ -30,7 +27,6 @@
         uploadType: '',
         name: '',
         tableData: '',
-        isSetting: true
       }
     },
     components: {
@@ -39,7 +35,7 @@
       AppMain,
       Tables,
       Upload,
-      SystemSettings,
+      
     },
     computed: {
       type() {

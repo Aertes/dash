@@ -260,8 +260,10 @@
           'CAMPAIGN TRAFFIC',
           'CAMPAIGN KPI',
           'INDIVIDAL CAMPAIGN PERFORMANCE DASHBOARD',
-          'COM.CN',
-          'CRM',
+          'COM.CN MONTH TRAFFIC',
+          'COM.CN YTD TRAFFIC',
+          'CRM MONTH TRAFFIC',
+          'CRM YTD TRAFFIC',
           'RATING & REVIEW YTD',
           'RATING & REVIEW MONTH',
           'EC REPORT',
@@ -310,13 +312,26 @@
             "isTable": true,
             "month": ""
           },
-          {
+          {//com.cn.month
             "isB2C": true,
-            "isTable": true,
+            "isYTD": false,
+            "isTable": false,
             "month": ""
           },
-          {
+          {//com.cn.YTD
+            "isB2C": true,
+            "isYTD": true,
+            "isTable": false,
+            "month": ""
+          },
+          {//crm.month
             "isTable": true,
+            "isYTD": false,
+            "month": ""
+          },
+          {//crm.YTD
+            "isTable": true,
+            "isYTD": true,
             "month": ""
           },
           {
@@ -337,6 +352,7 @@
         ],
         selectOneVal: '',
         selectTwoVal: '',
+        locationHash: false,
         Time: '2018/01'
       }
     },
@@ -372,6 +388,9 @@
       comMarketType() {
         return this.$store.state.comMarketType
       },
+      comMarketTypeTwo() {
+        return this.$store.state.comMarketTypeTwo
+      },
       rrOneChannel() {
         return this.$store.state.rrOneChannel
       },
@@ -401,6 +420,9 @@
       comMarketTypeId() {
         return this.$store.state.comMarketTypeId
       },
+      comMarketTypeTwoId() {
+        return this.$store.state.comMarketTypeTwoId
+      },
       rrOneChannelId() {
         return this.$store.state.rrOneChannelId
       },
@@ -421,9 +443,17 @@
 
       //this.monthChange()
 
-      this.getSelectData()
+      if (window.location.hash.indexOf("?") != -1) {
+        this.locationHash = true
+      } else {
+        this.locationHash = false
+      }
 
+      if(!this.locationHash) this.getSelectData()
 
+    },
+    updated() {
+      this.locationHash = false
     },
     methods: {
       closeLayerButton() {
@@ -680,6 +710,7 @@
             })
             break;
           case 8:
+          case 9:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -812,7 +843,8 @@
               ]
             })
             break;
-          case 9:
+          case 10:
+          case 11:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -909,7 +941,7 @@
               ]
             })
             break;
-          case 10:
+          case 12:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1009,7 +1041,7 @@
               ]
             })
             break;
-          case 11:
+          case 13:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1109,7 +1141,7 @@
               ]
             })
             break;
-          case 12:
+          case 14:
             this.isShow1 = false
             this.isShow5 = false
             this.isShow6 = false
@@ -1237,7 +1269,7 @@
                         return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       default:
                         return '<div>' + formatThousands(data) + '</div>'
@@ -1262,7 +1294,7 @@
                         return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data*100).toFixed(2) + '%</div>'
                         break;
                       default:
                         return '<div>' + formatThousands(data) + '</div>'
@@ -1303,7 +1335,7 @@
                         return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data*100).toFixed(2) + '%</div>'
                         break;
                       default:
                         return '<div>' + formatThousands(data) + '</div>'
@@ -1328,7 +1360,7 @@
                         return '<div>' + (data * 100).toFixed(2) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data).toFixed(2) + '%</div>'
+                        return '<div>' + (data*100).toFixed(2) + '%</div>'
                         break;
                       default:
                         return '<div>' + formatThousands(data) + '</div>'
@@ -1481,7 +1513,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 8){
+        }else if(this.type == 8 || this.type == 9){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'Traffic'
@@ -1502,7 +1534,7 @@
             }
           })
           this.tableData = tData
-        }else if(this.type == 9){
+        }else if(this.type == 10 || this.type == 11){
           tData.forEach((val, index) => {
             if (index == 0) {
               val.item = 'CRM Registrations'
@@ -1852,22 +1884,31 @@
 
           this.selectOptionsThree = ['B2C', 'B2B']
 
-          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.markettype
-            this.selectOptionsThree = []
-            data.forEach((val) => {
-              this.selectOptionsThree.push(val)
-            })
-          })*/
+          //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
-          /*this.$nextTick(() => {
-            this.selectOptionsThree = ['B2C', 'B2B']
-            this.$refs.selectionThreeBox.nowIndex = 0
-          })*/
+        }  else if (this.type === 9) {
+
+          this.selectionThree = true
+
+          this.selectionFour = false
+
+          this.selectionFive = false
+
+          if (val == undefined) {
+            val = this.comMarketTypeTwo
+          }
+
+          this.$store.commit('comMarketTypeTwoVoluation', val)
+
+          this.$store.commit('comMarketTypeTwoIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+
+          this.getCampaignDate(getYear)
+
+          this.selectOptionsThree = ['B2C', 'B2B']
 
           //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
-        } else if (this.type === 9) {
+        } else if (this.type === 10) {
 
           this.selectionFive = false
 
@@ -1877,7 +1918,17 @@
 
           this.getCampaignDate(getYear)
 
-        } else if (this.type === 10) {
+        }  else if (this.type === 11) {
+
+          this.selectionFive = false
+
+          this.selectionThree = false
+
+          this.selectionFour = false
+
+          this.getCampaignDate(getYear)
+
+        }else if (this.type === 12) {
 
           this.selectionThree = true
 
@@ -1897,22 +1948,9 @@
 
           this.selectOptionsThree = ['All', 'JD', 'Tmall']
 
-          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.channel
-            this.selectOptionsThree = ['All']
-            data.forEach((val) => {
-              this.selectOptionsThree.push(val)
-            })
-          })*/
-
-          /*this.$nextTick(() => {
-            this.selectOptionsThree = ['All', 'JD', 'Tmall']
-            this.$refs.selectionThreeBox.nowIndex = 0
-          })*/
-
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
-        } else if (this.type === 11) {
+        } else if (this.type === 13) {
 
           this.selectionThree = true
 
@@ -1932,22 +1970,9 @@
 
           this.selectOptionsThree = ['All', 'JD', 'Tmall']
 
-          /*get('http://rap2api.taobao.org/app/mock/9789/GET//example/1523272844171').then(res => {
-            let data = res.data.channel
-            this.selectOptionsThree = ['All']
-            data.forEach((val) => {
-              this.selectOptionsThree.push(val)
-            })
-          })*/
-
-          /*this.$nextTick(() => {
-            this.selectOptionsThree = ['All', 'JD', 'Tmall']
-            this.$refs.selectionThreeBox.nowIndex = 0
-          })*/
-
           //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
-        } else if (this.type === 12) {
+        } else if (this.type === 14) {
 
           this.selectionThree = true
 
@@ -2008,31 +2033,25 @@
 
           this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
 
-        } else if (this.type == 10) {
+        }  else if (this.type == 9) {
+
+          this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeTwoId
+
+        } else if (this.type == 12) {
 
           this.$refs.selectionThreeBox.nowIndex = this.rrOneChannelId
 
-        } else if (this.type == 11) {
+        } else if (this.type == 13) {
 
           this.$refs.selectionThreeBox.nowIndex = this.rrChannelId
 
-        } else if (this.type == 12) {
+        } else if (this.type == 14) {
 
           this.$refs.selectionThreeBox.nowIndex = this.ecCategoryId
 
         }
 
-        this.getSelectData()
-
-
-        /*this.getSelectData(null)
-
-        this.selectOptionsThree = []
-
-        this.$nextTick(()=>{
-          this.$refs.selectionThreeBox.nowIndex = 0
-        })*/
-
+        if(!this.locationHash) this.getSelectData()
 
         if (val < 5) {
           this.name = `${this.titleList[val]}`
@@ -2118,6 +2137,10 @@
       comMarketTypeId: function () {
         //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
         this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeId
+      },
+      comMarketTypeTwoId: function () {
+        //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionThreeBox.nowIndex)
+        this.$refs.selectionThreeBox.nowIndex = this.comMarketTypeTwoId
       },
       rrOneChannelId: function () {
         //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
