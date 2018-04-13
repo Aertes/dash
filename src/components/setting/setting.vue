@@ -14,11 +14,11 @@
             <form action="" class="clearfix">
               <div class="search">
                 <label for="">User Name</label>
-                <input type="text" v-model="searchData.name">
+                <input type="text" v-model="searchData.name" placeholder="User Name">
               </div>
               <div class="search">
                 <label for="">Login Account</label>
-                <input type="text" v-model="searchData.username">
+                <input type="text" v-model="searchData.username" placeholder="Login Account">
               </div>
               <div class="search">
                 <label for="">Status</label>
@@ -67,12 +67,16 @@
               <span id="viewuser" hidden>
                 <svg-icon sign="icon-chakan01"></svg-icon>
               </span>
+              <span id="userDisable" hidden>
+                <svg-icon sign="icon-jinyong"></svg-icon>
+              </span>
             </div>
           </div>
         </div>
         <div class="tab-card">
           <keep-alive>
-            <role></role>
+            <role-edit v-if="roleEdit" @closeRoleEdit="switchRoleEdit" :toRoleEditId="toRoleEditId" :viewRole="viewRole" :isSave="isSave"></role-edit>
+            <role v-else @openRoleEdit="switchRoleEdit" @toRoleEdit="toRoleEdit" @roleView="roleView"></role>
           </keep-alive>
         </div>
         <div class="tab-card">3</div>
@@ -128,7 +132,7 @@
               <option v-for="option in selectRoleOptions" :value="option.id">{{option.name}}</option>
             </select> -->
             <selection ref='role' v-if="isViewUser" :selections="selectRoleOptions" :selectedId="selectRoleOptionsId"
-                       @selectRole="selectRoleHandle" class="user-select"></selection>
+                       @selectRole="selectRoleHandle" class="user-select" :perm="isDisable"></selection>
           </div>
           <div>
             <label>Status</label>
@@ -176,7 +180,7 @@
   import Role from '../../components/role/role'
   import RoleEdit from '../../components/role/edit'
 
-  let layerId
+  let layerId,newCount = 1;
   export default {
     name: "setting",
     data() {
@@ -187,6 +191,7 @@
         table: null,
         isViewUser: false,
         isCreate: true,
+        isDisable: false,
         userinfo: {
           name: '',
           username: '',
@@ -240,21 +245,17 @@
           isSurePwdActive: false,
           isLogAccActive: false,
         },
-        ztreeNodeData:[
-          
-        ],
+        ztreeNodeData:[],
         nodeSetting:{
           view:{
-            showIcon: true, 
-            // addHoverDom:this.addHoverDom,
-            // removeHoverDom: this.removeHoverDom
+            showIcon: true,
+            addHoverDom:this.addHoverDom,
+            removeHoverDom: this.removeHoverDom
           },
           data: {
             simpleData: {
-              enable:true,
-              idKey: "id",
-              pIdKey: "pId",
-              rootPId: ""
+              enable: true,
+              pIdKey: "parentId"
             }
           },
           edit: {
@@ -266,6 +267,10 @@
             beforeRemove: this.beforeRemove
           }
         },
+        roleEdit:false,
+        toRoleEditId:'',
+        viewRole:false,
+        isSave:true
       }
     },
     mounted() {
@@ -274,6 +279,8 @@
       this.removeUser();
       this.viewUser();
       this.editUser();
+      this.userEnable();
+      this.userDisable();
       this.$nextTick(()=>{
         this._initZtree()
       })
@@ -369,10 +376,27 @@
             {
               data: null,
               render: function (data, type, row) {
+                let operColor = ''
+                let operClassName = ''
+                let operTitle = ''
+                let html = ''
+                if (row.status != 1) {
+                  operColor = '#D7D7D7'
+                  operClassName = 'userEnable'
+                  operTitle = 'Enable'
+                } else {
+                  operColor = '#74A5D4'
+                  operClassName = 'userDisable'
+                  operTitle = 'Disable'
+                }
+                if(row.id != 1){
+                  html += '<a title="DELETE" style="color:red; font-size:18px; cursor: pointer;;margin-left: 10px" class="removeUser" data-id="' + row.id + '">' + $("#deluser").html() + '</a>'
+                  html += '<a title="'+ operTitle +'" style="color:'+ operColor +'; font-size:18px; cursor: pointer;;margin-left: 10px" class="'+ operClassName +'" data-id="' + row.id + '">' + $("#userDisable").html() + '</a>'
+                }
                 return '<div style="text-align: center;">' +
                   '<a title="VIEW" style="color:#2061ae; font-size:18px; cursor: pointer" class="viewUser" data-id="' + row.id + '">' + $("#viewuser").html() + '</a>' +
-                  '<a title="EDIT" style="color:green; font-size:18px; cursor: pointer;margin-left: 10px" class="editUser" data-id="' + row.id + '">' + $("#edituser").html() + '</a>' +
-                  '<a title="DELETE" style="color:red; font-size:18px; cursor: pointer;;margin-left: 10px" class="removeUser" data-id="' + row.id + '">' + $("#deluser").html() + '</a>' +
+                  '<a title="EDIT" style="color:green; font-size:18px; cursor: pointer;margin-left: 10px" class="editUser" data-id="' + row.id + '">' + $("#edituser").html() + '</a>'
+                  + html +
                   '</div>';
               }
             }
@@ -385,13 +409,14 @@
         get(xhrUrls.USER_ORG_ZTREE).then(res=>{
           let nodeData = res.data.data
           nodeData.forEach((v, i)=>{
-            this.ztreeNodeData.push({name:v.name, id:v.id})
+            this.ztreeNodeData.push({name:v.name, id:v.id, parentId:v.parentId})
           })
-          $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData);
+          $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
         }).catch(err=>console.log(err))
       },
       //修改名称
       onRename(event, treeId, treeNode, isCancel){
+        event.stopImmediatePropagation();
         post(xhrUrls.ORG_UPDATE, {name:treeNode.name, id:treeNode.id}).then(res=>{
           if(res.data.code == 200){
             layer.msg('Modify the success !', {
@@ -414,6 +439,7 @@
       //删除org
       beforeRemove(event, treeId, treeNode, isCancel){
         let id = treeId.id;
+        let isDeled = false;
         layer.confirm('Do you delete this organization?', {
             title: 'Prompt information',
             btn: ['Confirm', 'Cancel'],
@@ -421,6 +447,7 @@
             layer.close(index);
             get(xhrUrls.ORG_DEL + '/' + id).then((res) => {
               if (res.data.code == 200) {
+                isDeled = true
                 layer.msg('Delete the success !', {
                   time: 2000,
                   skin: 'fontColor'
@@ -428,6 +455,7 @@
                   layer.close(index);
                 })
               } else {
+                isDeled = false
                 layer.msg('Delete failed !', {
                   time: 2000,
                   skin: 'fontColor'
@@ -436,30 +464,63 @@
                 })
               }
             }, function (index) {
+              isDeled = false
               layer.close(index);
             })
+          }, function (index) {
+            layer.close(index);
+            isDeled = false
           })
+        return isDeled
       },
 
-      //增加节点
+      // 增加节点
       addHoverDom(treeId, treeNode){
-        var aObj = $("#" + treeNode.tId + "_a");
-        if ($("#diyBtn_"+treeNode.id).length>0) return;
-        var editStr = "<span id='diyBtn_space_" +treeNode.id+ "' > </span>"
-          + "<button type='button' class='diyBtn1' id='diyBtn_" + treeNode.id
-          + "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
-        aObj.append(editStr);
-        var btn = $("#diyBtn_"+treeNode.id);
-        if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+        if(treeNode.level == 0){
+          var sObj = $("#" + treeNode.tId + "_span");
+          $('.remove').hide();
+          if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+          var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+            + "' title='add node' onfocus='this.blur();'></span>";
+            sObj.after(addStr);
+            var btn = $("#addBtn_"+treeNode.tId);
+          if (btn) btn.bind("click", function(){
+            var zTree = $.fn.zTree.getZTreeObj("userZtree");
+            post(xhrUrls.ORG_SAVE, {name:"New Org" + newCount , parentId: treeNode.id}).then(res=>{
+              if(res.data.code == 200){
+                layer.msg('Add organization success !', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  layer.close(index);
+                })
+                zTree.addNodes(treeNode, {id:(100 + newCount), pId:1, name:"New Org" + (newCount++)});
+              }else{
+                layer.msg('Add organization failure !', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  layer.close(index);
+                })
+              }
+            }).catch(err=>console.log(err))
+            return false;
+          });
+        }
       },
       removeHoverDom(treeId, treeNode) {
-        $("#diyBtn_"+treeNode.id).unbind().remove();
-        $("#diyBtn_space_" +treeNode.id).unbind().remove();
+        $("#addBtn_"+treeNode.tId).unbind().remove();
       },
 
       //ztreeClick
-      getOrgId(treeId, treeNode){
-        alert(treeId)
+      getOrgId(event, treeId, treeNode){
+        this.data.orgid = treeNode.id;
+        if(treeNode.id == 1){
+          this.searchData.orgid = ''
+        }else{
+          this.searchData.orgid = treeNode.id
+        }
+        this.userTable()
       },
       //searchList
       searchUser(){
@@ -502,6 +563,65 @@
         });
       },
 
+      userEnable(){
+        let that = this
+        $(document).on('click', '.userEnable', function () {
+          let id = $(this).data('id')
+          layer.confirm('Do you enable this User?', {
+            title: 'Prompt information',
+            btn: ['Confirm', 'Cancel'],
+          }, function () {
+            get(xhrUrls.USER_ENABLE +'/'+ id).then(res => {
+              let code = res.data.code
+              if (code == 200) {
+                layer.msg('Successfully Enable!', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  this.roleName = ''
+                  layer.close(index);
+                  that.userTable()
+                })
+              } else {
+                layer.confirm(res.data.errMsg, {
+                  title: 'Prompt information',
+                  btn: ['Cancel'],
+                })
+              }
+            })
+          })
+        })
+      },
+
+      userDisable() {
+        let that = this
+        $(document).on('click', '.userDisable', function () {
+          let id = $(this).data('id')
+          layer.confirm('Do you disable this User?', {
+            title: 'Prompt information',
+            btn: ['Confirm', 'Cancel'],
+          }, function () {
+            get(xhrUrls.USER_DISABLE +'/'+id).then(res => {
+              let code = res.data.code
+              if (code == 200) {
+                layer.msg('Successfully Enable!', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  this.roleName = ''
+                  layer.close(index);
+                  that.userTable()
+                })
+              } else {
+                layer.confirm(res.data.errMsg, {
+                  title: 'Prompt information',
+                  btn: ['Cancel'],
+                })
+              }
+            })
+          })
+        })
+      },
       //编辑用户
       editUser() {
         let that = this;
@@ -509,6 +629,9 @@
           event.stopImmediatePropagation();
           event.preventDefault();
           var id = $(this).attr("data-id");
+          if(id == 1){
+            that.isDisable = true
+          }
           that.isViewUser = true
           that.isEdit = false
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
@@ -531,7 +654,6 @@
         })
       },
 
-      
 
       //查看用户
       viewUser() {
@@ -720,8 +842,23 @@
               .catch(err => console.log(err));
           }
         }
+      },
+      switchRoleEdit(){
+        this.roleEdit = !this.roleEdit
+        this.viewRole = false
+        this.toRoleEditId = ''
+      },
+      toRoleEdit(val){
+        this.roleEdit = !this.roleEdit
+        this.viewRole = false
+        this.isSave = false
+        this.toRoleEditId = val.id
+      },
+      roleView(val){
+        this.roleEdit = !this.roleEdit
+        this.viewRole = true
+        this.toRoleEditId = val.id
       }
-
     },
     components: {
       UploadFile,
@@ -863,7 +1000,7 @@
               line-height 40px
               padding 0 10px
           .searchIcon
-            color #2061ae
+            color #717071
             font-size 30px
             margin-left 20px
             height 40px
@@ -879,6 +1016,9 @@
               border 1px solid #b3b1b2
               border-radius 5px
               padding 0
+              .ztreeDome
+                max-height 380px
+                overflow auto
               h4
                 height 55px
                 line-height 55px
@@ -919,8 +1059,8 @@
       position: relative
       padding-left: 45px
       font-size: 30px
-      line-height: 60px
-      height 60px
+      line-height: 80px
+      height 80px
       color: #a0a0a1
       .icon
         e-pos(top:50%, y:-50%)
@@ -1004,6 +1144,7 @@
       .cancel
         margin-left 10px
         background-color #ccc
+  
 
 </style>
 

@@ -31,31 +31,31 @@
 
     <div class="tables-wrap" id="editPassword" v-show="isShow">
       <div class="tables-title">
-			  <span class="title">EDIT USERINFO</span>
+			  <span class="title">PROFILE</span>
         <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
       </div>
 			<form action="" autocomplete="off">
           <div class="resg">
               <div>
-									<label>USERNAME</label>
+									<label>User Name</label>
 									<label for="">{{data.username}}</label>
 							</div>
 							<div>
-									<label>OLD PASSWORD</label>
+									<label>Old Password</label>
 									<input type="password" name="oldPassword" @change="onInput" :class="[isOldActive? 'active' : '']" v-model="data.password">
 							</div>
 							<div>
-									<label>NEW PASSWORD</label>
+									<label>New Password</label>
 									<input type="password" name="newPassword" @change="onInput" :class="[isNewActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.newPassword">
 							</div>
 							<div>
-									<label>SURE PASSWORD</label>
+									<label>Sure Password</label>
 									<input type="password" name="surePassword" @change="onInput" :class="[isSureActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.surePassword">
 							</div>
           </div>
           <div class="submit-btn">
-            <button type="button" class="confirm" @click="submit">confirm</button>
-					  <button type="button" class="cancel" @click="closeLayerButton">cancel</button>
+            <button type="button" class="confirm" @click="submit">Confirm</button>
+					  <button type="button" class="cancel" @click="closeLayerButton">Cancel</button>
           </div>
 			</form>
   	</div>
@@ -124,6 +124,9 @@
         this.data.password = ''
         this.data.newPassword = ''
         this.data.surePassword = ''
+        this.isOldActive=false
+        this.isNewActive=false
+        this.isSureActive=false
 			},
       onInput() {
         if (this.data.password != '') {
@@ -169,11 +172,12 @@
                   layer.close(layerId)
 								})
               } else {
+                that.isOldActive=true
                 layer.msg('Password modification failed !', {
 									time: 2000,
 									skin: 'fontColor'
 								}, function(index) {
-									layer.close(index);
+                  layer.close(index);
 								})
               }
             })
@@ -239,7 +243,7 @@
         .user-operation
           position absolute
           right -24px
-          top 100px
+          top 90px
           line-height 60px
           background-color #F5F6F8
           border-radius 10px

@@ -44,6 +44,13 @@ export default {
 
   //role
   ROLE_SEARCH: BASE_URL + 'sys/role/search',
+  ROLE_DELETE: BASE_URL + 'sys/role/delete/',
+  ROLE_DISABLE: BASE_URL + 'sys/role/disable/',
+  ROLE_ENABLE: BASE_URL + 'sys/role/enable/',
+  ROLE_TREE: BASE_URL + 'sys/role/getPermissionTree',
+  ROLE_GETROLE: BASE_URL + 'sys/role/role/',
+  ROLE_SAVE: BASE_URL + 'sys/role/save',
+  ROLE_UPDATE: BASE_URL + 'sys/role/update',
 
 
   //user
@@ -53,13 +60,15 @@ export default {
   USER_VIEW: BASE_URL + 'sys/user/user',
   USER_EDIT: BASE_URL + 'sys/user/update',
   USER_ORG_ZTREE: BASE_URL + 'sys/user/getUserOrgTree',
-  
-  
+  USER_ENABLE: BASE_URL + 'sys/user/enable',
+  USER_DISABLE: BASE_URL + 'sys/user/disable',
+
+
   //org
   ORG_SEARCH: BASE_URL + 'sys/org/search',
   ORG_UPDATE: BASE_URL + 'sys/org/update',
   ORG_DEL: BASE_URL + 'sys/org/delete',
   ORG_SAVE: BASE_URL + 'sys/org/save',
 
-  
+
 }

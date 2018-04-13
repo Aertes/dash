@@ -37,9 +37,12 @@ import './assets/layer/theme/default/layer.css'
 import './assets/layer/layer'
 
 //ztree
+import './assets/ztree/js/jquery.ztree.all'
+import './assets/ztree/css/zTreeStyle/zTreeStyle.css'
 
-import 'ztree'
-import 'ztree/css/zTreeStyle/zTreeStyle.css'
+//vue-tree
+/*import 'vue-tree-halower/dist/halower-tree.min.css' // 你可以自定义树的样式
+import VTree from 'vue-tree-halower'*/
 
 //图表
 import Echarts from 'echarts'
@@ -61,6 +64,8 @@ let Hub = new Vue();
 Vue.prototype.$Hub = Hub
 
 Vue.use(Vuex)
+
+/*Vue.use(VTree)*/
 
 const store = new Vuex.Store({
   state: {

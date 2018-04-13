@@ -27,10 +27,15 @@
       selectedId:{
         type: Array,
         default: () => ['0']
+      },
+      perm:{
+        type:Boolean,
+        default: ()=> false
       }
     },
     methods: {
       toggleDrop() {
+        if(this.perm) return
         this.isShow = !this.isShow
       },
       toggleUp(e) {

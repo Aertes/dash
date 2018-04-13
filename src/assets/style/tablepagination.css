@@ -4,46 +4,46 @@
   padding-top: 0 !important;
   overflow: hidden;
   margin-top: 20px;
-
 }
+
 #charContainer .dataTables_paginate {
   position: absolute;
   bottom: 10px;
   right: 0;
 }
-.dataTables_wrapper.no-footer .dataTables_scrollBody{
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
   border-bottom: 0;
   padding-bottom: 5px
 }
+
 th,
 td {
   white-space: nowrap;
 }
+
 .dataTables_scrollHead .dataTables_scrollHeadInner table,
-.dataTables_scrollHead .dataTables_scrollHeadInner{
+.dataTables_scrollHead .dataTables_scrollHeadInner {
   width: 100% !important;
 }
-
-
-
 
 table.dataTable.display tbody tr:first-child td.dataTables_empty {
   text-align: center;
   height: 100px;
+  line-height: 100px;
   font-weight: normal;
   font-size: 22px;
   color: lightgray;
 }
 
 table.dataTable thead th,
-table.dataTable thead td{
+table.dataTable thead td {
   padding: 10px 40px
 }
 
-#tableBox6_wrapper table.dataTable thead th{
+#tableBox6_wrapper table.dataTable thead th {
   padding: 10px 80px
 }
-
 
 .dataTables_paginate span a,
 .dataTables_paginate a.next,
@@ -217,7 +217,6 @@ table.dataTable#tableBox1_1 thead tr th:first-of-type {
   width: 20%;
   font-weight: bold;
   text-align: center;
-
 }
 
 table.dataTable tbody tr td:first-of-type,
@@ -233,9 +232,17 @@ table.dataTable thead tr th:first-of-type {
   height: 100%;
 }
 
-.tables-container .dataTables_paginate{
+.tables-container .dataTables_paginate {
   position: absolute;
-  bottom:0;
+  bottom: 0;
   right: 0;
 }
 
+.dataTables_empty{
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  font-weight: normal;
+  font-size: 22px;
+  color: lightgray;
+} 
