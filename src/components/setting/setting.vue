@@ -340,10 +340,10 @@
           bDestroy: true,
           ordering: false,
           pagingType: "simple_numbers",
-          pageLength: 5,
+          pageLength: 6,
           "ajax": (data, callback, settings) => {
             post(xhrUrls.USER_SEARCH, that.searchData).then((res) => {
-              if (res.data.data.data.length <= 5) {
+              if (res.data.data.data.length <= 6) {
                 $('#userTable_paginate').hide()
               }
               callback(res.data.data);
