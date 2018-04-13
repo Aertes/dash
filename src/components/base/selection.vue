@@ -22,11 +22,11 @@
     props: {
       selections: {
         type: Array,
-        default: ['test']
+        default: () => ['test']
       },
       selectedId:{
         type: Array,
-        default: [0]
+        default: () => ['0']
       }
     },
     methods: {
@@ -51,6 +51,8 @@
         this.$emit('selectShowThree', this.selections[this.nowIndex])
 
         this.$emit('selectShowFour', this.selections[this.nowIndex])
+
+        this.$emit('selectStatus', this.selections[this.nowIndex])
 
         this.$emit('selectUser', {val:this.selections[this.nowIndex],id:this.selectedId[this.nowIndex]})
 
@@ -93,25 +95,25 @@
         font-size 21px
         &:disabled
           background-color #fff
-    .dropdown-menu
-      position absolute
-      top 37px
-      width 100%
-      font-size: 21px
-      color #A0A0A1
-      line-height 35px
-      background-color #fff
-      border 1px solid #E2DFDE
-      border-radius 5px
-      overflow-y auto
-      z-index 10
-      max-height 100px
-      li
-        padding-left 10px
-        border-bottom 1px solid #eaeaea
-        cursor: pointer
-        &:last-of-type
-          border-bottom medium
-        &:hover
-          background-color #F5F6F8
+</style>
+<style lang="stylus" rel="stylesheet/stylus">
+  .dropdown-menu
+    position absolute
+    top 37px
+    width 100%
+    font-size: 21px
+    color #A0A0A1
+    line-height 35px
+    background-color #fff
+    border 1px solid #E2DFDE
+    border-radius 5px
+    z-index 10
+    li
+      padding-left 10px
+      border-bottom 1px solid #eaeaea
+      cursor: pointer
+      &:last-of-type
+        border-bottom medium
+      &:hover
+        background-color #F5F6F8
 </style>

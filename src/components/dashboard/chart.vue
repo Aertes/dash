@@ -15,7 +15,9 @@
       }
     },
     activated() {
-      this.Echarts()
+      try{
+        this.Echarts()
+      }catch (e){}
     },
     computed: {
       EchartsInit() {

@@ -36,11 +36,10 @@ import "./assets/style/tablepagination.css"
 import './assets/layer/theme/default/layer.css'
 import './assets/layer/layer'
 
-/*upload*/
-// import vueUploadWeb from 'vue-upload-web'
+//ztree
 
-// import './assets/js/upload/Uploader.swf'
-// import './assets/js/upload/webuploader.min'
+import 'ztree'
+import 'ztree/css/zTreeStyle/zTreeStyle.css'
 
 //图表
 import Echarts from 'echarts'

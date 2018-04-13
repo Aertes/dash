@@ -52,10 +52,14 @@ export default {
   USER_DEL: BASE_URL + 'sys/user/delete',
   USER_VIEW: BASE_URL + 'sys/user/user',
   USER_EDIT: BASE_URL + 'sys/user/update',
-
+  USER_ORG_ZTREE: BASE_URL + 'sys/user/getUserOrgTree',
   
   
   //org
   ORG_SEARCH: BASE_URL + 'sys/org/search',
+  ORG_UPDATE: BASE_URL + 'sys/org/update',
+  ORG_DEL: BASE_URL + 'sys/org/delete',
+  ORG_SAVE: BASE_URL + 'sys/org/save',
 
+  
 }

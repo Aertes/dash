@@ -11,11 +11,12 @@ module.exports = {
       autoprefixer: false,
       "postcss-zindex": false
     },
-    "postcss-pxtorem":{
-      "rootValue": 192,//设计稿宽度除以10搭配手淘flexible布局
-      "propList": ["*"],
-      "minPixelValue": 2
-    }
+    // "postcss-pxtorem":{
+    //   "rootValue": 192,//设计稿宽度除以10搭配手淘flexible布局
+    //   "propList": ["*"],
+    //   "selectorBlackList": ['ztree *'],
+    //   "minPixelValue": 2
+    // }
   }
 }
 
