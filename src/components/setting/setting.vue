@@ -1006,7 +1006,7 @@
           .searchIcon
             color #717071
             font-size 30px
-            margin-left 20px
+            margin-left 30px
             height 40px
             line-height 40px
             cursor pointer
