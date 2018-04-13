@@ -439,7 +439,7 @@
       //删除org
       beforeRemove(event, treeId, treeNode, isCancel){
         let id = treeId.id;
-        let isDeled = false;
+        let isDeled;
         layer.confirm('Do you delete this organization?', {
             title: 'Prompt information',
             btn: ['Confirm', 'Cancel'],
@@ -691,6 +691,10 @@
         this.selectOrgOptions = []
         this.selectRoleOptionsId = []
         this.selectOrgOptionsId = []
+        this.isActive.isUserActive = false;
+        this.isActive.isPwdActive = false;
+        this.isActive.isSurePwdActive = false;
+        this.isActive.isLogAccActive = false;
       },
       layerOpen(id) {
         layerId = layer.open({
@@ -1023,33 +1027,33 @@
                 height 55px
                 line-height 55px
                 text-align center
-                color #838383
-                border-bottom 1px solid #b3b1b2
+                color #fff
+                border-bottom 1px solid #1f61ae
                 font-size 20px
                 font-weight 400
-                background rgba(241, 240, 240, 0.7)
+                background #1f61ae
             .tables
               margin-left 22%
               .user-create
-                color #2061ae
+                color #fff
                 font-size 22px
                 vertical-align -3px
               .create
-                border 1px solid #b3b1b2
+                border 1px solid #1f61ae
                 border-radius 5px
                 height 55px
                 line-height 55px
                 cursor pointer
                 padding-left 20px
-                background rgba(241, 240, 240, 0.7)
+                background #1f61ae
                 .newUser
                   margin-left 10px
-                  color: #2061ae
+                  color: #fff
                 span
-                  color #838383
+                  color #fff
                   font-size 20px
               .user-table
-                margin-top 20px
+                // margin-top 20px
                 position relative
                 width 100%
 

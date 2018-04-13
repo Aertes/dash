@@ -10,7 +10,7 @@
     <form action="" class="clearfix search-wrap">
       <div class="search">
         <label for="roleName">Role Name</label>
-        <input id="roleName" type="text" placeholder="User Name" v-model="roleName">
+        <input id="roleName" type="text" placeholder="Role Name" v-model="roleName">
       </div>
       <div class="search">
         <label>Status</label>
@@ -22,7 +22,7 @@
     <div class="tables">
       <div class="create" @click="openRoleEdit">
         <svg-icon sign="icon-tianjia" class="user-create"></svg-icon>
-        <span class="newUser">New user</span>
+        <span class="newUser">New role</span>
       </div>
       <div class="role-table clearfix">
         <table id="roleTable" class="display" style="width:100%" cellpadding="0" cellspacing="0" border="0">
@@ -347,25 +347,25 @@
       width 100%
       margin-top 30px
       .user-create
-        color #2061ae
+        color #fff
         font-size 22px
         vertical-align -3px
       .create
-        border 1px solid #b3b1b2
+        border 1px solid #1f61ae
         border-radius 5px
         height 55px
         line-height 55px
         cursor pointer
         padding-left 20px
-        background rgba(241, 240, 240, 0.7)
+        background #1f61ae
         .newUser
           margin-left 10px
-          color: #2061ae
+          color: #fff
         span
-          color #838383
+          color #fff
           font-size 20px
       .role-table
-        margin-top 20px
+        // margin-top 20px
         position relative
         width 100%
 
@@ -382,4 +382,5 @@
         position static
         text-align center
         line-height 30px
+  
 </style>
