@@ -1017,7 +1017,7 @@
               width 20%
               height 450px
               float left
-              border 1px solid #b3b1b2
+              border 1px solid #eaeaea
               border-radius 5px
               padding 0
               .ztreeDome
@@ -1032,23 +1032,29 @@
                 font-size 20px
                 font-weight 400
                 background #1f61ae
+                border-radius 5px
             .tables
               margin-left 22%
               .user-create
                 color #fff
                 font-size 22px
-                vertical-align -3px
+                e-pos(top:50%, y:-50%)
               .create
                 border 1px solid #1f61ae
                 border-radius 5px
                 height 55px
-                line-height 55px
                 cursor pointer
                 padding-left 20px
                 background #1f61ae
+                line-height 55px
+                position relative
                 .newUser
-                  margin-left 10px
-                  color: #fff
+                  margin-left 35px
+                  color #fff
+                  line-height 55px
+                  display inline-block
+                  position absolute;
+                  margin-top -3px
                 span
                   color #fff
                   font-size 20px

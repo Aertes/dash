@@ -309,6 +309,7 @@
 </script>
 
 <style scoped rel="stylesheet/stylus" lang="stylus">
+  @import "../../assets/style/mixin.styl"
   .role-wrap
     .search-wrap
       width 100%
@@ -349,7 +350,7 @@
       .user-create
         color #fff
         font-size 22px
-        vertical-align -3px
+        e-pos(top:50%, y:-50%)
       .create
         border 1px solid #1f61ae
         border-radius 5px
@@ -358,9 +359,14 @@
         cursor pointer
         padding-left 20px
         background #1f61ae
+        position relative
         .newUser
-          margin-left 10px
-          color: #fff
+          margin-left 35px
+          color #fff
+          line-height 55px
+          display inline-block
+          position absolute;
+          margin-top -3px
         span
           color #fff
           font-size 20px
