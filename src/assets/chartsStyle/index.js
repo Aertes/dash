@@ -39,10 +39,17 @@ function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
         type: "cross" // 默认为直线，可选为：'line' | 'shadow'
-      }
+      }/*,
+      formatter:function(params){
+        var relVal = params[0].name+"<br/>";
+        relVal += params[0].seriesName+ ' : ' + params[0].value+"<br/>";
+        relVal +=params[1].seriesName+ ' : ' +params[1].value+"<br/>";
+        relVal += params[2].seriesName+ ' : ' + params[2].value+"%";
+        return relVal;
+      }*/
     },
     legend: {
-      data: legendDate
+      data: legendDate,
     },
     grid: {
       left: "3%",
@@ -50,7 +57,7 @@ function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
       bottom: "3%",
       containLabel: true
     },
-    barWidth: 10,
+    barWidth: 20,
     xAxis: {
       type: "category",
       data: xAxisData
@@ -124,6 +131,7 @@ function chartTypeFour(xAxisData, seriesData1, seriesData2) {
         return tar.name + "<br/>" + tar.seriesName + " : " + tar.value;
       }
     },
+    barWidth: 20,
     grid: {
       left: "3%",
       right: "4%",
@@ -261,7 +269,6 @@ function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesDa
   }
 }
 
-
 //compaign1 bar
 function chartTypeSix(legendDate, xAxisData, seriesData) {
 
@@ -275,6 +282,7 @@ function chartTypeSix(legendDate, xAxisData, seriesData) {
     legend: {
       data: legendDate
     },
+    barWidth: 20,
     grid: {
       left: "3%",
       right: "4%",
@@ -311,6 +319,7 @@ function chartTypeSeven(legendDate, xAxisData, cpl, conversionRate) {
         }
       }
     },
+    barWidth: 20,
     grid: {
       left: "3%",
       right: "4%",
@@ -431,6 +440,7 @@ function chartTypeEight(legendDate,xAxisData,seriesData){
         bottom: "3%",
         containLabel: true
       },
+      barWidth: 20,
       xAxis: [{
         type: "category",
         data: xAxisData,
@@ -455,7 +465,6 @@ function chartTypeEight(legendDate,xAxisData,seriesData){
       series: seriesData
     }
 }
-
 
 export {
   defaultOption,

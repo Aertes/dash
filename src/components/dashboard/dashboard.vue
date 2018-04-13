@@ -92,7 +92,7 @@
       return {
         overview: '',
         title: 'CAMPAIGN',
-        name: 'Campaign',
+        name: 'CAMPAIGN',
         titleList: [
           'CAMPAIGN',
           'COM.CN B2B',

@@ -442,13 +442,13 @@ function dataComSearch(that, data) {
         that.DData.push(['Conversion Rate', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['UGCR', (num.ugcr * 100).toFixed(0) + '%'])
         that.DData.push(['Traffic', formatThousands(num.totalTraffic)])
-        seriesData.forEach(val =>{
-          if(val.name == 'Month Target'){
+        seriesData.forEach(val => {
+          if (val.name == 'Month Target') {
             val.itemStyle = {
-              "normal":{
-                "lineStyle":{
-                  "width":2,
-                  "type":"dotted"
+              "normal": {
+                "lineStyle": {
+                  "width": 2,
+                  "type": "dotted"
                 }
               }
             }
@@ -485,20 +485,20 @@ function dataCrmSearch(that, data) {
         that.DData.push(['Engagement Rate', (num.engagement * 100).toFixed(0) + '%'])
         that.DData.push(['Sale', formatThousands(num.sale)])
 
-        seriesData.forEach(val =>{
-          if(val.name == 'Month Target'){
+        seriesData.forEach(val => {
+          if (val.name == 'Month Target') {
             val.itemStyle = {
-              "normal":{
-                "lineStyle":{
-                  "width":2,
-                  "type":"dotted"
+              "normal": {
+                "lineStyle": {
+                  "width": 2,
+                  "type": "dotted"
                 }
               }
             }
           }
         })
 
-        that.dashBoardoption = chartTypeEight(legendDate,xAxisData,seriesData)
+        that.dashBoardoption = chartTypeEight(legendDate, xAxisData, seriesData)
       }).catch(
       error => console.log(error)
     )
