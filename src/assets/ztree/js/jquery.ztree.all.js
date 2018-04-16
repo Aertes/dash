@@ -2493,8 +2493,8 @@
 			editNameSelectAll: false,
 			showRemoveBtn: true,
 			showRenameBtn: true,
-			removeTitle: "remove",
-			renameTitle: "rename",
+			removeTitle: "Delete",
+			renameTitle: "Edit",
 			drag: {
 				autoExpandTrigger: false,
 				isCopy: true,

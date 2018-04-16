@@ -88,7 +88,7 @@
 
     <div class="tables-wrap" id="user" v-show="isShow">
       <div class="tables-title">
-        <span class="titles">USER INFO</span>
+        <span class="titles">CREATE USER</span>
         <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
       </div>
       <form action="" autocomplete="off">
@@ -141,11 +141,11 @@
             <label>Status</label>
             <div class="radio" v-if="!isViewUser">
               <label for="status1" v-if="userinfo.status == 1">
-                <input type="radio" id="status1" name="newPassword" value="1" :checked=true>
+                <!-- <input type="radio" id="status1" name="newPassword" value="1" :checked=true> -->
                 Enable
               </label>
               <label for="status2" v-if="userinfo.status == 0">
-                <input type="radio" id="status2" name="newPassword" value="0" :checked=true>
+                <!-- <input type="radio" id="status2" name="newPassword" value="0" :checked=true> -->
                 Disable
               </label>
             </div>
@@ -162,8 +162,8 @@
           </div>
         </div>
         <div class="submit-btn">
-          <button type="button" v-if="isViewUser" class="confirm" @click="submit">confirm</button>
-          <button type="button" class="cancel" @click="closeLayerButton">cancel</button>
+          <button type="button" v-if="isViewUser" class="confirm" @click="submit">Confirm</button>
+          <button type="button" class="cancel" @click="closeLayerButton">Cancel</button>
         </div>
       </form>
     </div>
@@ -237,6 +237,7 @@
           id: ''
         },
         isEdit: true,
+        isUpdata:false,
         selectedRole: '',
         selectedOrg: '',
         selectRoleOptions: [],
@@ -475,12 +476,12 @@
           $('.remove').hide();
           if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
           var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-            + "' title='add dept' onfocus='this.blur();'></span>";
+            + "' title='New' onfocus='this.blur();'></span>";
           sObj.after(addStr);
           var btn = $("#addBtn_" + treeNode.tId);
           if (btn) btn.bind("click", function () {
             var zTree = $.fn.zTree.getZTreeObj("userZtree");
-            post(xhrUrls.ORG_SAVE, {name: "New dept", status:1,parentId: treeNode.id}).then(res => {
+            post(xhrUrls.ORG_SAVE, {name: "New", status:1,parentId: treeNode.id}).then(res => {
               if (res.data.code == 200) {
                 layer.msg('Add success!', {
                   time: 2000,
@@ -628,6 +629,8 @@
           }
           that.isViewUser = true
           that.isEdit = false
+          that.isUpdata = true
+          $('.titles').html('EDIT USER')
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
               that.data.name = res.data.user.name
@@ -648,7 +651,6 @@
         })
       },
 
-
       //查看用户
       viewUser() {
         let that = this;
@@ -656,14 +658,17 @@
           event.stopImmediatePropagation();
           event.preventDefault();
           that.isViewUser = false
-          // that.isEdit = false
+          $('.titles').html('USER DETAILS')
+          $('.cancel').html('Back')
           var id = $(this).attr("data-id");
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
               that.userinfo.name = res.data.user.name
               that.userinfo.username = res.data.user.username
               that.userinfo.org = res.data.org.name
-              that.userinfo.role = res.data.role.name
+              if(res.data.role){
+                that.userinfo.role = res.data.role.name
+              }
               that.userinfo.status = res.data.user.status
               that.layerOpen('user')
             } else {
@@ -681,6 +686,11 @@
         this.data.surePassword = ''
         this.data.username = ''
         this.data.orgid = ''
+        this.userinfo.name=''
+        this.userinfo.username=''
+        this.userinfo.org=''
+        this.userinfo.role=''
+        this.userinfo.status=''
         this.selectRoleOptions = []
         this.selectOrgOptions = []
         this.selectRoleOptionsId = []
@@ -705,6 +715,14 @@
       showCreate(obj) {
         this.layerOpen('user')
         this.isViewUser = true
+        if(this.isEdit){
+          $('.titles').html('CREATE USER')
+          this.isUpdata = false
+        }else{
+          $('.titles').html('EDIT USER')
+          this.isEdit = true
+        }
+        $('.cancel').html('Cancel')
         let roleId = this.data.roleIds;
         let orgid = this.data.orgid;
         post(xhrUrls.ROLE_SEARCH, {}).then(res => {
@@ -786,7 +804,8 @@
           this.isActive.isLogAccActive = true;
           canSubmit = false;
         }
-        if (!this.isEdit) {
+        debugger
+        if (this.isUpdata) {
           //修改用户时不填代表不修改密码
           if ((this.data.surePassword != '' || this.data.password != '')
             && this.data.password != this.data.surePassword) {
@@ -817,7 +836,7 @@
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
-                  that.isActive.isUserActive = true;
+                  that.isActive.isLogAccActive = true;
                   layer.close(index);
                 })
               }
@@ -1049,6 +1068,7 @@
                 border-radius 5px
             .tables
               margin-left 22%
+              padding-top 1px
               .user-create
                 color #fff
                 font-size 22px

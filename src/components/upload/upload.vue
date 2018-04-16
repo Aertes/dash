@@ -110,7 +110,8 @@
 					fileVal: "file",
 					// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
 					resize: false,
-					duplicate :true
+					duplicate :true,
+					timeout:0
 				});
 	
 				// 文件上传过程中创建进度条实时显示。
@@ -126,7 +127,6 @@
 	
 				// 上传成功
 				this.uploader.on("uploadSuccess", (file, res) => {
-					
 					if (res.code == 200) {
 						$("#num").html("100%").css("color", "#fff");
 						$("#progressBar").css("width", "100%");
@@ -142,6 +142,7 @@
 							this.refreshData()
 						}, 1000);
 					} else {
+						debugger
 						let errMsg = res.errMsg.replace(/\,/g, '<br>')
 						$("#text").html("UPLOAD ERROR!");
 						$('#progress').hide()
@@ -152,7 +153,7 @@
 				});
 				// 上传错误
 				this.uploader.on("uploadError", function(file, res) {
-					
+					debugger
 					$("#text").html("UPLOAD ERROR!");
 					$('#progress').hide()
 					$('#errMsg').show().html(res.errMsg)

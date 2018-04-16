@@ -197,7 +197,8 @@ const store = new Vuex.Store({
 
         state.year = new Date().getFullYear().toString()
 
-        state.month = (new Date().getMonth() + 1).toString()
+        state.month = (new Date().getMonth()).toString()
+        //state.month = (new Date().getMonth() + 1).toString()
 
       }
 

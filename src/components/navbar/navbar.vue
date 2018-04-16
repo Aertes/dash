@@ -183,6 +183,7 @@
       },
       settingShow(){
         this.$Hub.$emit('settingShow')
+        // this.index = -1
       }
     },
     mounted() {

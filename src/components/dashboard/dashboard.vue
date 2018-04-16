@@ -514,11 +514,11 @@
 
         if (val.isTable == 1) {
 
-          baseUrl = `${window.location.origin}/#/dashboard?istable=1&type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
+          baseUrl = `${window.location.origin}/dashboard/#/dashboard?istable=1&type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
 
         } else {
 
-          baseUrl = `${window.location.origin}/#/dashboard?istable=0&type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
+          baseUrl = `${window.location.origin}/dashboard/#/dashboard?istable=0&type=${this.type}&yearMonth=${this.getStoreYearMonth}`;
 
         }
 
@@ -614,7 +614,6 @@
       getUrl() {
 
         let url = window.location.hash;
-
         let obj = {}
 
         if (url.indexOf("?") != -1) {

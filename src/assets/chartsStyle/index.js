@@ -31,6 +31,10 @@ let indicator = [
     "max": 600
   }
 ]
+// 千分位格式化
+function formatThousands(params) {
+  return (params + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+}
 
 function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
   return {
@@ -336,7 +340,9 @@ function chartTypeThree(legendDate, seriesData) {
   return {
     tooltip: {
       trigger: "item",
-      formatter: "{a} <br/>{b} : {c}"
+      formatter: (name)=>{
+        return '<p>' + name.seriesName + '</p><p>' + name.data.name + ':' +formatThousands(name.data.value)+'</p>'
+      }
     },
     legend: {
       data: legendDate
