@@ -115,7 +115,7 @@
           <div>
             <label>Login Account</label>
             <label v-if="!isViewUser">{{userinfo.username}}</label>
-            <input type="text" v-if="isViewUser" class="input" name="loginAccount" @change="onInput"
+            <input type="text" v-if="isViewUser" :disabled='isUpdata' class="input" name="loginAccount" @change="onInput"
                    :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username"
                    placeholder="Please Login Account">
           </div>
@@ -804,7 +804,6 @@
           this.isActive.isLogAccActive = true;
           canSubmit = false;
         }
-        debugger
         if (this.isUpdata) {
           //修改用户时不填代表不修改密码
           if ((this.data.surePassword != '' || this.data.password != '')
@@ -822,11 +821,11 @@
           post(xhrUrls.USER_EDIT, this.data)
             .then(res => {
               if (res.data.code == 200) {
+                that.isShow = false
                 layer.msg('Update success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
-                  that.isShow = false
                   that.closeLayerButton()
                   that.userTable();
                   layer.close(index);
@@ -836,7 +835,7 @@
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
-                  that.isActive.isLogAccActive = true;
+                  that.isActive.isUserActive = true;
                   layer.close(index);
                 })
               }
@@ -858,11 +857,11 @@
           post(xhrUrls.USER_SAVE, this.data)
             .then(res => {
               if (res.data.code == 200) {
+                that.isShow = false
                 layer.msg('Create user success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
-                  that.isShow = false
                   that.closeLayerButton()
                   that.userTable();
                   layer.close(index);
@@ -1103,8 +1102,8 @@
       position: relative
       padding-left: 45px
       font-size: 30px
-      line-height: 80px
-      height 80px
+      line-height: 100px
+      height 100px
       color: #a0a0a1
       .icon
         e-pos(top:50%, y:-50%)
@@ -1168,11 +1167,14 @@
           border-radius 5px
           font-size 21px
           float right
+          &:disabled
+            border 0
+            background #fff
         .active
           border-color: #e78b70
     .submit-btn
       text-align center
-      margin-bottom 30px
+      margin 50px 80px
       button
         height 40px
         background-color #2061AE
