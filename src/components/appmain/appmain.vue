@@ -193,6 +193,10 @@
     },
     mounted() {
 
+      this.$Hub.$on('closeSetting',()=>{
+        this.isSetting = false
+      })
+
       this.goUpDown()
 
       this.getYear()
@@ -428,7 +432,7 @@
           this.getReviewRatingDate(getYear)
 
         } else if (this.type === 5) {
-
+      debugger;
           this.selectionThree = false
 
           this.selectionFour = false
@@ -681,7 +685,7 @@
         }
       },
       settingChange(){
-        this.isSetting = !this.isSetting
+        this.isSetting = true
       },
 
     },

@@ -27,6 +27,7 @@
     },
     methods: {
       chooseDashboard(index) {
+        this.$Hub.$emit('closeSetting')
         let typeVal
         this.selected = index
         if(index==0){

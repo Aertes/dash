@@ -43,8 +43,9 @@ function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
       formatter:function(params){
         var relVal = params[0].name+"<br/>";
         relVal += params[0].seriesName+ ' : ' + params[0].value+"<br/>";
-        relVal +=params[1].seriesName+ ' : ' +params[1].value+"<br/>";
-        relVal += params[2].seriesName+ ' : ' + params[2].value+"%";
+        relVal += params[1].seriesName+ ' : ' +params[1].value+"<br/>";
+        relVal += params[2].seriesName+ ' : ' + (params[2].value*100)+"%<br/>";
+        relVal += params[3].seriesName+ ' : ' + params[3].value;
         return relVal;
       }*/
     },
@@ -76,11 +77,11 @@ function chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series) {
       {
         type: "value",
         name: yAxisName2,
-        min: 0,
-        // max: 25,
-        interval: 0.5,
         axisLabel: {
-          formatter: "{value}"
+          formatter: function (value, index) {
+            var text = value * 100 + '%';
+            return text;
+          }
         }
       }
     ],
@@ -168,12 +169,6 @@ function chartTypeFour(xAxisData, seriesData1, seriesData2) {
         name: "Traffic",
         type: "bar",
         stack: "总量",
-        label: {
-          normal: {
-            show: true,
-            position: "inside"
-          }
-        },
         data: seriesData2
       }
     ]
@@ -209,60 +204,30 @@ function chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesDa
       name: "站外",
       type: "bar",
       stack: "总量",
-      label: {
-        normal: {
-          show: true,
-          position: "insideRight"
-        }
-      },
       data: seriesData1
     },
       {
         name: "钻展",
         type: "bar",
         stack: "总量",
-        label: {
-          normal: {
-            show: true,
-            position: "insideRight"
-          }
-        },
         data: seriesData2
       },
       {
         name: "搜索",
         type: "bar",
         stack: "总量",
-        label: {
-          normal: {
-            show: true,
-            position: "insideRight"
-          }
-        },
         data: seriesData3
       },
       {
         name: "其它",
         type: "bar",
         stack: "总量",
-        label: {
-          normal: {
-            show: true,
-            position: "insideRight"
-          }
-        },
         data: seriesData4
       },
       {
         name: "Total",
         type: "bar",
         stack: "总量",
-        label: {
-          normal: {
-            show: true,
-            position: "insideRight"
-          }
-        },
         data: seriesData5
       }
     ]

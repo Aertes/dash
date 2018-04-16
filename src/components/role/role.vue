@@ -7,7 +7,7 @@
     <span id="roleView" hidden><svg-icon sign="icon-chakan01"></svg-icon></span>
     <span id="roleDisable" hidden><svg-icon sign="icon-jinyong"></svg-icon></span>
 
-    <form action="" class="clearfix search-wrap">
+    <div action="" class="clearfix search-wrap">
       <div class="search">
         <label for="roleName">Role Name</label>
         <input id="roleName" type="text" placeholder="Role Name" v-model="roleName">
@@ -17,7 +17,7 @@
         <selection :selections="selectStatusOptions" class="role-select" ref="roleSelect"></selection>
       </div>
       <span @click="roleSearch"><svg-icon sign="icon-search" class="searchIcon"></svg-icon></span>
-    </form>
+    </div>
 
     <div class="tables">
       <div class="create" @click="openRoleEdit">

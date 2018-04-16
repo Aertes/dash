@@ -8,7 +8,7 @@
           <span class="user-name">{{userName}}</span>
           <svg-icon sign="icon-user" class="user-icon"></svg-icon>
         </div>
-        <div class="userHover" v-else @click="showOperation"> 
+        <div class="userHover" v-else @click="showOperation">
           <span class="user-name">{{userName}}</span>
           <svg-icon sign="icon-user" class="user-icon"></svg-icon>
         </div>
@@ -46,11 +46,11 @@
 							</div>
 							<div>
 									<label>New Password</label>
-									<input type="password" name="newPassword" @change="onInput" :class="[isNewActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.newPassword">
+									<input type="password" name="newPassword" @change="onInput" :class="[isNewActive? 'active' : '']" minlength="6" v-model="data.newPassword">
 							</div>
 							<div>
 									<label>Sure Password</label>
-									<input type="password" name="surePassword" @change="onInput" :class="[isSureActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.surePassword">
+									<input type="password" name="surePassword" @change="onInput" :class="[isSureActive? 'active' : '']" minlength="6"  v-model="data.surePassword">
 							</div>
           </div>
           <div class="submit-btn">
@@ -78,7 +78,7 @@
         USERINFO: null,
         isOldActive:false,
         isNewActive:false,
-        isSureActive:false, 
+        isSureActive:false,
         name: '',
         errMsg:'',
         data:{
@@ -156,13 +156,14 @@
           this.isSureActive = true;
         }
         if (this.data.newPassword != this.data.surePassword) {
+          this.isNewActive = true;
           this.isSureActive = true;
         }
         if (this.data.password != '' && this.data.newPassword != '' && this.data.surePassword != '' && this.data.newPassword == this.data.surePassword) {
           post(xhrUrls.EDIT_PWD, this.data)
             .then(res => {
               if (res.data.code == 200) {
-                layer.msg('Password modification successful !', {
+                layer.msg('Password update success!', {
 									time: 2000,
 									skin: 'fontColor'
 								}, function(index) {
@@ -173,12 +174,6 @@
 								})
               } else {
                 that.isOldActive=true
-                layer.msg('Password modification failed !', {
-									time: 2000,
-									skin: 'fontColor'
-								}, function(index) {
-                  layer.close(index);
-								})
               }
             })
             .catch(err => {
@@ -284,7 +279,7 @@
     line-height: 80px
     height 60px
     color: #a0a0a1
-    .icon 
+    .icon
       e-pos(top:50%, y:-50%)
       right: 25px
       font-size: 30px
@@ -303,7 +298,7 @@
         width 40%
         float left
         color #a0a0a1
-      input 
+      input
         width 60%
         height 100%
         padding-left 10px
@@ -313,11 +308,11 @@
         border-radius 5px
         font-size 21px
         float right
-      .active 
+      .active
         border-color: #e78b70
   .submit-btn
     text-align center
-    button 
+    button
       height 40px
       background-color #2061AE
       border-radius 10px
@@ -332,5 +327,5 @@
     .cancel
       margin-left 10px
       background-color #ccc
-    
+
 </style>

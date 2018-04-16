@@ -1761,6 +1761,7 @@
 					if (!node) return;
 					callbackFlag = !!callbackFlag;
 					if (callbackFlag && tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return;
+					debugger;
 					view.removeNode(setting, node);
 					if (callbackFlag) {
 						this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
@@ -3259,7 +3260,8 @@
 			$$(node, consts.id.REMOVE, setting).bind('click',
 				function() {
 					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return false;
-					view.removeNode(setting, node);
+					//modify by leo for before remove node
+					//view.removeNode(setting, node);
 					setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 					return false;
 				}

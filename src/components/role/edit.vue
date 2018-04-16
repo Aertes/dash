@@ -52,7 +52,8 @@
         ztreeNodeData: [],
         nodeSetting: {
           check: {
-            enable: this.viewRole
+            enable: this.viewRole,
+            chkboxType: { "Y": "ps", "N": "ps" }
           },
           data: {
             simpleData: {
@@ -79,23 +80,25 @@
     },
     methods: {
       getRoleEdit(){
+        this.ztreeNodeData = [];
         get(`${ROLE_GETROLE}${this.toRoleEditId}`).then(res => {
           let nodeData = res.data.nodes
           let roleData = res.data.role
           this.roleName = roleData.name
           if(roleData.status==1){
-            this.$refs.roleSelect.nowIndex = 0
-          }else{
             this.$refs.roleSelect.nowIndex = 1
+          }else{
+            this.$refs.roleSelect.nowIndex = 0
           }
           nodeData.forEach((v, i) => {
-            this.ztreeNodeData.push({name: v.name, id: v.id, parentId: v.parentId})
+            this.ztreeNodeData.push({name: v.name, id: v.id, parentId: v.parentId,checked:(v.checked=='TRUE'?true:false)})
           })
           this.nodeSetting.check.enable = !this.viewRole
           $.fn.zTree.init($("#roleZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
         }).catch(err => console.log(err))
       },
       getTreeData() {
+        this.ztreeNodeData=[]
         post(ROLE_TREE, {}).then(res => {
           let nodeData = res.data.resultList
           this.roleName = ''
@@ -123,14 +126,12 @@
           }
         });
         if(this.roleName==''){
-          layer.msg('Role Name Is Empty !', {
+          layer.msg('Role name is empty!', {
             time: 2000,
             skin: 'fontColor'
-          }, function(index) {
-            layer.close(index);
           })
         }else if(this.treeId==''){
-          layer.msg('Role Permission Is Empty !', {
+          layer.msg('Role permission is empty!', {
             time: 2000,
             skin: 'fontColor'
           }, function(index) {
@@ -144,7 +145,7 @@
               "status": status
             }).then(res=>{
               if(res.data.code==200){
-                layer.msg('Saved Successfully !', {
+                layer.msg('Save Success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function(index) {
@@ -168,7 +169,7 @@
               "id":this.toRoleEditId
             }).then(res=>{
               if(res.data.code==200){
-                layer.msg('Update Completed !', {
+                layer.msg('Update success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function(index) {

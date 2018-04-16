@@ -285,7 +285,7 @@ function dataEcSearch(that, data) {
         let seriesData1 = data.series1
         let seriesData2 = data.series2
         that.DData = []
-        that.DData.push(['Total Traffic', res.data.right.traffic])
+        that.DData.push(['Total Traffic', formatThousands(res.data.right.traffic)])
         that.DData.push(['Total Conversion', (res.data.right.conversionRate * 100).toFixed(2) + '%'])
         that.dashBoardoption = chartTypeFour(xAxisData, seriesData1, seriesData2)
       }).catch(
@@ -317,7 +317,7 @@ function dataEcAllSearch(that, data) {
         let seriesData4 = data.series[3]
         let seriesData5 = data.series[4]
         that.DData = []
-        that.DData.push(['Total Traffic', res.data.right.traffic])
+        that.DData.push(['Total Traffic', formatThousands(res.data.right.traffic)])
         that.DData.push(['Total Conversion', (res.data.right.conversionRate * 100).toFixed(2) + '%'])
         that.dashBoardoption = chartTypeFive(legendDate, yAxisData, seriesData1, seriesData2, seriesData3, seriesData4, seriesData5)
       }).catch(
@@ -408,7 +408,7 @@ function dataCmafunnelSearch(that, data) {
         let legendDate = data.legend
         let series = data.data
         that.DData = []
-        that.DData.push(['Spending', num.spending])
+        that.DData.push(['Spending', formatThousands(num.spending)])
         that.DData.push(['Cost per lead', num.costLead])
         that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])

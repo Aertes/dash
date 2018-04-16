@@ -28,12 +28,12 @@
                 </select> -->
               </div>
               <div @click="searchUser">
-                <svg-icon sign="icon-search" class="searchIcon" ></svg-icon>
+                <svg-icon sign="icon-search" class="searchIcon"></svg-icon>
               </div>
             </form>
             <div class="user-content clearfix">
               <div class="ztreebox">
-                <h4>Department Organization</h4>
+                <h4>Department structure</h4>
                 <ul class="ztreeDome ztree" id="userZtree">
 
                 </ul>
@@ -75,17 +75,20 @@
         </div>
         <div class="tab-card">
           <keep-alive>
-            <role-edit v-if="roleEdit" @closeRoleEdit="switchRoleEdit" :toRoleEditId="toRoleEditId" :viewRole="viewRole" :isSave="isSave"></role-edit>
+            <role-edit v-if="roleEdit" @closeRoleEdit="switchRoleEdit" :toRoleEditId="toRoleEditId" :viewRole="viewRole"
+                       :isSave="isSave"></role-edit>
             <role v-else @openRoleEdit="switchRoleEdit" @toRoleEdit="toRoleEdit" @roleView="roleView"></role>
           </keep-alive>
         </div>
-        <div class="tab-card">3</div>
+        <div class="tab-card">
+          <target></target>
+        </div>
       </div>
     </div>
 
     <div class="tables-wrap" id="user" v-show="isShow">
       <div class="tables-title">
-        <span class="titles">CREATE USER</span>
+        <span class="titles">USER INFO</span>
         <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
       </div>
       <form action="" autocomplete="off">
@@ -99,14 +102,14 @@
           <div v-if="isViewUser">
             <label>Password</label>
             <input type="password" class="input" name="password" @change="onInput"
-                   :class="[isActive.isPwdActive? 'active' : '']" minlength="6" maxlength="16" v-model="data.password"
+                   :class="[isActive.isPwdActive? 'active' : '']" minlength="6" v-model="data.password"
                    placeholder="Please Password">
           </div>
           <div v-if="isViewUser">
             <label>Sure Password</label>
             <!-- <label v-if="isEdit">New Password</label> -->
             <input type="password" class="input" name="surePassword" @change="onInput"
-                   :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6" maxlength="16"
+                   :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6"
                    v-model="data.surePassword" placeholder="Please SurePassword">
           </div>
           <div>
@@ -179,8 +182,9 @@
   import {getSessionItem} from "../../assets/config/storage.js"
   import Role from '../../components/role/role'
   import RoleEdit from '../../components/role/edit'
+  import Target from '../../components/target/tartget'
 
-  let layerId,newCount = 1;
+  let layerId, newCount = 1;
   export default {
     name: "setting",
     data() {
@@ -199,11 +203,11 @@
           role: '',
           status: ''
         },
-        searchData:{
-          name:'',
-          username:'',
-          status:'',
-          orgid:''
+        searchData: {
+          name: '',
+          username: '',
+          status: '',
+          orgid: ''
         },
         active: false,
         selectedStatus: '',
@@ -245,11 +249,11 @@
           isSurePwdActive: false,
           isLogAccActive: false,
         },
-        ztreeNodeData:[],
-        nodeSetting:{
-          view:{
+        ztreeNodeData: [],
+        nodeSetting: {
+          view: {
             showIcon: true,
-            addHoverDom:this.addHoverDom,
+            addHoverDom: this.addHoverDom,
             removeHoverDom: this.removeHoverDom
           },
           data: {
@@ -261,16 +265,16 @@
           edit: {
             enable: true
           },
-          callback:{
+          callback: {
             onClick: this.getOrgId,
             onRename: this.onRename,
             beforeRemove: this.beforeRemove
           }
         },
-        roleEdit:false,
-        toRoleEditId:'',
-        viewRole:false,
-        isSave:true
+        roleEdit: false,
+        toRoleEditId: '',
+        viewRole: false,
+        isSave: true
       }
     },
     mounted() {
@@ -281,7 +285,7 @@
       this.editUser();
       this.userEnable();
       this.userDisable();
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this._initZtree()
       })
     },
@@ -389,9 +393,9 @@
                   operClassName = 'userDisable'
                   operTitle = 'Disable'
                 }
-                if(row.id != 1){
+                if (row.id != 1) {
                   html += '<a title="DELETE" style="color:red; font-size:18px; cursor: pointer;;margin-left: 10px" class="removeUser" data-id="' + row.id + '">' + $("#deluser").html() + '</a>'
-                  html += '<a title="'+ operTitle +'" style="color:'+ operColor +'; font-size:18px; cursor: pointer;;margin-left: 10px" class="'+ operClassName +'" data-id="' + row.id + '">' + $("#userDisable").html() + '</a>'
+                  html += '<a title="' + operTitle + '" style="color:' + operColor + '; font-size:18px; cursor: pointer;;margin-left: 10px" class="' + operClassName + '" data-id="' + row.id + '">' + $("#userDisable").html() + '</a>'
                 }
                 return '<div style="text-align: center;">' +
                   '<a title="VIEW" style="color:#2061ae; font-size:18px; cursor: pointer" class="viewUser" data-id="' + row.id + '">' + $("#viewuser").html() + '</a>' +
@@ -405,125 +409,115 @@
         });
       },
       //ztree
-      _initZtree(){
-        get(xhrUrls.USER_ORG_ZTREE).then(res=>{
+      _initZtree() {
+        get(xhrUrls.USER_ORG_ZTREE).then(res => {
           let nodeData = res.data.data
-          nodeData.forEach((v, i)=>{
-            this.ztreeNodeData.push({name:v.name, id:v.id, parentId:v.parentId})
+          nodeData.forEach((v, i) => {
+            this.ztreeNodeData.push({name: v.name, id: v.id, parentId: v.parentId})
           })
           $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
-        }).catch(err=>console.log(err))
+        }).catch(err => console.log(err))
       },
       //修改名称
-      onRename(event, treeId, treeNode, isCancel){
+      onRename(event, treeId, treeNode, isCancel) {
         event.stopImmediatePropagation();
-        post(xhrUrls.ORG_UPDATE, {name:treeNode.name, id:treeNode.id}).then(res=>{
-          if(res.data.code == 200){
-            layer.msg('Modify the success !', {
+        post(xhrUrls.ORG_UPDATE, {name: treeNode.name, id: treeNode.id}).then(res => {
+          if (res.data.code == 200) {
+            layer.msg('Edit success!', {
               time: 2000,
               skin: 'fontColor'
-            }, function(index) {
-              layer.close(index);
             })
-          }else{
-            layer.msg('Modify the failure !', {
+          } else {
+            layer.msg('Edit failure!', {
               time: 2000,
               skin: 'fontColor'
-            }, function(index) {
-              layer.close(index);
             })
           }
-        }).catch(err=>console.log(err))
+        }).catch(err => console.log(err))
       },
 
       //删除org
-      beforeRemove(event, treeId, treeNode, isCancel){
-        let id = treeId.id;
-        let isDeled;
-        layer.confirm('Do you delete this organization?', {
-            title: 'Prompt information',
-            btn: ['Confirm', 'Cancel'],
+      beforeRemove(treeId, treeNode) {
+        let id = treeNode.id;
+        layer.confirm('Do you want to delete this dept?', {
+          title: 'Prompt information',
+          btn: ['Confirm', 'Cancel'],
+        }, function (index) {
+          layer.close(index);
+          get(xhrUrls.ORG_DEL + '/' + id).then((res) => {
+            if (res.data.code == 200) {
+              //remove node
+              var treeObj = $.fn.zTree.getZTreeObj(treeId);
+              treeObj.removeNode(treeNode);
+              layer.msg('Delete success!', {
+                time: 2000,
+                skin: 'fontColor'
+              })
+            } else {
+              layer.msg('Delete failure!', {
+                time: 2000,
+                skin: 'fontColor'
+              })
+            }
           }, function (index) {
             layer.close(index);
-            get(xhrUrls.ORG_DEL + '/' + id).then((res) => {
-              if (res.data.code == 200) {
-                isDeled = true
-                layer.msg('Delete the success !', {
-                  time: 2000,
-                  skin: 'fontColor'
-                }, function (index) {
-                  layer.close(index);
-                })
-              } else {
-                isDeled = false
-                layer.msg('Delete failed !', {
-                  time: 2000,
-                  skin: 'fontColor'
-                }, function (index) {
-                  layer.close(index);
-                })
-              }
-            }, function (index) {
-              isDeled = false
-              layer.close(index);
-            })
-          }, function (index) {
-            layer.close(index);
-            isDeled = false
           })
-        return isDeled
+        }, function (index) {
+          layer.close(index);
+        })
+        return false
       },
 
       // 增加节点
-      addHoverDom(treeId, treeNode){
-        if(treeNode.level == 0){
+      addHoverDom(treeId, treeNode) {
+        if (treeNode.level == 0) {
           var sObj = $("#" + treeNode.tId + "_span");
           $('.remove').hide();
-          if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+          if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
           var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-            + "' title='add node' onfocus='this.blur();'></span>";
-            sObj.after(addStr);
-            var btn = $("#addBtn_"+treeNode.tId);
-          if (btn) btn.bind("click", function(){
+            + "' title='add dept' onfocus='this.blur();'></span>";
+          sObj.after(addStr);
+          var btn = $("#addBtn_" + treeNode.tId);
+          if (btn) btn.bind("click", function () {
             var zTree = $.fn.zTree.getZTreeObj("userZtree");
-            post(xhrUrls.ORG_SAVE, {name:"New Org" + newCount , parentId: treeNode.id}).then(res=>{
-              if(res.data.code == 200){
-                layer.msg('Add organization success !', {
+            post(xhrUrls.ORG_SAVE, {name: "New dept", status:1,parentId: treeNode.id}).then(res => {
+              if (res.data.code == 200) {
+                layer.msg('Add success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
                   layer.close(index);
                 })
-                zTree.addNodes(treeNode, {id:(100 + newCount), pId:1, name:"New Org" + (newCount++)});
-              }else{
-                layer.msg('Add organization failure !', {
+                zTree.addNodes(treeNode, {id: res.data.data.id, pId: treeNode.id, name: "New dept"});
+              } else {
+                layer.msg('Add failure!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
                   layer.close(index);
                 })
               }
-            }).catch(err=>console.log(err))
+            }).catch(err => console.log(err))
             return false;
           });
         }
       },
       removeHoverDom(treeId, treeNode) {
-        $("#addBtn_"+treeNode.tId).unbind().remove();
+        $("#addBtn_" + treeNode.tId).unbind().remove();
       },
 
       //ztreeClick
-      getOrgId(event, treeId, treeNode){
+      getOrgId(event, treeId, treeNode) {
         this.data.orgid = treeNode.id;
-        if(treeNode.id == 1){
+        if (treeNode.id == 1) {
           this.searchData.orgid = ''
-        }else{
+        } else {
           this.searchData.orgid = treeNode.id
         }
         this.userTable()
       },
       //searchList
-      searchUser(){
+      searchUser() {
         this.userTable()
       },
       //删除
@@ -533,14 +527,14 @@
           event.stopImmediatePropagation();
           event.preventDefault();
           var id = $(this).attr("data-id");
-          layer.confirm('Do you delete this user?', {
+          layer.confirm('Do you want to delete this user?', {
             title: 'Prompt information',
             btn: ['Confirm', 'Cancel'],
           }, function (index) {
             layer.close(index);
             get(xhrUrls.USER_DEL + '/' + id).then((res) => {
               if (res.data.code == 200) {
-                layer.msg('Delete the success !', {
+                layer.msg('Delete success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
@@ -548,7 +542,7 @@
                   that.userTable()
                 })
               } else {
-                layer.msg('Delete failed !', {
+                layer.msg('Delete failure!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
@@ -563,18 +557,18 @@
         });
       },
 
-      userEnable(){
+      userEnable() {
         let that = this
         $(document).on('click', '.userEnable', function () {
           let id = $(this).data('id')
-          layer.confirm('Do you enable this User?', {
+          layer.confirm('Do you want to enable this user?', {
             title: 'Prompt information',
             btn: ['Confirm', 'Cancel'],
           }, function () {
-            get(xhrUrls.USER_ENABLE +'/'+ id).then(res => {
+            get(xhrUrls.USER_ENABLE + '/' + id).then(res => {
               let code = res.data.code
               if (code == 200) {
-                layer.msg('Successfully Enable!', {
+                layer.msg('Enable success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
@@ -597,14 +591,14 @@
         let that = this
         $(document).on('click', '.userDisable', function () {
           let id = $(this).data('id')
-          layer.confirm('Do you disable this User?', {
+          layer.confirm('Do you want to disable this user?', {
             title: 'Prompt information',
             btn: ['Confirm', 'Cancel'],
           }, function () {
-            get(xhrUrls.USER_DISABLE +'/'+id).then(res => {
+            get(xhrUrls.USER_DISABLE + '/' + id).then(res => {
               let code = res.data.code
               if (code == 200) {
-                layer.msg('Successfully Enable!', {
+                layer.msg('Disable success!', {
                   time: 2000,
                   skin: 'fontColor'
                 }, function (index) {
@@ -629,7 +623,7 @@
           event.stopImmediatePropagation();
           event.preventDefault();
           var id = $(this).attr("data-id");
-          if(id == 1){
+          if (id == 1) {
             that.isDisable = true
           }
           that.isViewUser = true
@@ -717,7 +711,10 @@
           let data = res.data.data.data;
           data.forEach((v, i) => {
             this.selectRoleOptions.push(v.name);
-            this.selectRoleOptionsId.push(v.id);
+            this.selectRoleOptionsId.push(v.id)
+            if (i == 0 && !roleId) {
+              this.data.roleIds = v.id
+            }
             if (roleId == v.id) {
               this.$refs.role.nowIndex = i
             }
@@ -729,6 +726,9 @@
           data.forEach((v, i) => {
             this.selectOrgOptions.push(v.name);
             this.selectOrgOptionsId.push(v.id);
+            if (i == 0 && !orgid) {
+              this.data.orgid = v.id
+            }
             if (orgid == v.id) {
               this.$refs.user.nowIndex = i
             }
@@ -736,7 +736,7 @@
         }).catch(err => console.log(err))
 
       },
-      selectStatus(val){
+      selectStatus(val) {
         switch (val) {
           case 'Enable':
             this.searchData.status = 1
@@ -771,94 +771,106 @@
         }
       },
       submit() {
-
-        let that = this
-        if (this.data.name == '' && this.data.password == '' && this.data.surePassword == '' && this.data.username == '') {
+        let that = this;
+        let canSubmit = true;
+        console.log(this.selectedRole)
+        if (this.data.name == '') {
           this.isActive.isUserActive = true;
-          this.isActive.isPwdActive = true;
-          this.isActive.isSurePwdActive = true;
-          this.isActive.isLogAccActive = true;
+          canSubmit = false;
         }
         if (this.data.name == '') {
           this.isActive.isUserActive = true;
-        }
-        if (this.data.password == '') {
-          this.isActive.isPwdActive = true;
-        }
-        if (this.data.surePassword == '') {
-          this.isActive.isSurePwdActive = true;
+          canSubmit = false;
         }
         if (this.data.username == '') {
           this.isActive.isLogAccActive = true;
+          canSubmit = false;
         }
-        if (this.data.password != this.data.surePassword) {
-          this.isActive.isSurePwdActive = true;
-        }
-        if (this.data.name != '' && this.data.password != '' && this.data.surePassword != '' && this.data.username != '' && this.data.password == this.data.surePassword) {
-          console.log(this.data)
-          if (!this.isEdit == true) {
-            // this.data.id = id
-            post(xhrUrls.USER_EDIT, this.data)
-              .then(res => {
-                if (res.data.code == 200) {
-                  layer.msg('Updata user success !', {
-                    time: 2000,
-                    skin: 'fontColor'
-                  }, function (index) {
-                    that.isShow = false
-                    that.closeLayerButton()
-                    that.userTable();
-                    layer.close(index);
-                  })
-                } else {
-                  layer.msg('Updata user failed !', {
-                    time: 2000,
-                    skin: 'fontColor'
-                  }, function (index) {
-                    that.isActive.isUserActive = true;
-                    layer.close(index);
-                  })
-                }
-              }).catch(err => console.log(err));
-          } else {
-            post(xhrUrls.USER_SAVE, this.data)
-              .then(res => {
-                if (res.data.code == 200) {
-                  layer.msg('Create user success !', {
-                    time: 2000,
-                    skin: 'fontColor'
-                  }, function (index) {
-                    that.isShow = false
-                    that.closeLayerButton()
-                    that.userTable();
-                    layer.close(index);
-                  })
-                } else {
-                  layer.msg('Create user failed !', {
-                    time: 2000,
-                    skin: 'fontColor'
-                  }, function (index) {
-                    that.isActive.isUserActive = true;
-                    layer.close(index);
-                  })
-                }
-              })
-              .catch(err => console.log(err));
+        if (!this.isEdit) {
+          //修改用户时不填代表不修改密码
+          if ((this.data.surePassword != '' || this.data.password != '')
+            && this.data.password != this.data.surePassword) {
+            this.isActive.isPwdActive = true;
+            this.isActive.isSurePwdActive = true;
+            canSubmit = false;
           }
+
+          if (!canSubmit) {
+            return false;
+          }
+
+          // this.data.id = id
+          post(xhrUrls.USER_EDIT, this.data)
+            .then(res => {
+              if (res.data.code == 200) {
+                layer.msg('Update success!', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  that.isShow = false
+                  that.closeLayerButton()
+                  that.userTable();
+                  layer.close(index);
+                })
+              } else {
+                layer.msg('Edit failure!', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  that.isActive.isUserActive = true;
+                  layer.close(index);
+                })
+              }
+            }).catch(err => console.log(err));
+        } else {
+
+          //创建用户时密码必填
+          if (this.data.password == '' || this.data.surePassword == ''
+            || this.data.password != this.data.surePassword) {
+            this.isActive.isPwdActive = true;
+            this.isActive.isSurePwdActive = true;
+            canSubmit = false;
+          }
+
+          if (!canSubmit) {
+            return false;
+          }
+
+          post(xhrUrls.USER_SAVE, this.data)
+            .then(res => {
+              if (res.data.code == 200) {
+                layer.msg('Create user success!', {
+                  time: 2000,
+                  skin: 'fontColor'
+                }, function (index) {
+                  that.isShow = false
+                  that.closeLayerButton()
+                  that.userTable();
+                  layer.close(index);
+                })
+              } else {
+                this.isActive.isLogAccActive = true;
+                layer.msg(res.data.errMsg, {
+                  time: 2000,
+                  skin: 'fontColor'
+                })
+              }
+            })
+            .catch(err => console.log(err));
         }
       },
-      switchRoleEdit(){
+      switchRoleEdit() {
         this.roleEdit = !this.roleEdit
         this.viewRole = false
         this.toRoleEditId = ''
       },
-      toRoleEdit(val){
+      toRoleEdit(val) {
         this.roleEdit = !this.roleEdit
         this.viewRole = false
         this.isSave = false
         this.toRoleEditId = val.id
       },
-      roleView(val){
+      roleView(val) {
         this.roleEdit = !this.roleEdit
         this.viewRole = true
         this.toRoleEditId = val.id
@@ -867,7 +879,8 @@
     components: {
       UploadFile,
       Role,
-      RoleEdit
+      RoleEdit,
+      Target
     }
   }
 </script>
@@ -944,6 +957,7 @@
         width 350px
     .dashboard-all-wrap
       margin-top 25px
+
   .userbox
     .tab
       margin-top 40px
@@ -1154,7 +1168,7 @@
       .cancel
         margin-left 10px
         background-color #ccc
-  
+
 
 </style>
 

@@ -70,5 +70,10 @@ export default {
   ORG_DEL: BASE_URL + 'sys/org/delete',
   ORG_SAVE: BASE_URL + 'sys/org/save',
 
+  //target
+  TARGET_GETDATE: BASE_URL + '/target/getDate',
+  TARGET_UPDATE: BASE_URL + '/target/campaign/update',
+  TARGET_CAMSEARCH: BASE_URL + '/target/campaign/search',
+  TARGET_CAMSAVE: BASE_URL + '/target/campaign/save',
 
 }
