@@ -586,7 +586,7 @@ position: absolute;
 
 .layui-layer-page .layui-layer-content {
     position: relative;
-    overflow: auto
+    overflow: visible;
 }
 
 .layui-layer-iframe .layui-layer-btn,

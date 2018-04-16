@@ -346,7 +346,7 @@
           this.selectionFour = true
           get(url).then(res => {
             let data = res.data.data
-            this.selectOptionsFour = ['All']
+            this.selectOptionsFour = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsFour.push(val)
             })
@@ -451,7 +451,7 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsTwo = ['All']
+            this.selectOptionsTwo = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
@@ -478,7 +478,7 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsTwo = ['All']
+            this.selectOptionsTwo = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
@@ -509,7 +509,7 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsTwo = ['All']
+            this.selectOptionsTwo = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
@@ -521,7 +521,7 @@
             this.selectionThree = true
             get(url).then(res => {
               let data = res.data.data
-              this.selectOptionsThree = ['All']
+              this.selectOptionsThree = ['ALL PRODUCTS']
               data.forEach((val) => {
                 this.selectOptionsThree.push(val)
               })
@@ -620,7 +620,7 @@
 
           this.getCampaignDate(getYear)
 
-          this.selectOptionsTwo = ['All', 'JD', 'Tmall']
+          this.selectOptionsTwo = ['ALL PRODUCTS', 'JD', 'Tmall']
 
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
@@ -642,7 +642,7 @@
 
           this.getCampaignDate(getYear)
 
-          this.selectOptionsTwo = ['All', 'JD', 'Tmall']
+          this.selectOptionsTwo = ['ALL PRODUCTS', 'JD', 'Tmall']
 
           //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
@@ -666,7 +666,7 @@
 
           get(EC_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsTwo = ['All']
+            this.selectOptionsTwo = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsTwo.push(val)
             })
@@ -676,12 +676,10 @@
         }
       },
       goUpDown() {
-        if (this.type == 0) {
+        if(this.type == 14) {
+          this.goDown = false
+        }else{
           this.goDown = true
-        } else if (this.type == 14) {
-          this.goDown = false
-        } else {
-          this.goDown = false
         }
       },
       settingChange(){
@@ -925,11 +923,10 @@
         width 350px
     .dashboard-all-wrap
       margin-top 25px
-
   .goUp,
   .goDown
     e-pos(left:50%, x:-50%, top:50%, y:-50%)
     margin-top 400px
-    width 20px
+    width 30px
     z-index 99999
 </style>

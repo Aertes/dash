@@ -226,6 +226,7 @@ function dataCmaSearch(that, data) {
         let yAxisName2 = data.chartRightY
         let series = data.chartDate
         that.DData = []
+        debugger
         that.DData.push(['Spending', formatThousands(num.spending)])
         that.DData.push(['Cost per lead', formatThousands(num.costLead)])
         that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])

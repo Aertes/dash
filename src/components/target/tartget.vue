@@ -134,7 +134,7 @@
       return {
         selectTargetOptions: ['CAMPAIGN', 'COM', 'CRM', 'RATING & REVIEW'],
         selectBOptions: ['B2C', 'B2B'],
-        selectTimeOptions: ['All'],
+        selectTimeOptions: ['ALL PRODUCTS'],
         camTableData: '',
         comCTableData: '',
         comBTableData: '',
@@ -531,7 +531,7 @@
           case 0:
             post(TARGET_GETDATE, 'campaign').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['All']
+              this.selectTimeOptions = ['ALL PRODUCTS']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -540,7 +540,7 @@
           case 1:
             post(TARGET_GETDATE, 'comB2c').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['All']
+              this.selectTimeOptions = ['ALL PRODUCTS']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -549,7 +549,7 @@
           case 2:
             post(TARGET_GETDATE, 'comB2b').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['All']
+              this.selectTimeOptions = ['ALL PRODUCTS']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -558,7 +558,7 @@
           case 3:
             post(TARGET_GETDATE, 'crm').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['All']
+              this.selectTimeOptions = ['ALL PRODUCTS']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -567,7 +567,7 @@
           case 4:
             post(TARGET_GETDATE, 'reviewRating').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['All']
+              this.selectTimeOptions = ['ALL PRODUCTS']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })

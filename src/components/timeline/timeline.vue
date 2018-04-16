@@ -80,14 +80,15 @@
           &:nth-child({row})
             top 55px * row
       .active
-        width 45px
-        height 45px
-        line-height 42px
+        width 42px
+        height 42px
+        line-height 41px
         left 50%
         font-size 23px
         color #fff
         margin-top -8px
-        margin-left -23px
+        margin-left -21px
+        border medium
         background url("../../assets/img/timeline_active.png") no-repeat center #F2F2F2
         background-size cover
         transition: all .2s linear

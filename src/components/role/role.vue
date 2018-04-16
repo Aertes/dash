@@ -60,7 +60,7 @@
     name: "role",
     data() {
       return {
-        selectStatusOptions: ['All', 'Enable', 'Disable'],
+        selectStatusOptions: ['ALL PRODUCTS', 'Enable', 'Disable'],
         tableData: '',
         roleData: {
           search: {

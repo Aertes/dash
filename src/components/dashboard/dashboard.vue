@@ -6,11 +6,19 @@
     <div class="dashboard-container clearfix" ref="DashBoard">
       <div class="chart-wrap" :style="isTable?'width:100%':''">
         <div class="chart-title">
-          <span>{{title}} ({{Time}}) </span>
-          <span title="Check the chart" @click="tableViews"><svg-icon sign="icon-grid" class="grid-icon"
-                                                                      :class="{active:!isTable}"></svg-icon></span>
-          <span title="See the table" @click="chartViews"><svg-icon sign="icon-chart" class="chart-icon"
-                                                                    :class="{active:isTable}"></svg-icon></span>
+          <span>{{title}} <span class="timeColor">({{Time}})</span></span>
+          <span title="Check the chart" @click="tableViews">
+            <svg-icon sign="icon-grid" class="grid-icon" :class="{active:!isTable}"></svg-icon>
+          </span>
+          <span title="See the table" @click="chartViews">
+            <svg-icon sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon>
+          </span>
+          <span title="Download URL"  @click="downloadUrl({isTable: '1'})">
+            <svg-icon sign="icon-link" class="link-icon" :class="{active:!isTable}"></svg-icon>
+          </span>
+          <span title="Enlarge the table" @click="openTables">
+            <svg-icon sign="icon-enlargeK" class="enlarge-icon" :class="{active:!isTable}"></svg-icon>
+          </span>
         </div>
         <div class="chart-cont">
           <!--<i class="sideShadow"></i>-->
@@ -510,6 +518,8 @@
       },
       downloadUrl(val) {
 
+        if(!this.isTable) return
+
         let baseUrl
 
         if (val.isTable == 1) {
@@ -806,6 +816,9 @@
 
         }
 
+      },
+      openTables(){
+        this.$Hub.$emit('showTables', {id: 'tablesBox', tableData: this.dashBoardTableData})
       }
     },
     watch: {
@@ -960,6 +973,8 @@
           line-height 88px
           color #2061AE
           font-size 30px
+          .timeColor
+            color #a0a0a1
           .icon
             e-pos(top:50%, y:-50%)
             font-size 30px
@@ -967,9 +982,19 @@
             &.active
               color #B7B5B6
           .chart-icon
-            right 80px
+            right 153px
           .grid-icon
-            right 30px
+            right 110px
+          .link-icon
+            &.active
+              cursor not-allowed
+            right 68px
+            font-size 27px
+          .enlarge-icon
+            &.active
+              cursor not-allowed
+            right 27px
+            font-size 27px
         .chart-cont
           position relative
           height 552px

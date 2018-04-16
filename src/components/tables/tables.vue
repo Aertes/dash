@@ -1,7 +1,7 @@
 <template>
   <div class="tables-wrap" id="tablesBox">
     <div class="tables-title">
-      <span>{{title}} ({{Time}})</span>
+      <span>{{title}} <span class="timeColor">({{Time}})</span></span>
       <span @click="closeLayerButton"><svg-icon sign="icon-closed"></svg-icon></span>
     </div>
     <div class="clearfix select-wrap">
@@ -31,10 +31,10 @@
             <th>KPI</th>
             <th>Month</th>
             <th>Target</th>
-            <th>M v.s T</th>
+            <th></th>
             <th>YTD</th>
             <th>Target</th>
-            <th>Y v.s T</th>
+            <th></th>
           </tr>
           </thead>
         </table>
@@ -477,11 +477,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -521,7 +521,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -549,7 +549,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -589,7 +589,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -617,7 +617,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -648,11 +648,11 @@
               "scrollCollapse": true,
               "paging": true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'week'},
@@ -726,9 +726,9 @@
               'bDestroy': true,
 
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -795,7 +795,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -830,7 +830,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -859,9 +859,9 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [{
                 data: 'item'
@@ -902,7 +902,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -928,7 +928,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -956,11 +956,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.data.length > 6 ? true : false,
+              "paging": this.tableData.data.length > 7 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -1056,11 +1056,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.data.length > 6 ? true : false,
+              "paging": this.tableData.data.length > 7 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -1156,11 +1156,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [{
                 data: 'category'
@@ -1245,9 +1245,9 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [{
                 data: 'item',
@@ -1308,7 +1308,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -1374,7 +1374,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -1670,7 +1670,7 @@
           this.selectionFive = true
           get(url).then(res => {
             let data = res.data.data
-            this.selectOptionsFive = ['All']
+            this.selectOptionsFive = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsFive.push(val)
             })
@@ -1775,7 +1775,7 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['All']
+            this.selectOptionsThree = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
@@ -1802,7 +1802,7 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['All']
+            this.selectOptionsThree = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
@@ -1835,7 +1835,7 @@
 
           get(CAM_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['All']
+            this.selectOptionsThree = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
@@ -1847,7 +1847,7 @@
             this.selectionFour = true
             get(url).then(res => {
               let data = res.data.data
-              this.selectOptionsFour = ['All']
+              this.selectOptionsFour = ['ALL PRODUCTS']
               data.forEach((val) => {
                 this.selectOptionsFour.push(val)
               })
@@ -1946,7 +1946,7 @@
 
           this.getCampaignDate(getYear)
 
-          this.selectOptionsThree = ['All', 'JD', 'Tmall']
+          this.selectOptionsThree = ['ALL PRODUCTS', 'JD', 'Tmall']
 
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
@@ -1968,7 +1968,7 @@
 
           this.getCampaignDate(getYear)
 
-          this.selectOptionsThree = ['All', 'JD', 'Tmall']
+          this.selectOptionsThree = ['ALL PRODUCTS', 'JD', 'Tmall']
 
           //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionThreeBox.nowIndex)
 
@@ -1992,7 +1992,7 @@
 
           get(EC_CATEGORY).then(res => {
             let data = res.data.data
-            this.selectOptionsThree = ['All']
+            this.selectOptionsThree = ['ALL PRODUCTS']
             data.forEach((val) => {
               this.selectOptionsThree.push(val)
             })
@@ -2217,6 +2217,8 @@
       font-size 35px
       line-height 80px
       color #2061AE
+      .timeColor
+        color #a0a0a1
       .icon
         e-pos(top:50%, y:-50%)
         right 25px
@@ -2232,8 +2234,8 @@
       #tableBoxDialog1_wrapper
         height 100%
       table
-        border-top 1px solid #EAEAEA
-        border-left 1px solid #EAEAEA
+        border-top 1px solid #D6E3F0
+        border-left 1px solid #D6E3F0
         border-bottom medium
         border-right medium
         line-height 30px
@@ -2242,8 +2244,8 @@
           background rgba(186, 215, 237, .42)
         th
         td
-          border-bottom 1px solid #EAEAEA
-          border-right 1px solid #EAEAEA
+          border-bottom 1px solid #D6E3F0
+          border-right 1px solid #D6E3F0
           border-top medium
           border-left medium
 

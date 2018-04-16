@@ -1,12 +1,12 @@
 <template>
   <div class="chart-tables-container" id="tableWrap">
     <div class="clearfix table-set">
-      <button class="box-shadow download-button" @click="downloadUrl">DOWNLOAD</button> <!--@click="downloadUrl"-->
-      <span @click="openTables"><svg-icon sign="icon-enlarge" class="enlarge"></svg-icon></span>
+      <!--<button class="box-shadow download-button" @click="downloadUrl">DOWNLOAD</button>-->
+      <!--<span @click="openTables"><svg-icon sign="icon-enlarge" class="enlarge"></svg-icon></span>-->
       <label>
         <input type="checkbox" v-model="checked">
         <svg-icon :sign="checked ? 'icon-checked' : 'icon-check'" class="checkBox"></svg-icon>
-        <span>Set Default View</span>
+        <span>Set as default view</span>
       </label>
     </div>
 
@@ -17,10 +17,10 @@
           <th>KPI</th>
           <th>Month</th>
           <th>Target</th>
-          <th>M v.s T</th>
+          <th></th>
           <th>YTD</th>
           <th>Target</th>
-          <th>Y v.s T</th>
+          <th></th>
         </tr>
         </thead>
       </table>
@@ -255,12 +255,12 @@
               "lengthChange": false,
               "ordering": false,
               'bDestroy': true,
-              "pageLength": 6,
+              "pageLength": 7,
               "pagingType": "simple_numbers",
               "info": false,
               "scrollX": true,
               "scrollCollapse": true,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -300,7 +300,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -328,7 +328,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -368,7 +368,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -396,7 +396,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -427,9 +427,9 @@
               "scrollCollapse": true,
               "paging": true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'week'},
@@ -502,9 +502,9 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -571,7 +571,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -606,7 +606,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -635,9 +635,9 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [{
                 data: 'item'
@@ -678,7 +678,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -704,7 +704,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -732,11 +732,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.data.length > 6 ? true : false,
+              "paging": this.tableData.data.length > 7 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -832,11 +832,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.data.length > 6 ? true : false,
+              "paging": this.tableData.data.length > 7 ? true : false,
               data: this.tableData.data,
               columns: [
                 {data: 'channel'},
@@ -932,11 +932,11 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
               "scrollX": true,
               "scrollCollapse": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [{
                 data: 'category'
@@ -1021,9 +1021,9 @@
               "ordering": false,
               'bDestroy': true,
               "pagingType": "simple_numbers",
-              "pageLength": 6,
+              "pageLength": 7,
               "info": false,
-              "paging": this.tableData.length > 6 ? true : false,
+              "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
               columns: [
                 {data: 'item'},
@@ -1089,7 +1089,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -1161,7 +1161,7 @@
                     if (data == 0) {
                       return '<div></div>'
                     } else if (data == 1) {
-                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #BDBDBD"></div>'
+                      return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #CECECE"></div>'
                     } else if (data == 2) {
                       return '<div style="width: 15px;height: 15px;border-radius: 50%;background-color: #68A490"></div>'
                     } else if (data == 3) {
@@ -1370,8 +1370,8 @@
         margin-right 20px
         cursor pointer
     table
-      border-top 1px solid #EAEAEA
-      border-left 1px solid #EAEAEA
+      border-top 1px solid #D6E3F0
+      border-left 1px solid #D6E3F0
       border-bottom medium
       border-right medium
       line-height 30px
@@ -1380,8 +1380,8 @@
         background rgba(186, 215, 237, .42);
       th
       td
-        border-bottom 1px solid #EAEAEA
-        border-right 1px solid #EAEAEA
+        border-bottom 1px solid #D6E3F0
+        border-right 1px solid #D6E3F0
         border-top medium
         border-left medium
 </style>

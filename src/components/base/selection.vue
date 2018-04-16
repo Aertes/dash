@@ -75,7 +75,7 @@
   .dropdown-wrap
     position relative
     display block
-    width 180px
+    width 210px
     height 40px
     outline none
     .dropdown-show

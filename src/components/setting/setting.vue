@@ -17,7 +17,7 @@
                 <input type="text" v-model="searchData.name" placeholder="User Name">
               </div>
               <div class="search">
-                <label for="">Login Account</label>
+                <label for="">Account ID</label>
                 <input type="text" v-model="searchData.username" placeholder="Login Account">
               </div>
               <div class="search">
@@ -209,7 +209,7 @@
         },
         active: false,
         selectedStatus: '',
-        selectStatusOptions: ['All', 'Enable', 'Disable'],
+        selectStatusOptions: ['ALL PRODUCTS', 'Enable', 'Disable'],
         tabsName: [
           {
             name: 'USER',
@@ -267,13 +267,14 @@
           callback: {
             onClick: this.getOrgId,
             onRename: this.onRename,
-            beforeRemove: this.beforeRemove
+            beforeRemove: this.beforeRemove,
           }
         },
         roleEdit: false,
         toRoleEditId: '',
         viewRole: false,
-        isSave: true
+        isSave: true,
+        zTreeObj:null
       }
     },
     mounted() {
@@ -414,7 +415,7 @@
           nodeData.forEach((v, i) => {
             this.ztreeNodeData.push({name: v.name, id: v.id, parentId: v.parentId})
           })
-          $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
+         this.zTreeObj = $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
         }).catch(err => console.log(err))
       },
       //修改名称
@@ -469,6 +470,7 @@
 
       // 增加节点
       addHoverDom(treeId, treeNode) {
+        let that = this
         if (treeNode.level == 0) {
           var sObj = $("#" + treeNode.tId + "_span");
           $('.remove').hide();
@@ -479,7 +481,7 @@
           var btn = $("#addBtn_" + treeNode.tId);
           if (btn) btn.bind("click", function () {
             var zTree = $.fn.zTree.getZTreeObj("userZtree");
-            post(xhrUrls.ORG_SAVE, {name: "New", status:1,parentId: treeNode.id}).then(res => {
+            post(xhrUrls.ORG_SAVE, {name: "New dept", status:1,parentId: treeNode.id}).then(res => {
               if (res.data.code == 200) {
                 layer.msg('Add success!', {
                   time: 2000,
@@ -783,11 +785,12 @@
           this.isActive.isSurePwdActive = false;
         }
         if (this.data.username != '') {
-          debugger
-          post(xhrUrls.USER_VALID_USERNAME, {username:this.data.username}).then(res=>{
+          post(xhrUrls.USER_VALID_USERNAME, this.data.username).then(res=>{
             let data = res.data
             if(!data){
-              debugger
+              this.isActive.isLogAccActive = true;
+              return false
+            }else{
               this.isActive.isLogAccActive = false;
               return false
             }

@@ -219,7 +219,7 @@
       font-size 37px
       color #a0a0a1
       font-weight normal
-      text-shadow: 2px 2px 5px #bbbbbb;
+      text-shadow 1px 1px 2px rgba(173, 160, 161, 0.6)
     .user-info
       float right
       color #2061AE
