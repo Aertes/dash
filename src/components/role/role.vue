@@ -353,7 +353,7 @@
         e-pos(top:50%, y:-50%)
       .create
         border 1px solid #1f61ae
-        border-radius 5px
+        border-radius 5px 5px 0 0
         height 55px
         line-height 55px
         cursor pointer
@@ -388,5 +388,5 @@
         position static
         text-align center
         line-height 30px
-  
+
 </style>

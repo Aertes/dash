@@ -1761,7 +1761,6 @@
 					if (!node) return;
 					callbackFlag = !!callbackFlag;
 					if (callbackFlag && tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return;
-					debugger;
 					view.removeNode(setting, node);
 					if (callbackFlag) {
 						this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);

@@ -49,12 +49,12 @@
 									<input type="password" name="newPassword" @change="onInput" :class="[isNewActive? 'active' : '']" minlength="6" v-model="data.newPassword">
 							</div>
 							<div>
-									<label>Sure Password</label>
+									<label>Repeated Password</label>
 									<input type="password" name="surePassword" @change="onInput" :class="[isSureActive? 'active' : '']" minlength="6"  v-model="data.surePassword">
 							</div>
           </div>
           <div class="submit-btn">
-            <button type="button" class="confirm" @click="submit">Confirm</button>
+            <button type="button" class="confirm" @click="submit">Submit</button>
 					  <button type="button" class="cancel" @click="closeLayerButton">Cancel</button>
           </div>
 			</form>
@@ -219,7 +219,7 @@
       font-size 37px
       color #a0a0a1
       font-weight normal
-      text-shadow: 5px 5px 5px #bbbbbb;
+      text-shadow: 2px 2px 5px #bbbbbb;
     .user-info
       float right
       color #2061AE

@@ -48,7 +48,7 @@
                     <thead>
                     <tr>
                       <th>User Name</th>
-                      <th>Login Account</th>
+                      <th>Account ID</th>
                       <th>Status</th>
                       <th>Operation</th>
                     </tr>
@@ -97,27 +97,25 @@
             <label>User Name</label>
             <label v-if="!isViewUser">{{userinfo.name}}</label>
             <input type="text" v-if="isViewUser" class="input" name="username" @change="onInput"
-                   :class="[isActive.isUserActive? 'active' : '']" v-model="data.name" placeholder="Please Username">
+                   :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
           </div>
           <div v-if="isViewUser">
             <label>Password</label>
             <input type="password" class="input" name="password" @change="onInput"
-                   :class="[isActive.isPwdActive? 'active' : '']" minlength="6" v-model="data.password"
-                   placeholder="Please Password">
+                   :class="[isActive.isPwdActive? 'active' : '']" minlength="6" v-model="data.password">
           </div>
           <div v-if="isViewUser">
-            <label>Sure Password</label>
+            <label>Repeated Password</label>
             <!-- <label v-if="isEdit">New Password</label> -->
             <input type="password" class="input" name="surePassword" @change="onInput"
                    :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6"
-                   v-model="data.surePassword" placeholder="Please SurePassword">
+                   v-model="data.surePassword">
           </div>
           <div>
-            <label>Login Account</label>
+            <label>Account ID</label>
             <label v-if="!isViewUser">{{userinfo.username}}</label>
             <input type="text" v-if="isViewUser" :disabled='isUpdata' class="input" name="loginAccount" @change="onInput"
-                   :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username"
-                   placeholder="Please Login Account">
+                   :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username">
           </div>
           <div>
             <label>Department</label>
@@ -129,7 +127,7 @@
                        @selectUser="selectUserHandle" class="user-select"></selection>
           </div>
           <div>
-            <label>Role</label>
+            <label>System Role</label>
             <label v-if="!isViewUser">{{userinfo.role}}</label>
             <!-- <select v-if="isViewUser" name="" id="" v-model="selectedRole">
               <option v-for="option in selectRoleOptions" :value="option.id">{{option.name}}</option>
@@ -138,7 +136,7 @@
                        @selectRole="selectRoleHandle" class="user-select" :perm="isDisable"></selection>
           </div>
           <div>
-            <label>Status</label>
+            <label>Account Status</label>
             <div class="radio" v-if="!isViewUser">
               <label for="status1" v-if="userinfo.status == 1">
                 <!-- <input type="radio" id="status1" name="newPassword" value="1" :checked=true> -->
@@ -162,7 +160,7 @@
           </div>
         </div>
         <div class="submit-btn">
-          <button type="button" v-if="isViewUser" class="confirm" @click="submit">Confirm</button>
+          <button type="button" v-if="isViewUser" class="confirm" @click="submit">Submit</button>
           <button type="button" class="cancel" @click="closeLayerButton">Cancel</button>
         </div>
       </form>
@@ -659,7 +657,7 @@
           event.preventDefault();
           that.isViewUser = false
           $('.titles').html('USER DETAILS')
-          $('.cancel').html('Back')
+          $('.cancel').html('Back').css('background-color', '#00aeea')
           var id = $(this).attr("data-id");
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
@@ -722,7 +720,7 @@
           $('.titles').html('EDIT USER')
           this.isEdit = true
         }
-        $('.cancel').html('Cancel')
+        $('.cancel').html('Cancel').css('background-color', 'orange')
         let roleId = this.data.roleIds;
         let orgid = this.data.orgid;
         post(xhrUrls.ROLE_SEARCH, {}).then(res => {
@@ -785,7 +783,15 @@
           this.isActive.isSurePwdActive = false;
         }
         if (this.data.username != '') {
-          this.isActive.isLogAccActive = false;
+          debugger
+          post(xhrUrls.USER_VALID_USERNAME, {username:this.data.username}).then(res=>{
+            let data = res.data
+            if(!data){
+              debugger
+              this.isActive.isLogAccActive = false;
+              return false
+            }
+          }).catch(err=>console.log(err))
         }
       },
       submit() {
@@ -1064,7 +1070,7 @@
                 font-size 20px
                 font-weight 400
                 background #1f61ae
-                border-radius 5px
+                border-radius 5px 5px 0 0
             .tables
               margin-left 22%
               padding-top 1px
@@ -1074,7 +1080,7 @@
                 e-pos(top:50%, y:-50%)
               .create
                 border 1px solid #1f61ae
-                border-radius 5px
+                border-radius 5px 5px 0 0
                 height 55px
                 cursor pointer
                 padding-left 20px
@@ -1189,7 +1195,7 @@
         margin-right 10px
       .cancel
         margin-left 10px
-        background-color #ccc
+        background-color orange
 
 
 </style>

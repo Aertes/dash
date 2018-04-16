@@ -62,6 +62,9 @@ export default {
   USER_ORG_ZTREE: BASE_URL + 'sys/user/getUserOrgTree',
   USER_ENABLE: BASE_URL + 'sys/user/enable',
   USER_DISABLE: BASE_URL + 'sys/user/disable',
+  USER_VALID_USERNAME: BASE_URL + 'sys/user/validateUsername',
+
+  
 
 
   //org
@@ -71,9 +74,21 @@ export default {
   ORG_SAVE: BASE_URL + 'sys/org/save',
 
   //target
-  TARGET_GETDATE: BASE_URL + '/target/getDate',
-  TARGET_UPDATE: BASE_URL + '/target/campaign/update',
-  TARGET_CAMSEARCH: BASE_URL + '/target/campaign/search',
-  TARGET_CAMSAVE: BASE_URL + '/target/campaign/save',
+  TARGET_GETDATE: BASE_URL + 'target/getDate',
+  TARGET_CAMUPDATE: BASE_URL + 'target/campaign/update',
+  TARGET_CAMSEARCH: BASE_URL + 'target/campaign/search',
+  TARGET_CAMSAVE: BASE_URL + 'target/campaign/save',
+
+  TARGET_COMUPDATE: BASE_URL + 'target/com/update',
+  TARGET_COMSEARCH: BASE_URL + 'target/com/search',
+  TARGET_COMSAVE: BASE_URL + 'target/com/save',
+
+  TARGET_CRMUPDATE: BASE_URL + 'target/crm/update',
+  TARGET_CRMSEARCH: BASE_URL + 'target/crm/search',
+  TARGET_CRMSAVE: BASE_URL + 'target/crm/save',
+
+  TARGET_RBUPDATE: BASE_URL + 'target/rr/update',
+  TARGET_RBSEARCH: BASE_URL + 'target/rr/search',
+  TARGET_RBSAVE: BASE_URL + 'target/rr/save',
 
 }

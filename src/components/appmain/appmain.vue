@@ -25,7 +25,7 @@
 
       <div v-if="all" class="options-menu">
         <div>
-          <svg-icon sign="icon-more"></svg-icon>
+          <svg-icon sign="icon-upload"></svg-icon>
         </div>
         <div class="dashboard-operation box-shadow">
           <img src="../../assets/img/triangle.png" alt="triangle" class="triangle">
@@ -432,7 +432,7 @@
           this.getReviewRatingDate(getYear)
 
         } else if (this.type === 5) {
-          
+
           this.selectionThree = false
 
           this.selectionFour = false

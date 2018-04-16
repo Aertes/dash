@@ -8,6 +8,9 @@
       <div class="form-wrapper">
         <!-- <h2>WELCOME!</h2> -->
         <form class="submit box-shadow" action="" autocomplete="off">
+          <div class="err input">
+            <p>{{isError}}</p>
+          </div>
           <div class="input username">
             <input type="text" @keyup.enter="submit" name='username' @change="onInput" :class="[isUserActive? 'active' : '']" v-model="loginDate.username" placeholder="USER NAME" autocomplete="off">
             <svg-icon sign="icon-user"></svg-icon>
@@ -55,6 +58,7 @@
         isUserActive: false,
         isPassActive: false,
         isCodeActive: false,
+        isError:'',
         userInfo: {},
         codeUrl: "",
         baseUrl: "",
@@ -77,15 +81,23 @@
           this.isUserActive = true;
           this.isPassActive = true;
           this.isCodeActive = true;
+          this.isError = 'Please enter login information'
+          return
         }
         if (this.loginDate.username == "") {
           this.isUserActive = true;
+          this.isError = 'Please enter your username'
+          return
         }
         if (this.loginDate.password == "") {
           this.isPassActive = true;
+          this.isError = 'Please enter the password'
+          return
         }
         if (this.loginDate.code == "") {
           this.isCodeActive = true;
+          this.isError = 'Please enter the verification code'
+          return
         }
         if (this.loginDate.username != "" & this.loginDate.password != "" & this.loginDate.code != "") {
           this.isShow = true
@@ -106,10 +118,12 @@
                   switch (res.data.code) {
                     case 201:
                       this.isCodeActive = true;
+                      this.isError = 'Verification code invaild'
                       break;
                     default:
                       this.isUserActive = true;
                       this.isPassActive = true;
+                      this.isError = 'Account or password invaild'
                       break;
                   }
                 }, 1000);
@@ -127,12 +141,15 @@
       onInput() {
         if (this.loginDate.username != '') {
           this.isUserActive = false;
+          this.isError = ''
         }
         if (this.loginDate.password != '') {
           this.isPassActive = false;
+          this.isError = ''
         }
         if (this.loginDate.code != '') {
           this.isCodeActive = false;
+          this.isError = ''
         }
       }
     },
@@ -279,7 +296,13 @@
         }
         
       }
-
+      .err{
+        color: #f00;
+        font-size: 22px;
+        text-align: left;
+        padding: 0 60px;
+        height: 30px;
+      }
       button {
         width: 270px;
         height: 50px;
