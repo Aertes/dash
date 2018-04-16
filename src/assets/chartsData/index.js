@@ -46,10 +46,15 @@ function dataOvCmaSearch(that, data) {
           if (data.chartDate[i].type === 'line') {
             val = (data.chartDate[i].data[0] * 100).toFixed(0) + '%'
           } else {
-            val = data.chartDate[i].data[0]
+            if (data.chartDate[i].name == "Cost per lead(¥)"){
+              val = data.chartDate[i].data[0]
+            }else{
+              val = data.chartDate[i].data[0].toFixed(0)
+            }
           }
           that.DData.push([data.chartDate[i].name, formatThousands(val)])
         }
+
         that.dashBoardoption = chartTypeOne(legendDate, xAxisData, yAxisName1, yAxisName2, series)
       }).catch(
       error => console.log(error)
@@ -258,7 +263,8 @@ function dataRevRatSearch(that, data) {
         let series = data.data
         that.DData = []
         for (let i = 0; i < num.length; i++) {
-          that.DData.push([num[i].name, formatThousands(num[i].value)])
+          let value = num[i].value.toFixed(0)
+          that.DData.push([num[i].name, formatThousands(value)])
         }
         that.dashBoardoption = chartTypeTwo(legendDate, series)
       }).catch(
@@ -285,6 +291,7 @@ function dataEcSearch(that, data) {
         let xAxisData = data.xAxis
         let seriesData1 = data.series1
         let seriesData2 = data.series2
+        
         that.DData = []
         that.DData.push(['Total Traffic', formatThousands(res.data.right.traffic)])
         that.DData.push(['Total Conversion', (res.data.right.conversionRate * 100).toFixed(2) + '%'])
@@ -348,8 +355,9 @@ function dataCmaBarSearch(that, data) {
         let legendDate = data.legend
         let xAxisData = data.xAxis
         let seriesData = data.series
+        let spending = num.spending.toFixed(0)
         that.DData = []
-        that.DData.push(['Spending', num.spending])
+        that.DData.push(['Spending', formatThousands(spending)])
         that.DData.push(['Cost per lead', num.costLead])
         that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
@@ -379,8 +387,9 @@ function dataCmaLineSearch(that, data) {
         let xAxisData = data.xAxis
         let cpl = data.cpl
         let conversionRate = data.conversionRate
+        let spending = num.spending.toFixed(0)
         that.DData = []
-        that.DData.push(['Spending', num.spending])
+        that.DData.push(['Spending', formatThousands(spending)])
         that.DData.push(['Cost per lead', num.costLead])
         that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
@@ -408,8 +417,9 @@ function dataCmafunnelSearch(that, data) {
         let num = res.data.right
         let legendDate = data.legend
         let series = data.data
+        let spending = num.spending.toFixed(0)
         that.DData = []
-        that.DData.push(['Spending', formatThousands(num.spending)])
+        that.DData.push(['Spending', formatThousands(spending)])
         that.DData.push(['Cost per lead', num.costLead])
         that.DData.push(['Conversion', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['CTR', (num.ctr * 100).toFixed(0) + '%'])
@@ -438,11 +448,12 @@ function dataComSearch(that, data) {
         let legendDate = data.legend
         let xAxisData = data.xAxis
         let seriesData = data.series
+        let totalTraffic = num.totalTraffic.toFixed(0)
         that.DData = []
         that.DData.push(['Bounce Rate', (num.bounceRate * 100).toFixed(0) + '%'])
         that.DData.push(['Conversion Rate', (num.conversionRate * 100).toFixed(0) + '%'])
         that.DData.push(['UGCR', (num.ugcr * 100).toFixed(0) + '%'])
-        that.DData.push(['Traffic', formatThousands(num.totalTraffic)])
+        that.DData.push(['Traffic', formatThousands(totalTraffic)])
         seriesData.forEach(val => {
           if (val.name == 'Month Target') {
             val.itemStyle = {
@@ -480,12 +491,12 @@ function dataCrmSearch(that, data) {
         let legendDate = data.legend
         let xAxisData = data.xAxis
         let seriesData = data.series
+        let registration = num.registration.toFixed(0)
+        let sale = num.sale.toFixed(0)
         that.DData = []
-
-        that.DData.push(['Registration', formatThousands(num.registration)])
+        that.DData.push(['Registration', formatThousands(registration)])
         that.DData.push(['Engagement Rate', (num.engagement * 100).toFixed(0) + '%'])
-        that.DData.push(['Sale', formatThousands(num.sale)])
-
+        that.DData.push(['Sale', formatThousands(sale)])
         seriesData.forEach(val => {
           if (val.name == 'Month Target') {
             val.itemStyle = {

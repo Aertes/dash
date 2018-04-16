@@ -25,6 +25,11 @@
         return this.$store.state.type
       }
     },
+    mounted(){
+        this.$Hub.$on('setSiderBarIndex',()=>{
+          this.selected = -1
+        })
+    },
     methods: {
       chooseDashboard(index) {
         this.$Hub.$emit('closeSetting')

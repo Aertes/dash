@@ -1023,7 +1023,6 @@
             float left
             .dropdown-wrap
               display inline-block
-              width 200px
               height 40px
               line-height 40px
               .dropdown-show
@@ -1040,7 +1039,6 @@
               appearance none
               border 1px solid #E2DFDE
               border-radius 5px
-              width 200px
               height 40px
               line-height 40px
               padding 0 10px

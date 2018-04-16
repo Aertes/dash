@@ -6,9 +6,9 @@
 
     <div class="options-bar box-shadow clearfix">
 
-      <h3 class="titleH3" v-if="isSetting">SYSTEM SETTING</h3>
+      <h3 class="titleH3" v-show="isSetting">SYSTEM SETTING</h3>
 
-      <div v-if="!isSetting">
+      <div v-show="!isSetting">
         <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
         <selection v-show="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
@@ -684,6 +684,7 @@
       },
       settingChange(){
         this.isSetting = true
+        this.$Hub.$emit('setSiderBarIndex')
       },
 
     },

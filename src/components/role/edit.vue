@@ -200,7 +200,6 @@
       margin-bottom 20px
       .dropdown-wrap
         display inline-block
-        width 200px
         height 40px
         line-height 40px
         .dropdown-show
