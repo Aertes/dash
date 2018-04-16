@@ -125,7 +125,7 @@
             <!-- <select v-if="isViewUser" name="" id="" v-model="selectedOrg">
               <option v-for="(option, index) in selectOrgOptions" :value="option.id">{{option.name}}</option>
             </select> -->
-            <selection ref='user' v-if="isViewUser" :selections="selectOrgOptions" :selectedId='selectOrgOptionsId'
+            <selection ref='user' v-show="isViewUser" :selections="selectOrgOptions" :selectedId='selectOrgOptionsId'
                        @selectUser="selectUserHandle" class="user-select"></selection>
           </div>
           <div>
@@ -134,7 +134,7 @@
             <!-- <select v-if="isViewUser" name="" id="" v-model="selectedRole">
               <option v-for="option in selectRoleOptions" :value="option.id">{{option.name}}</option>
             </select> -->
-            <selection ref='role' v-if="isViewUser" :selections="selectRoleOptions" :selectedId="selectRoleOptionsId"
+            <selection ref='role' v-show="isViewUser" :selections="selectRoleOptions" :selectedId="selectRoleOptionsId"
                        @selectRole="selectRoleHandle" class="user-select" :perm="isDisable"></selection>
           </div>
           <div>
