@@ -289,7 +289,7 @@
     mounted() {
 
       //this.monthChange()
-      
+
       if (!this.locationHash) this.defaultViews()
 
       this.$Hub.$on('goToWheel', () => {

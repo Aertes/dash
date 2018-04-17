@@ -267,31 +267,31 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'impression',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'traffic',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'trafficEc',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'trafficEcTarget',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -313,13 +313,13 @@
                 {
                   data: 'trafficCom',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'trafficComTarget',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -347,7 +347,7 @@
                 {
                   data: 'leads',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -443,19 +443,19 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands((data.toFixed(2))) + '</div>'
+                    return '<div>' + formatThousands((data.toFixed(0))) + '</div>'
                   }
                 },
                 {
                   data: 'impression',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'click',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -467,7 +467,7 @@
                 {
                   data: 'leads',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -522,7 +522,7 @@
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                         break;
                     }
                   }
@@ -541,7 +541,7 @@
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                         break;
                     }
                   }
@@ -560,7 +560,7 @@
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                         break;
                     }
                   }
@@ -595,7 +595,7 @@
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                         break;
                     }
                   }
@@ -648,7 +648,7 @@
                     if (row.item == "CRM Engagement Rate") {
                       return '<div>' + (data * 100).toFixed(0) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data) + '</div>'
+                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                     }
                   }
                 },
@@ -658,7 +658,7 @@
                     if (row.item == "CRM Engagement Rate") {
                       return '<div>' + (data * 100).toFixed(0) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data) + '</div>'
+                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                     }
                   }
                 },
@@ -668,7 +668,7 @@
                     if (row.item == "CRM Engagement Rate") {
                       return '<div>' + (data * 100).toFixed(0) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data) + '</div>'
+                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                     }
                   }
                 },
@@ -694,7 +694,7 @@
                     if (row.item == "CRM Engagement Rate") {
                       return '<div>' + (data * 100).toFixed(0) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data) + '</div>'
+                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                     }
                   }
                 },
@@ -863,7 +863,7 @@
                 {
                   data: 'selloutVolume',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -875,25 +875,25 @@
                 {
                   data: 'totalReview',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'positive',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'neutral',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
                   data: 'negative',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -905,7 +905,7 @@
                 {
                   data: 'timelyResponse',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
                   }
                 },
                 {
@@ -1031,6 +1031,12 @@
                   data: 'month',
                   render: (data, type, row) => {
                     switch (row.item) {
+                      case "Traffic to e-commerce(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
+                      case "Traffic to .com.cn(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
                       case "Conversion rate ":
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
@@ -1059,6 +1065,12 @@
                   data: 'target',
                   render: (data, type, row) => {
                     switch (row.item) {
+                      case "Traffic to e-commerce(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
+                      case "Traffic to .com.cn(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
                       case "Conversion rate ":
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
@@ -1103,6 +1115,12 @@
                   data: 'ytd',
                   render: (data, type, row) => {
                     switch (row.item) {
+                      case "Traffic to e-commerce(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
+                      case "Traffic to .com.cn(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
                       case "Conversion rate ":
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
@@ -1131,6 +1149,12 @@
                   data: 'ytdTarget',
                   render: (data, type, row) => {
                     switch (row.item) {
+                      case "Traffic to e-commerce(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
+                      case "Traffic to .com.cn(M) ":
+                        return '<div>' + data.toFixed(0) + '</div>'
+                        break;
                       case "Conversion rate ":
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;

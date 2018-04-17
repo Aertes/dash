@@ -95,7 +95,7 @@
         <div class="resg">
           <div>
             <label>User Name</label>
-            <label class="user-name" v-show="!isViewUser">{{userinfo.name}}</label>
+            <label v-show="!isViewUser">{{userinfo.name}}</label>
             <input type="text" v-show="isViewUser" class="input" name="username" @change="onInput"
                    :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
           </div>
@@ -158,8 +158,6 @@
         </div>
       </form>
     </div>
-
-
 
     <div class="clearfix dashboard-all-wrap">
       <upload-file ref='upload'></upload-file>

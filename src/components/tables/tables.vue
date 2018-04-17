@@ -1255,7 +1255,7 @@
                   data: 'month',
                   render: (data, type, row) => {
                     switch (row.item) {
-                      case "Conversion rate":
+                      case "Conversion rate ":
                         return '<div>' + (data * 100).toFixed(0) + '%</div>'
                         break;
                       case "Bounce rate":
