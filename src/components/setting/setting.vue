@@ -17,15 +17,12 @@
                 <input type="text" v-model="searchData.name" placeholder="User Name">
               </div>
               <div class="search">
-                <label for="">Login Account</label>
-                <input type="text" v-model="searchData.username" placeholder="Login Account">
+                <label for="">Account ID</label>
+                <input type="text" v-model="searchData.username" placeholder="Account ID">
               </div>
               <div class="search">
                 <label for="">Status</label>
                 <selection :selections="selectStatusOptions" @selectStatus="selectStatus"></selection>
-                <!-- <select name="" id="" v-model="selectedStatus">
-                  <option v-for="option in selectStatusOptions" :value="option.value">{{option.text}}</option>
-                </select> -->
               </div>
               <div @click="searchUser">
                 <svg-icon sign="icon-search" class="searchIcon"></svg-icon>
@@ -95,7 +92,7 @@
         <div class="resg">
           <div>
             <label>User Name</label>
-            <label v-show="!isViewUser">{{userinfo.name}}</label>
+            <label class="userName" v-show="!isViewUser">{{userinfo.name}}</label>
             <input type="text" v-show="isViewUser" class="input" name="username" @change="onInput"
                    :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
           </div>
@@ -661,7 +658,7 @@
                 that.userinfo.role = res.data.role.name
               }
               that.userinfo.status = res.data.user.status
-              $('.user-name').html(that.userinfo.name)
+              $('.userName').html(that.userinfo.name)
               that.layerOpen('user')
             } else {
               console.log('err')
