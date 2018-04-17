@@ -95,7 +95,7 @@
         <div class="resg">
           <div>
             <label>User Name</label>
-            <label v-show="!isViewUser">{{userinfo.name}}</label>
+            <label class="user-name" v-show="!isViewUser">{{userinfo.name}}</label>
             <input type="text" v-show="isViewUser" class="input" name="username" @change="onInput"
                    :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
           </div>
@@ -106,7 +106,6 @@
           </div>
           <div v-show="isViewUser">
             <label>Repeated Password</label>
-            <!-- <label v-if="isEdit">New Password</label> -->
             <input type="password" class="input" name="surePassword" @change="onInput"
                    :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6"
                    v-model="data.surePassword">
@@ -120,18 +119,12 @@
           <div>
             <label>Department</label>
             <label v-show="!isViewUser">{{userinfo.org}}</label>
-            <!-- <select v-if="isViewUser" name="" id="" v-model="selectedOrg">
-              <option v-for="(option, index) in selectOrgOptions" :value="option.id">{{option.name}}</option>
-            </select> -->
             <selection ref='user' v-show="isViewUser" :selections="selectOrgOptions" :selectedId='selectOrgOptionsId'
                        @selectUser="selectUserHandle" class="user-select"></selection>
           </div>
           <div>
             <label>System Role</label>
             <label v-show="!isViewUser">{{userinfo.role}}</label>
-            <!-- <select v-if="isViewUser" name="" id="" v-model="selectedRole">
-              <option v-for="option in selectRoleOptions" :value="option.id">{{option.name}}</option>
-            </select> -->
             <selection ref='role' v-show="isViewUser" :selections="selectRoleOptions" :selectedId="selectRoleOptionsId"
                        @selectRole="selectRoleHandle" class="user-select" :perm="isDisable"></selection>
           </div>
@@ -165,6 +158,8 @@
         </div>
       </form>
     </div>
+
+
 
     <div class="clearfix dashboard-all-wrap">
       <upload-file ref='upload'></upload-file>
@@ -668,6 +663,7 @@
                 that.userinfo.role = res.data.role.name
               }
               that.userinfo.status = res.data.user.status
+              $('.user-name').html(that.userinfo.name)
               that.layerOpen('user')
             } else {
               console.log('err')
@@ -750,7 +746,6 @@
             }
           });
         }).catch(err => console.log(err))
-
       },
       selectStatus(val) {
         switch (val) {
