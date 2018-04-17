@@ -13,22 +13,22 @@
           <span title="See the table" @click="chartViews">
             <svg-icon sign="icon-chart" class="chart-icon" :class="{active:isTable}"></svg-icon>
           </span>
-          <span title="Download URL"  @click="downloadUrl({isTable: '1'})">
-            <svg-icon sign="icon-link" class="link-icon" :class="{active:!isTable}"></svg-icon>
-          </span>
-          <span title="Enlarge the table" @click="openTables">
-            <svg-icon sign="icon-enlargeK" class="enlarge-icon" :class="{active:!isTable}"></svg-icon>
-          </span>
+          <div class="LE-icon-wrap" :class="{active:isTable}">
+            <span title="Download URL" @click="downloadUrl({isTable: '1'})">
+              <svg-icon sign="icon-link" class="link-icon" :class="{active:!isTable}"></svg-icon>
+            </span>
+            <span title="Enlarge the table" @click="openTables">
+              <svg-icon sign="icon-enlargeK" class="enlarge-icon" :class="{active:!isTable}"></svg-icon>
+            </span>
+          </div>
         </div>
         <div class="chart-cont">
           <!--<i class="sideShadow"></i>-->
           <div id="charContainer">
             <keep-alive>
-              <chart-table v-if="isTable" :tableData="dashBoardTableData" @closeLoading="loadingHandle"
-                           @downloadUrl="downloadUrl"></chart-table>
+              <chart-table v-if="isTable" :tableData="dashBoardTableData" @closeLoading="loadingHandle"></chart-table>
               <chart v-else="!isTable" :chartOptions="dashBoardoption" @closeLoading="loadingHandle"></chart>
             </keep-alive>
-
           </div>
         </div>
       </div>
@@ -518,8 +518,6 @@
       },
       downloadUrl(val) {
 
-        if(!this.isTable) return
-
         let baseUrl
 
         if (val.isTable == 1) {
@@ -817,7 +815,7 @@
         }
 
       },
-      openTables(){
+      openTables() {
         this.$Hub.$emit('showTables', {id: 'tablesBox', tableData: this.dashBoardTableData})
       }
     },
@@ -885,7 +883,7 @@
     position relative
     float left
     width 1440px
-    height 650px
+    height 670px
     border-radius 10px
     overflow hidden
     .dashboard-container
@@ -925,7 +923,7 @@
             font-size 18px
         .data-list-wrap
           position relative
-          height 560px
+          height 580px
           overflow hidden
           .download-button
             e-pos(left:50%, x:-50%)
@@ -942,7 +940,7 @@
             padding-top 15px
             li
               width 250px
-              margin-top 40px
+              margin-top 45px
               p
                 white-space nowrap
                 text-overflow ellipsis
@@ -982,22 +980,28 @@
             &.active
               color #B7B5B6
           .chart-icon
-            right 153px
+            &.active
+              right 153px
+            right 63px
           .grid-icon
+            &.active
+              right 20px
             right 110px
-          .link-icon
-            &.active
-              cursor not-allowed
-            right 68px
-            font-size 27px
-          .enlarge-icon
-            &.active
-              cursor not-allowed
+          .LE-icon-wrap
+            e-pos(top:50%, y:-50%)
+            display none
             right 27px
-            font-size 27px
+            &.active
+              display block
+            .link-icon
+              right 41px
+              font-size 27px
+            .enlarge-icon
+              right 0
+              font-size 27px
         .chart-cont
           position relative
-          height 552px
+          height 572px
           margin 0 20px 10px 20px;
           overflow hidden
           #charContainer
@@ -1020,7 +1024,6 @@
         e-pos(top:50%, y:-50%, left:50%, x:-50%)
         width 300px
         height 300px
-
   .downLoadUrl
     .tables-title
       position: relative

@@ -17,7 +17,7 @@
                 <input type="text" v-model="searchData.name" placeholder="User Name">
               </div>
               <div class="search">
-                <label for="">Account ID</label>
+                <label for="">Login Account</label>
                 <input type="text" v-model="searchData.username" placeholder="Login Account">
               </div>
               <div class="search">
@@ -95,16 +95,16 @@
         <div class="resg">
           <div>
             <label>User Name</label>
-            <label v-if="!isViewUser">{{userinfo.name}}</label>
-            <input type="text" v-if="isViewUser" class="input" name="username" @change="onInput"
+            <label v-show="!isViewUser">{{userinfo.name}}</label>
+            <input type="text" v-show="isViewUser" class="input" name="username" @change="onInput"
                    :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
           </div>
-          <div v-if="isViewUser">
+          <div v-show="isViewUser">
             <label>Password</label>
             <input type="password" class="input" name="password" @change="onInput"
                    :class="[isActive.isPwdActive? 'active' : '']" minlength="6" v-model="data.password">
           </div>
-          <div v-if="isViewUser">
+          <div v-show="isViewUser">
             <label>Repeated Password</label>
             <!-- <label v-if="isEdit">New Password</label> -->
             <input type="password" class="input" name="surePassword" @change="onInput"
@@ -113,13 +113,13 @@
           </div>
           <div>
             <label>Account ID</label>
-            <label v-if="!isViewUser">{{userinfo.username}}</label>
-            <input type="text" v-if="isViewUser" :disabled='isUpdata' class="input" name="loginAccount" @change="onInput"
+            <label v-show="!isViewUser">{{userinfo.username}}</label>
+            <input type="text" v-show="isViewUser" :disabled='isUpdata' class="input" name="loginAccount" @change="onInput"
                    :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username">
           </div>
           <div>
             <label>Department</label>
-            <label v-if="!isViewUser">{{userinfo.org}}</label>
+            <label v-show="!isViewUser">{{userinfo.org}}</label>
             <!-- <select v-if="isViewUser" name="" id="" v-model="selectedOrg">
               <option v-for="(option, index) in selectOrgOptions" :value="option.id">{{option.name}}</option>
             </select> -->
@@ -128,7 +128,7 @@
           </div>
           <div>
             <label>System Role</label>
-            <label v-if="!isViewUser">{{userinfo.role}}</label>
+            <label v-show="!isViewUser">{{userinfo.role}}</label>
             <!-- <select v-if="isViewUser" name="" id="" v-model="selectedRole">
               <option v-for="option in selectRoleOptions" :value="option.id">{{option.name}}</option>
             </select> -->
@@ -137,17 +137,17 @@
           </div>
           <div>
             <label>Account Status</label>
-            <div class="radio" v-if="!isViewUser">
-              <label for="status1" v-if="userinfo.status == 1">
+            <div class="radio" v-show="!isViewUser">
+              <label for="status1" v-show="userinfo.status == 1">
                 <!-- <input type="radio" id="status1" name="newPassword" value="1" :checked=true> -->
                 Enable
               </label>
-              <label for="status2" v-if="userinfo.status == 0">
+              <label for="status2" v-show="userinfo.status == 0">
                 <!-- <input type="radio" id="status2" name="newPassword" value="0" :checked=true> -->
                 Disable
               </label>
             </div>
-            <div class="radio" v-if="isViewUser">
+            <div class="radio" v-show="isViewUser">
               <label for="status1">
                 <input type="radio" id="status1" name="newPassword" value="1" :checked=true v-model="data.status">
                 Enable
@@ -160,7 +160,7 @@
           </div>
         </div>
         <div class="submit-btn">
-          <button type="button" v-if="isViewUser" class="confirm" @click="submit">Submit</button>
+          <button type="button" v-show="isViewUser" class="confirm" @click="submit">Submit</button>
           <button type="button" class="cancel" @click="closeLayerButton">Cancel</button>
         </div>
       </form>
@@ -209,7 +209,7 @@
         },
         active: false,
         selectedStatus: '',
-        selectStatusOptions: ['ALL PRODUCTS', 'Enable', 'Disable'],
+        selectStatusOptions: ['All', 'Enable', 'Disable'],
         tabsName: [
           {
             name: 'USER',
@@ -281,13 +281,11 @@
       this.isLogin();
       this.userTable();
       this.removeUser();
-      this.viewUser();
-      this.editUser();
       this.userEnable();
       this.userDisable();
-      this.$nextTick(() => {
-        this._initZtree()
-      })
+      this._initZtree()
+      this.viewUser();
+      this.editUser();
     },
     methods: {
       isLogin() {
@@ -654,12 +652,12 @@
       //查看用户
       viewUser() {
         let that = this;
-        $(document).delegate('.viewUser', 'click', function (event) {
+        $(document).on('click','.viewUser', function (event) {
           event.stopImmediatePropagation();
           event.preventDefault();
-          that.isViewUser = false
           $('.titles').html('USER DETAILS')
           $('.cancel').html('Back').css('background-color', '#00aeea')
+          that.isViewUser = false
           var id = $(this).attr("data-id");
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
@@ -1023,6 +1021,7 @@
             float left
             .dropdown-wrap
               display inline-block
+              width 200px
               height 40px
               line-height 40px
               .dropdown-show
@@ -1039,6 +1038,7 @@
               appearance none
               border 1px solid #E2DFDE
               border-radius 5px
+              width 200px
               height 40px
               line-height 40px
               padding 0 10px
