@@ -267,31 +267,31 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'impression',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'traffic',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'trafficEc',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'trafficEcTarget',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
@@ -313,13 +313,13 @@
                 {
                   data: 'trafficCom',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'trafficComTarget',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
@@ -341,25 +341,25 @@
                 {
                   data: 'ctr',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'leads',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'costLead',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(2)) + '</div>'
                   }
                 },
                 {
                   data: 'baseLine',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(data.toFixed(2)) + '</div>'
                   }
                 },
                 {
@@ -381,13 +381,13 @@
                 {
                   data: 'conversionRate',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'baseLineConversion',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
@@ -443,31 +443,31 @@
                 {
                   data: 'spending',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands((data.toFixed(0))) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'impression',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'click',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'ctr',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'leads',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
@@ -479,7 +479,7 @@
                 {
                   data: 'conversionRate',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
 
                 }
@@ -513,16 +513,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -532,16 +532,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -551,16 +551,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -586,16 +586,16 @@
                   render: (data, type, row) => {
                     switch (row.item) {
                       case "Bounce Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Conversion Rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -639,16 +639,15 @@
               "info": false,
               "paging": this.tableData.length > 8 ? true : false,
               data: this.tableData,
-              columns: [{
-                data: 'item'
-              },
+              columns: [
+                {data: 'item'},
                 {
                   data: 'month',
                   render: (data, type, row) => {
                     if (row.item == "CRM Engagement Rate") {
-                      return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                      return '<div>' + Math.round(data * 100) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                      return '<div>' + formatThousands(Math.round(data)) + '</div>'
                     }
                   }
                 },
@@ -656,9 +655,9 @@
                   data: 'ytd',
                   render: (data, type, row) => {
                     if (row.item == "CRM Engagement Rate") {
-                      return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                      return '<div>' + Math.round(data * 100) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                      return '<div>' + formatThousands(Math.round(data)) + '</div>'
                     }
                   }
                 },
@@ -666,9 +665,9 @@
                   data: 'target',
                   render: (data, type, row) => {
                     if (row.item == "CRM Engagement Rate") {
-                      return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                      return '<div>' + Math.round(data * 100) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                      return '<div>' + formatThousands(Math.round(data)) + '</div>'
                     }
                   }
                 },
@@ -692,9 +691,9 @@
                   data: 'ytdTarget',
                   render: (data, type, row) => {
                     if (row.item == "CRM Engagement Rate") {
-                      return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                      return '<div>' + Math.round(data * 100) + '%</div>'
                     } else {
-                      return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                      return '<div>' + formatThousands(Math.round(data)) + '</div>'
                     }
                   }
                 },
@@ -745,73 +744,73 @@
                 {
                   data: 'smallVolume',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'midVolume',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'bigVolume',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'selloutVolume',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'percentReview',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'totalReview',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'positive',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'neutral',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'negative',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'percentNegative',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'timelyResponse',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'timelyResponseRate',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
               ]
@@ -845,73 +844,73 @@
                 {
                   data: 'smallVolume',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'midVolume',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'bigVolume',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'selloutVolume',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'percentReview',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'totalReview',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'positive',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'neutral',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'negative',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'percentNegative',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
                 {
                   data: 'timelyResponse',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data.toFixed(0)) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'timelyResponseRate',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + Math.round(data * 100) + '%</div>'
                   }
                 },
               ]
@@ -938,70 +937,69 @@
               "scrollCollapse": false,
               "paging": this.tableData.length > 7 ? true : false,
               data: this.tableData,
-              columns: [{
-                data: 'category'
-              },
+              columns: [
+                {data: 'category'},
                 {
                   data: 'period'
                 },
                 {
                   data: 'traffic1',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate1',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic2',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate2',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic3',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate3',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic4',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate4',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
                 {
                   data: 'traffic5',
                   render: (data, type, row) => {
-                    return '<div>' + formatThousands(data) + '</div>'
+                    return '<div>' + formatThousands(Math.round(data)) + '</div>'
                   }
                 },
                 {
                   data: 'conversionRate5',
                   render: (data, type, row) => {
-                    return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                    return '<div>' + (data * 100).toFixed(2) + '%</div>'
                   }
                 },
               ]
@@ -1031,32 +1029,32 @@
                   data: 'month',
                   render: (data, type, row) => {
                     switch (row.item) {
-                      case "Traffic to e-commerce(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Rating":
+                        return '<div>' + data.toFixed(2) + '</div>'
                         break;
-                      case "Traffic to .com.cn(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Traffic(excluding campaign)(M)":
+                        return '<div>' + formatThousands(data.toFixed(2)) + '</div>'
                         break;
                       case "Conversion rate ":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -1065,32 +1063,32 @@
                   data: 'target',
                   render: (data, type, row) => {
                     switch (row.item) {
-                      case "Traffic to e-commerce(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Rating":
+                        return '<div>' + data.toFixed(2) + '</div>'
                         break;
-                      case "Traffic to .com.cn(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Traffic(excluding campaign)(M)":
+                        return '<div>' + formatThousands(formatThousands(data.toFixed(2))) + '</div>'
                         break;
                       case "Conversion rate ":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -1115,32 +1113,32 @@
                   data: 'ytd',
                   render: (data, type, row) => {
                     switch (row.item) {
-                      case "Traffic to e-commerce(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Rating":
+                        return '<div>' + data.toFixed(2) + '</div>'
                         break;
-                      case "Traffic to .com.cn(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Traffic(excluding campaign)(M)":
+                        return '<div>' + formatThousands(formatThousands(data.toFixed(2))) + '</div>'
                         break;
                       case "Conversion rate ":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }
@@ -1149,32 +1147,32 @@
                   data: 'ytdTarget',
                   render: (data, type, row) => {
                     switch (row.item) {
-                      case "Traffic to e-commerce(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Rating":
+                        return '<div>' + data.toFixed(2) + '</div>'
                         break;
-                      case "Traffic to .com.cn(M) ":
-                        return '<div>' + data.toFixed(0) + '</div>'
+                      case "Traffic(excluding campaign)(M)":
+                        return '<div>' + formatThousands(formatThousands(data.toFixed(2))) + '</div>'
                         break;
                       case "Conversion rate ":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Bounce rate":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "conversion rate(excluding campaign)":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Engagement%":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "Rating":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       case "UGCR":
-                        return '<div>' + (data * 100).toFixed(0) + '%</div>'
+                        return '<div>' + Math.round(data * 100) + '%</div>'
                         break;
                       default:
-                        return '<div>' + formatThousands(data) + '</div>'
+                        return '<div>' + formatThousands(Math.round(data)) + '</div>'
                         break;
                     }
                   }

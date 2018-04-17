@@ -620,7 +620,7 @@
 
           this.getCampaignDate(getYear)
 
-          this.selectOptionsTwo = ['ALL PRODUCTS', 'JD', 'Tmall']
+          this.selectOptionsTwo = ['ALL CHANNEL', 'JD', 'TMALL']
 
           //this.$store.commit('rrOneChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
@@ -642,7 +642,7 @@
 
           this.getCampaignDate(getYear)
 
-          this.selectOptionsTwo = ['ALL PRODUCTS', 'JD', 'Tmall']
+          this.selectOptionsTwo = ['ALL CHANNEL', 'JD', 'TMALL']
 
           //this.$store.commit('rrChannelIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
@@ -685,8 +685,7 @@
       settingChange(){
         this.isSetting = true
         this.$Hub.$emit('setSiderBarIndex')
-      },
-
+      }
     },
     components: {
       DashBoard,
@@ -697,53 +696,64 @@
     watch: {
       type: function () {
 
-        if (this.type == 5) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
-
-        } else if (this.type == 6) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.camOneTwoCategoryId
-
-        } else if (this.type == 7) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.camCategoryId
-
-          if (this.camCompaignId > 0) {
-            this.selectionFour = true
-          }
-
-          this.selectOneVal = this.camCategory
-
-          this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
-
-          this.selectTwoVal = this.camCompaign
-
-          this.$refs.selectionFourBox.nowIndex = this.camWeekId
-
-        } else if (this.type == 8) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
-
-        }  else if (this.type == 9) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeTwoId
-
-        } else if (this.type == 12) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
-
-        } else if (this.type == 13) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
-
-        } else if (this.type == 14) {
-
-          this.$refs.selectionTwoBox.nowIndex = this.ecCategoryId
-
+        switch (this.type){
+          case 5:
+            this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
+            break;
+          case 6:
+            this.$refs.selectionTwoBox.nowIndex = this.camOneTwoCategoryId
+            break;
+          case 7:
+            this.$refs.selectionTwoBox.nowIndex = this.camCategoryId
+            if (this.camCompaignId > 0) this.selectionFour = true
+            this.selectOneVal = this.camCategory
+            this.$refs.selectionThreeBox.nowIndex = this.camCompaignId
+            this.selectTwoVal = this.camCompaign
+            this.$refs.selectionFourBox.nowIndex = this.camWeekId
+            break;
+          case 8:
+            this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeId
+            break;
+          case 9:
+            this.$refs.selectionTwoBox.nowIndex = this.comMarketTypeTwoId
+            break;
+          case 12:
+            this.$refs.selectionTwoBox.nowIndex = this.rrOneChannelId
+            break;
+          case 13:
+            this.$refs.selectionTwoBox.nowIndex = this.rrChannelId
+            break;
+          case 14:
+            this.$refs.selectionTwoBox.nowIndex = this.ecCategoryId
+            break;
         }
 
-        if(!this.locationHash) this.getSelectData()
+        /*if (this.type == 5) {
+        } else if (this.type == 6) {
+        } else if (this.type == 7) {
+        } else if (this.type == 8) {
+        }  else if (this.type == 9) {
+        } else if (this.type == 12) {
+        } else if (this.type == 13) {
+        } else if (this.type == 14) {
+        }*/
+
+        if(!this.locationHash) {
+          this.getSelectData()
+        }else{
+          switch (this.type){
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 12:
+            case 13:
+            case 14:
+              this.getSelectData()
+              break;
+          }
+        }
 
         this.goUpDown()
 

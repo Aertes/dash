@@ -116,23 +116,23 @@ const store = new Vuex.Store({
     },
 
     camOneCategoryVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL PRODUCTS') val =null
       state.camOneCategory = val
     },
     camOneTwoCategoryVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL PRODUCTS') val =null
       state.camOneTwoCategory = val
     },
     camCategoryVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL PRODUCTS') val =null
       state.camCategory = val
     },
     camCompaignVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL PRODUCTS') val =null
       state.camCompaign = val
     },
     camWeekVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL PRODUCTS') val =null
       state.camWeek = val
     },
     comMarketTypeVoluation:(state, val) => {
@@ -142,15 +142,15 @@ const store = new Vuex.Store({
       state.comMarketTypeTwo = val
     },
     rrOneChannelVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL CHANNEL') val =null
       state.rrOneChannel = val
     },
     rrChannelVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL CHANNEL') val =null
       state.rrChannel = val
     },
     ecCategoryVoluation:(state, val) => {
-      if(val == 'All') val =null
+      if(val == 'ALL PRODUCTS') val =null
       state.ecCategory = val
     },
 
@@ -162,7 +162,6 @@ const store = new Vuex.Store({
       state.camOneCategoryId = val
     },
     camOneTwoCategoryIdVoluation:(state, val) => {
-      if(val == 'All') val =null
       state.camOneTwoCategoryId = val
     },
     camCategoryIdVoluation:(state, val) => {

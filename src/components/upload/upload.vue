@@ -142,7 +142,6 @@
 							this.refreshData()
 						}, 1000);
 					} else {
-						debugger
 						let errMsg = res.errMsg.replace(/\,/g, '<br>')
 						$("#text").html("UPLOAD ERROR!");
 						$('#progress').hide()
@@ -153,7 +152,6 @@
 				});
 				// 上传错误
 				this.uploader.on("uploadError", function(file, res) {
-					debugger
 					$("#text").html("UPLOAD ERROR!");
 					$('#progress').hide()
 					$('#errMsg').show().html(res.errMsg)
@@ -167,6 +165,8 @@
 				});
 				this.uploader.on("fileQueued", function(params) {});
 			},
+
+			
 			// 历史记录
 			dataTable(type, name) {
 				var that = this;

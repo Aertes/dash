@@ -110,6 +110,9 @@
 <script type="text/ecmascript-6">
   import xhrUrls from '../../assets/config/xhrUrls'
   import {get, post, uploadPost} from '../../assets/config/http'
+  import {
+    formatThousands
+  } from '../../assets/chartsData/index'
 
   let TARGET_GETDATE = xhrUrls.TARGET_GETDATE
   let TARGET_CAMUPDATE = xhrUrls.TARGET_CAMUPDATE
@@ -134,7 +137,7 @@
       return {
         selectTargetOptions: ['CAMPAIGN', 'COM', 'CRM', 'RATING & REVIEW'],
         selectBOptions: ['B2C', 'B2B'],
-        selectTimeOptions: ['ALL PRODUCTS'],
+        selectTimeOptions: ['ALL TIME'],
         camTableData: '',
         comCTableData: '',
         comBTableData: '',
@@ -164,7 +167,7 @@
         switch (this.isTableStyle) {
           case 0:
             post(TARGET_CAMSEARCH, {
-              'month': this.time == 'All' ? null : this.time
+              'month': this.time == 'ALL TIME' ? null : this.time
             }).then(res => {
               let data = res.data.data.data
               this.camTableData = data
@@ -172,7 +175,7 @@
             break;
           case 1:
             post(TARGET_COMSEARCH, {
-              'month': this.time == 'All' ? null : this.time,
+              'month': this.time == 'ALL TIME' ? null : this.time,
               'isB2c': true
             }).then(res => {
               let data = res.data.data.data
@@ -181,7 +184,7 @@
             break;
           case 2:
             post(TARGET_COMSEARCH, {
-              'month': this.time == 'All' ? null : this.time,
+              'month': this.time == 'ALL TIME' ? null : this.time,
               'isB2c': false
             }).then(res => {
               let data = res.data.data.data
@@ -190,7 +193,7 @@
             break;
           case 3:
             post(TARGET_CRMSEARCH, {
-              'month': this.time == 'All' ? null : this.time
+              'month': this.time == 'ALL TIME' ? null : this.time
             }).then(res => {
               let data = res.data.data.data
               this.crmTableData = data
@@ -198,7 +201,7 @@
             break;
           case 4:
             post(TARGET_RBSEARCH, {
-              'month': this.time == 'All' ? null : this.time
+              'month': this.time == 'ALL TIME' ? null : this.time
             }).then(res => {
               let data = res.data.data.data
               this.rbTableData = data
@@ -269,7 +272,7 @@
                   data: 'month',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="0" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="0" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -278,8 +281,8 @@
                   data: 'totalTraffic',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="1" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="1" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -287,8 +290,8 @@
                   data: 'freeTraffic',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="2" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="2" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -296,8 +299,8 @@
                   data: 'paidTraffic',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="3" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="3" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -305,7 +308,7 @@
                   data: 'bounceRate',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="4" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="4" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -313,8 +316,8 @@
                 {
                   data: 'conversionRate',
                   render: (data, type, row) => {
-                    return '<div class="editInput" data-id="0">' +
-                      '<input type="text" class="" value="' + data + '" data-type="5" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                    return '<div class="editInput">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="5" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -322,8 +325,8 @@
                 {
                   data: 'ugcr',
                   render: (data, type, row) => {
-                    return '<div class="editInput" data-id="0">' +
-                      '<input type="text" class="" value="' + data + '" data-type="6" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
+                    return '<div class="editInput">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="6" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -348,7 +351,7 @@
                   data: 'month',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="0" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="0" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -357,8 +360,8 @@
                   data: 'totalTraffic',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="1" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="1" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -366,8 +369,8 @@
                   data: 'freeTraffic',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="2" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="2" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -375,8 +378,8 @@
                   data: 'paidTraffic',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="3" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="3" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -384,7 +387,7 @@
                   data: 'bounceRate',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="4" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="4" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -393,7 +396,7 @@
                   data: 'conversionRate',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="5" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="5" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -402,7 +405,7 @@
                   data: 'ugcr',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="6" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="6" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -411,7 +414,7 @@
                   data: 'mql',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="7" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="7" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -420,7 +423,7 @@
                   data: 'comSql',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="8" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="8" data-month="' + row.month + '" data-totalTraffic="' + row.totalTraffic + '" data-freeTraffic="' + row.freeTraffic + '" data-paidTraffic="' + row.paidTraffic + '" data-bounceRate="' + row.bounceRate + '" data-conversionRate="' + row.conversionRate + '" data-ugcr="' + row.ugcr + '" data-mql="' + row.mql + '" data-comSql="' + row.comSql + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -445,7 +448,7 @@
                   data: 'month',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="0" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="0" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -454,8 +457,8 @@
                   data: 'registrationsTarget',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="1" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="1" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -463,7 +466,7 @@
                   data: 'engagementTarget',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="2" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="2" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -472,8 +475,8 @@
                   data: 'sales',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="3" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="3" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 },
@@ -481,8 +484,8 @@
                   data: 'conversionTarget',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="4" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
-                      '<span>' + data + '</span>' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="4" data-month="' + row.month + '" data-registrationsTarget="' + row.registrationsTarget + '" data-engagementTarget="' + row.engagementTarget + '" data-sales="' + row.sales + '" data-conversionTarget="' + row.conversionTarget + '" style="display: none">' +
+                      '<span>' + formatThousands(data) + '</span>' +
                       '</div>';
                   }
                 }
@@ -506,7 +509,7 @@
                   data: 'month',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="0" data-month="' + row.month + '" data-avgRating="' + row.avgRating + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="0" data-month="' + row.month + '" data-avgRating="' + row.avgRating + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -515,7 +518,7 @@
                   data: 'avgRating',
                   render: (data, type, row) => {
                     return '<div class="editInput">' +
-                      '<input type="text" class="" value="' + data + '" data-type="1" data-month="' + row.month + '" data-avgRating="' + row.avgRating + '" style="display: none">' +
+                      '<input type="text" class="" value="' + data + '" data-id="' + row.id + '" data-type="1" data-month="' + row.month + '" data-avgRating="' + row.avgRating + '" style="display: none">' +
                       '<span>' + data + '</span>' +
                       '</div>';
                   }
@@ -531,7 +534,7 @@
           case 0:
             post(TARGET_GETDATE, 'campaign').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['ALL PRODUCTS']
+              this.selectTimeOptions = ['ALL TIME']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -540,7 +543,7 @@
           case 1:
             post(TARGET_GETDATE, 'comB2c').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['ALL PRODUCTS']
+              this.selectTimeOptions = ['ALL TIME']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -549,7 +552,7 @@
           case 2:
             post(TARGET_GETDATE, 'comB2b').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['ALL PRODUCTS']
+              this.selectTimeOptions = ['ALL TIME']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -558,7 +561,7 @@
           case 3:
             post(TARGET_GETDATE, 'crm').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['ALL PRODUCTS']
+              this.selectTimeOptions = ['ALL TIME']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -567,7 +570,7 @@
           case 4:
             post(TARGET_GETDATE, 'reviewRating').then(res => {
               let data = res.data.data
-              this.selectTimeOptions = ['ALL PRODUCTS']
+              this.selectTimeOptions = ['ALL TIME']
               data.forEach(val => {
                 this.selectTimeOptions.push(val)
               })
@@ -586,10 +589,10 @@
           let month = $(this).data('month')
           let inputVal = $(this).val()
           let type = $(this).data('type')
+          let id = $(this).data('id')
           switch (that.isTableStyle){
             case 0:
               let baseLine = $(this).data('baseline')
-              let id = $(this).data('id')
               let costLead = $(this).data('costlead')
               let data = {
                 "baseLine": baseLine,
@@ -616,7 +619,7 @@
                     btn: ['Cancel'],
                   })
                 } else {
-                  $(this).hide().siblings('span').text(inputVal)
+                  $(this).hide().siblings('span').text(formatThousands(inputVal))
                 }
               })
               break;
@@ -629,6 +632,7 @@
               let ugcr = $(this).data('ugcr')
               let data2 = {
                 "month": month,
+                "id": id,
                 "totalTraffic": totalTraffic,
                 "freeTraffic": freeTraffic,
                 "paidTraffic": paidTraffic,
@@ -660,7 +664,7 @@
                   data2.ugcr = inputVal
                   break;
               }
-              post(TARGET_COMUPDATE, data).then(res => {
+              post(TARGET_COMUPDATE, data2).then(res => {
                 let code = res.data.code
                 if (code != 200) {
                   layer.confirm(res.data.errMsg, {
@@ -668,7 +672,7 @@
                     btn: ['Cancel'],
                   })
                 } else {
-                  $(this).hide().siblings('span').text(inputVal)
+                  $(this).hide().siblings('span').text(formatThousands(inputVal))
                 }
               })
               break;
@@ -683,6 +687,7 @@
               let comSql = $(this).data('comSql')
               let data3 = {
                 "month": month,
+                "id": id,
                 "totalTraffic": totalTraffic,
                 "freeTraffic": freeTraffic,
                 "paidTraffic": paidTraffic,
@@ -722,7 +727,7 @@
                   data3.comSql = inputVal
                   break;
               }
-              post(TARGET_COMUPDATE, data).then(res => {
+              post(TARGET_COMUPDATE, data3).then(res => {
                 let code = res.data.code
                 if (code != 200) {
                   layer.confirm(res.data.errMsg, {
@@ -730,7 +735,7 @@
                     btn: ['Cancel'],
                   })
                 } else {
-                  $(this).hide().siblings('span').text(inputVal)
+                  $(this).hide().siblings('span').text(formatThousands(inputVal))
                 }
               })
               break;
@@ -741,6 +746,7 @@
               let conversionTarget = $(this).data('conversionTarget')
               let data4 = {
                 "month": month,
+                "id": id,
                 "registrationsTarget": registrationsTarget,
                 "engagementTarget": engagementTarget,
                 "sales": sales,
@@ -763,7 +769,7 @@
                   data4.conversionTarget = inputVal
                   break;
               }
-              post(TARGET_CRMUPDATE, data).then(res => {
+              post(TARGET_CRMUPDATE, data4).then(res => {
                 let code = res.data.code
                 if (code != 200) {
                   layer.confirm(res.data.errMsg, {
@@ -771,7 +777,7 @@
                     btn: ['Cancel'],
                   })
                 } else {
-                  $(this).hide().siblings('span').text(inputVal)
+                  $(this).hide().siblings('span').text(formatThousands(inputVal))
                 }
               })
               break;
@@ -779,6 +785,7 @@
               let avgRating = $(this).data('avgRating')
               let data5 = {
                 "month": month,
+                "id": id,
                 "avgRating": avgRating
               }
               switch (type){
@@ -789,7 +796,7 @@
                   data5.avgRating = inputVal
                   break;
               }
-              post(TARGET_RBUPDATE, data).then(res => {
+              post(TARGET_RBUPDATE, data5).then(res => {
                 let code = res.data.code
                 if (code != 200) {
                   layer.confirm(res.data.errMsg, {
@@ -797,7 +804,7 @@
                     btn: ['Cancel'],
                   })
                 } else {
-                  $(this).hide().siblings('span').text(inputVal)
+                  $(this).hide().siblings('span').text(formatThousands(inputVal))
                 }
               })
               break;
@@ -807,6 +814,7 @@
 
       selectTagetHandle(val) {
         this.B = false
+        this.$refs.B.nowIndex = 0
         switch (val){
           case 'CAMPAIGN':
             this.isTableStyle = 0

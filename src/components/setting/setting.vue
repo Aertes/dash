@@ -92,7 +92,7 @@
         <div class="resg">
           <div>
             <label>User Name</label>
-            <label class="userName" v-show="!isViewUser">{{userinfo.name}}</label>
+            <label class="userName" v-model="userinfo.name" v-show="!isViewUser">{{userinfo.name}}</label>
             <input type="text" v-show="isViewUser" class="input" name="username" @change="onInput"
                    :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
           </div>
@@ -156,16 +156,13 @@
       </form>
     </div>
 
-    <div class="clearfix dashboard-all-wrap">
-      <upload-file ref='upload'></upload-file>
-    </div>
 
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import xhrUrls from '../../assets/config/xhrUrls'
-  import UploadFile from '../../components/upload/upload'
+  // import UploadFile from '../../components/upload/upload'
   import {get, post, uploadPost} from '../../assets/config/http'
   import {getSessionItem} from "../../assets/config/storage.js"
   import Role from '../../components/role/role'
@@ -515,7 +512,7 @@
         $(document).delegate('.removeUser', 'click', function (event) {
           event.stopImmediatePropagation();
           event.preventDefault();
-          var id = $(this).attr("data-id");
+          var id = $(this).data('id');
           layer.confirm('Do you want to delete this user?', {
             title: 'Prompt information',
             btn: ['Confirm', 'Cancel'],
@@ -611,7 +608,7 @@
         $(document).delegate('.editUser', 'click', function (event) {
           event.stopImmediatePropagation();
           event.preventDefault();
-          var id = $(this).attr("data-id");
+          var id = $(this).data('id');
           if (id == 1) {
             that.isDisable = true
           }
@@ -641,24 +638,22 @@
 
       //查看用户
       viewUser() {
-        let that = this;
+        let that = this
         $(document).on('click','.viewUser', function (event) {
           event.stopImmediatePropagation();
           event.preventDefault();
           $('.titles').html('USER DETAILS')
           $('.cancel').html('Back').css('background-color', '#00aeea')
-          that.isViewUser = false
-          var id = $(this).attr("data-id");
+          var id = $(this).data('id');
+          that.userId = id
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
-              that.userinfo.name = res.data.user.name
-              that.userinfo.username = res.data.user.username
-              that.userinfo.org = res.data.org.name
-              if(res.data.role){
-                that.userinfo.role = res.data.role.name
-              }
-              that.userinfo.status = res.data.user.status
-              $('.userName').html(that.userinfo.name)
+              that.$set(that.userinfo, 'name', res.data.user.name)
+              that.$set(that.userinfo, 'username', res.data.user.username)
+              that.$set(that.userinfo, 'org', res.data.org.name)
+              that.$set(that.userinfo, 'role', res.data.role.name)
+              that.$set(that.userinfo, 'status', res.data.user.status)
+              that.isViewUser = false
               that.layerOpen('user')
             } else {
               console.log('err')
@@ -892,10 +887,15 @@
       }
     },
     components: {
-      UploadFile,
+      // UploadFile,
       Role,
       RoleEdit,
       Target
+    },
+    watch:{
+      userId:function(){
+        alert(1)
+      }
     }
   }
 </script>

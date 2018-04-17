@@ -16,7 +16,10 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Layout
+      component: Layout,
+      meta:{
+        requireAuth:true
+      }
     }
   ]
 })

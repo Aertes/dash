@@ -538,6 +538,8 @@
 
             urlParameter = `&category=${this.camOneCategory}&categoryid=${this.camOneCategoryId}`
 
+          }else{
+            urlParameter = `&category=null&categoryid=0`
           }
 
         } else if (this.type == 6) {
@@ -546,6 +548,8 @@
 
             urlParameter = `&category=${this.camOneTwoCategory}&categoryid=${this.camOneTwoCategoryId}`
 
+          }else{
+            urlParameter = `&category=null&categoryid=0`
           }
 
         } else if (this.type == 7) {
@@ -568,6 +572,8 @@
               urlParameter = `&category=${this.camCategory}&categoryid=${this.camCategoryId}`
             }
 
+          }else{
+            urlParameter = `&category=null&categoryid=0`
           }
 
         } else if (this.type == 8) {
@@ -576,6 +582,8 @@
 
             urlParameter = `&markettype=${this.comMarketType}&markettypeid=${this.comMarketTypeId}`
 
+          }else{
+            urlParameter = `&markettype=null&markettypeid=0`
           }
 
         } else if (this.type == 9) {
@@ -584,6 +592,8 @@
 
             urlParameter = `&markettype=${this.comMarketTypeTwo}&markettypeid=${this.comMarketTypeTwoId}`
 
+          }else{
+            urlParameter = `&markettype=null&markettypeid=0`
           }
 
         } else if (this.type == 12) {
@@ -592,7 +602,10 @@
 
             urlParameter = `&channel=${this.rrOneChannel}&channelid=${this.rrOneChannelId}`
 
+          }else{
+            urlParameter = `&channel=null&channelid=0`
           }
+
 
         } else if (this.type == 13) {
 
@@ -600,6 +613,8 @@
 
             urlParameter = `&channel=${this.rrChannel}&channelid=${this.rrChannelId}`
 
+          }else{
+            urlParameter = `&channel=null&channelid=0`
           }
 
         } else if (this.type == 14) {
@@ -608,6 +623,8 @@
 
             urlParameter = `&category=${this.ecCategory}&categoryid=${this.ecCategoryId}`
 
+          }else{
+            urlParameter = `&category=null&categoryid=0`
           }
 
         }
