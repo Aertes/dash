@@ -3,7 +3,9 @@
     <div action="" class="clearfix search-wrap">
       <div class="search">
         <label for="roleName">Role Name <span style="color: red">*</span></label>
-        <input id="roleName" type="text" placeholder="Please enter a character name" v-model="roleName" ref="roleNameInput" :disabled="viewRole">
+        <input id="roleName" type="text" placeholder="Please enter a character name" v-model="roleName"
+               ref="roleNameInput" :disabled="viewRole" :class="{helpStyle:helpOne}" @change="checkName">
+        <span class="help" :class="{none:!helpOne}">Role name is empty!</span>
       </div>
       <div class="search">
         <label>Status</label>
@@ -11,19 +13,22 @@
       </div>
       <div class="search">
         <label>Role Permission <span style="color:red;">*</span></label>
-        <div class="role-tree">
+        <div class="role-tree" :class="{helpStyle:helpTwo}">
           <p class="title">Authority Structure</p>
           <div class="role-tree-cont">
             <ul class="ztreeDome ztree" id="roleZtree">
             </ul>
           </div>
         </div>
+        <span class="help" :class="{none:!helpTwo}">Role permission is empty!</span>
       </div>
       <div class="search role-tree-wrap">
         <label></label>
         <div class="button-wrap">
-          <button class="box-shadow save-button" :disabled="viewRole" @click="saveRole">Save</button>
-          <button class="box-shadow back-button" @click="goBack">Back</button>
+          <button class="box-shadow save-button" :hidden="viewRole || !isSave" @click="saveRole">Save</button>
+          <button class="box-shadow save-button" :hidden="viewRole || isSave" @click="saveRole">Update</button>
+          <button class="box-shadow cancel-button" :hidden="viewRole" @click="goBack">Cancel</button>
+          <button class="box-shadow back-button" :hidden="!viewRole" @click="goBack">Back</button>
         </div>
       </div>
     </div>
@@ -47,13 +52,13 @@
     name: "roleEdit",
     data() {
       return {
-        selectStatusOptions: ['Disable','Enable'],
+        selectStatusOptions: ['Enable', 'Disable'],
         tableData: '',
         ztreeNodeData: [],
         nodeSetting: {
           check: {
             enable: this.viewRole,
-            chkboxType: { "Y": "ps", "N": "ps" }
+            chkboxType: {"Y": "ps", "N": "ps"}
           },
           data: {
             simpleData: {
@@ -63,42 +68,54 @@
           }
         },
         roleName: '',
-        treeId:[]
+        treeId: [],
+        helpOne: false,
+        helpTwo: false
       }
     },
-    props: ['toRoleEditId','viewRole','isSave'],
+    props: ['toRoleEditId', 'viewRole', 'isSave'],
     mounted() {
+      this.helpOne = false
+      this.helpTwo = false
     },
-    activated(){
-      try{
-        if(this.toRoleEditId==''){
+    activated() {
+      try {
+        this.helpOne = false
+        this.helpTwo = false
+        if (this.toRoleEditId == '') {
           this.getTreeData()
-        }else{
+        } else {
           this.getRoleEdit()
         }
-      }catch (e){}
+      } catch (e) {
+      }
     },
     methods: {
-      getRoleEdit(){
+      getRoleEdit() {
         this.ztreeNodeData = [];
         get(`${ROLE_GETROLE}${this.toRoleEditId}`).then(res => {
           let nodeData = res.data.nodes
           let roleData = res.data.role
           this.roleName = roleData.name
-          if(roleData.status==1){
-            this.$refs.roleSelect.nowIndex = 1
-          }else{
+          if (roleData.status == 1) {
             this.$refs.roleSelect.nowIndex = 0
+          } else {
+            this.$refs.roleSelect.nowIndex = 1
           }
           nodeData.forEach((v, i) => {
-            this.ztreeNodeData.push({name: v.name, id: v.id, parentId: v.parentId,checked:(v.checked=='TRUE'?true:false)})
+            this.ztreeNodeData.push({
+              name: v.name,
+              id: v.id,
+              parentId: v.parentId,
+              checked: (v.checked == 'TRUE' ? true : false)
+            })
           })
           this.nodeSetting.check.enable = !this.viewRole
           $.fn.zTree.init($("#roleZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
         }).catch(err => console.log(err))
       },
       getTreeData() {
-        this.ztreeNodeData=[]
+        this.ztreeNodeData = []
         post(ROLE_TREE, {}).then(res => {
           let nodeData = res.data.resultList
           this.roleName = ''
@@ -110,77 +127,82 @@
           $.fn.zTree.init($("#roleZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
         }).catch(err => console.log(err))
       },
-      goBack(){
+      goBack() {
         this.$emit('closeRoleEdit')
       },
-      saveRole(){
+      checkName(){
+        if(this.roleName != '') this.helpOne = false;
+      },
+      treeNodes() {
         let that = this
         let treeObj = $.fn.zTree.getZTreeObj("roleZtree")
         let status = this.$refs.roleSelect.nowIndex
         let nodes = treeObj.getCheckedNodes(true)
-        $.each(nodes,function(i){
-          if(i==0){
+        this.treeId = []
+        $.each(nodes, function (i) {
+          if (i == 0) {
             that.treeId = nodes[i].id;
-          }else{
-            that.treeId += ","+nodes[i].id+"";
+          } else {
+            that.treeId += "," + nodes[i].id + "";
           }
         });
-        if(this.roleName==''){
-          layer.msg('Role name is empty!', {
-            time: 2000,
-            skin: 'fontColor'
-          })
-        }else if(this.treeId==''){
-          layer.msg('Role permission is empty!', {
-            time: 2000,
-            skin: 'fontColor'
-          }, function(index) {
-            layer.close(index);
-          })
+      },
+      saveRole() {
+        let that = this
+        this.treeNodes()
+        this.helpOne = false
+        this.helpTwo = false
+        if (this.treeId == '' && this.roleName == '') {
+          this.helpOne = true
+          this.helpTwo = true
+        }else if (this.roleName == '') {
+          this.helpOne = true
+        }else if (this.treeId == '') {
+          this.helpTwo = true
         }else{
-          if(this.isSave){
-            post(ROLE_SAVE,{
+          if (this.isSave) {
+            post(ROLE_SAVE, {
               "name": this.roleName,
               "permissions": this.treeId,
               "status": status
-            }).then(res=>{
-              if(res.data.code==200){
+            }).then(res => {
+              if (res.data.code == 200) {
                 layer.msg('Save Success!', {
                   time: 2000,
                   skin: 'fontColor'
-                }, function(index) {
+                }, function (index) {
                   layer.close(index);
                   that.goBack()
                 })
-              }else{
+              } else {
                 layer.msg(res.data.errMsg, {
                   time: 2000,
                   skin: 'fontColor'
-                }, function(index) {
+                }, function (index) {
                   layer.close(index);
                 })
               }
             })
-          }else{
-            post(ROLE_UPDATE,{
+          } else {
+            post(ROLE_UPDATE, {
               "name": this.roleName,
               "permissions": this.treeId,
               "status": status,
-              "id":this.toRoleEditId
-            }).then(res=>{
-              if(res.data.code==200){
+              "id": this.toRoleEditId
+            }).then(res => {
+              if (res.data.code == 200) {
                 layer.msg('Update success!', {
                   time: 2000,
                   skin: 'fontColor'
-                }, function(index) {
+                }, function (index) {
                   layer.close(index);
                   that.goBack()
                 })
-              }else{
+              } else {
                 layer.msg(res.data.errMsg, {
                   time: 2000,
                   skin: 'fontColor'
-                }, function(index) {
+                }, function (index) {
                   layer.close(index);
                 })
               }
@@ -214,7 +236,7 @@
         width 35%
         text-align right
       input, select
-        margin-right 30px
+        margin-right 10px
         appearance none
         border 1px solid #E2DFDE
         border-radius 5px
@@ -222,6 +244,7 @@
         height 40px
         line-height 40px
         padding 0 10px
+        font-size 21px
     .searchIcon
       font-size 30px
       color #717071
@@ -262,7 +285,9 @@
       width 400px
       height 345px
       vertical-align top
+      margin-right 10px
       margin-bottom 0
+      overflow hidden
       .title
         background-color #528FBA
         color #fff
@@ -281,15 +306,28 @@
       vertical-align top
       .save-button
       .back-button
+      .cancel-button
         width 100px
         height 35px
         margin 0 20px
-        background-color #2061AE
+        background-color #74A5D4
         border-radius 10px
         color #fff
         border medium
         outline none
         cursor pointer
+      .cancel-button
+        background-color #FFA500
       .back-button
         background-color #00AEEA
+
+  .help
+    display inline-block
+    color red
+    font-size 21px
+    line-height 40px
+    vertical-align top
+
+  .helpStyle
+    border 1px solid #e78b70 !important
 </style>

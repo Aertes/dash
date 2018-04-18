@@ -47,12 +47,9 @@
 <script type="text/ecmascript-6">
 	import "./webuploader.min";
 	import xhrUrls from '../../assets/config/xhrUrls'
-	import {
-		post
-	} from "../../assets/config/http"
-	import {
-		formatDate
-	} from '../../assets/js/formatDate.js'
+	import { post } from "../../assets/config/http"
+	import { formatDate } from '../../assets/js/formatDate.js'
+	let HC_SEARCH = xhrUrls.HC_SEARCH
 	export default {
 		name: "upload",
 		data() {
@@ -65,8 +62,8 @@
 					channel: '',
 					start: 0,
 				},
+				tableData:'',
 				uploader: null,
-				table: null,
 				downloadFileId: xhrUrls.HC_DOWNLOAD,
 				fileDel: xhrUrls.HC_DELETE,
 				delete: null,
@@ -76,12 +73,8 @@
 		mounted() {
 			// 进度条
 			this.init();
-	
+			
 			this.onRemoveRecord();
-	
-			//历史记录
-			this.dataTable(this.types, this.title);
-	
 		},
 		methods: {
 			upload(e) {
@@ -138,7 +131,7 @@
 							$("#num").html("0%").css("color", "#a0a0a1");
 							$("#progressBar").css("width", "0%");
 							$("#text").html("DATA UPLOADING, PLEASE WAIT...");
-							that.dataTable(this.types, this.title)
+							that.getHistoryData(this.types, this.title)
 							this.refreshData()
 						}, 1000);
 					} else {
@@ -165,14 +158,21 @@
 				});
 				this.uploader.on("fileQueued", function(params) {});
 			},
-
+			getHistoryData(type, name){
+				this.Data.channel = type
+				this.name = name
+				post(HC_SEARCH, this.Data)
+          .then(res => {
+            let data = res.data.data.data
+            this.tableData = data
+          })
+			},
 			
 			// 历史记录
 			dataTable(type, name) {
 				var that = this;
-				that.Data.channel = type;
 				$('#title').html(name + '  &nbsp;RECORD')
-				that.table = $("#fileTable").DataTable({
+				$("#fileTable").DataTable({
 					searching: false,
 					lengthChange: false,
 					autoWidth: false,
@@ -181,16 +181,8 @@
 					ordering: false,
 					pagingType: "simple_numbers",
 					pageLength: 5,
-					"ajax": (data, callback, settings) => {
-						post(xhrUrls.HC_SEARCH, that.Data).then((res) => {
-							if (res.data.data.data.length <= 5) {
-								$('#fileTable_paginate').hide()
-							}
-							callback(res.data.data);
-						}).catch((err) => {
-							console.log(err);
-						})
-					},
+          "paging": this.tableData.length > 5? true : false,
+          data: this.tableData,
 					columns: [{
 							width: '150px',
 							data: "createDate",
@@ -234,8 +226,7 @@
 			//删除
 			onRemoveRecord() {
 				let that = this;
-				$(document).delegate('.removeRecord', 'click', function(event) {
-					event.stopImmediatePropagation();
+				$(document).off('click', '.removeRecord').on('click', '.removeRecord', function(event) {
 					event.preventDefault();
 					var id = $(this).attr("data-id");
 					layer.confirm('Do you want to delete this file?', {
@@ -250,7 +241,7 @@
 									skin: 'fontColor'
 								}, function(index) {
 									layer.close(index);
-									that.dataTable(that.types, that.title)
+									that.getHistoryData(that.Data.channel, that.name)
 								})
 							} else {
 								layer.msg('Delete failed !', {
@@ -267,6 +258,7 @@
 	
 				});
 			},
+
 			//关闭上传弹窗
 			closeLayerButton() {
 				this.$emit('closeLayer')
@@ -274,6 +266,13 @@
 				$('#fileName').html("Unselected File")
 				$('#picker').val('');
 				$("#text").html("DATA UPLOADING, PLEASE WAIT...");
+			}
+		},
+		watch:{
+			tableData(){
+				this.$nextTick(() => {
+          this.dataTable(this.Data.channel, this.name);
+        })
 			}
 		}
 	};

@@ -174,6 +174,12 @@
 								})
               } else {
                 that.isOldActive=true
+                layer.msg('Please enter the correct old password ！', {
+									time: 2000,
+									skin: 'fontColor'
+								}, function(index) {
+									layer.close(index);
+								})
               }
             })
             .catch(err => {

@@ -350,7 +350,7 @@
         });
       },
       scrollBarWheel(e) {
-        let value = e.wheelDelta || -e.detail;
+        let value = e.wheelDelta || -e.deltaY;
         let delta = Math.max(-1, Math.min(1, value));
         if (this.canScroll) {
           if (delta < 0) {//down
@@ -373,7 +373,6 @@
         this.load = false
       },
       dataSearch(val) {
-
         this.loading()
 
         let num = this.type
@@ -539,7 +538,7 @@
             urlParameter = `&category=${this.camOneCategory}&categoryid=${this.camOneCategoryId}`
 
           }else{
-            urlParameter = `&category=null&categoryid=0`
+            urlParameter = `&category=ALL PRODUCTS&categoryid=0`
           }
 
         } else if (this.type == 6) {
@@ -549,7 +548,7 @@
             urlParameter = `&category=${this.camOneTwoCategory}&categoryid=${this.camOneTwoCategoryId}`
 
           }else{
-            urlParameter = `&category=null&categoryid=0`
+            urlParameter = `&category=ALL PRODUCTS&categoryid=0`
           }
 
         } else if (this.type == 7) {
@@ -573,7 +572,7 @@
             }
 
           }else{
-            urlParameter = `&category=null&categoryid=0`
+            urlParameter = `&category=ALL PRODUCTS&categoryid=0`
           }
 
         } else if (this.type == 8) {
@@ -583,7 +582,7 @@
             urlParameter = `&markettype=${this.comMarketType}&markettypeid=${this.comMarketTypeId}`
 
           }else{
-            urlParameter = `&markettype=null&markettypeid=0`
+            urlParameter = `&markettype=B2C&markettypeid=0`
           }
 
         } else if (this.type == 9) {
@@ -593,7 +592,7 @@
             urlParameter = `&markettype=${this.comMarketTypeTwo}&markettypeid=${this.comMarketTypeTwoId}`
 
           }else{
-            urlParameter = `&markettype=null&markettypeid=0`
+            urlParameter = `&markettype=B2C&markettypeid=0`
           }
 
         } else if (this.type == 12) {
@@ -603,7 +602,7 @@
             urlParameter = `&channel=${this.rrOneChannel}&channelid=${this.rrOneChannelId}`
 
           }else{
-            urlParameter = `&channel=null&channelid=0`
+            urlParameter = `&channel=ALL CHANNEL&channelid=0`
           }
 
 
@@ -614,7 +613,7 @@
             urlParameter = `&channel=${this.rrChannel}&channelid=${this.rrChannelId}`
 
           }else{
-            urlParameter = `&channel=null&channelid=0`
+            urlParameter = `&channel=ALL CHANNEL&channelid=0`
           }
 
         } else if (this.type == 14) {
@@ -624,7 +623,7 @@
             urlParameter = `&category=${this.ecCategory}&categoryid=${this.ecCategoryId}`
 
           }else{
-            urlParameter = `&category=null&categoryid=0`
+            urlParameter = `&category=ALL PRODUCTS&categoryid=0`
           }
 
         }
@@ -680,7 +679,7 @@
 
         } else if (this.type == 5) {
 
-          if (obj.category != undefined || obj.categoryid != undefined) {
+          if (obj.category != undefined && obj.category !='null' && obj.categoryid != undefined) {
 
             this.$store.commit('camOneCategoryVoluation', obj.category)
 

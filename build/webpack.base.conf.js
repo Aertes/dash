@@ -3,6 +3,15 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+let ASSET_PATH
+
+if(process.env.NODE_ENV === 'production'){
+  ASSET_PATH  = config.build.assetsPublicPath
+}else if(process.env.NODE_ENV === 'test'){
+  ASSET_PATH  = config.test.assetsPublicPath
+}else{
+  ASSET_PATH  = config.dev.assetsPublicPath
+}
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -19,9 +28,7 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: ASSET_PATH//process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath: config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

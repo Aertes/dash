@@ -82,15 +82,6 @@
         </div>
       </div>
     </div>
-    
-    <div class="user_dialog">
-      <keep-alive>
-        <user-edit v-if="userEdit" @userView='userView' ></user-edit>
-      </keep-alive>
-    </div>
-    
-
-
 
     <div class="tables-wrap" id="user" v-show="isShow">
       <div class="tables-title">
@@ -173,7 +164,6 @@
   import Role from '../../components/role/role'
   import RoleEdit from '../../components/role/edit'
   import Target from '../../components/target/tartget'
-  import UserEdit from '../../components/setting/edit'
 
   let layerId2;
   const USER_SEARCH = xhrUrls.USER_SEARCH
@@ -185,8 +175,6 @@
         isShow: false,
         isViewUser: false,
         isDisable: false,
-        userEdit:false,
-        userId:'',
         userinfo: {
           name: '',
           username: '',
@@ -203,7 +191,7 @@
         tableData:'',
         active: false,
         selectedStatus: '',
-        selectStatusOptions: ['All STATUS', 'Enable', 'Disable'],
+        selectStatusOptions: ['All Status', 'Enable', 'Disable'],
         tabsName: [
           {
             name: 'USER',
@@ -268,25 +256,32 @@
         toRoleEditId: '',
         viewRole: false,
         isSave: true,
-        zTreeObj:null
+        zTreeObj:''
       }
     },
     mounted() {
       this.removeUser();
       this.userEnable();
       this.userDisable();
-      this._initZtree()
+      this._initZtree();
     },
     activated(){
       try{
         this.getTaleData()
         this.viewUserClick();
         this.editUserClick();
+        this.removeStyleNode()
       }catch (e){}
     },
     methods: {
-
       tabsSwitch(tabIndex) {
+        this.tabsSwitchRoleEdit()
+        this.searchData.name = ''
+        this.searchData.username = ''
+        this.searchData.status = ''
+        this.searchData.orgid = ''
+        this.removeStyleNode();
+        this.getTaleData(this.searchData.name, this.searchData.username, this.searchData.status, this.searchData.orgid)
         let tabCardCollection = document.querySelectorAll('.tab-card'),
           len = tabCardCollection.length;
         for (let i = 0; i < len; i++) {
@@ -361,12 +356,12 @@
                   operTitle = 'Disable'
                 }
                 if (row.id != 1) {
-                  html += '<a title="DELETE" style="color:red; font-size:18px; cursor: pointer;;margin-left: 10px" class="removeUser" data-id="' + row.id + '">' + $("#deluser").html() + '</a>'
+                  html += '<a title="DELETE" style="color:#DE8B7A; font-size:18px; cursor: pointer;;margin-left: 10px" class="removeUser" data-id="' + row.id + '">' + $("#deluser").html() + '</a>'
                   html += '<a title="' + operTitle + '" style="color:' + operColor + '; font-size:18px; cursor: pointer;;margin-left: 10px" class="' + operClassName + '" data-id="' + row.id + '">' + $("#userDisable").html() + '</a>'
                 }
                 return '<div style="text-align: center;">' +
-                  '<a title="VIEW" style="color:#2061ae; font-size:18px; cursor: pointer" class="viewUser" data-id="' + row.id + '">' + $("#viewuser").html() + '</a>' +
-                  '<a title="EDIT" style="color:green; font-size:18px; cursor: pointer;margin-left: 10px" class="editUser" data-id="' + row.id + '">' + $("#edituser").html() + '</a>'
+                  '<a title="VIEW" style="color:#74A5D4; font-size:18px; cursor: pointer" class="viewUser" data-id="' + row.id + '">' + $("#viewuser").html() + '</a>' +
+                  '<a title="EDIT" style="color:#87B562; font-size:18px; cursor: pointer;margin-left: 10px" class="editUser" data-id="' + row.id + '">' + $("#edituser").html() + '</a>'
                   + html +
                   '</div>';
               }
@@ -382,7 +377,8 @@
           nodeData.forEach((v, i) => {
             this.ztreeNodeData.push({name: v.name, id: v.id, parentId: v.parentId})
           })
-         this.zTreeObj = $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData).expandAll(true);
+         this.zTreeObj = $.fn.zTree.init($("#userZtree"), this.nodeSetting, this.ztreeNodeData);
+         this.zTreeObj.expandAll(true);
         }).catch(err => console.log(err))
       },
       //修改名称
@@ -484,14 +480,19 @@
         this.getTaleData(this.searchData.name, this.searchData.username, this.searchData.status, this.searchData.orgid)
       },
 
+      //移除选中样式
+      removeStyleNode(){
+        this.zTreeObj.cancelSelectedNode()
+      },
+
+
       searchUser() {
         this.getTaleData(this.searchData.name, this.searchData.username, this.searchData.status, this.searchData.orgid)
       },
 
       removeUser() {
         let that = this;
-        $(document).delegate('.removeUser', 'click', function (event) {
-          event.stopImmediatePropagation();
+        $(document).off('click', '.removeUser').on('click', '.removeUser', function (event) {
           event.preventDefault();
           var id = $(this).data('id');
           layer.confirm('Do you want to delete this user?', {
@@ -526,7 +527,7 @@
 
       userEnable() {
         let that = this
-        $(document).on('click', '.userEnable', function () {
+        $(document).off('click', '.userEnable').on('click', '.userEnable', function () {
           let id = $(this).data('id')
           layer.confirm('Do you want to enable this user?', {
             title: 'Prompt information',
@@ -556,7 +557,7 @@
 
       userDisable() {
         let that = this
-        $(document).on('click', '.userDisable', function () {
+        $(document).off('click', '.userDisable').on('click', '.userDisable', function () {
           let id = $(this).data('id')
           layer.confirm('Do you want to disable this user?', {
             title: 'Prompt information',
@@ -585,13 +586,12 @@
       },
 
 
-
       //编辑用户
       editUserClick() {
         let that = this;
-        $(document).delegate('.editUser', 'click', function (event) {
+        $(document).off('click','.editUser').on('click', '.editUser', function (event) {
+          event.preventDefault();
           let id = $(this).data('id');
-          that.userId = id
           if (id == 1) {
             that.isDisable = true
           }
@@ -618,29 +618,16 @@
           }).catch(err => console.log(err))
         })
       },
-
-      switchUserEdit() {
-        
-        console.log(123)
-      },
-
-
       //查看用户
       viewUserClick() {
         let that = this
-
-        $(document).on('click','.viewUser', function (event) {
-          // event.stopImmediatePropagation();
+        let one = 0
+        $(document).off('click','.viewUser').on('click','.viewUser', function (event) {
           event.preventDefault();
-          console.log(event)
           let id = $(this).data('id');
           that.$emit('userView', {id:id})
-
-          that.userId = id
-
           $('.titles').html('USER DETAILS')
           $('.cancel').html('Back').css('background-color', '#00aeea')
-
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
               that.$set(that.userinfo, 'name', res.data.user.name)
@@ -654,14 +641,9 @@
               console.log('err')
             }
           }).catch(err => console.log(err))
+
         })
-      },
 
-      userView(val){
-        this.roleEdit = !this.roleEdit
-        this.viewRole = false
-
-        console.log(val)
       },
 
       //关闭上传弹窗
@@ -873,10 +855,15 @@
         }
       },
 
-
-
       switchRoleEdit() {
         this.roleEdit = !this.roleEdit
+        this.viewRole = false
+        this.isSave = true
+        this.toRoleEditId = ''
+      },
+
+      tabsSwitchRoleEdit() {
+        this.roleEdit = false
         this.viewRole = false
         this.toRoleEditId = ''
       },
@@ -897,16 +884,12 @@
       Role,
       RoleEdit,
       Target,
-      UserEdit
     },
     watch:{
       tableData() {
         this.$nextTick(() => {
           this.userTable();
         })
-      },
-      userId(){
-        alert(1)
       }
     }
   }
@@ -938,7 +921,7 @@
           display block
         .icon
           font-size 35px
-          color #2061AE
+          color #74A5D4
           cursor pointer
         .dashboard-operation
           display none
@@ -963,7 +946,7 @@
               background-color #fff
           .icon
             font-size 27px
-            color #2061AE
+            color #74A5D4
           .upload-icon
             font-size 32px
           span
@@ -1186,7 +1169,7 @@
       margin 50px 80px
       button
         height 40px
-        background-color #2061AE
+        background-color #74A5D4
         border-radius 10px
         color #fff
         border medium

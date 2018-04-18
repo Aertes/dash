@@ -38,9 +38,9 @@
             <thead>
             <tr>
               <th>YearMonth</th>
-              <th>Total Traffic</th>
-              <th>Free Traffic</th>
-              <th>Paid Traffic</th>
+              <th>Total<br/>Traffic</th>
+              <th>Free<br/>Traffic</th>
+              <th>Paid<br/>Traffic</th>
               <th>Bounce<br/>Rate</th>
               <th>Conversion<br/>Rate</th>
               <th>UGCR</th>
@@ -56,9 +56,9 @@
             <thead>
             <tr>
               <th>YearMonth</th>
-              <th>Total Traffic</th>
-              <th>Free Traffic</th>
-              <th>Paid Traffic</th>
+              <th>Total<br/>Traffic</th>
+              <th>Free<br/>Traffic</th>
+              <th>Paid<br/>Traffic</th>
               <th>Bounce<br/>Rate</th>
               <th>Conversion<br/>Rate</th>
               <th>UGCR</th>
@@ -619,7 +619,11 @@
                     btn: ['Cancel'],
                   })
                 } else {
-                  $(this).hide().siblings('span').text(formatThousands(inputVal))
+                  if(type==0){
+                    $(this).hide().siblings('span').text(inputVal)
+                  }else{
+                    $(this).hide().siblings('span').text(formatThousands(inputVal))
+                  }
                 }
               })
               break;

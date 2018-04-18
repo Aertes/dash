@@ -165,7 +165,7 @@
 
         let status = this.$refs.roleSelect.selections[index]
 
-        if (status == 'All') {
+        if (status == 'ALL PRODUCTS') {
           status = ''
         } else if (status == 'Enable') {
           status = '1'
@@ -179,7 +179,7 @@
 
       roleDel() {
         let that = this
-        $(document).on('click', '.roleDel', function () {
+        $(document).off('click', '.roleDel').on('click', '.roleDel', function () {
           let id = $(this).data('id')
           layer.confirm('Do you delete this Role?', {
             title: 'Prompt information',
@@ -209,7 +209,7 @@
 
       roleEnable(){
         let that = this
-        $(document).on('click', '.roleEnable', function () {
+        $(document).off('click', '.roleEnable').on('click', '.roleEnable', function () {
           let id = $(this).data('id')
           layer.confirm('Do you enable this Role?', {
             title: 'Prompt information',
@@ -239,7 +239,7 @@
 
       roleDisable() {
         let that = this
-        $(document).on('click', '.roleDisable', function () {
+        $(document).off('click', '.roleDisable').on('click', '.roleDisable', function () {
           let id = $(this).data('id')
           layer.confirm('Do you disable this Role?', {
             title: 'Prompt information',
@@ -269,7 +269,7 @@
 
       roleEdit(){
         let that = this
-        $(document).on('click', '.roleEdit', function () {
+        $(document).off('click', '.roleEdit').on('click', '.roleEdit', function () {
           let id = $(this).data('id')
           let name = $(this).data('name')
           let permissionlist = $(this).data('permissionlist')
@@ -282,7 +282,7 @@
 
       roleView(){
         let that = this
-        $(document).on('click', '.roleView', function () {
+        $(document).off('click', '.roleView').on('click', '.roleView', function () {
           let id = $(this).data('id')
           let name = $(this).data('name')
           let permissionlist = $(this).data('permissionlist')

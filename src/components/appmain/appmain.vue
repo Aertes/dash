@@ -2,7 +2,7 @@
   <div class="app-main-wrap">
 
     <img v-if='goDown' src="../../assets/img/down.gif" alt="" class="goDown">
-    <img v-else='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
+    <img v-if='goUp' src="../../assets/img/up.gif" alt="" class="goUp">
 
     <div class="options-bar box-shadow clearfix">
 
@@ -11,16 +11,17 @@
       <div v-show="!isSetting">
         <svg-icon sign="icon-date" class="options-icon-date"></svg-icon>
 
-        <selection v-show="selectionOne" :selections="selectOptionsOne" @selectShowOne="selectShowOneHandle"></selection>
+        <selection v-show="selectionOne" :selections="selectOptionsOne"
+                   @selectShowOne="selectShowOneHandle"></selection>
 
         <selection v-show="selectionTwo" :selections="selectOptionsTwo" @selectShowTwo="selectShowTwoHandle"
-                  ref="selectionTwoBox"></selection>
+                   ref="selectionTwoBox"></selection>
 
         <selection v-show="selectionThree" :selections="selectOptionsThree" @selectShowThree="selectShowThreeHandle"
-                  ref="selectionThreeBox" class="styleone"></selection>
+                   ref="selectionThreeBox" class="styleone"></selection>
 
         <selection v-show="selectionFour" :selections="selectOptionsFour" @selectShowFour="selectShowFourHandle"
-                  ref="selectionFourBox"></selection>
+                   ref="selectionFourBox"></selection>
       </div>
 
       <div v-if="all" class="options-menu">
@@ -47,8 +48,8 @@
     <div class="clearfix dashboard-all-wrap">
       <time-line v-if="!isSetting"></time-line>
       <keep-alive>
-          <dash-board v-if="!isSetting"></dash-board>
-          <system-settings v-if="isSetting"></system-settings>
+        <dash-board v-if="!isSetting"></dash-board>
+        <system-settings v-if="isSetting"></system-settings>
       </keep-alive>
       <upload-file ref='upload'></upload-file>
     </div>
@@ -88,6 +89,7 @@
         selectOneVal: '',
         selectTwoVal: '',
         goDown: true,
+        goUp: false,
         locationHash: false,
         isSetting: false,
         menuList: [
@@ -193,7 +195,7 @@
     },
     mounted() {
 
-      this.$Hub.$on('closeSetting',()=>{
+      this.$Hub.$on('closeSetting', () => {
         this.isSetting = false
       })
 
@@ -242,7 +244,7 @@
         this.locationHash = false
       }
 
-      if(!this.locationHash) this.getSelectData()
+      if (!this.locationHash) this.getSelectData()
 
       this.$Hub.$on('settingShow', () => {
         this.settingChange();
@@ -257,7 +259,7 @@
       },
       openUpload(link, type, name) {
         this.$emit('showUpload', {id: 'upLoadBox', link: link, type: type, name: name})
-        this.$refs.upload.dataTable(type, name)
+        this.$refs.upload.getHistoryData(type, name)
         this.isShow = false
       },
       getYear() {
@@ -560,7 +562,7 @@
 
           //this.$store.commit('comMarketTypeIdVoluation', this.$refs.selectionTwoBox.nowIndex)
 
-        }  else if (this.type === 9) {
+        } else if (this.type === 9) {
 
           this.selectionThree = false
 
@@ -592,7 +594,7 @@
 
           this.getCampaignDate(getYear)
 
-        }  else if (this.type === 11) {
+        } else if (this.type === 11) {
 
           this.selectionTwo = false
 
@@ -676,13 +678,15 @@
         }
       },
       goUpDown() {
-        if(this.type == 14) {
+        if (this.type == 14) {
           this.goDown = false
-        }else{
+          this.goUp = true
+        } else {
+          this.goUp = false
           this.goDown = true
         }
       },
-      settingChange(){
+      settingChange() {
         this.isSetting = true
         this.$Hub.$emit('setSiderBarIndex')
       }
@@ -696,7 +700,7 @@
     watch: {
       type: function () {
 
-        switch (this.type){
+        switch (this.type) {
           case 5:
             this.$refs.selectionTwoBox.nowIndex = this.camOneCategoryId
             break;
@@ -738,10 +742,10 @@
         } else if (this.type == 14) {
         }*/
 
-        if(!this.locationHash) {
+        if (!this.locationHash) {
           this.getSelectData()
-        }else{
-          switch (this.type){
+        } else {
+          switch (this.type) {
             case 5:
             case 6:
             case 7:
@@ -777,6 +781,15 @@
           this.$refs.selectionTwoBox.nowIndex = 0
         }*/
 
+      },
+
+      isSetting: function () {
+        if(this.isSetting){
+          this.goUp = false
+          this.goDown = false
+        }else{
+          this.goUpDown()
+        }
       },
 
       /*camOneCategory: function () {
@@ -934,10 +947,11 @@
         width 350px
     .dashboard-all-wrap
       margin-top 25px
+
   .goUp,
   .goDown
     e-pos(left:50%, x:-50%, top:50%, y:-50%)
-    margin-top 400px
+    margin-top 410px
     width 30px
     z-index 99999
 </style>
