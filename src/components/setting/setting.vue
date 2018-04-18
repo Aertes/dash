@@ -82,6 +82,15 @@
         </div>
       </div>
     </div>
+    
+    <div class="user_dialog">
+      <keep-alive>
+        <user-edit v-if="userEdit" @userView='userView' ></user-edit>
+      </keep-alive>
+    </div>
+    
+
+
 
     <div class="tables-wrap" id="user" v-show="isShow">
       <div class="tables-title">
@@ -94,24 +103,24 @@
             <label>User Name</label>
             <label class="userName" v-model="userinfo.name" v-show="!isViewUser">{{userinfo.name}}</label>
             <input type="text" v-show="isViewUser" class="input" name="username" @change="onInput"
-                   :class="[isActive.isUserActive? 'active' : '']" v-model="data.name">
+                   :class="[isActive.isUserActive? 'active' : '']" v-model="userData.name">
           </div>
           <div v-show="isViewUser">
             <label>Password</label>
             <input type="password" class="input" name="password" @change="onInput"
-                   :class="[isActive.isPwdActive? 'active' : '']" minlength="6" v-model="data.password">
+                   :class="[isActive.isPwdActive? 'active' : '']" minlength="6" v-model="userData.password">
           </div>
           <div v-show="isViewUser">
             <label>Repeated Password</label>
             <input type="password" class="input" name="surePassword" @change="onInput"
                    :class="[isActive.isSurePwdActive? 'active' : '']" minlength="6"
-                   v-model="data.surePassword">
+                   v-model="userData.surePassword">
           </div>
           <div>
             <label>Account ID</label>
             <label v-show="!isViewUser">{{userinfo.username}}</label>
             <input type="text" v-show="isViewUser" :disabled='isUpdata' class="input" name="loginAccount" @change="onInput"
-                   :class="[isActive.isLogAccActive? 'active' : '']" v-model="data.username">
+                   :class="[isActive.isLogAccActive? 'active' : '']" v-model="userData.username">
           </div>
           <div>
             <label>Department</label>
@@ -129,21 +138,19 @@
             <label>Account Status</label>
             <div class="radio" v-show="!isViewUser">
               <label for="status1" v-show="userinfo.status == 1">
-                <!-- <input type="radio" id="status1" name="newPassword" value="1" :checked=true> -->
                 Enable
               </label>
               <label for="status2" v-show="userinfo.status == 0">
-                <!-- <input type="radio" id="status2" name="newPassword" value="0" :checked=true> -->
                 Disable
               </label>
             </div>
             <div class="radio" v-show="isViewUser">
               <label for="status1">
-                <input type="radio" id="status1" name="newPassword" value="1" :checked=true v-model="data.status">
+                <input type="radio" id="status1" name="newPassword" value="1" :checked=true v-model="userData.status">
                 Enable
               </label>
               <label for="status2">
-                <input type="radio" id="status2" name="newPassword" value="0" v-model="data.status">
+                <input type="radio" id="status2" name="newPassword" value="0" v-model="userData.status">
                 Disable
               </label>
             </div>
@@ -162,25 +169,24 @@
 
 <script type="text/ecmascript-6">
   import xhrUrls from '../../assets/config/xhrUrls'
-  // import UploadFile from '../../components/upload/upload'
-  import {get, post, uploadPost} from '../../assets/config/http'
-  import {getSessionItem} from "../../assets/config/storage.js"
+  import {get, post} from '../../assets/config/http'
   import Role from '../../components/role/role'
   import RoleEdit from '../../components/role/edit'
   import Target from '../../components/target/tartget'
+  import UserEdit from '../../components/setting/edit'
 
-  let layerId, newCount = 1;
+  let layerId2;
+  const USER_SEARCH = xhrUrls.USER_SEARCH
+
   export default {
     name: "setting",
     data() {
       return {
-        USERINFO: null,
-        all: false,
         isShow: false,
-        table: null,
         isViewUser: false,
-        isCreate: true,
         isDisable: false,
+        userEdit:false,
+        userId:'',
         userinfo: {
           name: '',
           username: '',
@@ -194,9 +200,10 @@
           status: '',
           orgid: ''
         },
+        tableData:'',
         active: false,
         selectedStatus: '',
-        selectStatusOptions: ['All', 'Enable', 'Disable'],
+        selectStatusOptions: ['All STATUS', 'Enable', 'Disable'],
         tabsName: [
           {
             name: 'USER',
@@ -211,7 +218,7 @@
             isActive: false
           }
         ],
-        data: {
+        userData: {
           name: '',
           password: '',
           surePassword: '',
@@ -265,50 +272,20 @@
       }
     },
     mounted() {
-      this.isLogin();
-      this.userTable();
       this.removeUser();
       this.userEnable();
       this.userDisable();
       this._initZtree()
-      this.viewUser();
-      this.editUser();
+    },
+    activated(){
+      try{
+        this.getTaleData()
+        this.viewUserClick();
+        this.editUserClick();
+      }catch (e){}
     },
     methods: {
-      isLogin() {
-        const USERINFO = JSON.parse(getSessionItem('USERINFO'))
-        this.USERINFO = USERINFO;
-        try {
-          let per = USERINFO.permissions;
-          per.forEach((v, i) => {
-            if (v == 'compaign:upload') {
-              this.menuList[0].status = true;
-            }
-            if (v == 'com:upload') {
-              this.menuList[1].status = true;
-            }
-            if (v == 'crm:upload') {
-              this.menuList[2].status = true;
-            }
-            if (v == 'rr:upload') {
-              this.menuList[3].status = true;
-            }
-            if (v == 'ec:upload') {
-              this.menuList[4].status = true;
-            }
-            if (v == 'sys:setup') {
-              this.system = true;
-            }
-            if (v.indexOf(':upload') != -1 && v.indexOf(':setup') != -1) {
-              this.all = false;
-            } else {
-              this.all = true;
-            }
-          });
-        } catch (ex) {
-          //console.error('报错: ', ex.message)
-        }
-      },
+
       tabsSwitch(tabIndex) {
         let tabCardCollection = document.querySelectorAll('.tab-card'),
           len = tabCardCollection.length;
@@ -319,9 +296,22 @@
         this.tabsName[tabIndex].isActive = true;
         tabCardCollection[tabIndex].style.display = "block";
       },
+
+      getTaleData(username, accountId, status, orgId){
+        this.searchData.name = name
+        this.searchData.username = accountId
+        this.searchData.status = status
+        this.searchData.orgid = orgId
+        post(USER_SEARCH, this.searchData)
+          .then(res => {
+            let data = res.data.data.data
+            this.tableData = data
+          })
+      },
+
       userTable() {
         var that = this;
-        that.table = $("#userTable").DataTable({
+        $("#userTable").DataTable({
           searching: false,
           lengthChange: false,
           autoWidth: false,
@@ -330,16 +320,8 @@
           ordering: false,
           pagingType: "simple_numbers",
           pageLength: 6,
-          "ajax": (data, callback, settings) => {
-            post(xhrUrls.USER_SEARCH, that.searchData).then((res) => {
-              if (res.data.data.data.length <= 6) {
-                $('#userTable_paginate').hide()
-              }
-              callback(res.data.data);
-            }).catch((err) => {
-              console.log(err);
-            })
-          },
+          "paging": this.tableData.length > 6 ? true : false,
+          data: this.tableData,
           columns: [{
             data: "name",
             render: function (data, type, row) {
@@ -431,7 +413,6 @@
           layer.close(index);
           get(xhrUrls.ORG_DEL + '/' + id).then((res) => {
             if (res.data.code == 200) {
-              //remove node
               var treeObj = $.fn.zTree.getZTreeObj(treeId);
               treeObj.removeNode(treeNode);
               layer.msg('Delete success!', {
@@ -439,7 +420,7 @@
                 skin: 'fontColor'
               })
             } else {
-              layer.msg('Delete failure!', {
+              layer.msg(res.data.errMsg, {
                 time: 2000,
                 skin: 'fontColor'
               })
@@ -494,19 +475,19 @@
 
       //ztreeClick
       getOrgId(event, treeId, treeNode) {
-        this.data.orgid = treeNode.id;
+        this.userData.orgid = treeNode.id;
         if (treeNode.id == 1) {
           this.searchData.orgid = ''
         } else {
           this.searchData.orgid = treeNode.id
         }
-        this.userTable()
+        this.getTaleData(this.searchData.name, this.searchData.username, this.searchData.status, this.searchData.orgid)
       },
-      //searchList
+
       searchUser() {
-        this.userTable()
+        this.getTaleData(this.searchData.name, this.searchData.username, this.searchData.status, this.searchData.orgid)
       },
-      //删除
+
       removeUser() {
         let that = this;
         $(document).delegate('.removeUser', 'click', function (event) {
@@ -602,13 +583,15 @@
           })
         })
       },
+
+
+
       //编辑用户
-      editUser() {
+      editUserClick() {
         let that = this;
         $(document).delegate('.editUser', 'click', function (event) {
-          event.stopImmediatePropagation();
-          event.preventDefault();
-          var id = $(this).data('id');
+          let id = $(this).data('id');
+          that.userId = id
           if (id == 1) {
             that.isDisable = true
           }
@@ -618,16 +601,16 @@
           $('.titles').html('EDIT USER')
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
-              that.data.name = res.data.user.name
-              that.data.username = res.data.user.username
+              that.userData.name = res.data.user.name
+              that.userData.username = res.data.user.username
               that.selectedOrg = res.data.org.name
               if (res.data.role) {
                 that.selectedRole = res.data.role.name
-                that.data.roleIds = res.data.role.id
+                that.userData.roleIds = res.data.role.id
               }
-              that.data.status = res.data.user.status
-              that.data.id = id
-              that.data.orgid = res.data.org.id
+              that.userData.status = res.data.user.status
+              that.userData.id = id
+              that.userData.orgid = res.data.org.id
               that.showCreate()
             } else {
               console.log('err')
@@ -636,16 +619,28 @@
         })
       },
 
+      switchUserEdit() {
+        
+        console.log(123)
+      },
+
+
       //查看用户
-      viewUser() {
+      viewUserClick() {
         let that = this
+
         $(document).on('click','.viewUser', function (event) {
-          event.stopImmediatePropagation();
+          // event.stopImmediatePropagation();
           event.preventDefault();
+          console.log(event)
+          let id = $(this).data('id');
+          that.$emit('userView', {id:id})
+
+          that.userId = id
+
           $('.titles').html('USER DETAILS')
           $('.cancel').html('Back').css('background-color', '#00aeea')
-          var id = $(this).data('id');
-          that.userId = id
+
           get(xhrUrls.USER_VIEW + '/' + id).then((res) => {
             if (res.data.code == 200) {
               that.$set(that.userinfo, 'name', res.data.user.name)
@@ -654,7 +649,7 @@
               that.$set(that.userinfo, 'role', res.data.role.name)
               that.$set(that.userinfo, 'status', res.data.user.status)
               that.isViewUser = false
-              that.layerOpen('user')
+              that.layerOpen2('user')
             } else {
               console.log('err')
             }
@@ -662,14 +657,21 @@
         })
       },
 
+      userView(val){
+        this.roleEdit = !this.roleEdit
+        this.viewRole = false
+
+        console.log(val)
+      },
+
       //关闭上传弹窗
       closeLayerButton() {
-        layer.close(layerId)
-        this.data.name = ''
-        this.data.password = ''
-        this.data.surePassword = ''
-        this.data.username = ''
-        this.data.orgid = ''
+        layer.close(layerId2)
+        this.userData.name = ''
+        this.userData.password = ''
+        this.userData.surePassword = ''
+        this.userData.username = ''
+        this.userData.orgid = ''
         this.userinfo.name=''
         this.userinfo.username=''
         this.userinfo.org=''
@@ -684,8 +686,9 @@
         this.isActive.isSurePwdActive = false;
         this.isActive.isLogAccActive = false;
       },
-      layerOpen(id) {
-        layerId = layer.open({
+
+      layerOpen2(id) {
+        layerId2 = layer.open({
           type: 1,
           title: false,
           closeBtn: 0,
@@ -697,7 +700,7 @@
         })
       },
       showCreate(obj) {
-        this.layerOpen('user')
+        this.layerOpen2('user')
         this.isViewUser = true
         if(this.isEdit){
           $('.titles').html('CREATE USER')
@@ -707,15 +710,15 @@
           this.isEdit = true
         }
         $('.cancel').html('Cancel').css('background-color', 'orange')
-        let roleId = this.data.roleIds;
-        let orgid = this.data.orgid;
+        let roleId = this.userData.roleIds;
+        let orgid = this.userData.orgid;
         post(xhrUrls.ROLE_SEARCH, {}).then(res => {
           let data = res.data.data.data;
           data.forEach((v, i) => {
             this.selectRoleOptions.push(v.name);
             this.selectRoleOptionsId.push(v.id)
             if (i == 0 && !roleId) {
-              this.data.roleIds = v.id
+              this.userData.roleIds = v.id
             }
             if (roleId == v.id) {
               this.$refs.role.nowIndex = i
@@ -729,7 +732,7 @@
             this.selectOrgOptions.push(v.name);
             this.selectOrgOptionsId.push(v.id);
             if (i == 0 && !orgid) {
-              this.data.orgid = v.id
+              this.userData.orgid = v.id
             }
             if (orgid == v.id) {
               this.$refs.user.nowIndex = i
@@ -751,24 +754,24 @@
         }
       },
       selectUserHandle(val) {
-        this.data.orgid = val.id
+        this.userData.orgid = val.id
       },
       selectRoleHandle(val) {
-        this.data.roleIds = val.id
+        this.userData.roleIds = val.id
       },
 
       onInput() {
-        if (this.data.name != '') {
+        if (this.userData.name != '') {
           this.isActive.isUserActive = false;
         }
-        if (this.data.password != '') {
+        if (this.userData.password != '') {
           this.isActive.isPwdActive = false;
         }
-        if (this.data.surePassword != '') {
+        if (this.userData.surePassword != '') {
           this.isActive.isSurePwdActive = false;
         }
-        if (this.data.username != '') {
-          post(xhrUrls.USER_VALID_USERNAME, this.data.username).then(res=>{
+        if (this.userData.username != '') {
+          post(xhrUrls.USER_VALID_USERNAME, this.userData.username).then(res=>{
             let data = res.data
             if(!data){
               this.isActive.isLogAccActive = true;
@@ -784,22 +787,22 @@
         let that = this;
         let canSubmit = true;
         console.log(this.selectedRole)
-        if (this.data.name == '') {
+        if (this.userData.name == '') {
           this.isActive.isUserActive = true;
           canSubmit = false;
         }
-        if (this.data.name == '') {
+        if (this.userData.name == '') {
           this.isActive.isUserActive = true;
           canSubmit = false;
         }
-        if (this.data.username == '') {
+        if (this.userData.username == '') {
           this.isActive.isLogAccActive = true;
           canSubmit = false;
         }
         if (this.isUpdata) {
           //修改用户时不填代表不修改密码
-          if ((this.data.surePassword != '' || this.data.password != '')
-            && this.data.password != this.data.surePassword) {
+          if ((this.userData.surePassword != '' || this.userData.password != '')
+            && this.userData.password != this.userData.surePassword) {
             this.isActive.isPwdActive = true;
             this.isActive.isSurePwdActive = true;
             canSubmit = false;
@@ -810,7 +813,7 @@
           }
 
           // this.data.id = id
-          post(xhrUrls.USER_EDIT, this.data)
+          post(xhrUrls.USER_EDIT, this.userData)
             .then(res => {
               if (res.data.code == 200) {
                 that.isShow = false
@@ -835,8 +838,8 @@
         } else {
 
           //创建用户时密码必填
-          if (this.data.password == '' || this.data.surePassword == ''
-            || this.data.password != this.data.surePassword) {
+          if (this.userData.password == '' || this.userData.surePassword == ''
+            || this.userData.password != this.userData.surePassword) {
             this.isActive.isPwdActive = true;
             this.isActive.isSurePwdActive = true;
             canSubmit = false;
@@ -846,7 +849,7 @@
             return false;
           }
 
-          post(xhrUrls.USER_SAVE, this.data)
+          post(xhrUrls.USER_SAVE, this.userData)
             .then(res => {
               if (res.data.code == 200) {
                 that.isShow = false
@@ -869,6 +872,9 @@
             .catch(err => console.log(err));
         }
       },
+
+
+
       switchRoleEdit() {
         this.roleEdit = !this.roleEdit
         this.viewRole = false
@@ -885,15 +891,21 @@
         this.viewRole = true
         this.toRoleEditId = val.id
       }
+
     },
     components: {
-      // UploadFile,
       Role,
       RoleEdit,
-      Target
+      Target,
+      UserEdit
     },
     watch:{
-      userId:function(){
+      tableData() {
+        this.$nextTick(() => {
+          this.userTable();
+        })
+      },
+      userId(){
         alert(1)
       }
     }

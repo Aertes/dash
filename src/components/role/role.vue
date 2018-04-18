@@ -68,7 +68,7 @@
             "status": ''
           }
         },
-        roleName: ''
+        roleName: '',
       }
     },
     mounted() {
@@ -287,6 +287,7 @@
           let name = $(this).data('name')
           let permissionlist = $(this).data('permissionlist')
           let status = $(this).data('status')
+          that.roleId = id
           that.$emit('roleView',{
             id:id
           })
@@ -303,7 +304,7 @@
         this.$nextTick(() => {
           this.getRoleTable()
         })
-      },
+      }
     }
   }
 </script>
